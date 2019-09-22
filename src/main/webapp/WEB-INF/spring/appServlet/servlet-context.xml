@@ -19,6 +19,7 @@
 	<resources mapping="/images/**" location="/resources/images/" />
 	<resources mapping="/js/**" location="/resources/js/" />
 	<resources mapping="/vendor/**" location="/resources/vendor/" />
+	<!-- <resources mapping="/picture/*" location="file:///C:/samplePicture" /> -->
 
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -36,7 +37,7 @@
 	
 	<beans:bean class="org.springframework.jdbc.datasource.DriverManagerDataSource" id="dataSource">
 	<beans:property value="oracle.jdbc.OracleDriver" name="driverClassName"/>
-	<beans:property value="project:oracle:thin:@localhost:1521:XE" name="url"/>
+	<beans:property value="jdbc:oracle:thin:@localhost:1521:XE" name="url"/>
 	<beans:property value="project" name="username"/>
 	<beans:property value="project" name="password"/>
 	</beans:bean>
