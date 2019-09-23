@@ -1,12 +1,20 @@
 package vo;
 
-public class SearchTitleVO {
+public class SearchBucketVO {
+	private int id;
 	private String image;
 	private String title;
 	private String searchKeyword;
+	private String searchTag;
 	private int start;
     private int last;
     
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
 	public String getImage() {
 		return image;
 	}
@@ -25,6 +33,12 @@ public class SearchTitleVO {
 	public void setSearchKeyword(String searchKeyword) {
 		this.searchKeyword = searchKeyword;
 	}
+	public String getSearchTag() {
+		return searchTag;
+	}
+	public void setSearchTag(String searchTag) {
+		this.searchTag = searchTag;
+	}
 	public int getStart() {
 		return start;
 	}
@@ -39,7 +53,7 @@ public class SearchTitleVO {
 	}
 	@Override
 	public String toString() {
-		return "SearchTitleVO [image=" + image + ", title=" + title + ", searchKeyword=" + searchKeyword + ", start="
-				+ start + ", last=" + last + "]";
+		return "SearchBucketVO [id=" + id + ", image=" + image + ", title=" + title + ", searchKeyword=" + searchKeyword
+				+ ", searchTag=" + searchTag + ", start=" + start + ", last=" + last + "]";
 	}
 }

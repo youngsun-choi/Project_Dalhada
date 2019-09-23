@@ -93,7 +93,7 @@
 				<li>
 					<form class="form-inline" action="searchBucket" method="get">
 	    					<div class="bor17 of-hidden pos-relative">
-								<input class="stext-103 cl2 plh4 size-116 p-l-28 p-r-55" type="text" name="search" placeholder="Search">
+								<input class="stext-103 cl2 plh4 size-116 p-l-28 p-r-55" type="text" name="searchKeyword" placeholder="Search" value="${ keyword }">
 								<button type="submit" class="flex-c-m size-122 ab-t-r fs-18 cl4 hov-cl1 trans-04" >
 									<i class="zmdi zmdi-search"></i>
 								</button>
@@ -131,8 +131,8 @@
 					<div class="p-r-45 p-r-0-lg"> 
 						<!-- 검색결과 시작 -->	
 						<div class="row isotope-grid">
-						<c:if test="${ !empty searchTitleList }">
-							<c:forEach var="vo" items="${searchTitleList}">
+						<c:if test="${ !empty searchList }">
+							<c:forEach var="vo" items="${searchList}">
 								<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women">
 									<!-- Block2 -->
 									<div class="block2">
@@ -159,9 +159,12 @@
 											</div>
 				
 											<div class="block2-txt-child2 flex-r p-t-3">
-												<a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
+												<!-- <a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
 													<img class="icon-heart1 dis-block trans-04" src="images/icons/icon-heart-01.png" alt="ICON">
 													<img class="icon-heart2 dis-block trans-04 ab-t-l" src="images/icons/icon-heart-02.png" alt="ICON">
+												</a> -->
+												<a href="searchBucket" onClick="clickPlusButton(${ vo.id })" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+													+
 												</a>
 											</div>
 										</div>
@@ -350,27 +353,27 @@
 							</h4>
 
 							<div class="flex-w m-r--5">
-								<a href="#" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
+								<a href="searchBucket?searchTag=여행" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
 									여행
 								</a>
 
-								<a href="#" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
+								<a href="searchBucket?searchTag=음식" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
 									음식
 								</a>
 
-								<a href="#" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
+								<a href="searchBucket?searchTag=공부" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
 									공부
 								</a>
 
-								<a href="#" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
-									취미
-								</a>
-
-								<a href="#" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
+								<a href="searchBucket?searchTag=운동" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
 									운동
 								</a>
+
+								<a href="searchBucket?searchTag=취미" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
+									취미
+								</a>
 								
-								<a href="#" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
+								<a href="searchBucket?searchTagName=기타" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
 									기타
 								</a>
 							</div>
@@ -574,7 +577,21 @@
 
 <script>
 function fn_paging(curPage) {
-	location.href = "/dalhada/searchBucket?curPage=" + curPage;
+	location.href = "searchBucket?curPage=" + curPage;
+}
+
+function clickPlusButton(id){
+	var url = "searchBucket?id="+id;
+	$.ajax({
+		url : url,
+		type : 'POST',
+		success : function(data){
+			alert("스크랩되었습니다!");
+		},
+	    error : function(request, status, error){
+			console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:");
+		}
+	});
 }
 </script>
 
