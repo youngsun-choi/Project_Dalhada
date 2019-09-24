@@ -3,34 +3,23 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <mapper namespace="resource.BucketMapper">
- 	<select id="detailbucket"  resultType="vo.NewsVO">
-    	select id, writer, title, content, to_char(writedate,'yyyy/mm/dd HH24:mi') writedate, cnt from news;
+ 	<select id="detailBucket"  resultType="vo.BucketDetailVO" parameterType="_int">
+		select Sb.id, Sb.title, Sb.content, Sb.lat, Sb.lng, Bi.image, Bi.cnt
+				, Mi.member_id as by_member_id, Mi.image, Sb.member_id as get_member_id, 
+				(select count(*)
+    				from likeinfo
+    				where bucket_id = #{id}) as likecnt
+    	from bucketinfo Bi, selectedBucket Sb, memberinfo Mi
+    	where Bi.id = Sb.bucket_id AND Sb.id = #{id} AND Mi.id = Bi.member_id 
  	</select>
- 	
- 	<!-- title, content, tag,
- 	 lat,lng,
- 	 likecount, selectedcouhnt 
- 	 image-->
- 	<select id="selectNewsOne" resultType="vo.NewsVO" parameterType="_int">
- 		select id, writer, title, content,to_char(writedate,'yyyy/mm/dd HH24:mi') writedate, cnt from news
- 		where id = #{id}
+ 	<select id="bucketTags" resultType="list" parameterType="_int">
+ 		select T.name
+ 		from taginfo T, selectedtag St
+ 		where St.bucket_id = #{id} AND T.id = St.tag_id
  	</select>
- 	<select id="searchNews"  parameterType="vo.SearchVO" resultType="vo.NewsVO">
-    	select id,writer, content ,title, to_char(writedate,'yyyy/mm/dd HH24:mi') writedate, cnt from news where ${searchType} like '%'||#{key}||'%'
-    </select>
-     <select id="searchWriter"  parameterType="vo.SearchVO" resultType="vo.NewsVO">
-    	select id,writer, content ,title, to_char(writedate,'yyyy/mm/dd HH24:mi') writedate, cnt from news where writer like '%'||#{key}||'%'
-    </select>
-  	<insert id="insertNews"  parameterType="vo.NewsVO">
-  		<selectKey resultType="int" keyProperty="id" order="BEFORE">
-      		select news_seq.nextval from dual     
-    	</selectKey>  
-    		insert into news (id, writer, title, content, writedate, cnt) values (#{id}, #{writer}, #{title},#{content}, sysdate, 0)
-	</insert>	
-	<delete id="deleteNews"  parameterType="_int"  >
-    	delete from news where id = #{id}
-	</delete>
-	<update id="updateNewsCnt" parameterType="_int">
-		update news set cnt=cnt+1 where id = #{id}
-	</update>
+	<select id="selectADBucket" resultType="List">
+		select Sb.title, image, id
+		from bucketinfo B, selectedBucket Sb
+		where B.id = Sb.bucket_id
+	</select>
 </mapper>

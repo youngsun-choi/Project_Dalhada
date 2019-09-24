@@ -9,6 +9,7 @@ public class BucketController {
 	@RequestMapping(value="/main")
 	public ModelAndView main() {
 		ModelAndView mav = new ModelAndView();
+		
 		mav.setViewName("main");
 		return mav;
 	}

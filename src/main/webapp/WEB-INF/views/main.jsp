@@ -152,29 +152,6 @@
 					</div>
 				</div>
 
-				<div class="item-slick1" style="background-image: url(images/slide-02.jpg);">
-					<div class="container h-full">
-						<div class="flex-col-l-m h-full p-t-100 p-b-30">
-							<div class="layer-slick1 animated visible-false" data-appear="rollIn" data-delay="0">
-								<span class="ltext-202 cl2 respon2">
-									Men New-Season
-								</span>
-							</div>
-								
-							<div class="layer-slick1 animated visible-false" data-appear="lightSpeedIn" data-delay="800">
-								<h2 class="ltext-104 cl2 p-t-19 p-b-43 respon1">
-									Jackets & Coats
-								</h2>
-							</div>
-								
-							<div class="layer-slick1 animated visible-false" data-appear="slideInUp" data-delay="1600">
-								<a href="product.html" class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04">
-									Shop Now
-								</a>
-							</div>
-						</div>
-					</div>
-				</div>
 
 				<div class="item-slick1" style="background-image: url(images/slide-04.jpg);">
 					<div class="container h-full">
@@ -223,22 +200,17 @@
 								<div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
 									<!-- Block2 -->
 									<div class="block2">
-										<div class="block2-pic hov-img0">
+										<a href="#" class="block2-pic hov-img0 flex-c-m p-lr-15 trans-04 js-show-modal1">
 											<img src="images/product-01.jpg" alt="IMG-PRODUCT">
-
-											<a href="#" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
-												Quick View
-											</a>
-										</div>
-
+										</a>
 										<div class="block2-txt flex-w flex-t p-t-14">
 											<div class="block2-txt-child1 flex-col-l ">
 												<a href="product-detail.html" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-													Esprit Ruffle Shirt
+													
 												</a>
 
 												<span class="stext-105 cl3">
-													$16.64
+													
 												</span>
 											</div>
 
@@ -252,197 +224,7 @@
 									</div>
 								</div>
 
-								<div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
-									<!-- Block2 -->
-									<div class="block2">
-										<div class="block2-pic hov-img0">
-											<img src="images/product-02.jpg" alt="IMG-PRODUCT">
-
-											<a href="#" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
-												Quick View
-											</a>
-										</div>
-
-										<div class="block2-txt flex-w flex-t p-t-14">
-											<div class="block2-txt-child1 flex-col-l ">
-												<a href="product-detail.html" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-													Herschel supply
-												</a>
-
-												<span class="stext-105 cl3">
-													$35.31
-												</span>
-											</div>
-
-											<div class="block2-txt-child2 flex-r p-t-3">
-												<a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
-													<img class="icon-heart1 dis-block trans-04" src="images/icons/icon-heart-01.png" alt="ICON">
-													<img class="icon-heart2 dis-block trans-04 ab-t-l" src="images/icons/icon-heart-02.png" alt="ICON">
-												</a>
-											</div>
-										</div>
-									</div>
-								</div>
-
-								<div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
-									<!-- Block2 -->
-									<div class="block2">
-										<div class="block2-pic hov-img0">
-											<img src="images/product-03.jpg" alt="IMG-PRODUCT">
-
-											<a href="#" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
-												Quick View
-											</a>
-										</div>
-
-										<div class="block2-txt flex-w flex-t p-t-14">
-											<div class="block2-txt-child1 flex-col-l ">
-												<a href="product-detail.html" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-													Only Check Trouser
-												</a>
-
-												<span class="stext-105 cl3">
-													$25.50
-												</span>
-											</div>
-
-											<div class="block2-txt-child2 flex-r p-t-3">
-												<a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
-													<img class="icon-heart1 dis-block trans-04" src="images/icons/icon-heart-01.png" alt="ICON">
-													<img class="icon-heart2 dis-block trans-04 ab-t-l" src="images/icons/icon-heart-02.png" alt="ICON">
-												</a>
-											</div>
-										</div>
-									</div>
-								</div>
-
-								<div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
-									<!-- Block2 -->
-									<div class="block2">
-										<div class="block2-pic hov-img0">
-											<img src="images/product-04.jpg" alt="IMG-PRODUCT">
-
-											<a href="#" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
-												Quick View
-											</a>
-										</div>
-
-										<div class="block2-txt flex-w flex-t p-t-14">
-											<div class="block2-txt-child1 flex-col-l ">
-												<a href="product-detail.html" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-													Classic Trench Coat
-												</a>
-
-												<span class="stext-105 cl3">
-													$75.00
-												</span>
-											</div>
-
-											<div class="block2-txt-child2 flex-r p-t-3">
-												<a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
-													<img class="icon-heart1 dis-block trans-04" src="images/icons/icon-heart-01.png" alt="ICON">
-													<img class="icon-heart2 dis-block trans-04 ab-t-l" src="images/icons/icon-heart-02.png" alt="ICON">
-												</a>
-											</div>
-										</div>
-									</div>
-								</div>
-
-								<div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
-									<!-- Block2 -->
-									<div class="block2">
-										<div class="block2-pic hov-img0">
-											<img src="images/product-05.jpg" alt="IMG-PRODUCT">
-
-											<a href="#" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
-												Quick View
-											</a>
-										</div>
-
-										<div class="block2-txt flex-w flex-t p-t-14">
-											<div class="block2-txt-child1 flex-col-l ">
-												<a href="product-detail.html" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-													Front Pocket Jumper
-												</a>
-
-												<span class="stext-105 cl3">
-													$34.75
-												</span>
-											</div>
-
-											<div class="block2-txt-child2 flex-r p-t-3">
-												<a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
-													<img class="icon-heart1 dis-block trans-04" src="images/icons/icon-heart-01.png" alt="ICON">
-													<img class="icon-heart2 dis-block trans-04 ab-t-l" src="images/icons/icon-heart-02.png" alt="ICON">
-												</a>
-											</div>
-										</div>
-									</div>
-								</div>
-
-								<div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
-									<!-- Block2 -->
-									<div class="block2">
-										<div class="block2-pic hov-img0">
-											<img src="images/product-06.jpg" alt="IMG-PRODUCT">
-
-											<a href="#" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
-												Quick View
-											</a>
-										</div>
-
-										<div class="block2-txt flex-w flex-t p-t-14">
-											<div class="block2-txt-child1 flex-col-l ">
-												<a href="product-detail.html" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-													Vintage Inspired Classic 
-												</a>
-
-												<span class="stext-105 cl3">
-													$93.20
-												</span>
-											</div>
-
-											<div class="block2-txt-child2 flex-r p-t-3">
-												<a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
-													<img class="icon-heart1 dis-block trans-04" src="images/icons/icon-heart-01.png" alt="ICON">
-													<img class="icon-heart2 dis-block trans-04 ab-t-l" src="images/icons/icon-heart-02.png" alt="ICON">
-												</a>
-											</div>
-										</div>
-									</div>
-								</div>
-
-								<div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
-									<!-- Block2 -->
-									<div class="block2">
-										<div class="block2-pic hov-img0">
-											<img src="images/product-07.jpg" alt="IMG-PRODUCT">
-
-											<a href="#" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
-												Quick View
-											</a>
-										</div>
-
-										<div class="block2-txt flex-w flex-t p-t-14">
-											<div class="block2-txt-child1 flex-col-l ">
-												<a href="product-detail.html" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-													Shirt in Stretch Cotton
-												</a>
-
-												<span class="stext-105 cl3">
-													$52.66
-												</span>
-											</div>
-
-											<div class="block2-txt-child2 flex-r p-t-3">
-												<a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
-													<img class="icon-heart1 dis-block trans-04" src="images/icons/icon-heart-01.png" alt="ICON">
-													<img class="icon-heart2 dis-block trans-04 ab-t-l" src="images/icons/icon-heart-02.png" alt="ICON">
-												</a>
-											</div>
-										</div>
-									</div>
-								</div>
+								
 
 								<div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
 									<!-- Block2 -->
@@ -504,8 +286,7 @@
 					<div class="col-md-6 col-lg-7 p-b-30">
 						<div class="p-l-25 p-r-30 p-lr-0-lg">
 							<div class="wrap-slick3 flex-sb flex-w">
-								<h4 class="mtext-105 cl2 js-name-detail p-b-14">
-									Lightweight Jacket
+								<h4 id="bucketTitle"class="mtext-105 cl2 js-name-detail p-b-14">
 								</h4>
 								<div class="gallery-lb">
 									<div data-thumb="images/slide-03.jpg">
@@ -519,13 +300,17 @@
 									</div>
 								</div>
 							</div>
-							<p class="stext-102 cl3 p-t-23">
-								Nulla eget sem vitae eros pharetra viverra. Nam vitae luctus ligula. Mauris consequat ornare feugiat.
+							<p id="bucketContent" class="stext-102 cl3 p-t-23">
 							</p>
 							<div class="flex-m bor9 p-r-10 m-r-11">
-								<a href="#" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addwish-detail tooltip100" data-tooltip="Add to Wishlist">
-									<i class="zmdi zmdi-favorite"></i>
+								<a href="#" class="fs-23 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addwish-detail tooltip100" data-tooltip="Add to Wishlist">
+									<i class="zmdi zmdi-favorite"></i> 
 								</a>
+								<p id="likecnt" class="cl6 stext-107" style="width: 40px"></p>
+								<a href="#" class="fs-23 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addwish-detail tooltip100" data-tooltip="Add to Wishlist">
+									<i class="fa fa-plus-square fa-lg"></i> 
+								</a>
+								<p id="getcnt" class="cl6 stext-107" style="width: 40px"></p>							
 							</div>
 						</div>			
 					</div>
@@ -533,22 +318,7 @@
 					<div class="col-md-6 col-lg-5 p-b-30">
 						<div class="p-r-50 p-t-5 p-lr-0-lg">
 						<div class="stext-102 cl3 p-t-23">태그</div>
-							<div class="flex-w p-t-4 m-r--5">
-			                  <a href="#" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
-			                  	 여행
-			                  </a>
-			                  <a href="#" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
-			                   	 하고 싶은 것
-			                  </a>
-			                  <a href="#" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
-			                    	음식
-			                  </a>
-			                  <a href="#" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
-			                    	자기계발
-			                  </a>
-			                  <a href="#" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
-			                    	언어
-			                  </a>
+							<div id="tags" class="flex-w p-t-4 m-r--5">
 			                </div>
 			                <div class="stext-102 cl3 p-t-23">위치</div>
 						    <div id = 'mapid'>
@@ -574,7 +344,7 @@
 				</div>
 			</div>
 		</div>
-	</div>
+
 
 <!--===============================================================================================-->	
 	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
@@ -625,7 +395,7 @@
 		$('.js-addwish-b2').each(function(){
 			var nameProduct = $(this).parent().parent().find('.js-name-b2').html();
 			$(this).on('click', function(){
-				swal(nameProduct, "is added to wishlist !", "success");
+				
 
 				$(this).addClass('js-addedwish-b2');
 				$(this).off('click');
@@ -636,19 +406,10 @@
 			var nameProduct = $(this).parent().parent().parent().find('.js-name-detail').html();
 
 			$(this).on('click', function(){
-				swal(nameProduct, "is added to wishlist !", "success");
+				
 
 				$(this).addClass('js-addedwish-detail');
 				$(this).off('click');
-			});
-		});
-
-		/*---------------------------------------------*/
-
-		$('.js-addcart-detail').each(function(){
-			var nameProduct = $(this).parent().parent().parent().parent().find('.js-name-detail').html();
-			$(this).on('click', function(){
-				swal(nameProduct, "is added to cart !", "success");
 			});
 		});
 	</script>
@@ -658,16 +419,6 @@
 	<script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
    integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
    crossorigin=""></script>
-  <script>
-	  var map = L.map('mapid').setView([51.505, -0.09],  10);
-		L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
-			maxZoom: 18,
-			attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
-				'<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-				'Imagery <a href="https://www.mapbox.com/">Mapbox</a>',
-			id: 'mapbox.streets'
-		}).addTo(map);
-    </script>
 <!--===============================================================================================-->
 	<script src="js/main.js"></script>
 
