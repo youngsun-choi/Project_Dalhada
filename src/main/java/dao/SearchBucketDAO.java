@@ -29,9 +29,9 @@ public class SearchBucketDAO {
 	}
 	
 	//태그검색 검색결과 수
-	public int getTotalTagCnt(String searchTagName) {
+	public int getTotalTagCnt(String searchTag) {
 		String statement = "resource.SearchBucketMapper.totalTagCnt";
-		return session.selectOne(statement, searchTagName);
+		return session.selectOne(statement, searchTag);
 	}	
 		
 	//제목검색
@@ -54,17 +54,28 @@ public class SearchBucketDAO {
 	public boolean updateGetCnt(LikeGetVO vo) {
 		boolean result = true;
 		String statement = "resource.SearchBucketMapper.updateGetCnt";
-		if(session.insert(statement, vo) != 1)
+		if(session.update(statement, vo) != 1)
 			result = false;
 		return result;
 	}
 	
 	//가져온 버킷을 selectedbucket에 저장
-	/*public boolean insertSelectedBucket(LikeGetVO vo) {
+	public boolean insertSBId(LikeGetVO vo) {
 		boolean result = true;
-		String statement = "resource.SearchBucketMapper.insertSelectedBucket";
+		String statement = "resource.SearchBucketMapper.insertSBId";
 		if(session.insert(statement, vo) != 1)
 			result = false;
 		return result;
-	}*/
+	}
+	
+	public boolean insertSBContent(LikeGetVO vo) {
+		boolean result = true;
+		String statement = "resource.SearchBucketMapper.insertSBContent";
+		if(session.insert(statement, vo) != 1)
+			result = false;
+		return result;
+	}
+	
+	//태그명 찾기
+
 }

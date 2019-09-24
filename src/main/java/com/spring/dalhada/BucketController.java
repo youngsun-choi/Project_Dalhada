@@ -41,7 +41,8 @@ public class BucketController {
 		String keyword = searchBucketVO.getSearchKeyword();
 		String tagName = request.getParameter("searchTag");
 		searchBucketVO.setSearchTag(tagName);
-		String id = request.getParameter("id");
+		String bucket_id = request.getParameter("bucket_id");
+		String selectedbucket_id = request.getParameter("selectedbucket_id");
 		
 		if(tagName != null) {
 			//태그검색 검색결과 수&페이징
@@ -72,16 +73,23 @@ public class BucketController {
 		}
 		
 		//가져오기 버튼을 눌렀을 때
-		if(id != null) {
-			int numId = Integer.parseInt(id);
-			likeGetVO.setId(numId);
-			likeGetVO.setCnt(searchBucketDAO.selectGetCnt(numId).getCnt());
+		if(bucket_id != null) {
+			int numBucket_id = Integer.parseInt(bucket_id);
+			int numSelectedbucket_id = Integer.parseInt(selectedbucket_id);
 			likeGetVO.setMember_id("aaa");
+			likeGetVO.setBucket_id(numBucket_id);
+			likeGetVO.setSelectedbucket_id(numSelectedbucket_id);
+			likeGetVO.setCnt(searchBucketDAO.selectGetCnt(numBucket_id).getCnt());
+			
 			searchBucketDAO.updateGetCnt(likeGetVO);
-			//boolean result = searchBucketDAO.insertSelectedBucket(likeGetVO);
-			//if(result) System.out.println("selectedbucket 삽입 성공!");
-			//else System.out.println("selectedbucket 삽입 실패!");
+			boolean result = searchBucketDAO.insertSBId(likeGetVO);
+			searchBucketDAO.insertSBId(likeGetVO);
+			if(result) System.out.println("성공!");
+			else System.out.println("실패!");
 		}
+		
+		//태그명 찾기
+		
 		mav.setViewName("searchBucket");
 		return mav;
 	}

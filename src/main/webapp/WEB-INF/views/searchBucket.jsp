@@ -31,7 +31,8 @@
 	<link rel="stylesheet" type="text/css" href="css/util.css">
 	<link rel="stylesheet" type="text/css" href="css/main.css">
 <!--===============================================================================================-->
-
+	<link href="https://use.fontawesome.com/releases/v5.0.4/css/all.css" rel="stylesheet">
+	
 </head>
 <body class="animsition">
 	<!-- Header -->
@@ -137,17 +138,17 @@
 									<!-- Block2 -->
 									<div class="block2">
 										<div class="block2-pic hov-img0 js-show-modal1">
-											<img src="/dalhada/img/${ vo.image }" alt="IMG-PRODUCT">
+											<img src="bucket/${ vo.image }" alt="IMG-PRODUCT">
 											
-											<div class="row">
-												<!-- <a href="#" class="block2-btn flex-c-m stext-103 cl2 size-104 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
+											<!-- <div class="row">
+												<a href="#" class="block2-btn flex-c-m stext-103 cl2 size-104 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
 													하트
-												</a> -->
-												<a href="#" class="block2-btn btn-addwish-b2 dis-block pos-relative js-addwish-b2">
+												</a>
+												<a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
 													<img class="icon-heart1 dis-block trans-04" src="images/icons/icon-heart-01.png" alt="ICON">
 													<img class="icon-heart2 dis-block trans-04 ab-t-l" src="images/icons/icon-heart-02.png" alt="ICON">
 												</a>
-											</div>
+											</div> -->
 											
 										</div>
 				
@@ -158,14 +159,13 @@
 												</a>
 											</div>
 				
-											<div class="block2-txt-child2 flex-r p-t-3">
-												<!-- <a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
-													<img class="icon-heart1 dis-block trans-04" src="images/icons/icon-heart-01.png" alt="ICON">
-													<img class="icon-heart2 dis-block trans-04 ab-t-l" src="images/icons/icon-heart-02.png" alt="ICON">
-												</a> -->
-												<a href="searchBucket" onClick="clickPlusButton(${ vo.id })" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-													+
-												</a>
+											<div class="block2-txt-child1 flex-col-l">
+												<button onClick="clickPlusButton(${ vo.bucket_id }, ${ vo.selectedbucket_id })" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+													<i class="zmdi zmdi-favorite fs-23"></i>
+												</button>
+												<button onClick="clickPlusButton(${ vo.bucket_id }, ${ vo.selectedbucket_id })" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+													<i class="far fa-plus-square fs-23"></i> 
+												</button>
 											</div>
 										</div>
 									</div>
@@ -353,6 +353,13 @@
 							</h4>
 
 							<div class="flex-w m-r--5">
+								<%-- <c:if test="${ !empty tagNameList }">
+									<c:forEach var="vo" items="tagNameList">
+										<form class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
+											<button type="submit">${ vo.tagName }</button>
+										</form>
+									</c:forEach>
+								</c:if> --%>
 								<a href="searchBucket?searchTag=여행" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
 									여행
 								</a>
@@ -580,13 +587,12 @@ function fn_paging(curPage) {
 	location.href = "searchBucket?curPage=" + curPage;
 }
 
-function clickPlusButton(id){
-	var url = "searchBucket?id="+id;
+function clickPlusButton(bucket_id, selectedbucket_id){
+	var url = "searchBucket?bucket_id="+bucket_id+"&selectedbucket_id="+selectedbucket_id;
 	$.ajax({
 		url : url,
 		type : 'POST',
 		success : function(data){
-			alert("스크랩되었습니다!");
 		},
 	    error : function(request, status, error){
 			console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:");

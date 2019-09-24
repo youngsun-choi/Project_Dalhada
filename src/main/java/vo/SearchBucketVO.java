@@ -1,7 +1,8 @@
 package vo;
 
 public class SearchBucketVO {
-	private int id;
+	private int bucket_id;
+	private int selectedbucket_id; 
 	private String image;
 	private String title;
 	private String searchKeyword;
@@ -9,11 +10,17 @@ public class SearchBucketVO {
 	private int start;
     private int last;
     
-	public int getId() {
-		return id;
+	public int getBucket_id() {
+		return bucket_id;
 	}
-	public void setId(int id) {
-		this.id = id;
+	public void setBucket_id(int bucket_id) {
+		this.bucket_id = bucket_id;
+	}
+	public int getSelectedbucket_id() {
+		return selectedbucket_id;
+	}
+	public void setSelectedbucket_id(int selectedbucket_id) {
+		this.selectedbucket_id = selectedbucket_id;
 	}
 	public String getImage() {
 		return image;
@@ -53,7 +60,8 @@ public class SearchBucketVO {
 	}
 	@Override
 	public String toString() {
-		return "SearchBucketVO [id=" + id + ", image=" + image + ", title=" + title + ", searchKeyword=" + searchKeyword
-				+ ", searchTag=" + searchTag + ", start=" + start + ", last=" + last + "]";
+		return "SearchBucketVO [bucket_id=" + bucket_id + ", selectedbucket_id=" + selectedbucket_id + ", image="
+				+ image + ", title=" + title + ", searchKeyword=" + searchKeyword + ", searchTag=" + searchTag
+				+ ", start=" + start + ", last=" + last + "]";
 	}
 }
