@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="resource.MypageMapper">
+<!-- 아이디 정보 -->
+<select id="memberInfo" parameterType="vo.MemberinfoVO" resultType="vo.MemberinfoVO">
+ 		SELECT * FROM memberinfo where id = #{id}
+ 	</select>
+ 	
+ 	<!-- 그룹 전체 -->
+ 	<select id="group" parameterType="String" resultType="vo.GroupVO">
+ 		SELECT * FROM groupinfo where member_id = #{id}
+ 	</select>
+ 	
+ 	<!-- 버킷리스트 전부 -->
+ 	<select id="bucketAll" parameterType="String" resultType="vo.MypageBucketVO">
+ 		SELECT title, to_char(d_day,'YYYY-MM-DD') d_day, id FROM selectedbucket where member_id = #{id}
+ 	</select>
+ 	
+ 	<!-- 도전중인 버킷 -->
+ 	<select id="progressBuck" parameterType="String" resultType="vo.MypageBucketVO">
+ 		SELECT title, to_char(d_day,'YYYY-MM-DD') d_day, id FROM selectedbucket where member_id = #{id} and stat ='f'
+ 	</select>
+ 	
+ 	<!-- 완료한 버킷 -->
+ 	<select id="doneBuck" parameterType="String" resultType="vo.MypageBucketVO">
+ 		SELECT title, to_char(d_day,'YYYY-MM-DD') d_day, id FROM selectedbucket where member_id = #{id} and stat ='p'
+ 	</select>
+ 	
+ 	<!-- 버킷 삭제 -->
+ 	<select id="delete" parameterType="int">
+ 		delete from selectedbucket where id=#{id}
+ 	</select>
+</mapper>
