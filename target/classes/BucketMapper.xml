@@ -1,25 +1,51 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <mapper namespace="resource.BucketMapper">
  	<select id="detailBucket"  resultType="vo.BucketDetailVO" parameterType="_int">
-		select Sb.id, Sb.title, Sb.content, Sb.lat, Sb.lng, Bi.image, Bi.cnt
-				, Mi.member_id as by_member_id, Mi.image, Sb.member_id as get_member_id, 
+		select Sb.id as bucket_id, Sb.title, Sb.content, Sb.lat, Sb.lng, Bi.image_path as bucketImage_path, Bi.cnt as get_cnt
+				, Mi.id as by_member_id, Mi.image_pathas profileImage_path, Sb.member_id ad get_member_id
 				(select count(*)
     				from likeinfo
-    				where bucket_id = #{id}) as likecnt
+    				where selectedbucket_id = #{id}) as like_cnt
     	from bucketinfo Bi, selectedBucket Sb, memberinfo Mi
     	where Bi.id = Sb.bucket_id AND Sb.id = #{id} AND Mi.id = Bi.member_id 
  	</select>
+ 	<select id="detailADBucket"  resultType="vo.BucketDetailVO" parameterType="_int">
+		select Sb.id as bucket_id, Sb.title, Sb.content, Sb.lat, Sb.lng, Bi.image_path as bucketImage_path, Bi.cnt as get_cnt
+				, Si.id as by_member_id, Si.image_path as profileImage_path, Sb.member_id as get_member_id,
+				(select count(*)
+    				from likeinfo
+    				where selectedbucket_id = #{id}) as like_cnt
+    	from bucketinfo Bi, selectedBucket Sb, sponsorinfo Si
+    	where Bi.id = Sb.bucket_id AND Sb.id = #{id} AND Si.id = Bi.sponsor_id 
+ 	</select>
+ 	<select id="selectADBucket" resultType="vo.BucketVO" parameterType="String">
+		select Sb.bucket_id , Sb.id as selectedbucket_id, Bi.image_path, Sb.title,
+				  (select count(*) from likeinfo Li 
+				  where Li.member_id = #{id} and Sb.id = Li.selectedbucket_id) islike  
+		from (select id, image_path, row_number() over(order by cnt) as rnum
+        		from bucketinfo
+        		where sponsor_id != <![CDATA['(null)') Bi, selectedbucket Sb
+		where Bi.id = Sb.bucket_id and rnum between 1 and 8]]>
+	</select>
+	<select id="isADBucket" resultType="String">
+		select sponsor_id
+		from bucketinfo
+	</select>
  	<select id="bucketTags" resultType="list" parameterType="_int">
  		select T.name
  		from taginfo T, selectedtag St
  		where St.bucket_id = #{id} AND T.id = St.tag_id
  	</select>
-	<select id="selectADBucket" resultType="List">
-		select Sb.title, image, id
-		from bucketinfo B, selectedBucket Sb
-		where B.id = Sb.bucket_id
-	</select>
+	<insert id="insertLike" parameterType="vo.LikeInfoVO">
+		insert into likeinfo (selectedbucket_id, member_id) 
+		values (#{selectedbucket_id}, #{member_id})
+	</insert>
+	<delete id="deleteLike" parameterType="vo.LikeInfoVO">
+		delete 
+		from likeinfo
+		where selectedbucket_id = #{selectedbucket_id} AND member_id = #{member_id}
+	</delete>
 </mapper>

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -197,66 +198,29 @@
 						<!-- Slide2 -->
 						<div class="wrap-slick2">
 							<div class="slick2">
+							<c:forEach var="vo" items="${list}">
 								<div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
 									<!-- Block2 -->
 									<div class="block2">
 										<a href="#" class="block2-pic hov-img0 flex-c-m p-lr-15 trans-04 js-show-modal1">
-											<img src="images/product-01.jpg" alt="IMG-PRODUCT">
+											<img class="block2-img" src="images/bucket/${vo.image_path }" alt="IMG-PRODUCT">
 										</a>
 										<div class="block2-txt flex-w flex-t p-t-14">
 											<div class="block2-txt-child1 flex-col-l ">
-												<a href="product-detail.html" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-													
+												<a href="#" class="stext-104 cl4 hov-cl1 trans-04 p-b-6">
+													${vo.title }
 												</a>
-
-												<span class="stext-105 cl3">
-													
-												</span>
 											</div>
-
+											
 											<div class="block2-txt-child2 flex-r p-t-3">
-												<a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
-													<img class="icon-heart1 dis-block trans-04" src="images/icons/icon-heart-01.png" alt="ICON">
-													<img class="icon-heart2 dis-block trans-04 ab-t-l" src="images/icons/icon-heart-02.png" alt="ICON">
+												<a id="${vo.selectedbucket_id }" class="heart fs-23 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addlike ${vo.className } tooltip100" data-tooltip="Add to Like">
+													<i class="zmdi zmdi-favorite"></i> 
 												</a>
 											</div>
 										</div>
 									</div>
 								</div>
-
-								
-
-								<div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
-									<!-- Block2 -->
-									<div class="block2">
-										<div class="block2-pic hov-img0">
-											<img src="images/product-08.jpg" alt="IMG-PRODUCT">
-
-											<a href="#" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
-												Quick View
-											</a>
-										</div>
-
-										<div class="block2-txt flex-w flex-t p-t-14">
-											<div class="block2-txt-child1 flex-col-l ">
-												<a href="product-detail.html" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-													Pieces Metallic Printed
-												</a>
-
-												<span class="stext-105 cl3">
-													$18.96
-												</span>
-											</div>
-
-											<div class="block2-txt-child2 flex-r p-t-3">
-												<a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
-													<img class="icon-heart1 dis-block trans-04" src="images/icons/icon-heart-01.png" alt="ICON">
-													<img class="icon-heart2 dis-block trans-04 ab-t-l" src="images/icons/icon-heart-02.png" alt="ICON">
-												</a>
-											</div>
-										</div>
-									</div>
-								</div>
+								</c:forEach>
 							</div>
 						</div>
 					</div>
@@ -303,7 +267,7 @@
 							<p id="bucketContent" class="stext-102 cl3 p-t-23">
 							</p>
 							<div class="flex-m bor9 p-r-10 m-r-11">
-								<a href="#" class="fs-23 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addwish-detail tooltip100" data-tooltip="Add to Wishlist">
+								<a id="${vo.selectedbucket_id }" class="heart fs-23 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addlike ${vo.className } tooltip100" data-tooltip="Add to Like">
 									<i class="zmdi zmdi-favorite"></i> 
 								</a>
 								<p id="likecnt" class="cl6 stext-107" style="width: 40px"></p>
@@ -388,28 +352,31 @@
 <!--===============================================================================================-->
 	<script src="vendor/sweetalert/sweetalert.min.js"></script>
 	<script>
-		$('.js-addwish-b2').on('click', function(e){
-			e.preventDefault();
-		});
-
-		$('.js-addwish-b2').each(function(){
-			var nameProduct = $(this).parent().parent().find('.js-name-b2').html();
+		$('.heart').each(function(){
 			$(this).on('click', function(){
+				var action;
+				if($(this).hasClass('js-addedlike')){
+					$(this).removeClass('js-addedlike');
+					action = "delete";
+				}else{
+					$(this).addClass('js-addedlike');
+					action = "insert";
+				}
+				$.ajax({
+					url: "main/like/",
+	                type: "POST",
+	                data: {
+	                    selectedbucket_id : $(this).attr("id"),
+	                    action : action
+	                },
+	                success: function (data) {
+	                	
+	                },
+	                error : function(request,status,error){
+			        	console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			        }
+				})
 				
-
-				$(this).addClass('js-addedwish-b2');
-				$(this).off('click');
-			});
-		});
-
-		$('.js-addwish-detail').each(function(){
-			var nameProduct = $(this).parent().parent().parent().find('.js-name-detail').html();
-
-			$(this).on('click', function(){
-				
-
-				$(this).addClass('js-addedwish-detail');
-				$(this).off('click');
 			});
 		});
 	</script>
