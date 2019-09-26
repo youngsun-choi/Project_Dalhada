@@ -1,39 +1,13 @@
 package vo;
 
 public class SearchBucketVO {
-	private int bucket_id;
-	private int selectedbucket_id; 
-	private String image;
-	private String title;
 	private String searchKeyword;
 	private String searchTag;
-	private int start;
-    private int last;
+	private int startRow;
+    private int endRow;
+    private String bucket_id;
+    private String member_id;
     
-	public int getBucket_id() {
-		return bucket_id;
-	}
-	public void setBucket_id(int bucket_id) {
-		this.bucket_id = bucket_id;
-	}
-	public int getSelectedbucket_id() {
-		return selectedbucket_id;
-	}
-	public void setSelectedbucket_id(int selectedbucket_id) {
-		this.selectedbucket_id = selectedbucket_id;
-	}
-	public String getImage() {
-		return image;
-	}
-	public void setImage(String image) {
-		this.image = image;
-	}
-	public String getTitle() {
-		return title;
-	}
-	public void setTitle(String title) {
-		this.title = title;
-	}
 	public String getSearchKeyword() {
 		return searchKeyword;
 	}
@@ -46,22 +20,33 @@ public class SearchBucketVO {
 	public void setSearchTag(String searchTag) {
 		this.searchTag = searchTag;
 	}
-	public int getStart() {
-		return start;
+	public int getStartRow() {
+		return startRow;
 	}
-	public void setStart(int start) {
-		this.start = start;
+	public void setStartRow(int startRow) {
+		this.startRow = startRow;
 	}
-	public int getLast() {
-		return last;
+	public int getEndRow() {
+		return endRow;
 	}
-	public void setLast(int last) {
-		this.last = last;
+	public void setEndRow(int endRow) {
+		this.endRow = endRow;
+	}
+	public String getBucket_id() {
+		return bucket_id;
+	}
+	public void setBucket_id(String bucket_id) {
+		this.bucket_id = bucket_id;
+	}
+	public String getMember_id() {
+		return member_id;
+	}
+	public void setMember_id(String member_id) {
+		this.member_id = member_id;
 	}
 	@Override
 	public String toString() {
-		return "SearchBucketVO [bucket_id=" + bucket_id + ", selectedbucket_id=" + selectedbucket_id + ", image="
-				+ image + ", title=" + title + ", searchKeyword=" + searchKeyword + ", searchTag=" + searchTag
-				+ ", start=" + start + ", last=" + last + "]";
+		return "SearchBucketVO [searchKeyword=" + searchKeyword + ", searchTag=" + searchTag + ", startRow=" + startRow
+				+ ", endRow=" + endRow + ", bucket_id=" + bucket_id + ", member_id=" + member_id + "]";
 	}
 }

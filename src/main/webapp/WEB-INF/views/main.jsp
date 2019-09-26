@@ -1984,7 +1984,7 @@
 			});
 		});
 
-		$('.js-addwish-detail').each(function(){
+		$('.js-addlike').each(function(){
 			var nameProduct = $(this).parent().parent().parent().find('.js-name-detail').html();
 
 			$(this).on('click', function(){

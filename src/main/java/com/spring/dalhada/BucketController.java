@@ -3,15 +3,18 @@ package com.spring.dalhada;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import dao.SearchBucketDAO;
-import vo.LikeGetVO;
+import vo.BucketVO;
+import vo.LikeVO;
 import vo.PagingVO;
 import vo.SearchBucketVO;
 
@@ -35,61 +38,64 @@ public class BucketController {
 	}
 	
 	@RequestMapping(value="/searchBucket")
-	public ModelAndView searchBucket(@RequestParam(defaultValue="1")int curPage, SearchBucketVO searchBucketVO,
-			HttpServletRequest request, LikeGetVO likeGetVO) {
+	public ModelAndView searchBucket(HttpSession session, 
+			@RequestParam(defaultValue="1")int curPage, @RequestParam(required=false)String tagName, 
+			@ModelAttribute SearchBucketVO searchBucketVO, @ModelAttribute BucketVO bucketVO) {
 		ModelAndView mav = new ModelAndView();
+		String id = "youngsun"; //(String) session.getAttribute("id");
 		String keyword = searchBucketVO.getSearchKeyword();
-		String tagName = request.getParameter("searchTag");
-		searchBucketVO.setSearchTag(tagName);
-		String bucket_id = request.getParameter("bucket_id");
-		String selectedbucket_id = request.getParameter("selectedbucket_id");
+		int listCnt = 0;
+		PagingVO pageList = null;
+		List<BucketVO> searchList = null;
 		
 		if(tagName != null) {
 			//태그검색 검색결과 수&페이징
-			int listCnt = searchBucketDAO.getTotalTagCnt(tagName);
-			PagingVO pageList = new PagingVO(listCnt, curPage); //(전체 게시물 수, 현재 페이지)
-			searchBucketVO.setStart(pageList.getStartIndex());
-			searchBucketVO.setLast(pageList.getEndIndex());
+			listCnt = searchBucketDAO.getTotalTagCnt(tagName);
+			pageList = new PagingVO(listCnt, curPage); //(전체 게시물 수, 현재 페이지)
+			searchBucketVO.setStartRow(pageList.getStartIndex());
+			searchBucketVO.setEndRow(pageList.getEndIndex());
 			mav.addObject("listCnt", listCnt);
 			mav.addObject("pagination", pageList);
 			
 			//태그검색
-			List<SearchBucketVO> searchList = searchBucketDAO.searchTag(searchBucketVO);
-			mav.addObject("searchList", searchList);
+			searchBucketVO.setSearchTag(tagName);
+			searchList = searchBucketDAO.searchTag(searchBucketVO);
 			mav.addObject("keyword", "");
+			mav.addObject("searchList", searchList);
 		}else {
 			//제목검색 검색결과 수&페이징
-			int listCnt = searchBucketDAO.getTotalTitleCnt(keyword);
-			PagingVO pageList = new PagingVO(listCnt, curPage); //(전체 게시물 수, 현재 페이지)
-			searchBucketVO.setStart(pageList.getStartIndex());
-			searchBucketVO.setLast(pageList.getEndIndex());
+			listCnt = searchBucketDAO.getTotalTitleCnt(keyword);
+			pageList = new PagingVO(listCnt, curPage); //(전체 게시물 수, 현재 페이지)
+			searchBucketVO.setStartRow(pageList.getStartIndex());
+			searchBucketVO.setEndRow(pageList.getEndIndex());
 			mav.addObject("listCnt", listCnt);
 			mav.addObject("pagination", pageList);
 			
 			//제목검색
-			List<SearchBucketVO> searchList = searchBucketDAO.searchTitle(searchBucketVO);
-			mav.addObject("searchList", searchList);
+			searchList = searchBucketDAO.searchTitle(searchBucketVO);
 			mav.addObject("keyword", keyword);
-		}
-		
-		//가져오기 버튼을 눌렀을 때
-		if(bucket_id != null) {
-			int numBucket_id = Integer.parseInt(bucket_id);
-			int numSelectedbucket_id = Integer.parseInt(selectedbucket_id);
-			likeGetVO.setMember_id("aaa");
-			likeGetVO.setBucket_id(numBucket_id);
-			likeGetVO.setSelectedbucket_id(numSelectedbucket_id);
-			likeGetVO.setCnt(searchBucketDAO.selectGetCnt(numBucket_id).getCnt());
-			
-			searchBucketDAO.updateGetCnt(likeGetVO);
-			boolean result = searchBucketDAO.insertSBId(likeGetVO);
-			searchBucketDAO.insertSBId(likeGetVO);
-			if(result) System.out.println("성공!");
-			else System.out.println("실패!");
+			mav.addObject("searchList", searchList);
 		}
 		
 		//태그명 찾기
+		List<String> tagNameList = searchBucketDAO.selectTagName();
+		mav.addObject("tagNameList", tagNameList);
 		
+		//좋아요&가져오기
+		/*if(id != null) {
+			//좋아요
+			
+			if(bucketVO.getIsget() == 1) { //가져오기 전 상태
+				boolean result = searchBucketDAO.insertSelectedBucket(bucketVO);
+				if(result) System.out.println("성공");
+				else System.out.println("실패");
+			}else { //가져온 후
+				mav.addObject("afterGetMsg", "이미 가져온 버킷리스트입니다!");
+			}
+		}*//*else {
+			mav.addObject("likeGetInfoMsg", "로그인 후 이용가능합니다!");
+		}*/
+		mav.addObject("status", id);
 		mav.setViewName("searchBucket");
 		return mav;
 	}
