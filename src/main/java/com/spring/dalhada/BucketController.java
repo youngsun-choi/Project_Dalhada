@@ -42,11 +42,11 @@ public class BucketController {
 			@RequestParam(defaultValue="1")int curPage, @RequestParam(required=false)String tagName, 
 			@ModelAttribute SearchBucketVO searchBucketVO, @ModelAttribute BucketVO bucketVO) {
 		ModelAndView mav = new ModelAndView();
-		String id = "youngsun"; //(String) session.getAttribute("id");
+		String id = "aaa"; //(String) session.getAttribute("id");
 		String keyword = searchBucketVO.getSearchKeyword();
-		int listCnt = 0;
-		PagingVO pageList = null;
-		List<BucketVO> searchList = null;
+		int listCnt;
+		PagingVO pageList;
+		List<BucketVO> searchList;
 		
 		if(tagName != null) {
 			//태그검색 검색결과 수&페이징
@@ -56,6 +56,10 @@ public class BucketController {
 			searchBucketVO.setEndRow(pageList.getEndIndex());
 			mav.addObject("listCnt", listCnt);
 			mav.addObject("pagination", pageList);
+			
+			if(id!=null) {
+				
+			}
 			
 			//태그검색
 			searchBucketVO.setSearchTag(tagName);
@@ -81,20 +85,10 @@ public class BucketController {
 		List<String> tagNameList = searchBucketDAO.selectTagName();
 		mav.addObject("tagNameList", tagNameList);
 		
-		//좋아요&가져오기
-		/*if(id != null) {
-			//좋아요
-			
-			if(bucketVO.getIsget() == 1) { //가져오기 전 상태
-				boolean result = searchBucketDAO.insertSelectedBucket(bucketVO);
-				if(result) System.out.println("성공");
-				else System.out.println("실패");
-			}else { //가져온 후
-				mav.addObject("afterGetMsg", "이미 가져온 버킷리스트입니다!");
-			}
-		}*//*else {
-			mav.addObject("likeGetInfoMsg", "로그인 후 이용가능합니다!");
-		}*/
+		//그룹명 찾기
+		List<String> groupNameList = searchBucketDAO.selectGroupName(id);
+		mav.addObject("groupNameList", groupNameList);
+		
 		mav.addObject("status", id);
 		mav.setViewName("searchBucket");
 		return mav;

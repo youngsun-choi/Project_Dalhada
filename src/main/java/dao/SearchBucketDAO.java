@@ -52,6 +52,14 @@ public class SearchBucketDAO {
 		return list;
 	}
 	
+	//그룹명 찾기
+	public List<String> selectGroupName(String id) {
+		List<String> list = null;
+		String statement = "resource.SearchBucketMapper.selectGroupName";
+		list = session.selectList(statement,id);
+		return list;
+	}
+	
 	//가져온 버킷을 selectedbucket에 저장
 	public boolean insertSelectedBucket(BucketVO vo) {
 		boolean result = true;

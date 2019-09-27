@@ -12,9 +12,6 @@
 	<!-- 제목검색 -->
  	<select id="searchTitle" parameterType="vo.SearchBucketVO"  resultType="vo.BucketVO">
  		select bucket_id, selectedbucket_id, image_path, title, 
- 			(select count(*) 
- 				from selectedbucket sb, bucketinfo bi 
- 				where sb.bucket_id=bi.id and sb.bucket_id=bi.id) isget,
  			(select count(*)
 			from likeinfo li
 			where li.member_id = #{member_id} and li.bucket_id = sb.bucket_id) islike 
@@ -33,9 +30,6 @@
 	<!-- 태그검색 -->
 	<select id="searchTag" parameterType="vo.SearchBucketVO"  resultType="vo.BucketVO">
 		select bucket_id, selectedbucket_id, image_path, title, 
-				(select count(*) 
- 				from selectedbucket sb, bucketinfo bi 
- 				where sb.bucket_id=bi.id and sb.bucket_id=bi.id) isget,
 				(select count(*)
 				from likeinfo li
 				where li.member_id = #{member_id} and li.bucket_id = sb.bucket_id) islike
@@ -52,6 +46,13 @@
 		select name from taginfo 
 	</select>
 	
+	<!-- 그룹명 찾기 -->
+	<select id="selectGroupName" parameterType="String" resultType="String">
+		select DISTINCT name 
+		from groupinfo gi, selectedbucket sb 
+		where gi.id=sb.group_id and gi.member_id=#{member_id} order by name
+	</select>
+	
 	<!-- 블로그리뷰 -->
 	
 	<!-- 동영상 -->
@@ -63,7 +64,7 @@
       		select selectedbucket_seq.nextval from dual     
     	</selectKey> 
 		insert into selectedbucket(id,bucket_id,member_id,group_id,title,content,d_day,stat,address,lat,lng) 
-			select selectedbucket_seq.nextval, bucket_id,member_id,group_id,title,content,d_day,stat,address,lat,lng
+			select selectedbucket_seq.nextval, bucket_id,#{member_id},#{group_id},title,content,d_day,stat,address,lat,lng
 		from selectedbucket where bucket_id = #{bucket_id}
 	</insert>
 </mapper>
