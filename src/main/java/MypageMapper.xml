@@ -8,24 +8,34 @@
  		SELECT * FROM memberinfo where id = #{id}
  	</select>
  	
- 	<!-- 그룹 전체 -->
+ 	<!-- 그룹 드롭박스 -->
  	<select id="group" parameterType="String" resultType="vo.GroupVO">
  		SELECT * FROM groupinfo where member_id = #{id}
  	</select>
  	
  	<!-- 버킷리스트 전부 -->
  	<select id="bucketAll" parameterType="String" resultType="vo.MypageBucketVO">
- 		SELECT title, to_char(d_day,'YYYY-MM-DD') d_day, id FROM selectedbucket where member_id = #{id}
+ 		SELECT title, TRUNC(sysdate-d_day) d_day, id FROM selectedbucket where member_id = #{id}
  	</select>
  	
- 	<!-- 도전중인 버킷 -->
- 	<select id="progressBuck" parameterType="String" resultType="vo.MypageBucketVO">
- 		SELECT title, to_char(d_day,'YYYY-MM-DD') d_day, id FROM selectedbucket where member_id = #{id} and stat ='f'
+ 	<!-- 전체 그룹의 도전 / 완료 버킷 -->
+ 	<select id="choose" parameterType="map" resultType="vo.MypageBucketVO">
+ 		SELECT title, TRUNC(sysdate-d_day) d_day, id FROM selectedbucket where member_id = #{id} and stat = #{stat}
  	</select>
  	
- 	<!-- 완료한 버킷 -->
- 	<select id="doneBuck" parameterType="String" resultType="vo.MypageBucketVO">
- 		SELECT title, to_char(d_day,'YYYY-MM-DD') d_day, id FROM selectedbucket where member_id = #{id} and stat ='p'
+ 	<!-- 그룹에 따라 전체 버킷 출력 -->
+ 	<select id="GroupAllBuck" parameterType="map" resultType="vo.MypageBucketVO">
+ 		SELECT title, TRUNC(sysdate-d_day) d_day, id FROM selectedbucket where member_id = #{id} and group_id =#{group_id}
+ 	</select>
+ 	
+ 	<!-- 그룹에 따라 버킷 출력(완료 / 미완료) -->
+ 	<select id="groupChos" parameterType="map" resultType="vo.MypageBucketVO">
+ 		SELECT title, TRUNC(sysdate-d_day) d_day, id FROM selectedbucket where member_id = #{id} and group_id =#{group_id} and stat=#{stat}
+ 	</select>
+ 	
+ 	<!-- 버킷 완료 버튼 -->
+ 	<select id="complete" parameterType="map" resultType="vo.MypageBucketVO">
+ 		update selectedbucket set stat = 'p' where member_id = #{member_id} and id = #{id}
  	</select>
  	
  	<!-- 버킷 삭제 -->

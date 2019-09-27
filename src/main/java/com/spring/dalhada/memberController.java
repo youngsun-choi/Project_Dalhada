@@ -69,7 +69,6 @@ public class memberController {
 				System.out.println("idcheck로 돌아와서 리턴 1함");
 				return 1;
 			}
-				
 			else return 0;
 		}
 }

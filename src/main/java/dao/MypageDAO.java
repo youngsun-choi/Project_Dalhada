@@ -1,7 +1,9 @@
 package dao;
 
 
+import java.util.Calendar;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +33,22 @@ public class MypageDAO {
 		return list;
 	}
 	
+	public List<MypageBucketVO> GroupAllBuck(Map<String, Object> map){
+		List<MypageBucketVO> list = null;
+		System.out.println("GroupAllBuck 들어옴");
+		String statement = "resource.MypageMapper.GroupAllBuck";
+		list = session.selectList(statement,map);
+		return list;
+	}
+	
+	public List<MypageBucketVO> groupChos(Map<String, Object> map){
+		List<MypageBucketVO> list = null;
+		System.out.println("groupChos 들어옴");
+		String statement = "resource.MypageMapper.groupChos";
+		list = session.selectList(statement,map);
+		return list;
+	}
+	
 	public List<MypageBucketVO> bucketAll(String id){
 		List<MypageBucketVO> list = null;
 		System.out.println("bucketAll 들어옴");
@@ -39,25 +57,27 @@ public class MypageDAO {
 		return list;
 	}
 	
-	public List<MypageBucketVO> progress(String id){
+	
+	public List<MypageBucketVO> choose(Map<String, Object> map){
 		List<MypageBucketVO> list = null;
-		System.out.println("progress 들어옴");
-		String statement = "resource.MypageMapper.progressBuck";
-		list = session.selectList(statement,id);
+		System.out.println("choose 들어옴"+map.get("stat")+" : 아이디 :"+map.get("id"));
+		String statement = "resource.MypageMapper.choose";
+		list = session.selectList(statement,map);
 		return list;
 	}
 	
-	public List<MypageBucketVO> done(String id){
-		List<MypageBucketVO> list = null;
-		System.out.println("done 들어옴");
-		String statement = "resource.MypageMapper.doneBuck";
-		list = session.selectList(statement,id);
-		return list;
-	}
 	public boolean delete(int id) {
 		String statement = "resource.MypageMapper.delete";
 		System.out.println("삭제 시작");
 		if (session.delete(statement, id) != 1)
+			return false;
+		return true;
+	}
+	
+	public boolean complete(Map<String, Object> map) {
+		String statement = "resource.MypageMapper.complete";
+		System.out.println("완료 버튼 dao");
+		if (session.delete(statement, map) != 1)
 			return false;
 		return true;
 	}

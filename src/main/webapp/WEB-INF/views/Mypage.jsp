@@ -50,18 +50,18 @@
 	height:16px;
 	top:12px;
 	left:22px;
-	background: rgb(126,234,25);
-	background: -moz-linear-gradient(top,  rgba(126,234,25,1) 0%, rgba(83,173,0,1) 100%);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(126,234,25,1)), color-stop(100%,rgba(83,173,0,1)));
-	background: -webkit-linear-gradient(top,  rgba(126,234,25,1) 0%,rgba(83,173,0,1) 100%);
-	background: -o-linear-gradient(top,  rgba(126,234,25,1) 0%,rgba(83,173,0,1) 100%);
-	background: -ms-linear-gradient(top,  rgba(126,234,25,1) 0%,rgba(83,173,0,1) 100%);
-	background: linear-gradient(to bottom,  rgba(126,234,25,1) 0%,rgba(83,173,0,1) 100%);
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7eea19', endColorstr='#53ad00',GradientType=0 );
+	background: rgb(164,217,233);
+	background: -moz-linear-gradient(top,  rgba(164,217,233,1) 0%, rgba(91,186,215,1) 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(164,217,233,1)), color-stop(100%,rgba(91,186,215,1)));
+	background: -webkit-linear-gradient(top,  rgba(164,217,233,1) 0%,rgba(91,186,215,1) 100%);
+	background: -o-linear-gradient(top,  rgba(164,217,233,1) 0%,rgba(91,186,215,1) 100%);
+	background: -ms-linear-gradient(top,  rgba(164,217,233,1) 0%,rgba(91,186,215,1) 100%);
+	background: linear-gradient(to bottom,  rgba(164,217,233,1) 0%,rgba(91,186,215,1) 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a4d9e9', endColorstr='#5bbad7',GradientType=0 );
 	-webkit-border-radius:16px;
 	border-radius:16px;
-	-webkit-box-shadow: 0px 0px 12px 0px rgba(126, 234, 25, 1),inset 0px 1px 0px 0px rgba(255, 255, 255, 0.45),inset 1px 0px 0px 0px rgba(255, 255, 255, 0.25),inset -1px 0px 0px 0px rgba(255, 255, 255, 0.25);
-	box-shadow: 0px 0px 12px 0px rgba(126, 234, 25, 1),inset 0px 1px 0px 0px rgba(255, 255, 255, 0.45),inset 1px 0px 0px 0px rgba(255, 255, 255, 0.25),inset -1px 0px 0px 0px rgba(255, 255, 255, 0.25);
+	-webkit-box-shadow: 0px 0px 12px 0px rgba(40, 133, 164, 1),inset 0px 1px 0px 0px rgba(255, 255, 255, 0.45),inset 1px 0px 0px 0px rgba(255, 255, 255, 0.25),inset -1px 0px 0px 0px rgba(255, 255, 255, 0.25);
+	box-shadow: 0px 0px 12px 0px rgba(40, 133, 164, 1),inset 0px 1px 0px 0px rgba(255, 255, 255, 0.45),inset 1px 0px 0px 0px rgba(255, 255, 255, 0.25),inset -1px 0px 0px 0px rgba(255, 255, 255, 0.25);
 	overflow:hidden;
 }
 
@@ -319,7 +319,6 @@
 				<tr>
 					<td><c:if test="${empty info.my_words}">코멘트를 남겨주세요!</c:if>
         <c:if test="${!empty info.my_words}">${info.my_words}</c:if><br>
-        <button onclick="location.href=''">edit</button>
         </td>
 				</tr>
 				<tr>
@@ -337,7 +336,7 @@
         <fieldset>
 			<table>
 				<tr>
-					<td><div class="progressbar" data-perc="70">
+					<td><div class="progressbar" data-perc='<c:if test="${!empty perc}">${perc}</c:if><c:if test="${empty perc}">0</c:if>'>
 	<div class="bar"><span></span></div>
 	<div class="label"><span></span></div>
 </div></td>
@@ -347,7 +346,8 @@
 					<td>
 	
   <div class="dropdown">
-    <select name="group" class="dropdown-select">
+    <select id="selectBox" onchange="changeFunc();" class="dropdown-select">
+      <option>------------</option>
       <option value="all">전체</option>
       <c:if test="${!empty group}">
       <c:forEach var="vo" items="${group}">
@@ -367,13 +367,14 @@
 				</tr>
 				<tr>
 					<td>
+					
 	<form action="/dalhada/Mypage" method="post">
 		<table>
 		<tr>
 			<thead>
     <tr><th>삭제</th><th>제목</th><th>기한</th></tr>
   </thead>
-					<tbody id="All">
+					<tbody class="All">
 						<c:if test="${!empty listAll}">
 			<c:forEach var="vo1" items="${listAll}">
 			<tr>
@@ -381,47 +382,41 @@
 				<td onclick="location.href='http://localhost:8000/dalhada/detail?id=${vo1.id}'">${vo1.title}</td>
 				<td>${vo1.d_day}</td>
 				<td><button onclick="location.href=''">수정</button></td>
-				<td><button id="done" value="${vo1.id}">완료</button></td>
 			</tr>	
 						</c:forEach>
 						</c:if>
 						</tbody>
-				<tbody id="Prog" style="display: none">
+				<tbody class="Prog" style="display: none">
 					<c:if test="${!empty listProg}">
 			<c:forEach var="vo1" items="${listProg}">
-			
 			<tr>
-			<td><input type="checkbox" name="check" value="${vo1.id}"></td>
+			<td><input type="checkbox" name="box" value="${vo1.id}"></td>
 				<td onclick="location.href='http://localhost:8000/dalhada/detail?id=${vo1.id}'">${vo1.title}</td>
 				<td>${vo1.d_day}</td>
 				<td><button onclick="location.href=''">수정</button></td>
-				<td><button id="done" value="${vo1.id}">완료</button></td>
+				<td><button value="${vo1.id}" name="comp" >완료하기</button></td>
 			</tr>			
 						</c:forEach>
 						</c:if>
 						</tbody>
 						
-						<tbody id="Done" style="display: none">
+						<tbody class="Done" style="display: none">
 						<c:if test="${!empty listDone}">
 			<c:forEach var="vo1" items="${listDone}">
 			
 			<tr>
-			<td><input type="checkbox" name="check" value="${vo1.id}"></td>
+			<td><input type="checkbox" name="box" value="${vo1.id}"></td>
 				<td onclick="location.href='http://localhost:8000/dalhada/detail?id=${vo1.id}'">${vo1.title}</td>
 				<td>${vo1.d_day}</td>
 				<td><button onclick="location.href='http://localhost:8000/dalhada/loginmain'">수정</button></td>
-				<td><button id="done" value="${vo1.id}">완료</button></td>
 			</tr>	
-						
 						</c:forEach>
 						</c:if></tbody>
+						
 			<tr>
 			<td><input type="submit" value="삭제하기"  class="btn btn-dark"></td>
 			</tr>
 						</table></form>
-
-
-	
 					</td>
 				</tr>
 			</table>
@@ -436,22 +431,22 @@
 <script type="text/javascript">
 
 $('#listAll').click(function() {
-	$('#All').css('display','block');
-	$('#Prog').css('display','none');
-	$('#Done').css('display','none');
-	$('#All').removeAttr('style');
+	$('.All').css('display','block');
+	$('.Prog').css('display','none');
+	$('.Done').css('display','none');
+	$('.All').removeAttr('style');
 })
 $('#listProg').click(function() {
-	$('#All').css('display','none');
-	$('#Prog').css('display','block');
-	$('#Done').css('display','none');
-	$('#Prog').removeAttr('style');
+	$('.All').css('display','none');
+	$('.Prog').css('display','block');
+	$('.Done').css('display','none');
+	$('.Prog').removeAttr('style');
 })
 $('#listDone').click(function() {
-	$('#All').css('display','none');
-	$('#Prog').css('display','none');
-	$('#Done').css('display','block');
-	$('#Done').removeAttr('style');
+	$('.All').css('display','none');
+	$('.Prog').css('display','none');
+	$('.Done').css('display','block');
+	$('.Done').removeAttr('style');
 })
 
 $(function() {
@@ -475,7 +470,16 @@ $(function() {
 	});
 });
 
-
+function changeFunc() {
+    var selectBox = document.getElementById("selectBox");
+    var selectedValue = selectBox.options[selectBox.selectedIndex].value;
+    var index = selectBox.options[selectBox.selectedIndex].index;
+    location.href='http://localhost:8000/dalhada/Mypage?group='+selectedValue;
+    alert('hi');
+   }
+  
 </script>
+
+
 </body>
 </html>
