@@ -63,7 +63,7 @@
 							<a href="memberForm">회원가입</a>
 						</div>
 						<div class="flex-c-m h-full p-r-24">
-							<a href="login">로그인</a>
+							<a href="loginmain">로그인</a>
 						</div>	
 					</div>
 				</nav>

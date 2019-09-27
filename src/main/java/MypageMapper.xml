@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="resource.MypageMapper">
+<!-- 아이디 정보 -->
+<select id="memberInfo" parameterType="vo.MemberinfoVO" resultType="vo.MemberinfoVO">
+ 		SELECT * FROM memberinfo where id = #{id}
+ 	</select>
+ 	
+ 	<!-- 그룹 드롭박스 -->
+ 	<select id="group" parameterType="String" resultType="vo.GroupVO">
+ 		SELECT * FROM groupinfo where member_id = #{id}
+ 	</select>
+ 	
+ 	<!-- 버킷리스트 전부 -->
+ 	<select id="bucketAll" parameterType="String" resultType="vo.MypageBucketVO">
+ 		SELECT title, TRUNC(sysdate-d_day) d_day, id FROM selectedbucket where member_id = #{id}
+ 	</select>
+ 	
+ 	<!-- 전체 그룹의 도전 / 완료 버킷 -->
+ 	<select id="choose" parameterType="map" resultType="vo.MypageBucketVO">
+ 		SELECT title, TRUNC(sysdate-d_day) d_day, id FROM selectedbucket where member_id = #{id} and stat = #{stat}
+ 	</select>
+ 	
+ 	<!-- 그룹에 따라 전체 버킷 출력 -->
+ 	<select id="GroupAllBuck" parameterType="map" resultType="vo.MypageBucketVO">
+ 		SELECT title, TRUNC(sysdate-d_day) d_day, id FROM selectedbucket where member_id = #{id} and group_id =#{group_id}
+ 	</select>
+ 	
+ 	<!-- 그룹에 따라 버킷 출력(완료 / 미완료) -->
+ 	<select id="groupChos" parameterType="map" resultType="vo.MypageBucketVO">
+ 		SELECT title, TRUNC(sysdate-d_day) d_day, id FROM selectedbucket where member_id = #{id} and group_id =#{group_id} and stat=#{stat}
+ 	</select>
+ 	
+ 	<!-- 버킷 완료 버튼 -->
+ 	<select id="complete" parameterType="map" resultType="vo.MypageBucketVO">
+ 		update selectedbucket set stat = 'p' where member_id = #{member_id} and id = #{id}
+ 	</select>
+ 	
+ 	<!-- 버킷 삭제 -->
+ 	<select id="delete" parameterType="int">
+ 		delete from selectedbucket where id=#{id}
+ 	</select>
+</mapper>
