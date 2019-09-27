@@ -32,6 +32,10 @@
 	<link rel="stylesheet" type="text/css" href="css/main.css">
 <!--===============================================================================================-->
 	<link href="https://use.fontawesome.com/releases/v5.0.4/css/all.css" rel="stylesheet">
+<style>
+	.hov-cl1:hover {color: #A4D9E9;}
+	.cl1 {color: #717fe0;}
+</style> 
 </head>
 <body class="animsition">
 	<!-- Header -->
@@ -148,10 +152,12 @@
 											</div>
 										</div>
 										<div class="flex-r-m bor9 "><!-- p-r-10 m-r-11 -->
-											<a id="${vo.selectedbucket_id}" class="heart fs-23 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addlike ${vo.className } tooltip100" data-tooltip="좋아요">
-												<i class="zmdi zmdi-favorite"></i> 
-											</a>
-											<c:if test="${!empty status}"> <!-- 로그인 후 -->
+											<div class="block2-txt-child2 flex-r p-t-3">
+												<a id="${vo.selectedbucket_id }" class="heart fs-23 cl3 js-addlike ${vo.className }  hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 tooltip100" data-tooltip="Add to Like">
+													<i class="zmdi zmdi-favorite"></i> 
+												</a>
+											</div>
+											<%-- <c:if test="${!empty status}"> <!-- 로그인 후 -->
 												<a href="#" class="fs-23 cl4 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 tooltip100 js-show-modal1" data-tooltip="가져오기">
 													<i class="fa fa-plus-square fs-23"></i> 
 												</a>
@@ -160,7 +166,7 @@
 												<a href="#" class="fs-23 cl1 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 tooltip100" data-tooltip="가져오기">
 													<i class="fa fa-plus-square fs-23"></i> 
 												</a>
-											</c:if>
+											</c:if> --%>
 										</div>
 									</div>
 								</div>
@@ -512,8 +518,7 @@
 			})
 		});
 	</script>
-<!--===============================================================================================-->
-	<script src="js/main.js"></script>
+
 <!--===============================================================================================-->
 	<script src="vendor/isotope/isotope.pkgd.min.js"></script>
 <!--===============================================================================================-->
@@ -522,10 +527,13 @@
 	<script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
    integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
    crossorigin=""></script>
-   <!--===============================================================================================-->
+<!--===============================================================================================-->
+	<script src="js/main.js"></script>
+<!--===============================================================================================-->
+	
 	<script>
 	//가져오기 확인
-	function clickGetBtn(){
+	/* function clickGetBtn(){
 		$.ajax({
 			url : 'searchBucket',
 			type : 'POST',
@@ -537,7 +545,7 @@
 				console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:");
 			}
 		});
-	}
+	} */
 	//가져오기
 	/* function clickPlusButton(bucket_id, selectedbucket_id){
 		$.ajax({

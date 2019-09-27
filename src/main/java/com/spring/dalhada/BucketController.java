@@ -65,6 +65,7 @@ public class BucketController {
 	}
 	
 	@RequestMapping(value="/main/modaldetail")
+	@ResponseBody
 	public BucketDetailVO modaldetail(HttpSession session, int bucket_id, int selectedbucket_id) {
 		BucketDetailVO vo =  dao.selectDetail(bucket_id, selectedbucket_id);
 		System.out.println(vo.toString());
@@ -78,6 +79,7 @@ public class BucketController {
 			@ModelAttribute SearchBucketVO searchBucketVO, @ModelAttribute BucketVO bucketVO) {
 		ModelAndView mav = new ModelAndView();
 		String id = (String) session.getAttribute("id");
+		searchBucketVO.setMember_id(id);
 		String keyword = searchBucketVO.getSearchKeyword();
 		int listCnt;
 		PagingVO pageList;
@@ -92,13 +94,12 @@ public class BucketController {
 			mav.addObject("listCnt", listCnt);
 			mav.addObject("pagination", pageList);
 			
-			if(id!=null) {
-				
-			}
-			
 			//태그검색
 			searchBucketVO.setSearchTag(tagName);
 			searchList = searchBucketDAO.searchTag(searchBucketVO);
+			for(BucketVO vo: searchList) {
+				vo.addClass();
+			}
 			mav.addObject("keyword", "");
 			mav.addObject("searchList", searchList);
 		}else {
@@ -112,6 +113,9 @@ public class BucketController {
 			
 			//제목검색
 			searchList = searchBucketDAO.searchTitle(searchBucketVO);
+			for(BucketVO vo: searchList) {
+				vo.addClass();
+			}
 			mav.addObject("keyword", keyword);
 			mav.addObject("searchList", searchList);
 		}

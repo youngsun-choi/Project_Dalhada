@@ -14,7 +14,7 @@
  		select bucket_id, selectedbucket_id, image_path, title, 
  			(select count(*)
 			from likeinfo li
-			where li.member_id = #{member_id} and li.bucket_id = sb.bucket_id) islike 
+			where li.member_id = #{member_id} and li.bucket_id = selectedbucket_id) islike 
  		from (select bi.id bucket_id, sb.id selectedbucket_id, bi.image_path image_path, sb.title title, rownum rnum 
  			from bucketinfo bi, selectedbucket sb 
  			where bi.id = sb.bucket_id and title like '%'||#{searchKeyword}||'%') sb
@@ -32,7 +32,7 @@
 		select bucket_id, selectedbucket_id, image_path, title, 
 				(select count(*)
 				from likeinfo li
-				where li.member_id = #{member_id} and li.bucket_id = sb.bucket_id) islike
+				where li.member_id = #{member_id} and li.bucket_id = selectedbucket_id) islike
 		from(select bi.id bucket_id, sb.id selectedbucket_id, 
 				bi.image_path image_path, sb.title title, rownum rnum 
 			from bucketinfo bi, selectedbucket sb
