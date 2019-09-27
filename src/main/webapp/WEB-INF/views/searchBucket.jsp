@@ -28,14 +28,14 @@
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="vendor/perfect-scrollbar/perfect-scrollbar.css">
 <!--===============================================================================================-->
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
+   integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+   crossorigin=""/>
+<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="css/util.css">
 	<link rel="stylesheet" type="text/css" href="css/main.css">
 <!--===============================================================================================-->
 	<link href="https://use.fontawesome.com/releases/v5.0.4/css/all.css" rel="stylesheet">
-<style>
-	.hov-cl1:hover {color: #A4D9E9;}
-	.cl1 {color: #717fe0;}
-</style> 
 </head>
 <body class="animsition">
 	<!-- Header -->
@@ -63,12 +63,11 @@
 						<div class="flex-c-m h-full p-r-24">
 							<a>버킷 +</a>
 						</div>
-						<div class="flex-c-m h-full p-r-24">
-							<a href="memberForm">회원가입</a>
-						</div>
-						<div class="flex-c-m h-full p-r-24">
-							<a href="loginmain">로그인</a>
-						</div>	
+						<c:forEach var="data" items="${loginMap}">
+							<div class="flex-c-m h-full p-r-24">
+								<a href="${data.key}">${data.value}</a>
+							</div>
+						</c:forEach>
 					</div>
 				</nav>
 			</div>	
@@ -107,12 +106,11 @@
 				<li>
 					<a>버킷 +</a>
 				</li>
-				<li>
-					<a href="memberForm">회원가입</a>
-				</li>
-				<li>
-					<a href="login">로그인</a>
-				</li>
+				<c:forEach var="data" items="${loginMap}">
+					<li>
+						<a href="${data.key}">${data.value}</a>
+					</li>
+				</c:forEach>
 			</ul>
 		</div>
 		<!-- Menu Mobile End -->
@@ -151,22 +149,20 @@
 												</a>
 											</div>
 										</div>
-										<div class="flex-r-m bor9 "><!-- p-r-10 m-r-11 -->
-											<div class="block2-txt-child2 flex-r p-t-3">
-												<a id="${vo.selectedbucket_id }" class="heart fs-23 cl3 js-addlike ${vo.className }  hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 tooltip100" data-tooltip="Add to Like">
-													<i class="zmdi zmdi-favorite"></i> 
-												</a>
-											</div>
-											<%-- <c:if test="${!empty status}"> <!-- 로그인 후 -->
+										<div class="flex-r-m "><!-- bor9 --><!-- p-r-10 m-r-11 -->
+											<button id="${vo.selectedbucket_id }" class="heart fs-23 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addlike ${vo.className } tooltip100" data-tooltip="좋아요">
+												<i class="zmdi zmdi-favorite"></i> 
+											</button>
+											<c:if test="${!empty status}"> <!-- 로그인 후 -->
 												<a href="#" class="fs-23 cl4 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 tooltip100 js-show-modal1" data-tooltip="가져오기">
-													<i class="fa fa-plus-square fs-23"></i> 
+													<i class="fa fa-plus-square"></i> 
 												</a>
 											</c:if>
 											<c:if test="${empty status}"> <!-- 로그인 전 -->
-												<a href="#" class="fs-23 cl1 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 tooltip100" data-tooltip="가져오기">
-													<i class="fa fa-plus-square fs-23"></i> 
+												<a href="#" class="fs-23 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 tooltip100" data-tooltip="가져오기">
+													<i class="fa fa-plus-square"></i> 
 												</a>
-											</c:if> --%>
+											</c:if>
 										</div>
 									</div>
 								</div>

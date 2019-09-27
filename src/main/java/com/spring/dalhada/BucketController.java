@@ -1,7 +1,8 @@
 package com.spring.dalhada;
 
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
-
 
 import javax.servlet.http.HttpSession;
 
@@ -10,17 +11,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import dao.BucketDAO;
 import dao.SearchBucketDAO;
+import vo.BucketDetailVO;
 import vo.BucketVO;
+import vo.LikeInfoVO;
 import vo.PagingVO;
 import vo.SearchBucketVO;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import dao.BucketDAO;
-import vo.BucketDetailVO;
-import vo.LikeInfoVO;
 
 
 @Controller
@@ -84,6 +84,17 @@ public class BucketController {
 		int listCnt;
 		PagingVO pageList;
 		List<BucketVO> searchList;
+		HashMap<String,String> loginMap = new LinkedHashMap<>();
+		
+		if(id != null) {
+			loginMap.put("Mypage", "마이페이지");
+			loginMap.put("logout", "로그아웃");
+			mav.addObject("loginMap", loginMap);
+		}else {
+			loginMap.put("memberForm", "회원가입");
+			loginMap.put("loginmain", "로그인");
+			mav.addObject("loginMap", loginMap);
+		}
 		
 		if(tagName != null) {
 			//태그검색 검색결과 수&페이징
