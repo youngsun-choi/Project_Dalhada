@@ -136,8 +136,8 @@
 								<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women">
 									<!-- Block2 -->
 									<div class="block2">
-										<div class="block2-pic hov-img0 js-show-modal1">
-											<img src="bucket/${ vo.image_path }" alt="IMG-PRODUCT">
+										<div class="block2-pic hov-img0">
+											<img class="js-show-modal-bucket"src="bucket/${ vo.image_path }" alt="IMG-PRODUCT">
 										</div>
 				
 										<div class="block2-txt flex-w flex-t p-t-14">
@@ -347,12 +347,12 @@
 	</div>
 	
 	<!-- 그룹 Modal -->
-	<div class="wrap-modal1 js-modal1 p-t-60 p-b-20">
-		<div class="overlay-modal1 js-hide-modal1"></div>
+	<div class="wrap-modal1-group js-modal-bucket p-t-60 p-b-20">
+		<div class="overlay-modal1 js-hide-modal"></div>
 
 		<div class="container">
 			<div class="bg0 p-t-60 p-b-30 p-lr-15-lg how-pos3-parent">
-				<button class="how-pos3 hov3 trans-04 js-hide-modal1">
+				<button class="how-pos3 hov3 trans-04 js-hide-modal">
 					<img src="images/icons/icon-close.png" alt="CLOSE">
 				</button>
 
@@ -403,6 +403,79 @@
 	</div>
 	<!-- 그룹 Modal 끝 -->
 
+		<!-- Modal -->
+	<div class="wrap-modal-bucket js-modal-bucket p-t-60 p-b-20">
+		<div class="overlay-modal js-hide-modal"></div>
+
+		<div class="container">
+			<div class="bg0 p-t-60 p-b-30 p-lr-15-lg how-pos3-parent">
+				<button class="how-pos3 hov3 trans-04 js-hide-modal">
+					<img src="images/icons/icon-close.png" alt="CLOSE">
+				</button>
+
+				<div class="row">
+					<div class="col-md-6 col-lg-7 p-b-30">
+						<div class="p-l-25 p-r-30 p-lr-0-lg">
+							<div class="wrap-slick3 flex-sb flex-w">
+								<h4 id="bucketTitle"class="mtext-105 cl2 js-name-detail p-b-14">
+								</h4>
+								<div class="gallery-lb">
+									<div data-thumb="images/slide-03.jpg">
+										<div class="wrap-pic-w pos-relative">
+											<img class="modalimage" src="images/slide-03.jpg" alt="IMG-PRODUCT">
+
+											<a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04" href="images/slide-03.jpg">
+												<i class="fa fa-expand"></i>
+											</a>
+										</div>
+									</div>
+								</div>
+							</div>
+							<p id="bucketContent" class="stext-102 cl3 p-t-23">
+							</p>
+							<div class="flex-m bor9 p-r-10 m-r-11">
+								<a id="${vo.selectedbucket_id }" class="heart fs-23 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addlike ${vo.className } tooltip100" data-tooltip="Add to Like">
+									<i class="zmdi zmdi-favorite"></i> 
+								</a>
+								<p id="likecnt" class="cl6 stext-107" style="width: 40px"></p>
+								<a href="#" class="fs-23 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addwish-detail tooltip100" data-tooltip="Add to Wishlist">
+									<i class="fa fa-plus-square fa-lg"></i> 
+								</a>
+								<p id="getcnt" class="cl6 stext-107" style="width: 40px"></p>							
+							</div>
+						</div>			
+					</div>
+					
+					<div class="col-md-6 col-lg-5 p-b-30">
+						<div class="p-r-50 p-t-5 p-lr-0-lg">
+						<div class="stext-102 cl3 p-t-23">태그</div>
+							<div id="tags" class="flex-w p-t-4 m-r--5">
+			                </div>
+			                <div class="stext-102 cl3 p-t-23">위치</div>
+						    <div id = 'mapid'>
+							</div>
+						 </div>
+							<!--  -->
+							<div class="flex-w flex-m p-l-100 p-t-40 respon7">
+								
+								<a href="#" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="Facebook">
+									<i class="fa fa-facebook"></i>
+								</a>
+
+								<a href="#" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="Twitter">
+									<i class="fa fa-twitter"></i>
+								</a>
+
+								<a href="#" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="Google Plus">
+									<i class="fa fa-google-plus"></i>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
 <!--===============================================================================================-->	
 	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
 <!--===============================================================================================-->
@@ -445,43 +518,11 @@
 	<script src="vendor/isotope/isotope.pkgd.min.js"></script>
 <!--===============================================================================================-->
 	<script src="vendor/sweetalert/sweetalert.min.js"></script>
-	<script>
-		$('.js-addwish-b2').on('click', function(e){
-			e.preventDefault();
-		});
-
-		$('.js-addwish-b2').each(function(){
-			var nameProduct = $(this).parent().parent().find('.js-name-b2').html();
-			$(this).on('click', function(){
-				swal(nameProduct, "is added to wishlist !", "success");
-
-				$(this).addClass('js-addedwish-b2');
-				$(this).off('click');
-			});
-		});
-
-		$('.js-addlike').each(function(){
-			var nameProduct = $(this).parent().parent().parent().find('.js-name-detail').html();
-
-			$(this).on('click', function(){
-				swal(nameProduct, "is added to wishlist !", "success");
-
-				$(this).addClass('js-addedwish-detail');
-				$(this).off('click');
-			});
-		});
-
-		/*---------------------------------------------*/
-
-		$('.js-addcart-detail').each(function(){
-			var nameProduct = $(this).parent().parent().parent().parent().find('.js-name-detail').html();
-			$(this).on('click', function(){
-				swal(nameProduct, "is added to cart !", "success");
-			});
-		});
-	</script>
-
 <!--===============================================================================================-->
+	<script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
+   integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
+   crossorigin=""></script>
+   <!--===============================================================================================-->
 	<script>
 	//가져오기 확인
 	function clickGetBtn(){

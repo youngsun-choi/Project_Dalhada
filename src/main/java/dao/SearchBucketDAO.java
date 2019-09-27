@@ -25,8 +25,6 @@ public class SearchBucketDAO {
 		List<BucketVO> list = null;
 		String statement = "resource.SearchBucketMapper.searchTitle";
 		list = session.selectList(statement, vo);
-		System.out.println(list.toString());
-		System.out.println(vo);
 		return list;
 	}
 	

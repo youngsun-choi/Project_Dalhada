@@ -45,15 +45,17 @@
 	</beans:bean>
 	
 	
-	<beans:bean class="org.mybatis.spring.SqlSessionFactoryBean" id="sqlSessionFactory">
-	<beans:property name="dataSource" ref="dataSource"/>
-	<beans:property value="classpath:/mybatis-config.xml" name="configLocation"/>
-	<beans:property value="classpath:/*Mapper.xml" name="mapperLocations"/>
+	<beans:bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<beans:property name="dataSource" ref="dataSource" />
+		<beans:property name="configLocation" value="classpath:/mybatis-config.xml" />
+		<beans:property name="mapperLocations" value="classpath:/*Mapper.xml" />
 	</beans:bean>
+
 	
-	
-	<beans:bean class="org.mybatis.spring.SqlSessionTemplate" id="sqlSession" destroy-method="clearCache">
-	<beans:constructor-arg ref="sqlSessionFactory" index="0"/>
+	<beans:bean id="sqlSession"
+		class="org.mybatis.spring.SqlSessionTemplate"
+		destroy-method="clearCache">
+		<beans:constructor-arg index="0"
+			ref="sqlSessionFactory"></beans:constructor-arg>
 	</beans:bean>
-	
 </beans:beans>

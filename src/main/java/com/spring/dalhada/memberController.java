@@ -27,8 +27,6 @@ public class memberController {
 		public ModelAndView signup(MemberinfoVO vo, HttpServletRequest request) {
 			ModelAndView mav = new ModelAndView();
 			if (request.getMethod().equals("GET")) {
-				System.out.println("GET일떄");
-			     
 			     mav.setViewName("memberForm");
 				return mav;
 			}
@@ -36,19 +34,18 @@ public class memberController {
 			if(vo.getImage()!=null) {
 				String fileName = vo.getImage().getOriginalFilename();
 				String newName = vo.getId()+"_"+fileName;
-				System.out.println("파일이름 : "+newName);
 				vo.setImage_path(newName);
 				dao.insert(vo);
 			     byte[] content = null;
 			     mav.setViewName("login");
 			     try {
 			    	 content =  vo.getImage().getBytes();
-			    	 File f = new File("C:/unico/eclipse-workspace/dalhada/src/main/webapp/resources/images/profile/"+fileName);			   
+			    	 File f = new File("/images/profile/"+fileName);			   
 			    		 FileOutputStream fos = new FileOutputStream(f);
 			    		 fos.write(content);
 			    		 fos.close();
 			    		 
-				    	 File newf = new File("C:/unico/eclipse-workspace/dalhada/src/main/webapp/resources/images/profile/"+newName);
+				    	 File newf = new File("/images/profile/"+newName);
 				    	 if(f.exists())
 				    		 f.renameTo(newf);
 			     } catch (IOException e) {
@@ -64,9 +61,7 @@ public class memberController {
 		@RequestMapping(value="/validateForm")
 		@ResponseBody
 		public int idCheck(String id) {
-			System.out.println("Controller에 넘어온 id값 "+id);
 			if (dao.checkId(id)) {
-				System.out.println("idcheck로 돌아와서 리턴 1함");
 				return 1;
 			}
 			else return 0;

@@ -36,7 +36,6 @@ public class MypageController {
 					}
 				}
 				if(comp!=null) { // 버킷 완료버튼
-					System.out.println(comp);
 					Map<String, Object> map = new HashMap<String, Object>();
 					map.put("member_id",  vo.getId());
 					map.put("id", Integer.parseInt(comp));
@@ -55,14 +54,12 @@ public class MypageController {
 			List<MypageBucketVO> listDone = null;
 			
 			if(group != null && !group.equals("all")) {
-				System.out.println("group이 있음!");
 				choose.put("group_id", group);
 				listAll = dao.GroupAllBuck(choose);
 				listDone = dao.groupChos(choose);
 				choose.put("stat",'f');
 				mav.addObject("listProg", dao.groupChos(choose));
 			}else {
-				System.out.println("group이 없음");
 				listAll = dao.bucketAll(id);
 				listDone = dao.choose(choose);
 				choose.put("stat",'f');
