@@ -107,22 +107,6 @@
                 
         }
     });   
-    /*==================================================================
-    [ Show / hide modal search ]*/
-    $('.js-show-modal-search').on('click', function(){
-        $('.modal-search-header').addClass('show-modal-search');
-        $(this).css('opacity','0');
-    });
-
-    $('.js-hide-modal-search').on('click', function(){
-        $('.modal-search-header').removeClass('show-modal-search');
-        $('.js-show-modal-search').css('opacity','1');
-    });
-
-    $('.container-search-header').on('click', function(e){
-        e.stopPropagation();
-    });
-
 
     /*==================================================================
     [ Isotope ]*/
@@ -201,27 +185,35 @@ alret("search")
     });
 
     /*==================================================================
-    [ Bucket ]*/
-    $('.js-show-sidebar').on('click',function(){
-        $('.js-sidebar').addClass('show-sidebar');
-    });
+    [ +/- heart ]*/
+    $('.heart').each(function(){
+			$(this).on('click', function(){
+				var action;
+				if($(this).hasClass('js-addedlike')){
+					$(this).removeClass('js-addedlike');
+					action = "delete";
+				}else{
+					$(this).addClass('js-addedlike');
+					action = "insert";
+				}
+				$.ajax({
+					url: "main/like/",
+	                type: "POST",
+	                data: {
+	                    selectedbucket_id : $(this).attr("id"),
+	                    action : action
+	                },
+	                success: function (data) {
+	                	
+	                },
+	                error : function(){
+	                	window.location.href = "login";
+			        }
+				})
+				
+			});
+		});
 
-    $('.js-hide-sidebar').on('click',function(){
-        $('.js-sidebar').removeClass('show-sidebar');
-    });
-
-    /*==================================================================
-    [ +/- num product ]
-    $('.btn-num-product-down').on('click', function(){
-        var numProduct = Number($(this).next().val());
-        if(numProduct > 0) $(this).next().val(numProduct - 1);
-    });
-
-    $('.btn-num-product-up').on('click', function(){
-        var numProduct = Number($(this).prev().val());
-        $(this).prev().val(numProduct + 1);
-    });
-*/
     /*==================================================================
     [ Rating ]*/
     $('.wrap-rating').each(function(){
@@ -264,23 +256,36 @@ alret("search")
     });
     
     /*==================================================================
-    [ Show modal1 ]*/
-    $('.js-show-modal1').on('click',function(e){
+    [ Show modal ]*/
+    $('.js-show-modal').on('click',function(e){
         e.preventDefault();
-        $('.js-modal1').addClass('show-modal1');
+        
+        $.ajax({
+			url: "main/modaldetail",
+            type: "POST",
+            data: {
+                
+            },
+            success: function (data) {
+            	
+            },
+            error : function(){
+            	
+	        }
+		})
+        
+        var map = L.map('mapid').setView([51.505, -0.09],  10);
+    	L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+    		maxZoom: 18,
+    		attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+    			'<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+    			'Imagery <a href="https://www.mapbox.com/">Mapbox</a>',
+    		id: 'mapbox.streets'
+    	}).addTo(map);
+        $('.js-modal').addClass('show-modal');
     });
 
-    $('.js-hide-modal1').on('click',function(){
-        $('.js-modal1').removeClass('show-modal1');
-    });
-    /*==================================================================
-    [ Show modal map ]*/
-    var map = L.map('mapid').setView([51.505, -0.09],  10);
-	L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
-		maxZoom: 18,
-		attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
-			'<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-			'Imagery <a href="https://www.mapbox.com/">Mapbox</a>',
-		id: 'mapbox.streets'
-	}).addTo(map);
+    $('.js-hide-modal').on('click',function(){
+        $('.js-modal').removeClass('show-modal');
+    });  
 })(jQuery);

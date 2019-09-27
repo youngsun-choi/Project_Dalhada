@@ -181,7 +181,7 @@
 		</div>
 	</section>
 
-	<!-- Product -->
+	<!-- Bucket -->
 	<section class="sec-product bg0 p-t-100 p-b-50">
 		<div class="container">
 			<div class="p-b-32">
@@ -202,8 +202,8 @@
 								<div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
 									<!-- Block2 -->
 									<div class="block2">
-										<a href="#" class="block2-pic hov-img0 flex-c-m p-lr-15 trans-04 js-show-modal1">
-											<img class="block2-img" src="images/bucket/${vo.image_path }" alt="IMG-PRODUCT">
+										<a class="block2-pic hov-img0 flex-c-m p-lr-15 trans-04">
+											<img class="js-show-modal" src="images/bucket/${vo.image_path }" alt="IMG-PRODUCT">
 										</a>
 										<div class="block2-txt flex-w flex-t p-t-14">
 											<div class="block2-txt-child1 flex-col-l ">
@@ -236,13 +236,13 @@
 
 	</footer>
 
-	<!-- Modal1 -->
-	<div class="wrap-modal1 js-modal1 p-t-60 p-b-20">
-		<div class="overlay-modal1 js-hide-modal1"></div>
+	<!-- Modal -->
+	<div class="wrap-modal js-modal p-t-60 p-b-20">
+		<div class="overlay-modal js-hide-modal"></div>
 
 		<div class="container">
 			<div class="bg0 p-t-60 p-b-30 p-lr-15-lg how-pos3-parent">
-				<button class="how-pos3 hov3 trans-04 js-hide-modal1">
+				<button class="how-pos3 hov3 trans-04 js-hide-modal">
 					<img src="images/icons/icon-close.png" alt="CLOSE">
 				</button>
 
@@ -349,36 +349,8 @@
 	</script>
 <!--===============================================================================================-->
 	<script src="vendor/isotope/isotope.pkgd.min.js"></script>
-<!--===============================================================================================-->
-	<script src="vendor/sweetalert/sweetalert.min.js"></script>
 	<script>
-		$('.heart').each(function(){
-			$(this).on('click', function(){
-				var action;
-				if($(this).hasClass('js-addedlike')){
-					$(this).removeClass('js-addedlike');
-					action = "delete";
-				}else{
-					$(this).addClass('js-addedlike');
-					action = "insert";
-				}
-				$.ajax({
-					url: "main/like/",
-	                type: "POST",
-	                data: {
-	                    selectedbucket_id : $(this).attr("id"),
-	                    action : action
-	                },
-	                success: function (data) {
-	                	
-	                },
-	                error : function(request,status,error){
-			        	console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-			        }
-				})
-				
-			});
-		});
+		
 	</script>
 <!--===============================================================================================-->
 	<script src="vendor/perfect-scrollbar/perfect-scrollbar.min.js"></script>

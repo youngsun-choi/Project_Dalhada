@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import dao.BucketDAO;
+import vo.BucketDetailVO;
 import vo.BucketVO;
 import vo.LikeInfoVO;
 
@@ -22,8 +23,8 @@ public class BucketController {
 	@RequestMapping(value="/main")
 	public ModelAndView main(HttpSession session) {
 		ModelAndView mav = new ModelAndView();
-		//String id = (String)session.getAttribute("id");
-		String id = "jina";
+		String id = (String)session.getAttribute("id");
+	
 		List<BucketVO> list = dao.selectADBucket(id);
 		for(BucketVO vo: list) {
 			vo.addClass();
@@ -37,16 +38,27 @@ public class BucketController {
 	@ResponseBody
 	public String clickheart(HttpSession session, LikeInfoVO vo) {
 		int result = 0;
-		//String id = (String)session.getAttribute("id");
-		String id = "jina";
-		vo.setMember_id(id);
-		String action = vo.getAction();
-		if(action.equals("insert")) {
-			result = dao.insertLikeInfo(vo);
-		}else if(action.equals("delete")) {
-			result = dao.deleteLikeInfo(vo);
+		String id = (String)session.getAttribute("id");
+		
+		if(id != null) {
+			vo.setMember_id(id);
+			String action = vo.getAction();
+			if(action.equals("insert")) {
+				result = dao.insertLikeInfo(vo);
+			}else if(action.equals("delete")) {
+				result = dao.deleteLikeInfo(vo);
+			}
+		}else {
+			result = -1;
 		}
 		return result>0?"success":"error";
+	}
+	
+	@RequestMapping(value="/main/modaldetail")
+	public BucketDetailVO modaldetail(HttpSession session, int bucket_id, int selectedbucket_id) {
+		BucketDetailVO vo =  dao.selectDetail(bucket_id, selectedbucket_id);
+		System.out.println(vo.toString());
+		return vo;
 	}
 	
 	@RequestMapping(value="/product")

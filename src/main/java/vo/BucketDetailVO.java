@@ -10,11 +10,11 @@ public class BucketDetailVO {
 	private float lng;
 	private String bucketImage_path;
 	private String profileImage_path;
-	private int get_cnt;
 	private int like_cnt;
 	private String get_member_id;
 	private String by_member_id;
 	private List<String> tags;
+	
 	public int getBucket_id() {
 		return bucket_id;
 	}
@@ -45,17 +45,20 @@ public class BucketDetailVO {
 	public void setBucketImage_path(String bucketImage_path) {
 		this.bucketImage_path = bucketImage_path;
 	}
+	public String getTitle() {
+		return title;
+	}
+	public void setTitle(String title) {
+		this.title = title;
+	}
 	public String getProfileImage_path() {
 		return profileImage_path;
 	}
 	public void setProfileImage_path(String profileImage_path) {
 		this.profileImage_path = profileImage_path;
 	}
-	public int getGet_cnt() {
-		return get_cnt;
-	}
-	public void setGet_cnt(int get_cnt) {
-		this.get_cnt = get_cnt;
+	public void setLike_cnt(int like_cnt) {
+		this.like_cnt = like_cnt;
 	}
 	public int getLike_cnt() {
 		return like_cnt;
@@ -85,7 +88,7 @@ public class BucketDetailVO {
 	public String toString() {
 		return "BucketDetailVO [bucket_id=" + bucket_id + ", title=" + title + ", content=" + content + ", lat=" + lat
 				+ ", lng=" + lng + ", bucketImage_path=" + bucketImage_path + ", profileImage_path=" + profileImage_path
-				+ ", get_cnt=" + get_cnt + ", like_cnt=" + like_cnt + ", get_member_id=" + get_member_id + ", by_member_id="
-				+ by_member_id + "]";
+				+ ", like_cnt=" + like_cnt + ", get_member_id=" + get_member_id + ", by_member_id=" + by_member_id
+				+ ", tags=" + tags + "]";
 	}
 }

@@ -16,7 +16,7 @@ public class BucketDAO {
 	@Autowired
 	SqlSession session = null;
 	
-	public BucketDetailVO selectDetail(int bucket_id, int id) {
+	public BucketDetailVO selectDetail(int bucket_id, int selectedbucket_id) {
 		BucketDetailVO vo = new BucketDetailVO();
 		String statement = "resource.BucketMapper.isADBucket";
 		String flag = session.selectOne(statement, bucket_id);
@@ -25,9 +25,9 @@ public class BucketDAO {
 			statement = "resource.BucketMapper.detailBucket";
 		else 
 			statement = "resource.BucketMapper.detailADBucket";
-		vo = session.selectOne(statement, id);
+		vo = session.selectOne(statement, selectedbucket_id);
 		statement = "resource.BucketMapper.bucketTags";
-		vo.setTags(session.selectList(statement, id));
+		vo.setTags(session.selectList(statement, selectedbucket_id));
 		return vo;
 	}
 	public List<BucketVO> selectADBucket(String id) {
