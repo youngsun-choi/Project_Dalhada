@@ -1,7 +1,5 @@
 package dao;
 
-
-import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
@@ -12,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import vo.GroupVO;
 import vo.MemberinfoVO;
 import vo.MypageBucketVO;
+import vo.MypageVO;
 
 @Repository
 public class MypageDAO {
@@ -20,65 +19,57 @@ public class MypageDAO {
 	
 	public MemberinfoVO UserInfo(MemberinfoVO vo1) {
 		String statement= "resource.MypageMapper.memberInfo";
-		MemberinfoVO vo = session.selectOne(statement,vo1);
-		if(vo != null) return vo;
-		return null;
+		return session.selectOne(statement,vo1);
 	}	
 	
 	public List<GroupVO> groupList(String id) {
-		List<GroupVO> list = null;
-		System.out.println("grouplist 들어옴");
 		String statement = "resource.MypageMapper.group";
-		list = session.selectList(statement,id);
-		return list;
+		return session.selectList(statement,id);
 	}
 	
 	public List<MypageBucketVO> GroupAllBuck(Map<String, Object> map){
-		List<MypageBucketVO> list = null;
-		System.out.println("GroupAllBuck 들어옴");
 		String statement = "resource.MypageMapper.GroupAllBuck";
-		list = session.selectList(statement,map);
-		return list;
+		return session.selectList(statement,map);
 	}
 	
 	public List<MypageBucketVO> groupChos(Map<String, Object> map){
-		List<MypageBucketVO> list = null;
-		System.out.println("groupChos 들어옴");
 		String statement = "resource.MypageMapper.groupChos";
-		list = session.selectList(statement,map);
-		return list;
+		return session.selectList(statement,map);
 	}
 	
 	public List<MypageBucketVO> bucketAll(String id){
-		List<MypageBucketVO> list = null;
-		System.out.println("bucketAll 들어옴");
 		String statement = "resource.MypageMapper.bucketAll";
-		list = session.selectList(statement,id);
-		return list;
+		return session.selectList(statement,id);
 	}
 	
 	
 	public List<MypageBucketVO> choose(Map<String, Object> map){
-		List<MypageBucketVO> list = null;
-		System.out.println("choose 들어옴"+map.get("stat")+" : 아이디 :"+map.get("id"));
 		String statement = "resource.MypageMapper.choose";
-		list = session.selectList(statement,map);
-		return list;
+		return session.selectList(statement,map);
 	}
 	
-	public boolean delete(int id) {
+	public int delete(int id) {
 		String statement = "resource.MypageMapper.delete";
-		System.out.println("삭제 시작");
-		if (session.delete(statement, id) != 1)
-			return false;
-		return true;
+		return session.delete(statement, id);
 	}
 	
-	public boolean complete(Map<String, Object> map) {
+	public int complete(Map<String, Object> map) {
 		String statement = "resource.MypageMapper.complete";
-		System.out.println("완료 버튼 dao");
-		if (session.delete(statement, map) != 1)
-			return false;
-		return true;
+		return session.delete(statement, map);
+	}
+	
+	public int updateGroup(Map<String, Object> map) {
+		String statement = "resource.MypageMapper.updateGroup";
+		return session.update(statement, map);
+	}
+	
+	public int DeleteGroup(GroupVO vo) {
+		String statement = "resource.MypageMapper.DeleteGroup";
+		return session.update(statement, vo);
+	}
+	
+	public int CreateGroup(Map<String, Object> map) {
+		String statement = "resource.MypageMapper.CreateGroup";
+		return session.insert(statement,map);
 	}
 }

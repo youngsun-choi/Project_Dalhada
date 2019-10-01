@@ -110,6 +110,9 @@ margin-left: 4px;
 }
 </style>
 <body>
+<c:if test="${!empty msg}">
+${msg}
+</c:if>
 <div class="container">
 	<div class="d-flex justify-content-center h-100">
 		<div class="card">
@@ -149,39 +152,36 @@ margin-left: 4px;
 	</div>
 </div>
 
-<c:if test="${!empty msg}" >
-${msg}
-</c:if>
 <script>
 var referer='';
-	$(document).ready(function(){
-		$("#submit").click(function(){
-			var id = $("#id").val();
-			var pwd = $("#password").val();
-			referer =  document.referrer;
-			if(id==""){
-				$("#loginError").text("아이디를 입력하세요.").css("color", "red");		
-				return;
-			}else if(pwd==""){
-				$("#loginError").text("비밀번호를 입력하세요.").css("color", "red");		
-				return;
-			}
-			$.ajax({
-				url : '/dalhada/login?id='+id+'&password='+pwd,
-				type : 'post',
-				success : function(data){
-					if(data == "false"){
-							$("#loginError").text("아이디와 비밀번호가 일치하지 않습니다.").css("color", "red");	
-					}else{
-						alert("로그인 성공");
-						if(referer.includes('logout')||referer.includes('memberForm'))
-							referer="http://70.12.113.165:8000/dalhada/main";
-						location.href=referer;
-					}
+$(document).ready(function(){
+	$("#submit").click(function(){
+		var id = $("#id").val();
+		var pwd = $("#password").val();
+		referer =  document.referrer;
+		if(id==""){
+			$("#loginError").text("아이디를 입력하세요.").css("color", "red");		
+			return;
+		}else if(pwd==""){
+			$("#loginError").text("비밀번호를 입력하세요.").css("color", "red");		
+			return;
+		}
+		$.ajax({
+			url : '/dalhada/login?id='+id+'&password='+pwd,
+			type : 'post',
+			success : function(data){
+				if(data == "false"){
+						$("#loginError").text("아이디와 비밀번호가 일치하지 않습니다.").css("color", "red");	
+				}else{
+					alert("로그인 성공");
+					if(referer.includes('logout')||referer.includes('memberForm')||referer.includes('loginmain'))
+						referer="http://localhost:8000/dalhada/main";
+					location.href=referer;
 				}
-			});
+			}
 		});
 	});
+});
 </script>
 </body>
 </html>

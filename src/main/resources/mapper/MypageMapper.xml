@@ -8,11 +8,23 @@
  		SELECT * FROM memberinfo where id = #{id}
  	</select>
  	
+ 	<!-- 그룹 -->
  	<!-- 그룹 드롭박스 -->
  	<select id="group" parameterType="String" resultType="vo.GroupVO">
  		SELECT * FROM groupinfo where member_id = #{id}
  	</select>
  	
+ 	<!-- 그룹 이름 변경 -->
+ 	<update id="updateGroup"  parameterType="map">
+		UPDATE GROUPINFO SET name = #{name} WHERE ID = #{id} and member_id=#{member_id}
+	</update>
+	
+	<!-- 그룹 생성 -->
+	 	 <insert id="CreateGroup"  parameterType="map">
+ 	 INSERT INTO GROUPINFO VALUES (GROUP_SEQ.nextval,#{CreGroup},#{member_id})		  
+	</insert>
+	 	
+ 	<!-- 리스트 출력 -->
  	<!-- 버킷리스트 전부 -->
  	<select id="bucketAll" parameterType="String" resultType="vo.MypageBucketVO">
  		SELECT title, TRUNC(sysdate-d_day) d_day, id FROM selectedbucket where member_id = #{id}
@@ -33,6 +45,7 @@
  		SELECT title, TRUNC(sysdate-d_day) d_day, id FROM selectedbucket where member_id = #{id} and group_id =#{group_id} and stat=#{stat}
  	</select>
  	
+ 	<!-- 버킷 관련 -->
  	<!-- 버킷 완료 버튼 -->
  	<select id="complete" parameterType="map" resultType="vo.MypageBucketVO">
  		update selectedbucket set stat = 'p' where member_id = #{member_id} and id = #{id}

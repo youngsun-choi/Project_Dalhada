@@ -13,14 +13,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import dao.MemberDAO;
+import service.MemberService;
 import vo.MemberinfoVO;
 
 @Controller
 public class memberController {
 
 	@Autowired
-	MemberDAO dao;
+	MemberService service;
 		
 		// 회원가입 폼 처리
 		@RequestMapping(value="/memberForm")
@@ -38,7 +38,7 @@ public class memberController {
 				String newName = vo.getId()+"_"+fileName;
 				System.out.println("파일이름 : "+newName);
 				vo.setImage_path(newName);
-				dao.insert(vo);
+				service.insert(vo);
 			     byte[] content = null;
 			     mav.setViewName("login");
 			     try {
@@ -55,7 +55,7 @@ public class memberController {
 			    	 e.printStackTrace();
 			     }	
 			}else {
-				dao.insert(vo);
+				service.insert(vo);
 				mav.setViewName("login");
 			}
 			return mav;
@@ -65,7 +65,7 @@ public class memberController {
 		@ResponseBody
 		public int idCheck(String id) {
 			System.out.println("Controller에 넘어온 id값 "+id);
-			if (dao.checkId(id)) {
+			if (service.checkId(id)) {
 				System.out.println("idcheck로 돌아와서 리턴 1함");
 				return 1;
 			}

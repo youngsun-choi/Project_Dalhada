@@ -25,7 +25,6 @@ public class LoginController {
 	public ModelAndView loginmain() {
 		ModelAndView mav = new ModelAndView();
 		System.out.println("loginmain 호출");
-		
 		mav.setViewName("login");
 		return mav;
 	}

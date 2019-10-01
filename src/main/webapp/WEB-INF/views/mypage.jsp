@@ -6,8 +6,27 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+
+<title>Dalhada - mypage</title>
 <style type="text/css">
+
+.container{
+margin-top: 120px;
+margin-left: 100px;
+}
+
+nav, section, aside {
+        float: left;	
+    }
+nav {
+        width: 30%;
+        height: 200px;
+    }
+section {
+        width: 60%;
+        height: 200px;
+    }
+
 .photo3 {
     width: 100px; height: 100px;
     object-fit: cover;
@@ -297,15 +316,134 @@
   }
 }
 
+/* modal */
+/*assign full width inputs*/ 
+    input[type=text], 
+    input[type=password] { 
+        width: 30%; 
+        padding: 12px 20px; 
+        margin: 8px 0; 
+        display: inline-block; 
+        border: 1px solid #ccc; 
+        box-sizing: border-box; 
+    } 
+    
+    
+    /*set extra style for the cancel button*/ 
+    .cancelbtn { 
+        width: auto; 
+        padding: 10px 18px; 
+        background-color: #f44336; 
+    } 
+    
+    /*centre the display image inside the container*/ 
+    .imgcontainer { 
+        text-align: center; 
+        margin: 24px 0 12px 0; 
+        position: relative; 
+    }
+    
+    /*set image properties*/ 
+    img.avatar { 
+        width: 40%; 
+        border-radius: 50%; 
+    }
+    
+    /*set padding to the container*/ 
+    .container1 { 
+        padding: 16px; 
+    } 
+      
+    /*set the forgot password text*/ 
+    span.psw { 
+        float: right; 
+        padding-top: 16px; 
+    } 
+    
+    /*set the Modal background*/ 
+    .modal { 
+        display: none; 
+        position: fixed; 
+        z-index: 1; 
+        left: 0; 
+        top: 0; 
+        width: 100%; 
+        height: 100%; 
+        overflow: auto; 
+        background-color: rgb(0, 0, 0); 
+        background-color: rgba(0, 0, 0, 0.4); 
+        padding-top: 60px; 
+    } 
+    
+    /*style the model content box*/ 
+    .modal-content { 
+        background-color: #fefefe; 
+        margin: 5% auto 15% auto; 
+        border: 1px solid #888; 
+        width: 80%; 
+    } 
+    
+    /*style the close button*/ 
+    .close { 
+        position: absolute; 
+        right: 25px; 
+        top: 0; 
+        color: #000; 
+        font-size: 35px; 
+        font-weight: bold; 
+    } 
+      
+    .close:hover, 
+    .close:focus { 
+        color: red; 
+        cursor: pointer; 
+    } 
+    
+    /* add zoom animation*/ 
+    .animate { 
+        -webkit-animation: animatezoom 0.6s; 
+        animation: animatezoom 0.6s 
+    } 
+      
+    @-webkit-keyframes animatezoom { 
+        from { 
+            -webkit-transform: scale(0) 
+        } 
+        to { 
+            -webkit-transform: scale(1) 
+        } 
+    } 
+      
+    @keyframes animatezoom { 
+        from { 
+            transform: scale(0) 
+        } 
+        to { 
+            transform: scale(1) 
+        } 
+    } 
+      
+    @media screen and (max-width: 300px) { 
+        span.psw { 
+            display: block; 
+            float: none; 
+        } 
+        .cancelbtn { 
+            width: 100%; 
+        } 
+    } 
+
+/* input */
 
 </style>
+    
 </head>
 <body>
+
 <c:if test='${!empty info}'>
 
-<div class="container">
-    <div class="row">
-        <div class="col-md-3">
+<div class="container">       
+        <nav>
         <fieldset>
 			<legend>마이페이지</legend>
 			<table>
@@ -331,8 +469,8 @@
 				</tr>
 			</table>
 		</fieldset>
-        </div>
-        <div class="col-md-9">
+		</nav>
+        <section>
         <fieldset>
 			<table>
 				<tr>
@@ -344,18 +482,43 @@
 				
 				<tr>
 					<td>
-	
   <div class="dropdown">
     <select id="selectBox" onchange="changeFunc();" class="dropdown-select">
       <option>------------</option>
       <option value="all">전체</option>
-      <c:if test="${!empty group}">
+
       <c:forEach var="vo" items="${group}">
       <option value="${vo.id}">${vo.name}</option>
-      </c:forEach></c:if>
+      </c:forEach>
     </select>
   </div>
-      <button onclick="location.href=''">그룹관리</button>
+  <button onclick="document.getElementById('id01').style.display='block'" style="width:auto;">그룹 관리</button> 
+  
+    <div id="id01" class="modal"> 
+  
+        <form class="modal-content animate" action="/dalhada/mypage" method="post"> 
+            <div class="imgcontainer"> 
+                <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">×</span>  
+            </div> 
+  
+            <div class="container1"> 
+            <h3>그룹 관리</h3>
+            <c:forEach var="vo" items="${group}">
+                <input type="text"  name="Group1" value="${vo.name}"> 
+                <input type="hidden"  name="Groupnum" value="${vo.id}"> 
+                <input type="hidden"  name="oriGroup" value="${vo.name}">
+                <button onclick="location.href='localhost:8000/dalhada/Group1'">삭제</button><br>
+                </c:forEach>
+                <p style="margin: 0px;" id="plusGroup"></p>
+                <img style="widows: 20px; height:20px; " onclick="plusGroup();" src="http://localhost:8000/dalhada/resources/images/plus.png"><br>
+                <button type="submit">확인</button>
+                <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button> 
+            </div> 
+        </form> 
+    </div> 
+
+
+        
 					</td>
 				</tr>
 				<tr>
@@ -368,7 +531,7 @@
 				<tr>
 					<td>
 					
-	<form action="/dalhada/Mypage" method="post">
+	<form action="/dalhada/mypage" method="post">
 		<table>
 		<tr>
 			<thead>
@@ -421,11 +584,9 @@
 				</tr>
 			</table>
 		</fieldset>
-        </div>
+        </section>
     </div>
-</div>
 </c:if>
-
 
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
 <script type="text/javascript">
@@ -474,12 +635,26 @@ function changeFunc() {
     var selectBox = document.getElementById("selectBox");
     var selectedValue = selectBox.options[selectBox.selectedIndex].value;
     var index = selectBox.options[selectBox.selectedIndex].index;
-    location.href='http://localhost:8000/dalhada/Mypage?group='+selectedValue;
-    alert('hi');
+    location.href='http://localhost:8000/dalhada/mypage?group='+selectedValue;
+    
    }
-  
-</script>
+   
+   function plusGroup(){
+	   $("#plusGroup").append("<input type=\"text\" name=\"CreGroup\">  <button onclick=\"location.href='localhost:8000/dalhada/Group1'\">삭제</button><br>");
+   }
+   
+var modal = document.getElementById('id01'); 
+window.onclick = function(event) { 
+    if (event.target == modal) { 
+        modal.style.display = "none"; 
+    } 
+} 
 
+function modalCancel(){
+	document.getElementById('id01').style.display='none';
+	
+}
+</script>
 
 </body>
 </html>
