@@ -57,7 +57,7 @@
 
 					<!-- Icon header -->
 					<div class="wrap-icon-header flex-w flex-r-m h-full">
-						<form class="form-inline flex-c-m h-full p-r-24" action="searchBucket" method="get">
+						<form class="form-inline flex-c-m h-full p-r-24" action="searchbucket" method="get">
 	    					<div class="bor17 of-hidden pos-relative">
 								<input class="stext-103 cl2 plh4 size-116 p-l-28 p-r-55" type="text" name="searchKeyword" placeholder="Search" value="${ keyword }">
 								<button type="submit" class="flex-c-m size-122 ab-t-r fs-18 cl4 hov-cl1 trans-04" >
@@ -66,10 +66,10 @@
 							</div>
   						</form>
 						<div class="flex-c-m h-full p-r-24">
-							<a>버킷 +</a>
+							<p class="hov-cl1">버킷 +</p>
 						</div>
 						<div class="flex-c-m h-full p-r-24">
-							<a href="memberForm">회원가입</a>
+							<a href="memberform">회원가입</a>
 						</div>
 						<div class="flex-c-m h-full p-r-24">
 							<a href="loginmain">로그인</a>
@@ -100,7 +100,7 @@
 		<div class="menu-mobile">
 			<ul class="main-menu-m">
 				<li>
-					<form class="form-inline" action="searchBucket" method="get">
+					<form class="form-inline" action="searchbucket" method="get">
 	    					<div class="bor17 of-hidden pos-relative">
 								<input class="stext-103 cl2 plh4 size-116 p-l-28 p-r-55" type="text" name="search" placeholder="Search">
 								<button type="submit" class="flex-c-m size-122 ab-t-r fs-18 cl4 hov-cl1 trans-04" >

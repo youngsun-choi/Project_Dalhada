@@ -233,12 +233,14 @@ alret("search")
 	                    selectedbucket_id : $(this).attr("id"),
 	                    action : action
 	                },
-	                success: function (data) {
-	                	
+	                success: function (result) {
+	                	if(result!=1){
+	                		window.location.href = "loginmain";
+	                	}
 	                },
-	                error : function(){
-	                	window.location.href = "login";
-			        }
+	                error : function(request, status, error){
+	    				console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:");
+	    			}
 				})
 				
 			});
@@ -318,4 +320,79 @@ alret("search")
     $('.js-hide-modal').on('click',function(){
         $('.js-modal-bucket').removeClass('show-modal-bucket');
     }); 
+    
+    /*==================================================================
+    [ Show group modal ]*/
+    //가져오기 버튼 눌렀을 때
+    $('.getBtn').on('click',function(e){ 
+        e.preventDefault();
+        //$(this).addClass('js-addedlike'); //가져오기 버튼 색깔 바뀌게
+        var selectedbucket_id = $(this).data("id");
+        var image = "bucket/"+$(this).data("image");
+        var title, content, address, lat, lng;
+        var tags = [];
+        $.ajax({
+            url: 'searchbucket/get',
+            type: "POST",
+            data: {
+            	selectedbucket_id : selectedbucket_id
+            },
+            success: function (result) {
+            	console.log(result.tags);
+            	title = result.title;
+            	content = result.content;
+            	tags = result.tags;
+            	$.each(tags, function(index,value){
+            		console.log(index+" "+value.tag_id);
+            	});
+            	address = result.address;
+            	lat = result.lat;
+            	lng = result.lng;
+            	if(result!=""){
+            		$('.js-modal-bucket2').addClass('show-modal-bucket');
+            		$('input[name=title]').attr('value',title);
+            		$('img#imagePath').attr('src',image);
+            		$('input[name=content]').attr('value',content);
+            		$('input[name=address]').attr('value',address);
+            		$('input[name=lat]').attr('value',lat);
+            		$('input[name=lng]').attr('value',lng);
+            	}else{
+            		window.location.href = "loginmain";
+            	}
+            },
+            error : function(request, status, error){
+				console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:");
+			}
+        });
+    });
+    
+    //가져오기 닫기버튼
+    $('.js-hide-modal').on('click',function(){
+        $('.js-modal-bucket2').removeClass('show-modal-bucket');
+    });
+    
+    /*
+     //가져오기 확인버튼 눌렀을 때 
+            	    $('.getBtnOk').on('click',function(e){ 
+            	        e.preventDefault();
+            	        
+            	        $("js-modal-bucket2").removeClass("in"); 
+            		 	$(".modal-backdrop").remove();
+            	 	 	$("js-modal-bucket2").hide();
+            	 	 	$('.js-modal-bucket').modal('show');
+            	        //var group_id = $('.js-select2 option:selected').attr('id');
+            		       console.log("group_id값 : "+group_id);
+            		       $.ajax({
+            		         url: "searchBucket/get",
+            		         type: "POST",
+            		          data: {
+            		             id : group_id
+            		          },
+            		          success: function (data) {
+            		          },
+            		          error : function(){
+            		          }    
+            		      });   
+            	    });*/
+    
 })(jQuery);

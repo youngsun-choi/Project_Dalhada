@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,18 +16,19 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import dao.BucketDAO;
-import dao.SearchBucketDAO;
+import service.SearchBucketService;
 import vo.BucketDetailVO;
 import vo.BucketVO;
+import vo.GroupVO;
 import vo.LikeInfoVO;
 import vo.PagingVO;
 import vo.SearchBucketVO;
-
+import vo.TagInfoVO;
 
 @Controller
 public class BucketController {
 	@Autowired
-	private SearchBucketDAO searchBucketDAO;
+	private SearchBucketService searchBucketService;
 	@Autowired
 	private BucketDAO dao;
 	
@@ -46,7 +48,7 @@ public class BucketController {
 	
 	@RequestMapping(value="/main/like")
 	@ResponseBody
-	public String clickheart(HttpSession session, LikeInfoVO vo) {
+	public int clickheart(HttpSession session, LikeInfoVO vo) {
 		int result = 0;
 		String id = (String)session.getAttribute("id");
 		
@@ -61,7 +63,7 @@ public class BucketController {
 		}else {
 			result = -1;
 		}
-		return result>0?"success":"error";
+		return result;
 	}
 	
 	@RequestMapping(value="/main/modaldetail")
@@ -72,8 +74,25 @@ public class BucketController {
 		return vo;
 	}
 	
+	@RequestMapping(value="/searchbucket/get")
+	@ResponseBody
+	public BucketDetailVO groupmodal(HttpSession session, @RequestParam(required=false) String selectedbucket_id) {
+	      String id = (String) session.getAttribute("id");
+	      BucketDetailVO selectedBucketList = null;
+	      List<BucketDetailVO> selectedTagList = null;
+	      int sid= Integer.parseInt(selectedbucket_id);
+	      if(id != null) {
+	         //가져오기 select
+	         System.out.println("가져오기 버튼 눌렀을 때 selectedbucket_id값 : "+selectedbucket_id);
+	 		 selectedBucketList = searchBucketService.selectSelectedBucket(sid);
+	 		 System.out.println("selectedBucketList값 : "+selectedBucketList.toString());
+	 		 selectedBucketList.setTags(searchBucketService.selectSelectedTag(sid));
+	      }
+	    return selectedBucketList;
+	}      
+	
 	//좋아요  많은 거 / 추천 버킷
-	@RequestMapping(value="/searchBucket")
+	@RequestMapping(value="/searchbucket")
 	public ModelAndView searchBucket(HttpSession session, 
 			@RequestParam(defaultValue="1")int curPage, @RequestParam(required=false)String tagName, 
 			@ModelAttribute SearchBucketVO searchBucketVO, @ModelAttribute BucketVO bucketVO) {
@@ -84,21 +103,10 @@ public class BucketController {
 		int listCnt;
 		PagingVO pageList;
 		List<BucketVO> searchList;
-		HashMap<String,String> loginMap = new LinkedHashMap<>();
-		
-		if(id != null) {
-			loginMap.put("Mypage", "마이페이지");
-			loginMap.put("logout", "로그아웃");
-			mav.addObject("loginMap", loginMap);
-		}else {
-			loginMap.put("memberForm", "회원가입");
-			loginMap.put("loginmain", "로그인");
-			mav.addObject("loginMap", loginMap);
-		}
 		
 		if(tagName != null) {
 			//태그검색 검색결과 수&페이징
-			listCnt = searchBucketDAO.getTotalTagCnt(tagName);
+			listCnt = searchBucketService.getTotalTagCnt(tagName);
 			pageList = new PagingVO(listCnt, curPage); //(전체 게시물 수, 현재 페이지)
 			searchBucketVO.setStartRow(pageList.getStartIndex());
 			searchBucketVO.setEndRow(pageList.getEndIndex());
@@ -107,7 +115,7 @@ public class BucketController {
 			
 			//태그검색
 			searchBucketVO.setSearchTag(tagName);
-			searchList = searchBucketDAO.searchTag(searchBucketVO);
+			searchList = searchBucketService.searchTag(searchBucketVO);
 			for(BucketVO vo: searchList) {
 				vo.addClass();
 			}
@@ -115,7 +123,7 @@ public class BucketController {
 			mav.addObject("searchList", searchList);
 		}else {
 			//제목검색 검색결과 수&페이징
-			listCnt = searchBucketDAO.getTotalTitleCnt(keyword);
+			listCnt = searchBucketService.getTotalTitleCnt(keyword);
 			pageList = new PagingVO(listCnt, curPage); //(전체 게시물 수, 현재 페이지)
 			searchBucketVO.setStartRow(pageList.getStartIndex());
 			searchBucketVO.setEndRow(pageList.getEndIndex());
@@ -123,7 +131,7 @@ public class BucketController {
 			mav.addObject("pagination", pageList);
 			
 			//제목검색
-			searchList = searchBucketDAO.searchTitle(searchBucketVO);
+			searchList = searchBucketService.searchTitle(searchBucketVO);
 			for(BucketVO vo: searchList) {
 				vo.addClass();
 			}
@@ -132,15 +140,14 @@ public class BucketController {
 		}
 		
 		//태그명 찾기
-		List<String> tagNameList = searchBucketDAO.selectTagName();
+		List<TagInfoVO> tagNameList = searchBucketService.selectTagName();
 		mav.addObject("tagNameList", tagNameList);
 		
 		//그룹명 찾기
-		List<String> groupNameList = searchBucketDAO.selectGroupName(id);
+		List<GroupVO> groupNameList = searchBucketService.selectGroupName(id);
 		mav.addObject("groupNameList", groupNameList);
 		
-		mav.addObject("status", id);
-		mav.setViewName("searchBucket");
+		mav.setViewName("searchbucket");
 		return mav;
 	}
 }

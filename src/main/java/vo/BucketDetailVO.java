@@ -6,6 +6,7 @@ public class BucketDetailVO {
 	private int bucket_id;
 	private String title;
 	private String content;
+	private String address;
 	private float lat;
 	private float lng;
 	private String bucketImage_path;
@@ -26,6 +27,12 @@ public class BucketDetailVO {
 	}
 	public void setContent(String content) {
 		this.content = content;
+	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
 	}
 	public float getLat() {
 		return lat;
@@ -86,9 +93,9 @@ public class BucketDetailVO {
 	}
 	@Override
 	public String toString() {
-		return "BucketDetailVO [bucket_id=" + bucket_id + ", title=" + title + ", content=" + content + ", lat=" + lat
-				+ ", lng=" + lng + ", bucketImage_path=" + bucketImage_path + ", profileImage_path=" + profileImage_path
-				+ ", like_cnt=" + like_cnt + ", get_member_id=" + get_member_id + ", by_member_id=" + by_member_id
-				+ ", tags=" + tags + "]";
+		return "BucketDetailVO [bucket_id=" + bucket_id + ", title=" + title + ", content=" + content + ", address="
+				+ address + ", lat=" + lat + ", lng=" + lng + ", bucketImage_path=" + bucketImage_path
+				+ ", profileImage_path=" + profileImage_path + ", like_cnt=" + like_cnt + ", get_member_id="
+				+ get_member_id + ", by_member_id=" + by_member_id + ", tags=" + tags + "]";
 	}
 }

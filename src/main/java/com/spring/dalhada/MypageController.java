@@ -21,7 +21,14 @@ public class MypageController {
 	@Autowired
 	MypageDAO dao;
 
-	@RequestMapping(value = "/Mypage")
+	@RequestMapping(value = "/achieve")
+	public ModelAndView achieve() {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("achieve");
+		return mav;
+	}
+	
+	@RequestMapping(value = "/mypage")
 	public ModelAndView get(MemberinfoVO vo, HttpSession session, HttpServletRequest request,
 			String[] box, String comp, String group) {
 		ModelAndView mav = new ModelAndView();
@@ -74,7 +81,7 @@ public class MypageController {
 
 			mav.addObject("group", dao.groupList(id));
 			mav.addObject("info", dao.UserInfo(vo));
-			mav.setViewName("Mypage");
+			mav.setViewName("mypage");
 		} else {
 			mav.addObject("msg", "만료된 페이지입니다.");
 			mav.setViewName("login");

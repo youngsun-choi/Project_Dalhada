@@ -23,11 +23,11 @@ public class memberController {
 	MemberDAO dao;
 		
 		// 회원가입 폼 처리
-		@RequestMapping(value="/memberForm")
+		@RequestMapping(value="/memberform")
 		public ModelAndView signup(MemberinfoVO vo, HttpServletRequest request) {
 			ModelAndView mav = new ModelAndView();
 			if (request.getMethod().equals("GET")) {
-			     mav.setViewName("memberForm");
+			     mav.setViewName("memberform");
 				return mav;
 			}
 			System.out.println("GET 아닐때");

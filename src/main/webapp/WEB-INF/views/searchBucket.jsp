@@ -52,7 +52,7 @@
 
 					<!-- Icon header -->
 					<div class="wrap-icon-header flex-w flex-r-m h-full">
-						<form class="form-inline flex-c-m h-full p-r-24" action="searchBucket" method="get">
+						<form class="form-inline flex-c-m h-full p-r-24" action="searchbucket" method="get">
 	    					<div class="bor17 of-hidden pos-relative">
 								<input class="stext-103 cl2 plh4 size-116 p-l-28 p-r-55" type="text" name="searchKeyword" placeholder="Search" value="${ keyword }">
 								<button type="submit" class="flex-c-m size-122 ab-t-r fs-18 cl4 hov-cl1 trans-04" >
@@ -61,13 +61,24 @@
 							</div>
   						</form>
 						<div class="flex-c-m h-full p-r-24">
-							<a>버킷 +</a>
+							<p class="hov-cl1">버킷 +</p>
 						</div>
-						<c:forEach var="data" items="${loginMap}">
+						<c:if test="${empty sessionScope.id}">
 							<div class="flex-c-m h-full p-r-24">
-								<a href="${data.key}">${data.value}</a>
+								<a href="memberform">회원가입</a>
 							</div>
-						</c:forEach>
+							<div class="flex-c-m h-full p-r-24">
+								<a href="loginmain">로그인</a>
+							</div>	
+						</c:if>
+						<c:if test="${!empty sessionScope.id}">
+							<div class="flex-c-m h-full p-r-24">
+								<a href="mypage">마이페이지</a>
+							</div>
+							<div class="flex-c-m h-full p-r-24">
+								<a href="logout">로그아웃</a>
+							</div>	
+						</c:if>
 					</div>
 				</nav>
 			</div>	
@@ -94,7 +105,7 @@
 		<div class="menu-mobile">
 			<ul class="main-menu-m">
 				<li>
-					<form class="form-inline" action="searchBucket" method="get">
+					<form class="form-inline" action="searchbucket" method="get">
 	    					<div class="bor17 of-hidden pos-relative">
 								<input class="stext-103 cl2 plh4 size-116 p-l-28 p-r-55" type="text" name="searchKeyword" placeholder="Search" value="${ keyword }">
 								<button type="submit" class="flex-c-m size-122 ab-t-r fs-18 cl4 hov-cl1 trans-04" >
@@ -106,11 +117,22 @@
 				<li>
 					<a>버킷 +</a>
 				</li>
-				<c:forEach var="data" items="${loginMap}">
+				<c:if test="${empty sessionScope.id}">
 					<li>
-						<a href="${data.key}">${data.value}</a>
+						<a href="memberform">회원가입</a>
 					</li>
-				</c:forEach>
+					<li>
+						<a href="loginmain">로그인</a>
+					</li>
+				</c:if>
+				<c:if test="${!empty sessionScope.id}">
+					<li>
+						<a href="mypage">마이페이지</a>
+					</li>
+					<li>
+						<a href="logout">로그아웃</a>
+					</li>
+				</c:if>
 			</ul>
 		</div>
 		<!-- Menu Mobile End -->
@@ -131,56 +153,49 @@
 			<div class="row">
 				<div class="col-md-8 col-lg-9 p-b-80">
 					<div class="p-r-45 p-r-0-lg"> 
-						<!-- 검색결과 시작 -->	
-						<div class="row isotope-grid">
-						<c:if test="${ !empty searchList }">
-							<c:forEach var="vo" items="${searchList}">
-								<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women">
-									<!-- Block2 -->
-									<div class="block2">
-										<div class="block2-pic hov-img0">
-											<img class="js-show-modal-bucket"src="bucket/${ vo.image_path }" alt="IMG-PRODUCT">
-										</div>
-				
-										<div class="block2-txt flex-w flex-t p-t-14">
-											<div class="block2-txt-child1 flex-col-l ">
-												<a href="#" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-													${ vo.title }
-												</a>
-											</div>
-										</div>
-										<div class="flex-r-m "><!-- bor9 --><!-- p-r-10 m-r-11 -->
-											<button id="${vo.selectedbucket_id }" class="heart fs-23 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addlike ${vo.className } tooltip100" data-tooltip="좋아요">
-												<i class="zmdi zmdi-favorite"></i> 
-											</button>
-											<c:if test="${!empty status}"> <!-- 로그인 후 -->
-												<a href="#" class="fs-23 cl4 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 tooltip100 js-show-modal1" data-tooltip="가져오기">
-													<i class="fa fa-plus-square"></i> 
-												</a>
-											</c:if>
-											<c:if test="${empty status}"> <!-- 로그인 전 -->
-												<a href="#" class="fs-23 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 tooltip100" data-tooltip="가져오기">
-													<i class="fa fa-plus-square"></i> 
-												</a>
-											</c:if>
-										</div>
-									</div>
-								</div>
-							</c:forEach>
-						</c:if>
-					</div>
-						<!-- 검색결과 끝 -->	
+						<!-- 검색결과 시작 -->   
+	                  	<div class="row isotope-grid">
+		                  	<c:if test="${ !empty searchList }">
+		                     	<c:forEach var="vo" items="${searchList}">
+		                        	<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women">
+			                           	<!-- Block2 -->
+			                           	<div class="block2">
+			                             	 <div class="block2-pic hov-img0">
+			                                 	<img class="js-show-modal-bucket" src="bucket/${ vo.image_path }" alt="IMG-PRODUCT">
+			                              	</div>
+			            
+			                              	<div class="block2-txt flex-w flex-t p-t-14">
+			                                 	<div class="block2-txt-child1 flex-col-l ">
+			                                   		<a href="#" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+			                                      		${ vo.title }
+			                                    	</a>
+			                                 	</div>
+			                              	</div>
+			                              	<div class="flex-r-m"><!-- bor9 --><!-- p-r-10 m-r-11 -->
+			                                 	<button id="${vo.selectedbucket_id}" class="heart fs-23 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addlike ${vo.className } tooltip100" data-tooltip="좋아요">
+			                                    	<i class="zmdi zmdi-favorite"></i> 
+			                                 	</button>
+			                                 	<button data-id="${vo.selectedbucket_id}" data-image="${vo.image_path}" class="getBtn fs-23 cl4 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addlike ${vo.className } tooltip100" data-tooltip="가져오기">
+			                                    	<i class="fa fa-plus-square"></i> 
+			                                 	</button>   
+			                              	</div>
+			                           </div>
+		                        	</div>
+		                     	</c:forEach>
+		                  	</c:if>
+	               		</div>
+                  		<!-- 검색결과 끝 -->   
 						
 						<!-- 페이징 시작 -->
 						<c:if test="${!empty listCnt }">
 							<div class="flex-c-m flex-w w-full p-t-10 m-lr--7">
 								<c:if test="${pagination.curPage ne 1 }">
-									<a href="${pageContext.request.contextPath}/searchBucket?curPage=1" class="flex-c-m how-pagination1 trans-04 m-all-7">
+									<a href="${pageContext.request.contextPath}/searchbucket?curPage=1" class="flex-c-m how-pagination1 trans-04 m-all-7">
 										<<
 									</a>
 								</c:if>
 								<c:if test="${pagination.curPage ne 1}">
-									<a href="${pageContext.request.contextPath}/searchBucket?curPage=${pagination.prevPage}" class="flex-c-m how-pagination1 trans-04 m-all-7">
+									<a href="${pageContext.request.contextPath}/searchbucket?curPage=${pagination.prevPage}" class="flex-c-m how-pagination1 trans-04 m-all-7">
 										<
 									</a>
 								</c:if>
@@ -188,23 +203,23 @@
 									end="${pagination.endPage }">
 									<c:choose>
 										<c:when test="${pageNum eq  pagination.curPage}">
-											<a href="${pageContext.request.contextPath}/searchBucket?curPage=${pageNum}" class="flex-c-m how-pagination1 trans-04 m-all-7 active-pagination1">
+											<a href="${pageContext.request.contextPath}/searchbucket?curPage=${pageNum}" class="flex-c-m how-pagination1 trans-04 m-all-7 active-pagination1">
 											${pageNum}</a>
 										</c:when>
 										<c:otherwise>
-											<a href="${pageContext.request.contextPath}/searchBucket?curPage=${pageNum}" class="flex-c-m how-pagination1 trans-04 m-all-7">
+											<a href="${pageContext.request.contextPath}/searchbucket?curPage=${pageNum}" class="flex-c-m how-pagination1 trans-04 m-all-7">
 											${pageNum}</a>
 										</c:otherwise>
 									</c:choose>
 								</c:forEach>
 								<c:if
 									test="${pagination.curPage ne pagination.pageCnt && pagination.pageCnt > 0}">
-									<a href="${pageContext.request.contextPath}/searchBucket?curPage=${pagination.nextPage}" class="flex-c-m how-pagination1 trans-04 m-all-7">
+									<a href="${pageContext.request.contextPath}/searchbucket?curPage=${pagination.nextPage}" class="flex-c-m how-pagination1 trans-04 m-all-7">
 										>
 									</a>
 								</c:if>
 								<c:if test="${pagination.curPage ne pagination.pageCnt }">
-									<a href="${pageContext.request.contextPath}/searchBucket?curPage=${pagination.pageCnt}" class="flex-c-m how-pagination1 trans-04 m-all-7">
+									<a href="${pageContext.request.contextPath}/searchbucket?curPage=${pagination.pageCnt}" class="flex-c-m how-pagination1 trans-04 m-all-7">
 										>>
 									</a>
 								</c:if>
@@ -320,8 +335,8 @@
 							<div class="flex-w m-r--5">
 								<c:if test="${ !empty tagNameList }">
 									<c:forEach var="tList" items="${tagNameList}">
-										<a href="${pageContext.request.contextPath}/searchBucket?tagName=${tList}" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
-											#${tList}
+										<a href="${pageContext.request.contextPath}/searchbucket?tagName=${tList.name}" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
+											#${tList.name}
 										</a>
 									</c:forEach>
 								</c:if> 
@@ -349,63 +364,78 @@
 	</div>
 	
 	<!-- 그룹 Modal -->
-	<div class="wrap-modal1-group js-modal-bucket p-t-60 p-b-20">
-		<div class="overlay-modal1 js-hide-modal"></div>
+   	<div class="wrap-modal-group js-modal-bucket2 p-t-60 p-b-20">
+      <div class="overlay-modal js-hide-modal"></div>
 
-		<div class="container">
+      <div class="container">
 			<div class="bg0 p-t-60 p-b-30 p-lr-15-lg how-pos3-parent">
 				<button class="how-pos3 hov3 trans-04 js-hide-modal">
 					<img src="images/icons/icon-close.png" alt="CLOSE">
 				</button>
-
 				<div class="row">
-					<div class="col-md-6 col-lg-5 p-b-30">
-						<div class="p-r-50 p-t-5 p-lr-0-lg">
-							<h4 class="mtext-105 cl2 js-name-detail p-b-14">
-								그룹선택
-							</h4>
-							
-							<!--  -->
-							<div class="p-t-33">
-								<div class="flex-w flex-r-m p-b-10">
+						<div class="col-md-6 col-lg-7 p-b-30">
+							<div class="p-r-50 p-t-5 p-lr-0-lg">
+								<div class="stext-102 cl3 p-t-23">제목</div>
+								<input type="text" name="title" value="">
+				                <div class="stext-102 cl3 p-t-23">이미지</div>
+				                <div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women">
+			                    	<div class="block2">
+							    		<div class="block2-pic hov-img0">
+			                    			<img id="imagePath" src="" alt="IMG-PRODUCT">
+			                    		</div>
+			                    	</div>       	
+			                    </div>
+							    <div class="stext-102 cl3 p-t-23">내용</div>
+							    <input type="text" name="content" value="">
+							    <div class="stext-102 cl3 p-t-23">태그</div>
+							    <div class="flex-w m-r--5">
+									<c:if test="${ !empty tagNameList }">
+										<c:forEach var="tList" items="${tagNameList}">
+											<button id="${tList.tag_id}" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
+												#${tList.name}
+											</button>
+										</c:forEach>
+									</c:if> 
+								</div>
+							    <div class="stext-102 cl3 p-t-23">그룹</div>
+							    <div class="flex-w flex-r-m p-b-10">
 									<div class="size-203 flex-c-m respon6">
-										Size
+											그룹선택
 									</div>
-
 									<div class="size-204 respon6-next">
 										<div class="rs1-select2 bor8 bg0">
 											<select class="js-select2" name="time">
 												<c:if test="${ !empty groupNameList }">
 													<c:forEach var="gList" items="${groupNameList}">
-														<option>${gList}</option>
+														<option id="${gList.group_id}">${gList.name}</option>
 													</c:forEach>
 												</c:if> 
 											</select>
 											<div class="dropDownSelect2"></div>
 										</div>
 									</div>
-								</div>
-
-								<div class="flex-w flex-r-m p-b-10">
-									<div class="size-204 flex-w flex-m respon6-next">
-										<button onclick="clickGetBtn" class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail">
-											확인
-										</button>
-										<button class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail">
-											취소
-										</button>
-									</div>
-								</div>	
-							</div>
+								</div>		
+							 </div>		
 						</div>
-					</div>
+						
+						<div class="col-md-6 col-lg-5 p-b-30">
+							<div class="p-r-50 p-t-5 p-lr-0-lg">
+								<div class="stext-102 cl3 p-t-23">D-Day</div>
+								<div id="tags" class="flex-w p-t-4 m-r--5"></div>
+				                <div class="stext-102 cl3 p-t-23">위치</div>
+				                                    주소 <input type="text" name="address" value="">
+				                                    위도 <input type="text" name="lat" value="">
+				                                    경도<input type="text" name="lng" value="">
+							    <div id = 'mapid'></div>
+							 </div>
+						</div>
 				</div>
 			</div>
 		</div>
-	</div>
-	<!-- 그룹 Modal 끝 -->
+   </div>
+   <!-- 그룹 Modal 끝 -->
 
-		<!-- Modal -->
+	<!-- Modal -->
 	<div class="wrap-modal-bucket js-modal-bucket p-t-60 p-b-20">
 		<div class="overlay-modal js-hide-modal"></div>
 
@@ -526,36 +556,6 @@
 <!--===============================================================================================-->
 	<script src="js/main.js"></script>
 <!--===============================================================================================-->
-	
-	<script>
-	//가져오기 확인
-	/* function clickGetBtn(){
-		$.ajax({
-			url : 'searchBucket',
-			type : 'POST',
-			data : {'bucket_id' : bucket_id,
-					'selectedbucket_id' : selectedbucket_id},
-			success : function(data){
-			},
-		    error : function(request, status, error){
-				console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:");
-			}
-		});
-	} */
-	//가져오기
-	/* function clickPlusButton(bucket_id, selectedbucket_id){
-		$.ajax({
-			url : 'searchBucket',
-			type : 'POST',
-			data : {'bucket_id' : bucket_id,
-					'selectedbucket_id' : selectedbucket_id},
-			success : function(data){
-			},
-		    error : function(request, status, error){
-				console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:");
-			}
-		});
-	} */
-	</script>
+
 </body>
 </html>
