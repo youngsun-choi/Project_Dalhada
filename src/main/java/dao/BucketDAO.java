@@ -7,9 +7,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import vo.BucketDetailVO;
-import vo.BucketVO;
-import vo.LikeInfoVO;
+import vo.*;
 
 @Repository
 public class BucketDAO {
@@ -20,7 +18,6 @@ public class BucketDAO {
 		BucketDetailVO vo = new BucketDetailVO();
 		String statement = "resource.BucketMapper.isADBucket";
 		String flag = session.selectOne(statement, bucket_id);
-		System.out.println(flag);
 		if(flag != "(null)") 
 			statement = "resource.BucketMapper.detailBucket";
 		else 
@@ -30,10 +27,11 @@ public class BucketDAO {
 		vo.setTags(session.selectList(statement, selectedbucket_id));
 		return vo;
 	}
-	public List<BucketVO> selectADBucket(String id) {
+	public List<BucketVO> selectTOPBucket(String id) {
 		List<BucketVO> list = new ArrayList<BucketVO>();
-		String statement = "resource.BucketMapper.selectADBucket";
+		String statement = "resource.BucketMapper.selectTOPBucket";
 		list = session.selectList(statement, id);
+		
 		return list;
 	}
 	public int insertLikeInfo(LikeInfoVO vo) {
@@ -45,5 +43,13 @@ public class BucketDAO {
 		String statement = "resource.BucketMapper.deleteLike";
 		result = session.delete(statement, vo);
 		return result;
+	}
+	public List<StringIntVO> selectGroups(String member_id) {
+		String statement = "resource.SearchBucketMapper.selectGroupName";
+		return session.selectList(statement, member_id);
+	}
+	public List<StringIntVO> selectTags() {
+		String statement = "resource.SearchBucketMapper.selectTags";
+		return session.selectList(statement);
 	}
 }

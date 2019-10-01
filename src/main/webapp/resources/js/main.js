@@ -107,6 +107,36 @@
                 
         }
     });   
+    /*==================================================================
+    [ Login ]*/   
+    var referer='';
+	$(document).ready(function(){
+		$("#submit").click(function(){
+			var id = $("#id").val();
+			var pwd = $("#password").val();
+			referer =  document.referrer;
+			if(id==""){
+				$("#loginError").text("아이디를 입력하세요.").css("color", "red");		
+				return;
+			}else if(pwd==""){
+				$("#loginError").text("비밀번호를 입력하세요.").css("color", "red");		
+				return;
+			}
+			$.ajax({
+				url : '/dalhada/login?id='+id+'&password='+pwd,
+				type : 'post',
+				success : function(data){
+					if(data == "false"){
+							$("#loginError").text("아이디와 비밀번호가 일치하지 않습니다.").css("color", "red");	
+					}else{
+						if(referer.includes('logout')||referer.includes('memberForm'))
+							referer="http://localhost:8000/dalhada/main";
+						location.href=referer;
+					}
+				}
+			});
+		});
+	});
 
     /*==================================================================
     [ Isotope ]*/
@@ -197,18 +227,16 @@ alret("search")
 					action = "insert";
 				}
 				$.ajax({
-					url: "main/like/",
+					url: "main/like",
 	                type: "POST",
 	                data: {
 	                    selectedbucket_id : $(this).attr("id"),
 	                    action : action
 	                },
 	                success: function (data) {
-	                	
-	                },
-	                error : function(){
-	                	window.location.href = "login";
-			        }
+	                	if(data==-1)
+	                		window.location.href = "loginmain";
+	                }
 				})
 				
 			});
@@ -256,8 +284,8 @@ alret("search")
     });
     
     /*==================================================================
-    [ Show modal ]*/
-    $('.js-show-modal').on('click',function(e){
+    [ Show detail modal ]*/
+    $('.js-show-modal-bucket').on('click',function(e){
         e.preventDefault();
         
         $.ajax({
@@ -273,7 +301,6 @@ alret("search")
             	
 	        }
 		})
-        
         var map = L.map('mapid').setView([51.505, -0.09],  10);
     	L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
     		maxZoom: 18,
@@ -282,10 +309,34 @@ alret("search")
     			'Imagery <a href="https://www.mapbox.com/">Mapbox</a>',
     		id: 'mapbox.streets'
     	}).addTo(map);
-        $('.js-modal').addClass('show-modal');
+        
+        $('.js-modal-bucket').addClass('show-modal-bucket');
     });
 
-    $('.js-hide-modal').on('click',function(){
-        $('.js-modal').removeClass('show-modal');
-    });  
+    $('.js-hide-modal-bucket').on('click',function(){
+        $('.js-modal-bucket').removeClass('show-modal-bucket');
+    }); 
+    /*==================================================================
+    [ Show create modal ]*/
+
+
+    $('.js-show-modal-create').on('click',function(e){ 	
+    	e.preventDefault();
+	        $.ajax({
+				url: "main/getgrouptag",
+	            type: "POST",
+	            success: function (data) {
+	            	var groups = data[0];
+	            	var tags = data[1];
+	            },
+	            error : function(){
+	            	console.log("error");
+		        }
+			})
+			$('.js-modal-create').addClass('show-modal-create');
+    });
+
+    $('.js-hide-modal-create').on('click',function(){
+        $('.js-modal-create').removeClass('show-modal-create');
+    }); 
 })(jQuery);

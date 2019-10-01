@@ -25,18 +25,18 @@
 	<link rel="stylesheet" type="text/css" href="vendor/animsition/css/animsition.min.css">
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
-<!--===============================================================================================-->	
-	<link rel="stylesheet" type="text/css" href="vendor/daterangepicker/daterangepicker.css">
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="vendor/slick/slick.css">
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="vendor/MagnificPopup/magnific-popup.css">
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="vendor/perfect-scrollbar/perfect-scrollbar.css">
+<!--===============================================================================================-->	
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.2.3/flatpickr.css">
 <!--===============================================================================================-->
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
-   integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
-   crossorigin=""/>
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
+	   integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+	   crossorigin=""/>
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="css/util.css">
 	<link rel="stylesheet" type="text/css" href="css/main.css">
@@ -57,23 +57,33 @@
 
 					<!-- Icon header -->
 					<div class="wrap-icon-header flex-w flex-r-m h-full">
-						<form class="form-inline" action="searchBucket" method="get">
+						<form class="form-inline flex-c-m h-full p-r-24" action="searchbucket" method="get">
 	    					<div class="bor17 of-hidden pos-relative">
-								<input class="stext-103 cl2 plh4 size-116 p-l-28 p-r-55" type="text" name="search" placeholder="Search">
+								<input class="stext-103 cl2 plh4 size-116 p-l-28 p-r-55" type="text" name="searchKeyword" placeholder="Search" value="${ keyword }">
 								<button type="submit" class="flex-c-m size-122 ab-t-r fs-18 cl4 hov-cl1 trans-04" >
 									<i class="zmdi zmdi-search"></i>
 								</button>
 							</div>
   						</form>
-						<div class="flex-c-m h-full p-r-24">
-							<a>버킷 +</a>
-						</div>
-						<div class="flex-c-m h-full p-r-24">
-							<a href="memberForm">회원가입</a>
-						</div>
-						<div class="flex-c-m h-full p-r-24">
-							<a href="login">로그인</a>
-						</div>	
+						<c:if test="${empty sessionScope.id}">
+							<div class="flex-c-m h-full p-r-24">
+								<a href="memberForm">회원가입</a>
+							</div>
+							<div class="flex-c-m h-full p-r-24">
+								<a href="loginmain">로그인</a>
+							</div>	
+						</c:if>
+						<c:if test="${!empty sessionScope.id}">
+							<div class="flex-c-m h-full p-r-24">
+								<p class="js-show-modal-create hov-cl1">버킷 +</p>
+							</div>
+							<div class="flex-c-m h-full p-r-24">
+								<a href="mypage">마이페이지</a>
+							</div>
+							<div class="flex-c-m h-full p-r-24">
+								<a href="logout">로그아웃</a>
+							</div>
+						</c:if>
 					</div>
 				</nav>
 			</div>	
@@ -100,7 +110,7 @@
 		<div class="menu-mobile">
 			<ul class="main-menu-m">
 				<li>
-					<form class="form-inline" action="searchBucket" method="get">
+					<form class="form-inline" action="searchbucket" method="get">
 	    					<div class="bor17 of-hidden pos-relative">
 								<input class="stext-103 cl2 plh4 size-116 p-l-28 p-r-55" type="text" name="search" placeholder="Search">
 								<button type="submit" class="flex-c-m size-122 ab-t-r fs-18 cl4 hov-cl1 trans-04" >
@@ -109,15 +119,25 @@
 							</div>
   					</form>
 				</li>
-				<li>
-					<a id="bucket+">버킷 +</a>
-				</li>
-				<li>
-					<a href="memberForm">회원가입</a>
-				</li>
-				<li>
-					<a href="login">로그인</a>
-				</li>
+				<c:if test="${empty sessionScope.id}">
+					<li>
+						<a href="memberForm">회원가입</a>
+					</li>
+					<li>
+						<a href="loginmain">로그인</a>
+					</li>
+				</c:if>
+				<c:if test="${!empty sessionScope.id}">
+					<li>
+						<a class="js-show-modal-create hov-cl1">버킷+</a>
+					</li>
+					<li>
+						<a href="memberForm">마이페이지</a>
+					</li>
+					<li>
+						<a href="loginmain">로그아웃</a>
+					</li>
+				</c:if>
 			</ul>
 		</div>
 		<!-- Menu Mobile End -->
@@ -125,89 +145,33 @@
 	</header>
 	<!-- Header End -->
 
-	<!-- Slider -->
-	<section class="section-slide">
-		<div class="wrap-slick1 rs1-slick1">
-			<div class="slick1">
-				<div class="item-slick1" style="background-image: url(images/slide-03.jpg);">
-					<div class="container h-full">
-						<div class="flex-col-l-m h-full p-t-100 p-b-30">
-							<div class="layer-slick1 animated visible-false" data-appear="fadeInDown" data-delay="0">
-								<span class="ltext-202 cl2 respon2">
-									Men Collection 2018
-								</span>
-							</div>
-								
-							<div class="layer-slick1 animated visible-false" data-appear="fadeInUp" data-delay="800">
-								<h2 class="ltext-104 cl2 p-t-19 p-b-43 respon1">
-									New arrivals
-								</h2>
-							</div>
-								
-							<div class="layer-slick1 animated visible-false" data-appear="zoomIn" data-delay="1600">
-								<a href="product.html" class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04">
-									Shop Now
-								</a>
-							</div>
-						</div>
-					</div>
-				</div>
-
-
-				<div class="item-slick1" style="background-image: url(images/slide-04.jpg);">
-					<div class="container h-full">
-						<div class="flex-col-l-m h-full p-t-100 p-b-30">
-							<div class="layer-slick1 animated visible-false" data-appear="rotateInDownLeft" data-delay="0">
-								<span class="ltext-202 cl2 respon2">
-									Women Collection 2018
-								</span>
-							</div>
-								
-							<div class="layer-slick1 animated visible-false" data-appear="rotateInUpRight" data-delay="800">
-								<h2 class="ltext-104 cl2 p-t-19 p-b-43 respon1">
-									NEW SEASON
-								</h2>
-							</div>
-								
-							<div class="layer-slick1 animated visible-false" data-appear="rotateIn" data-delay="1600">
-								<a href="product.html" class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04">
-									Shop Now
-								</a>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-
 	<!-- Bucket -->
-	<section class="sec-product bg0 p-t-100 p-b-50">
+	<section class="sec-product bg0 p-t-60 p-b-50">
 		<div class="container">
-			<div class="p-b-32">
-				<h3 class="ltext-105 cl5 txt-center respon1">
-					추천 버킷
+			<div class="p-b-20">
+				<h3 class="ltext-90 cl5 respon1">
+					인기순 버킷
 				</h3>
 			</div>
 			<!-- Tab01 -->
 			<div class="tab01">
 				<!-- Tab panes -->
-				<div class="tab-content p-t-50">
+				<div class="tab-content p-t-10">
 					<!-- - -->
 					<div class="tab-pane fade show active" id="best-seller" role="tabpanel">
 						<!-- Slide2 -->
 						<div class="wrap-slick2">
 							<div class="slick2">
-							<c:forEach var="vo" items="${list}">
+							<c:forEach var="vo" items="${TOPlist}">
 								<div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
 									<!-- Block2 -->
 									<div class="block2">
 										<a class="block2-pic hov-img0 flex-c-m p-lr-15 trans-04">
-											<img class="js-show-modal" src="images/bucket/${vo.image_path }" alt="IMG-PRODUCT">
+											<img class="js-show-modal-bucket" src="images/bucket/${vo.image_path }" alt="IMG-PRODUCT">
 										</a>
 										<div class="block2-txt flex-w flex-t p-t-14">
 											<div class="block2-txt-child1 flex-col-l ">
-												<a href="#" class="stext-104 cl4 hov-cl1 trans-04 p-b-6">
+												<a class="js-show-modal-bucket stext-104 cl4 hov-cl1 trans-04 p-b-6">
 													${vo.title }
 												</a>
 											</div>
@@ -230,19 +194,18 @@
 		</div>
 	</section>
 
-
 	<!-- Footer -->
 	<footer class="bg3 p-t-75 p-b-32">
 
 	</footer>
 
-	<!-- Modal -->
-	<div class="wrap-modal js-modal p-t-60 p-b-20">
-		<div class="overlay-modal js-hide-modal"></div>
+	<!-- Detail Modal -->
+	<div class="wrap-modal-bucket js-modal-bucket p-t-60 p-b-20">
+		<div class="overlay-modal js-hide-modal-bucket"></div>
 
 		<div class="container">
 			<div class="bg0 p-t-60 p-b-30 p-lr-15-lg how-pos3-parent">
-				<button class="how-pos3 hov3 trans-04 js-hide-modal">
+				<button class="how-pos3 hov3 trans-04 js-hide-modal-bucket">
 					<img src="images/icons/icon-close.png" alt="CLOSE">
 				</button>
 
@@ -308,7 +271,55 @@
 				</div>
 			</div>
 		</div>
+	
+	<!-- Create Modal -->
+	<div class="wrap-modal-create js-modal-create p-t-60 p-b-20">
+		<div class="overlay-modal js-hide-modal-create"></div>
 
+		<div class="container">			
+			<div class="bg0 p-t-60 p-b-30 p-lr-15-lg how-pos3-parent">
+				<button class="how-pos3 hov3 trans-04 js-hide-modal-create">
+					<img src="images/icons/icon-close.png" alt="CLOSE">
+				</button>
+				<form action="createbucket">					
+					<div class="row p-all-10">
+						<div id="left" class="col-md-6">
+								<input type="text" id="title" class="form-control mb-4" placeholder="제목">
+					            <div class="file-field">
+					              <div class="z-depth-1-half mb-4 txt-center"><!--image field-->
+					                <img id="image" class="createimage " src="https://mdbootstrap.com/img/Photos/Others/placeholder.jpg"
+					                  alt="example placeholder">
+					              </div>
+					              <div class="d-flex justify-content-center "><!--upload button-->
+					                <div class="btn btn-rounded float-left">
+					                  <input type="file" onchange="readURL(this);">
+					                </div>
+					              </div>
+					            </div>
+					            <textarea id="content" class="md-textarea form-control" rows="2" placeholder="내용"></textarea>		
+								<div class="flex-w p-t-4 m-r--5">
+			                    	<div class="mtext-102">태그</div>
+			                    	<div class="create_tag"></div>
+			                	</div>
+			                	<div class="mtext-102">그룹</div>
+					            <select class="browser-default custom-select mb-4" id="select">
+					                <option value="">------</option>
+					                    
+					            </select>
+					    </div>
+					    <div id="right" class="col-md-6">
+			            	<div class="mtext-102">d-Day</div>
+			                <input id="create-date" type="text" name="date" placeholder="Select Date.." data-input>
+							<div class="txt-center">
+							  	<button class="btn btn-primary">생성</button>
+						       	<button type="button" class="btn btn-outline-primary " data-dismiss="modal">취소</button>			       
+						    </div>
+			            </div>
+					</div>
+				</form>
+			</div>
+		</div>				
+	</div>
 
 <!--===============================================================================================-->	
 	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
@@ -328,8 +339,7 @@
 		})
 	</script>
 <!--===============================================================================================-->
-	<script src="vendor/daterangepicker/moment.min.js"></script>
-	<script src="vendor/daterangepicker/daterangepicker.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.2.3/flatpickr.js"></script>
 <!--===============================================================================================-->
 	<script src="vendor/slick/slick.min.js"></script>
 	<script src="js/slick-custom.js"></script>
@@ -350,9 +360,11 @@
 <!--===============================================================================================-->
 	<script src="vendor/isotope/isotope.pkgd.min.js"></script>
 	<script>
-		
+		$("#create-date").flatpickr({
+		    dateFormat: "Y.m.d"
+		});
 	</script>
-<!--===============================================================================================-->
+<!--=================================================================================-->
 	<script src="vendor/perfect-scrollbar/perfect-scrollbar.min.js"></script>
 <!--===============================================================================================-->
 	<script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
@@ -360,6 +372,16 @@
    crossorigin=""></script>
 <!--===============================================================================================-->
 	<script src="js/main.js"></script>
-
+	<script>
+	    function readURL(input) {
+	        if (input.files && input.files[0]) {
+	            var reader = new FileReader();
+	            reader.onload = function (e) {
+	                $('#image').attr('src', e.target.result);
+	            };
+	            reader.readAsDataURL(input.files[0]);
+	        }
+	    }
+	</script>
 </body>
 </html>

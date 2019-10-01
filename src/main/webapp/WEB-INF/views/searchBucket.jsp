@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -27,9 +28,14 @@
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="vendor/perfect-scrollbar/perfect-scrollbar.css">
 <!--===============================================================================================-->
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
+   integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+   crossorigin=""/>
+<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="css/util.css">
 	<link rel="stylesheet" type="text/css" href="css/main.css">
 <!--===============================================================================================-->
+	<link href="https://use.fontawesome.com/releases/v5.0.4/css/all.css" rel="stylesheet">
 </head>
 <body class="animsition">
 	<!-- Header -->
@@ -46,9 +52,9 @@
 
 					<!-- Icon header -->
 					<div class="wrap-icon-header flex-w flex-r-m h-full">
-						<form class="form-inline" action="searchBucket" method="get">
+						<form class="form-inline flex-c-m h-full p-r-24" action="searchBucket" method="get">
 	    					<div class="bor17 of-hidden pos-relative">
-								<input class="stext-103 cl2 plh4 size-116 p-l-28 p-r-55" type="text" name="search" placeholder="Search">
+								<input class="stext-103 cl2 plh4 size-116 p-l-28 p-r-55" type="text" name="searchKeyword" placeholder="Search" value="${ keyword }">
 								<button type="submit" class="flex-c-m size-122 ab-t-r fs-18 cl4 hov-cl1 trans-04" >
 									<i class="zmdi zmdi-search"></i>
 								</button>
@@ -57,12 +63,11 @@
 						<div class="flex-c-m h-full p-r-24">
 							<a>버킷 +</a>
 						</div>
-						<div class="flex-c-m h-full p-r-24">
-							<a href="memberForm">회원가입</a>
-						</div>
-						<div class="flex-c-m h-full p-r-24">
-							<a href="login">로그인</a>
-						</div>	
+						<c:forEach var="data" items="${loginMap}">
+							<div class="flex-c-m h-full p-r-24">
+								<a href="${data.key}">${data.value}</a>
+							</div>
+						</c:forEach>
 					</div>
 				</nav>
 			</div>	
@@ -91,7 +96,7 @@
 				<li>
 					<form class="form-inline" action="searchBucket" method="get">
 	    					<div class="bor17 of-hidden pos-relative">
-								<input class="stext-103 cl2 plh4 size-116 p-l-28 p-r-55" type="text" name="search" placeholder="Search">
+								<input class="stext-103 cl2 plh4 size-116 p-l-28 p-r-55" type="text" name="searchKeyword" placeholder="Search" value="${ keyword }">
 								<button type="submit" class="flex-c-m size-122 ab-t-r fs-18 cl4 hov-cl1 trans-04" >
 									<i class="zmdi zmdi-search"></i>
 								</button>
@@ -101,12 +106,11 @@
 				<li>
 					<a>버킷 +</a>
 				</li>
-				<li>
-					<a href="memberForm">회원가입</a>
-				</li>
-				<li>
-					<a href="login">로그인</a>
-				</li>
+				<c:forEach var="data" items="${loginMap}">
+					<li>
+						<a href="${data.key}">${data.value}</a>
+					</li>
+				</c:forEach>
 			</ul>
 		</div>
 		<!-- Menu Mobile End -->
@@ -126,190 +130,95 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-md-8 col-lg-9 p-b-80">
-					<div class="p-r-45 p-r-0-lg">
-						<!-- item blog -->
-						<div class="p-b-63">
-							<a href="blog-detail" class="hov-img0 how-pos5-parent">
-								<img src="images/blog-04.jpg" alt="IMG-BLOG">
-
-								<div class="flex-col-c-m size-123 bg9 how-pos5">
-									<span class="ltext-107 cl2 txt-center">
-										22
-									</span>
-
-									<span class="stext-109 cl3 txt-center">
-										Jan 2018
-									</span>
+					<div class="p-r-45 p-r-0-lg"> 
+						<!-- 검색결과 시작 -->	
+						<div class="row isotope-grid">
+						<c:if test="${ !empty searchList }">
+							<c:forEach var="vo" items="${searchList}">
+								<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women">
+									<!-- Block2 -->
+									<div class="block2">
+										<div class="block2-pic hov-img0">
+											<img class="js-show-modal-bucket"src="bucket/${ vo.image_path }" alt="IMG-PRODUCT">
+										</div>
+				
+										<div class="block2-txt flex-w flex-t p-t-14">
+											<div class="block2-txt-child1 flex-col-l ">
+												<a href="#" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+													${ vo.title }
+												</a>
+											</div>
+										</div>
+										<div class="flex-r-m "><!-- bor9 --><!-- p-r-10 m-r-11 -->
+											<button id="${vo.selectedbucket_id }" class="heart fs-23 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addlike ${vo.className } tooltip100" data-tooltip="좋아요">
+												<i class="zmdi zmdi-favorite"></i> 
+											</button>
+											<c:if test="${!empty status}"> <!-- 로그인 후 -->
+												<a href="#" class="fs-23 cl4 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 tooltip100 js-show-modal1" data-tooltip="가져오기">
+													<i class="fa fa-plus-square"></i> 
+												</a>
+											</c:if>
+											<c:if test="${empty status}"> <!-- 로그인 전 -->
+												<a href="#" class="fs-23 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 tooltip100" data-tooltip="가져오기">
+													<i class="fa fa-plus-square"></i> 
+												</a>
+											</c:if>
+										</div>
+									</div>
 								</div>
-							</a>
-
-							<div class="p-t-32">
-								<h4 class="p-b-15">
-									<a href="blog-detail" class="ltext-108 cl2 hov-cl1 trans-04">
-										8 Inspiring Ways to Wear Dresses in the Winter
+							</c:forEach>
+						</c:if>
+					</div>
+						<!-- 검색결과 끝 -->	
+						
+						<!-- 페이징 시작 -->
+						<c:if test="${!empty listCnt }">
+							<div class="flex-c-m flex-w w-full p-t-10 m-lr--7">
+								<c:if test="${pagination.curPage ne 1 }">
+									<a href="${pageContext.request.contextPath}/searchBucket?curPage=1" class="flex-c-m how-pagination1 trans-04 m-all-7">
+										<<
 									</a>
-								</h4>
-
-								<p class="stext-117 cl6">
-									Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Fusce eget dictum tortor. Donec dictum vitae sapien eu varius
-								</p>
-
-								<div class="flex-w flex-sb-m p-t-18">
-									<span class="flex-w flex-m stext-111 cl2 p-r-30 m-tb-10">
-										<span>
-											<span class="cl4">By</span> Admin  
-											<span class="cl12 m-l-4 m-r-6">|</span>
-										</span>
-
-										<span>
-											StreetStyle, Fashion, Couple  
-											<span class="cl12 m-l-4 m-r-6">|</span>
-										</span>
-
-										<span>
-											8 Comments
-										</span>
-									</span>
-
-									<a href="blog-detail" class="stext-101 cl2 hov-cl1 trans-04 m-tb-10">
-										Continue Reading
-
-										<i class="fa fa-long-arrow-right m-l-9"></i>
+								</c:if>
+								<c:if test="${pagination.curPage ne 1}">
+									<a href="${pageContext.request.contextPath}/searchBucket?curPage=${pagination.prevPage}" class="flex-c-m how-pagination1 trans-04 m-all-7">
+										<
 									</a>
-								</div>
+								</c:if>
+								<c:forEach var="pageNum" begin="${ pagination.startPage }"
+									end="${pagination.endPage }">
+									<c:choose>
+										<c:when test="${pageNum eq  pagination.curPage}">
+											<a href="${pageContext.request.contextPath}/searchBucket?curPage=${pageNum}" class="flex-c-m how-pagination1 trans-04 m-all-7 active-pagination1">
+											${pageNum}</a>
+										</c:when>
+										<c:otherwise>
+											<a href="${pageContext.request.contextPath}/searchBucket?curPage=${pageNum}" class="flex-c-m how-pagination1 trans-04 m-all-7">
+											${pageNum}</a>
+										</c:otherwise>
+									</c:choose>
+								</c:forEach>
+								<c:if
+									test="${pagination.curPage ne pagination.pageCnt && pagination.pageCnt > 0}">
+									<a href="${pageContext.request.contextPath}/searchBucket?curPage=${pagination.nextPage}" class="flex-c-m how-pagination1 trans-04 m-all-7">
+										>
+									</a>
+								</c:if>
+								<c:if test="${pagination.curPage ne pagination.pageCnt }">
+									<a href="${pageContext.request.contextPath}/searchBucket?curPage=${pagination.pageCnt}" class="flex-c-m how-pagination1 trans-04 m-all-7">
+										>>
+									</a>
+								</c:if>
 							</div>
-						</div>
-
-						<!-- item blog -->
-						<div class="p-b-63">
-							<a href="blog-detail" class="hov-img0 how-pos5-parent">
-								<img src="images/blog-05.jpg" alt="IMG-BLOG">
-
-								<div class="flex-col-c-m size-123 bg9 how-pos5">
-									<span class="ltext-107 cl2 txt-center">
-										18
-									</span>
-
-									<span class="stext-109 cl3 txt-center">
-										Jan 2018
-									</span>
-								</div>
-							</a>
-
-							<div class="p-t-32">
-								<h4 class="p-b-15">
-									<a href="blog-detail" class="ltext-108 cl2 hov-cl1 trans-04">
-										The Great Big List of Menâs Gifts for the Holidays 
-									</a>
-								</h4>
-
-								<p class="stext-117 cl6">
-									Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Fusce eget dictum tortor. Donec dictum vitae sapien eu varius
-								</p>
-
-								<div class="flex-w flex-sb-m p-t-18">
-									<span class="flex-w flex-m stext-111 cl2 p-r-30 m-tb-10">
-										<span>
-											<span class="cl4">By</span> Admin  
-											<span class="cl12 m-l-4 m-r-6">|</span>
-										</span>
-
-										<span>
-											StreetStyle, Fashion, Couple  
-											<span class="cl12 m-l-4 m-r-6">|</span>
-										</span>
-
-										<span>
-											8 Comments
-										</span>
-									</span>
-
-									<a href="blog-detail" class="stext-101 cl2 hov-cl1 trans-04 m-tb-10">
-										Continue Reading
-
-										<i class="fa fa-long-arrow-right m-l-9"></i>
-									</a>
-								</div>
-							</div>
-						</div>
-
-						<!-- item blog -->
-						<div class="p-b-63">
-							<a href="blog-detail" class="hov-img0 how-pos5-parent">
-								<img src="images/blog-06.jpg" alt="IMG-BLOG">
-
-								<div class="flex-col-c-m size-123 bg9 how-pos5">
-									<span class="ltext-107 cl2 txt-center">
-										16
-									</span>
-
-									<span class="stext-109 cl3 txt-center">
-										Jan 2018
-									</span>
-								</div>
-							</a>
-
-							<div class="p-t-32">
-								<h4 class="p-b-15">
-									<a href="blog-detail" class="ltext-108 cl2 hov-cl1 trans-04">
-										5 Winter-to-Spring Fashion Trends to Try Now
-									</a>
-								</h4>
-
-								<p class="stext-117 cl6">
-									Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Fusce eget dictum tortor. Donec dictum vitae sapien eu varius
-								</p>
-
-								<div class="flex-w flex-sb-m p-t-18">
-									<span class="flex-w flex-m stext-111 cl2 p-r-30 m-tb-10">
-										<span>
-											<span class="cl4">By</span> Admin  
-											<span class="cl12 m-l-4 m-r-6">|</span>
-										</span>
-
-										<span>
-											StreetStyle, Fashion, Couple  
-											<span class="cl12 m-l-4 m-r-6">|</span>
-										</span>
-
-										<span>
-											8 Comments
-										</span>
-									</span>
-
-									<a href="blog-detail" class="stext-101 cl2 hov-cl1 trans-04 m-tb-10">
-										Continue Reading
-
-										<i class="fa fa-long-arrow-right m-l-9"></i>
-									</a>
-								</div>
-							</div>
-						</div>
-
-						<!-- Pagination -->
-						<div class="flex-l-m flex-w w-full p-t-10 m-lr--7">
-							<a href="#" class="flex-c-m how-pagination1 trans-04 m-all-7 active-pagination1">
-								1
-							</a>
-
-							<a href="#" class="flex-c-m how-pagination1 trans-04 m-all-7">
-								2
-							</a>
-						</div>
+						</c:if>
+						<!-- 페이징 끝 -->
 					</div>
 				</div>
-
+				
+	
+				<!-- 블로그 리뷰, 태그 시작 -->
 				<div class="col-md-4 col-lg-3 p-b-80">
 					<div class="side-menu">
-						<div class="bor17 of-hidden pos-relative">
-							<input class="stext-103 cl2 plh4 size-116 p-l-28 p-r-55" type="text" name="search" placeholder="Search">
-
-							<button class="flex-c-m size-122 ab-t-r fs-18 cl4 hov-cl1 trans-04">
-								<i class="zmdi zmdi-search"></i>
-							</button>
-						</div>
-
-						<div class="p-t-55">
+						<div>
 							<h4 class="mtext-112 cl2 p-b-33">
 								블로그 리뷰1
 							</h4>
@@ -403,139 +312,24 @@
 							</ul>
 						</div>
 
-						<div class="p-t-55">
-							<h4 class="mtext-112 cl2 p-b-20">
-								Archive
-							</h4>
-
-							<ul>
-								<li class="p-b-7">
-									<a href="#" class="flex-w flex-sb-m stext-115 cl6 hov-cl1 trans-04 p-tb-2">
-										<span>
-											July 2018
-										</span>
-
-										<span>
-											(9)
-										</span>
-									</a>
-								</li>
-
-								<li class="p-b-7">
-									<a href="#" class="flex-w flex-sb-m stext-115 cl6 hov-cl1 trans-04 p-tb-2">
-										<span>
-											June 2018
-										</span>
-
-										<span>
-											(39)
-										</span>
-									</a>
-								</li>
-
-								<li class="p-b-7">
-									<a href="#" class="flex-w flex-sb-m stext-115 cl6 hov-cl1 trans-04 p-tb-2">
-										<span>
-											May 2018
-										</span>
-
-										<span>
-											(29)
-										</span>
-									</a>
-								</li>
-
-								<li class="p-b-7">
-									<a href="#" class="flex-w flex-sb-m stext-115 cl6 hov-cl1 trans-04 p-tb-2">
-										<span>
-											April  2018
-										</span>
-
-										<span>
-											(35)
-										</span>
-									</a>
-								</li>
-
-								<li class="p-b-7">
-									<a href="#" class="flex-w flex-sb-m stext-115 cl6 hov-cl1 trans-04 p-tb-2">
-										<span>
-											March 2018
-										</span>
-
-										<span>
-											(22)
-										</span>
-									</a>
-								</li>
-
-								<li class="p-b-7">
-									<a href="#" class="flex-w flex-sb-m stext-115 cl6 hov-cl1 trans-04 p-tb-2">
-										<span>
-											February 2018
-										</span>
-
-										<span>
-											(32)
-										</span>
-									</a>
-								</li>
-
-								<li class="p-b-7">
-									<a href="#" class="flex-w flex-sb-m stext-115 cl6 hov-cl1 trans-04 p-tb-2">
-										<span>
-											January 2018
-										</span>
-
-										<span>
-											(21)
-										</span>
-									</a>
-								</li>
-
-								<li class="p-b-7">
-									<a href="#" class="flex-w flex-sb-m stext-115 cl6 hov-cl1 trans-04 p-tb-2">
-										<span>
-											December 2017
-										</span>
-
-										<span>
-											(26)
-										</span>
-									</a>
-								</li>
-							</ul>
-						</div>
-
 						<div class="p-t-50">
 							<h4 class="mtext-112 cl2 p-b-27">
 								Tags
 							</h4>
-
+							<!-- 태그명 찾기 -->
 							<div class="flex-w m-r--5">
-								<a href="#" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
-									Fashion
-								</a>
-
-								<a href="#" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
-									Lifestyle
-								</a>
-
-								<a href="#" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
-									Denim
-								</a>
-
-								<a href="#" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
-									Streetstyle
-								</a>
-
-								<a href="#" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
-									Crafts
-								</a>
+								<c:if test="${ !empty tagNameList }">
+									<c:forEach var="tList" items="${tagNameList}">
+										<a href="${pageContext.request.contextPath}/searchBucket?tagName=${tList}" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
+											#${tList}
+										</a>
+									</c:forEach>
+								</c:if> 
 							</div>
 						</div>
 					</div>
 				</div>
+				<!-- 블로그 리뷰, 태그 끝 -->
 			</div>
 		</div>
 	</section>	
@@ -553,6 +347,136 @@
 			<i class="zmdi zmdi-chevron-up"></i>
 		</span>
 	</div>
+	
+	<!-- 그룹 Modal -->
+	<div class="wrap-modal1-group js-modal-bucket p-t-60 p-b-20">
+		<div class="overlay-modal1 js-hide-modal"></div>
+
+		<div class="container">
+			<div class="bg0 p-t-60 p-b-30 p-lr-15-lg how-pos3-parent">
+				<button class="how-pos3 hov3 trans-04 js-hide-modal">
+					<img src="images/icons/icon-close.png" alt="CLOSE">
+				</button>
+
+				<div class="row">
+					<div class="col-md-6 col-lg-5 p-b-30">
+						<div class="p-r-50 p-t-5 p-lr-0-lg">
+							<h4 class="mtext-105 cl2 js-name-detail p-b-14">
+								그룹선택
+							</h4>
+							
+							<!--  -->
+							<div class="p-t-33">
+								<div class="flex-w flex-r-m p-b-10">
+									<div class="size-203 flex-c-m respon6">
+										Size
+									</div>
+
+									<div class="size-204 respon6-next">
+										<div class="rs1-select2 bor8 bg0">
+											<select class="js-select2" name="time">
+												<c:if test="${ !empty groupNameList }">
+													<c:forEach var="gList" items="${groupNameList}">
+														<option>${gList}</option>
+													</c:forEach>
+												</c:if> 
+											</select>
+											<div class="dropDownSelect2"></div>
+										</div>
+									</div>
+								</div>
+
+								<div class="flex-w flex-r-m p-b-10">
+									<div class="size-204 flex-w flex-m respon6-next">
+										<button onclick="clickGetBtn" class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail">
+											확인
+										</button>
+										<button class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail">
+											취소
+										</button>
+									</div>
+								</div>	
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 그룹 Modal 끝 -->
+
+		<!-- Modal -->
+	<div class="wrap-modal-bucket js-modal-bucket p-t-60 p-b-20">
+		<div class="overlay-modal js-hide-modal"></div>
+
+		<div class="container">
+			<div class="bg0 p-t-60 p-b-30 p-lr-15-lg how-pos3-parent">
+				<button class="how-pos3 hov3 trans-04 js-hide-modal">
+					<img src="images/icons/icon-close.png" alt="CLOSE">
+				</button>
+
+				<div class="row">
+					<div class="col-md-6 col-lg-7 p-b-30">
+						<div class="p-l-25 p-r-30 p-lr-0-lg">
+							<div class="wrap-slick3 flex-sb flex-w">
+								<h4 id="bucketTitle"class="mtext-105 cl2 js-name-detail p-b-14">
+								</h4>
+								<div class="gallery-lb">
+									<div data-thumb="images/slide-03.jpg">
+										<div class="wrap-pic-w pos-relative">
+											<img class="modalimage" src="images/slide-03.jpg" alt="IMG-PRODUCT">
+
+											<a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04" href="images/slide-03.jpg">
+												<i class="fa fa-expand"></i>
+											</a>
+										</div>
+									</div>
+								</div>
+							</div>
+							<p id="bucketContent" class="stext-102 cl3 p-t-23">
+							</p>
+							<div class="flex-m bor9 p-r-10 m-r-11">
+								<a id="${vo.selectedbucket_id }" class="heart fs-23 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addlike ${vo.className } tooltip100" data-tooltip="Add to Like">
+									<i class="zmdi zmdi-favorite"></i> 
+								</a>
+								<p id="likecnt" class="cl6 stext-107" style="width: 40px"></p>
+								<a href="#" class="fs-23 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addwish-detail tooltip100" data-tooltip="Add to Wishlist">
+									<i class="fa fa-plus-square fa-lg"></i> 
+								</a>
+								<p id="getcnt" class="cl6 stext-107" style="width: 40px"></p>							
+							</div>
+						</div>			
+					</div>
+					
+					<div class="col-md-6 col-lg-5 p-b-30">
+						<div class="p-r-50 p-t-5 p-lr-0-lg">
+						<div class="stext-102 cl3 p-t-23">태그</div>
+							<div id="tags" class="flex-w p-t-4 m-r--5">
+			                </div>
+			                <div class="stext-102 cl3 p-t-23">위치</div>
+						    <div id = 'mapid'>
+							</div>
+						 </div>
+							<!--  -->
+							<div class="flex-w flex-m p-l-100 p-t-40 respon7">
+								
+								<a href="#" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="Facebook">
+									<i class="fa fa-facebook"></i>
+								</a>
+
+								<a href="#" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="Twitter">
+									<i class="fa fa-twitter"></i>
+								</a>
+
+								<a href="#" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="Google Plus">
+									<i class="fa fa-google-plus"></i>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 
 <!--===============================================================================================-->	
 	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
@@ -590,8 +514,48 @@
 			})
 		});
 	</script>
+
+<!--===============================================================================================-->
+	<script src="vendor/isotope/isotope.pkgd.min.js"></script>
+<!--===============================================================================================-->
+	<script src="vendor/sweetalert/sweetalert.min.js"></script>
+<!--===============================================================================================-->
+	<script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
+   integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
+   crossorigin=""></script>
 <!--===============================================================================================-->
 	<script src="js/main.js"></script>
-
+<!--===============================================================================================-->
+	
+	<script>
+	//가져오기 확인
+	/* function clickGetBtn(){
+		$.ajax({
+			url : 'searchBucket',
+			type : 'POST',
+			data : {'bucket_id' : bucket_id,
+					'selectedbucket_id' : selectedbucket_id},
+			success : function(data){
+			},
+		    error : function(request, status, error){
+				console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:");
+			}
+		});
+	} */
+	//가져오기
+	/* function clickPlusButton(bucket_id, selectedbucket_id){
+		$.ajax({
+			url : 'searchBucket',
+			type : 'POST',
+			data : {'bucket_id' : bucket_id,
+					'selectedbucket_id' : selectedbucket_id},
+			success : function(data){
+			},
+		    error : function(request, status, error){
+				console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:");
+			}
+		});
+	} */
+	</script>
 </body>
 </html>

@@ -6,6 +6,7 @@ public class BucketDetailVO {
 	private int bucket_id;
 	private String title;
 	private String content;
+	private String address;
 	private float lat;
 	private float lng;
 	private String bucketImage_path;
@@ -27,6 +28,7 @@ public class BucketDetailVO {
 	public void setContent(String content) {
 		this.content = content;
 	}
+	
 	public float getLat() {
 		return lat;
 	}
@@ -90,5 +92,11 @@ public class BucketDetailVO {
 				+ ", lng=" + lng + ", bucketImage_path=" + bucketImage_path + ", profileImage_path=" + profileImage_path
 				+ ", like_cnt=" + like_cnt + ", get_member_id=" + get_member_id + ", by_member_id=" + by_member_id
 				+ ", tags=" + tags + "]";
+	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
 	}
 }

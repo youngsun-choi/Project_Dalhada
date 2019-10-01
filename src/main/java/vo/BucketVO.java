@@ -6,7 +6,6 @@ public class BucketVO {
 	private String image_path;
 	private String title;
 	private int islike;
-	private int isAD;
 	private String className;
 	
 	public int getBucket_id() {
@@ -39,12 +38,6 @@ public class BucketVO {
 	public void setIslike(int islike) {
 		this.islike = islike;
 	}
-	public int getIsAD() {
-		return isAD;
-	}
-	public void setIsAD(int isAD) {
-		this.isAD = isAD;
-	}
 	public String getClassName() {
 		return className;
 	}
@@ -57,6 +50,7 @@ public class BucketVO {
 	@Override
 	public String toString() {
 		return "BucketVO [bucket_id=" + bucket_id + ", selectedbucket_id=" + selectedbucket_id + ", image_path="
-				+ image_path + ", title=" + title + ", islike=" + islike + "]";
+				+ image_path + ", title=" + title + ", islike=" + islike + ", className=" + className + "]";
 	}
+	
 }
