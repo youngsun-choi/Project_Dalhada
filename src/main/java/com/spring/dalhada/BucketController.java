@@ -1,21 +1,20 @@
 package com.spring.dalhada;
 
-import java.util.HashMap;
-import java.util.LinkedHashMap;
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import dao.BucketDAO;
+import service.BucketService;
 import service.SearchBucketService;
 import vo.BucketDetailVO;
 import vo.BucketVO;
@@ -23,32 +22,31 @@ import vo.GroupVO;
 import vo.LikeInfoVO;
 import vo.PagingVO;
 import vo.SearchBucketVO;
+import vo.StringIntVO;
 import vo.TagInfoVO;
 
 @Controller
 public class BucketController {
+	@Resource(name="bucketService")
+	private BucketService bucketservice;
 	@Autowired
 	private SearchBucketService searchBucketService;
-	@Autowired
-	private BucketDAO dao;
 	
 	@RequestMapping(value="/main")
 	public ModelAndView main(HttpSession session) {
 		ModelAndView mav = new ModelAndView();
 		String id = (String)session.getAttribute("id");
 	
-		List<BucketVO> list = dao.selectADBucket(id);
-		for(BucketVO vo: list) {
-			vo.addClass();
-		}
-		mav.addObject("list", list);
+		List<BucketVO> TOPlist = bucketservice.selectTOPBucket(id);
+		
+		mav.addObject("TOPlist", TOPlist);
 		mav.setViewName("main");
 		return mav;
 	}
 	
 	@RequestMapping(value="/main/like")
 	@ResponseBody
-	public int clickheart(HttpSession session, LikeInfoVO vo) {
+	public String clickheart(HttpSession session, LikeInfoVO vo) {
 		int result = 0;
 		String id = (String)session.getAttribute("id");
 		
@@ -56,20 +54,36 @@ public class BucketController {
 			vo.setMember_id(id);
 			String action = vo.getAction();
 			if(action.equals("insert")) {
-				result = dao.insertLikeInfo(vo);
+				result = bucketservice.insertLikeInfo(vo);
 			}else if(action.equals("delete")) {
-				result = dao.deleteLikeInfo(vo);
+				result = bucketservice.deleteLikeInfo(vo);
 			}
 		}else {
 			result = -1;
 		}
-		return result;
+		return result+"";
+	}
+	
+	@RequestMapping(value="/main/getgrouptag")
+	@ResponseBody
+	public List<List<StringIntVO>> getgroup(HttpSession session) {
+		String member_id = (String)session.getAttribute("id");
+		List<List<StringIntVO>> list = new ArrayList<List<StringIntVO>>();
+		
+		if(member_id!=null) {
+			List<StringIntVO> groups = bucketservice.selectGroups(member_id);
+			List<StringIntVO> tags = bucketservice.selectTags();
+			list.add(groups);
+			list.add(tags);
+			
+		}
+		return list;
 	}
 	
 	@RequestMapping(value="/main/modaldetail")
 	@ResponseBody
 	public BucketDetailVO modaldetail(HttpSession session, int bucket_id, int selectedbucket_id) {
-		BucketDetailVO vo =  dao.selectDetail(bucket_id, selectedbucket_id);
+		BucketDetailVO vo =  bucketservice.selectDetail(bucket_id, selectedbucket_id);
 		System.out.println(vo.toString());
 		return vo;
 	}
@@ -79,7 +93,6 @@ public class BucketController {
 	public BucketDetailVO groupmodal(HttpSession session, @RequestParam(required=false) String selectedbucket_id) {
 	      String id = (String) session.getAttribute("id");
 	      BucketDetailVO selectedBucketList = null;
-	      List<BucketDetailVO> selectedTagList = null;
 	      int sid= Integer.parseInt(selectedbucket_id);
 	      if(id != null) {
 	         //가져오기 select

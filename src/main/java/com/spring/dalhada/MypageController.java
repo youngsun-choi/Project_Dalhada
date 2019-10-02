@@ -10,9 +10,12 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import dao.BucketDAO;
 import dao.MypageDAO;
+import vo.BucketDetailVO;
 import vo.MemberinfoVO;
 import vo.MypageBucketVO;
 
@@ -20,7 +23,16 @@ import vo.MypageBucketVO;
 public class MypageController {
 	@Autowired
 	MypageDAO dao;
+	@Autowired
+	private BucketDAO bucketDao;
 
+	@RequestMapping(value="/achieve/modaldetail")
+	@ResponseBody
+	public BucketDetailVO modaldetail(HttpSession session, int bucket_id, int selectedbucket_id) {
+		BucketDetailVO vo =  bucketDao.selectDetail(bucket_id, selectedbucket_id);
+		return vo;
+	}
+	
 	@RequestMapping(value = "/achieve")
 	public ModelAndView achieve() {
 		ModelAndView mav = new ModelAndView();

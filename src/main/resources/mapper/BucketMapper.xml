@@ -21,14 +21,13 @@
     	from bucketinfo Bi, selectedBucket Sb, sponsorinfo Si
     	where Bi.id = Sb.bucket_id AND Sb.id = #{selectedbucket_id} AND Si.id = Bi.sponsor_id 
  	</select>
- 	<select id="selectADBucket" resultType="vo.BucketVO" parameterType="String">
+ 	<select id="selectTOPBucket" resultType="vo.BucketVO" parameterType="String">
 		select Sb.bucket_id , Sb.id as selectedbucket_id, Bi.image_path, Sb.title,
-				  (select count(*) from likeinfo Li 
-				  where Li.member_id = 'aaa' and Sb.id = Li.bucket_id) islike  
-		from (select id, image_path, rownum as rnum
-        		from bucketinfo
-        		where sponsor_id != <![CDATA['(null)') Bi, selectedbucket Sb
-		where Bi.id = Sb.bucket_id and rnum between 1 and 8]]>
+        (select count(*) from likeinfo Li where Sb.id = Li.selectedbucket_id) likecnt, 
+        (select count(*) from likeinfo Li where Li.member_id = #{id} and Sb.id = Li.selectedbucket_id) islike
+		from bucketinfo Bi, selectedbucket Sb
+		where Bi.id = Sb.bucket_id 
+        order by likecnt desc
 	</select>
 	<select id="isADBucket" resultType="String" parameterType="_int">
 		select sponsor_id
@@ -41,12 +40,12 @@
  		where St.bucket_id = #{id} AND T.id = St.tag_id
  	</select>
 	<insert id="insertLike" parameterType="vo.LikeInfoVO">
-		insert into likeinfo (bucket_id, member_id) 
+		insert into likeinfo (selectedbucket_id, member_id) 
 		values (#{selectedbucket_id}, #{member_id})
 	</insert>
 	<delete id="deleteLike" parameterType="vo.LikeInfoVO">
 		delete 
 		from likeinfo
-		where bucket_id = #{selectedbucket_id} AND member_id = #{member_id}
+		where selectedbucket_id = #{selectedbucket_id} AND member_id = #{member_id}
 	</delete>
 </mapper>

@@ -371,28 +371,4 @@ alret("search")
         $('.js-modal-bucket2').removeClass('show-modal-bucket');
     });
     
-    /*
-     //가져오기 확인버튼 눌렀을 때 
-            	    $('.getBtnOk').on('click',function(e){ 
-            	        e.preventDefault();
-            	        
-            	        $("js-modal-bucket2").removeClass("in"); 
-            		 	$(".modal-backdrop").remove();
-            	 	 	$("js-modal-bucket2").hide();
-            	 	 	$('.js-modal-bucket').modal('show');
-            	        //var group_id = $('.js-select2 option:selected').attr('id');
-            		       console.log("group_id값 : "+group_id);
-            		       $.ajax({
-            		         url: "searchBucket/get",
-            		         type: "POST",
-            		          data: {
-            		             id : group_id
-            		          },
-            		          success: function (data) {
-            		          },
-            		          error : function(){
-            		          }    
-            		      });   
-            	    });*/
-    
 })(jQuery);
