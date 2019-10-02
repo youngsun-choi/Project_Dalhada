@@ -68,7 +68,6 @@ public class BucketController {
 			List<StringIntVO> tags = bucketservice.selectTags();
 			list.add(groups);
 			list.add(tags);
-			
 		}
 		return list;
 	}
@@ -77,10 +76,23 @@ public class BucketController {
 	@ResponseBody
 	public BucketDetailVO modaldetail(HttpSession session, int bucket_id, int selectedbucket_id) {
 		BucketDetailVO vo =  bucketservice.selectDetail(bucket_id, selectedbucket_id);
-		System.out.println(vo.toString());
 		return vo;
 	}
 
+	@RequestMapping(value="/createbucket")
+	@ResponseBody
+	public String modaldetail(HttpSession session, SelectedBucketVO vo, @RequestParam(value="g_id")String g_id,
+			@RequestParam(value="taglist[]")List<String> taglist) {
+		int result = 0;
+		String member_id = (String) session.getAttribute("id");
+		vo.setMember_id(member_id);
+		vo.setTag_id(taglist);
+		vo.setGroup_id(Integer.parseInt(g_id));
+		System.out.println(vo.toString());
+		result = bucketservice.insertBucket(vo);
+		return result+"";
+	}
+	
 	@RequestMapping(value="/searchbucket")
 	public ModelAndView searchBucket(HttpSession session, 
 			@RequestParam(defaultValue="1")int curPage, @RequestParam(required=false)String tagName, 

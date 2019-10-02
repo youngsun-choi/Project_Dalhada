@@ -318,8 +318,7 @@ alret("search")
     }); 
     /*==================================================================
     [ Show create modal ]*/
-
-
+    
     $('.js-show-modal-create').on('click',function(e){ 	
     	e.preventDefault();
 	        $.ajax({
@@ -328,15 +327,66 @@ alret("search")
 	            success: function (data) {
 	            	var groups = data[0];
 	            	var tags = data[1];
+	            	var groupdom = $("#groups-dom");
+	            	groupdom.html('');
+	            	groupdom.append("<option value='0'>-----------</option>")
+	            	for(var i = 0; i < groups.length; i++ ){
+	            		groupdom.append("<option value='"+groups[i].id+"'>"+groups[i].name+"</option>");
+	            	}
+	            	var tagdom = $("#create-dom");
+	            	tagdom.html('');
+	            	for(var i=0; i<tags.length; i++)
+	            		tagdom.append('<button value="'+tags[i].id+'" class="modal-tag flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">#'+tags[i].name+'</button>');	            	
+	            	$('.modal-tag').each(function(){
+	    				$(this).on('click',function(){
+	    					if($(this).hasClass('modal-tag-click')){
+	    						$(this).addClass('bor7');
+	    	            		$(this).removeClass('modal-tag-click');
+	    	            		$(this).addClass('cl6');
+	    					}else{
+	    						$(this).removeClass('cl6');
+	    	            		$(this).removeClass('bor7');
+	    	            		$(this).addClass('modal-tag-click');
+	    					}
+	    				});
+	    			})
 	            },
 	            error : function(){
 	            	console.log("error");
 		        }
 			})
+			
 			$('.js-modal-create').addClass('show-modal-create');
     });
 
     $('.js-hide-modal-create').on('click',function(){
         $('.js-modal-create').removeClass('show-modal-create');
     }); 
+    
+    $('#create-submit').click(function(){
+    	var title = $("#title").val();
+    	var list = [];
+    	$(".modal-tag-click").each(function(i){list.push($(this).val());})
+    	if(title=='')
+    		$("#title").attr("placeholder","제목을 입력하시오.")
+    	else{
+			$.ajax({
+				url: "createbucket",
+				type:"post",
+				data:{
+					"title": title,
+					"content": $("#content").val(),
+					"g_id": $("#groups-dom").val(),
+					"d_day": $("#d-day").val(),
+					"taglist": list
+				},
+				sucess : function(){
+					$('.js-modal-create').removeClass('show-modal-create');
+				},
+				complete : function(){
+					$('.js-modal-create').removeClass('show-modal-create');
+				}
+			});
+    	}
+	});
 })(jQuery);

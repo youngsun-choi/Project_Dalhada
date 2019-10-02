@@ -40,4 +40,8 @@ public class BucketService {
 	public List<StringIntVO> selectTags() {
 		return bucketdao.selectTags();
 	}
+
+	public int insertBucket(SelectedBucketVO vo) {
+		return bucketdao.insertbucket(vo);
+	}
 }

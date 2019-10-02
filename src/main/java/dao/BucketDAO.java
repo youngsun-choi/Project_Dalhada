@@ -52,4 +52,10 @@ public class BucketDAO {
 		String statement = "resource.SearchBucketMapper.selectTags";
 		return session.selectList(statement);
 	}
+	public int insertbucket(SelectedBucketVO vo) {
+		int result = 0;
+		String statement = "resource.BucketMapper.insertBucket";
+		result = session.insert(statement, vo);
+		return result;
+	}
 }

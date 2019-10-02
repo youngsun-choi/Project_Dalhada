@@ -34,6 +34,37 @@
 		from bucketinfo
 		where id = #{bucket_id}
 	</select>
+	<insert id="insertBucket" parameterType="vo.SelectedBucketVO">
+	{call
+        declare
+        begin
+            insert into bucketinfo values (bucket_seq.nextval, #{image_path}, #{member_id}, '', 0);
+          	insert into selectedbucket 
+			values(selectedbucket_seq.nextval, bucket_seq.currval, #{member_id}, #{group_id}, #{title}, #{content}, 
+				to_date(#{d_day}, 'yyyy.mm.dd'), '도전중', #{address}, #{lat}, #{lng});
+			<foreach item="item" collection="tag_id" open="INSERT ALL"  close="SELECT * FROM DUAL" >
+				into selectedtag 
+				values(#{item}, selectedbucket_seq.currval)
+			</foreach>;
+        end
+    }
+    </insert>
+	<insert id="insertBucketInfo" parameterType="vo.SelectedBucketVO">
+		insert into bucketinfo values (bucket_seq.nextval, #{image_path}, #{member_id}, '', 0)
+	</insert>
+	<insert id="insertSelectedBucket" parameterType="vo.SelectedBucketVO">
+		insert into selectedbucket 
+		values(selectedbucket_seq.nextval, bucket_seq.currval, #{member_id}, #{group_id}, #{title}, #{content}, 
+				to_date(#{d_day}, 'yyyy.mm.dd'), '도전중', #{address}, #{lat}, #{lng})
+	</insert>
+	<insert id="insertSelectedTag" parameterType="java.util.List">
+		insert into selectedtag(bucket_id, tag_id)
+		select selectedbucket_seq.currval, A.* from(
+		 <foreach item="item" collection="list" separator="UNION ALL " >
+		   select #{item} as tag_id,
+		   from dual
+		 </foreach>) A
+	</insert>
  	<select id="bucketTags" resultType="list" parameterType="_int">
  		select T.name
  		from taginfo T, selectedtag St

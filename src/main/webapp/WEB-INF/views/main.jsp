@@ -280,43 +280,39 @@
 			<div class="bg0 p-t-60 p-b-30 p-lr-15-lg how-pos3-parent">
 				<button class="how-pos3 hov3 trans-04 js-hide-modal-create">
 					<img src="images/icons/icon-close.png" alt="CLOSE">
-				</button>
-				<form action="createbucket">					
-					<div class="row p-all-10">
-						<div id="left" class="col-md-6">
-								<input type="text" id="title" class="form-control mb-4" placeholder="제목">
-					            <div class="file-field">
-					              <div class="z-depth-1-half mb-4 txt-center"><!--image field-->
-					                <img id="image" class="createimage " src="https://mdbootstrap.com/img/Photos/Others/placeholder.jpg"
-					                  alt="example placeholder">
-					              </div>
-					              <div class="d-flex justify-content-center "><!--upload button-->
-					                <div class="btn btn-rounded float-left">
-					                  <input type="file" onchange="readURL(this);">
-					                </div>
-					              </div>
-					            </div>
-					            <textarea id="content" class="md-textarea form-control" rows="2" placeholder="내용"></textarea>		
-								<div class="flex-w p-t-4 m-r--5">
-			                    	<div class="mtext-102">태그</div>
-			                    	<div class="create_tag"></div>
-			                	</div>
-			                	<div class="mtext-102">그룹</div>
-					            <select class="browser-default custom-select mb-4" id="select">
-					                <option value="">------</option>
-					                    
-					            </select>
+				</button>				
+				<div class="row p-all-10">
+					<div id="left" class="col-md-6">
+							<input type="text" id="title" class="form-control mb-4" placeholder="제목">
+				            <div class="file-field">
+				              <div class="z-depth-1-half mb-4 txt-center"><!--image field-->
+				                <img id="image" class="createimage " src="https://mdbootstrap.com/img/Photos/Others/placeholder.jpg"
+				                  alt="example placeholder">
+				              </div>
+				              <div class="d-flex justify-content-center"><!--upload button-->
+				                  <input type="file" name="image" class="file-btn" onchange="readURL(this);">
+				              </div>
+				            </div>
+				            <textarea id="content" class="md-textarea form-control" rows="2" placeholder="내용"></textarea>		
+							<div class="keep_login_container">
+		                    	<div class="stext-102 cl3 p-t-23">태그</div>
+		                    	<div id="create-dom" class="flex-w m-r--5"></div>
+		                	</div>
+		                	<div class="stext-102 cl3 p-t-23">그룹</div>
+				            <select id="groups-dom" class="browser-default custom-select mb-4">
+				            </select>
+				    </div>
+				    <div id="right" class="col-md-6">
+		            	<div class="stext-102 cl3 p-t-23">d-Day</div>
+		                <input id="d-day" type="text" name="date" placeholder="Select Date.." data-input>
+		                <div class="stext-102 cl3 p-t-23">위치</div>
+		                <div class="mapid"></div>
+						<div class="txt-center">
+       						<button id="create-submit" class="button-modal cl0 bg10">생성</button>
+						    <button class="button-modal cl13 bg0 btn-bd" data-dismiss="modal">취소</button>
 					    </div>
-					    <div id="right" class="col-md-6">
-			            	<div class="mtext-102">d-Day</div>
-			                <input id="create-date" type="text" name="date" placeholder="Select Date.." data-input>
-							<div class="txt-center">
-							  	<button class="btn btn-primary">생성</button>
-						       	<button type="button" class="btn btn-outline-primary " data-dismiss="modal">취소</button>			       
-						    </div>
-			            </div>
-					</div>
-				</form>
+		            </div>
+				</div>
 			</div>
 		</div>				
 	</div>
@@ -360,7 +356,7 @@
 <!--===============================================================================================-->
 	<script src="vendor/isotope/isotope.pkgd.min.js"></script>
 	<script>
-		$("#create-date").flatpickr({
+		$("#d-day").flatpickr({
 		    dateFormat: "Y.m.d"
 		});
 	</script>
