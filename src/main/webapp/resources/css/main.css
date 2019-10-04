@@ -114,9 +114,6 @@ Input, textarea : 14px/1.6 '', Arial, sans-serif;
 .slick-slide {outline: none !important;}
 
 
-
-
-
 /*//////////////////////////////////////////////////////////////////
 [ LOADDING ]*/
 .animsition-loading-1 {
@@ -1845,7 +1842,9 @@ input.num-product::-webkit-inner-spin-button {
 
 /*//////////////////////////////////////////////////////////////////
 [ Modal ]*/
-
+.font-DoHyeon{
+	font-family: Do Hyeon;
+}
 .overlay-modal {
   position: fixed;
   z-index: -1;
@@ -1877,10 +1876,9 @@ input.num-product::-webkit-inner-spin-button {
 	width: 50%;
 	margin: 20px;
 }
-.modalimage{
-	width: auto;
+#modal_image{
+	width: 50%;
 }
-
 .createimage{
 	width: 70%;
 }
@@ -2733,7 +2731,7 @@ input.num-product::-webkit-inner-spin-button {
 
 /*---------------------------------------------*/
 .js-addedlike{
-  color: #A4D9E9;
+  color: #A4D9E9 !important;
 }
 
 /*---------------------------------------------*/
@@ -3030,8 +3028,8 @@ input.num-product::-webkit-inner-spin-button {
 
 /*---------------------------------------------*/
 .hov-btn3:hover {
-  border-color: #717fe0;
-  background-color: #717fe0;
+  border-color: #A4D9E9;
+  background-color: #A4D9E9;
   color: #fff;
 }
 

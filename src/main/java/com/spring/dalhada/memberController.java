@@ -22,7 +22,7 @@ public class memberController {
 	@Autowired
 	MemberDAO dao;
 		
-		// 회원가입 폼 처리
+		// �쉶�썝媛��엯 �뤌 泥섎━
 		@RequestMapping(value="/memberForm")
 		public ModelAndView signup(MemberinfoVO vo, HttpServletRequest request) {
 			ModelAndView mav = new ModelAndView();
@@ -30,7 +30,7 @@ public class memberController {
 			     mav.setViewName("memberForm");
 				return mav;
 			}
-			System.out.println("GET 아닐때");
+			System.out.println("GET �븘�땺�븣");
 			if(vo.getImage()!=null) {
 				String fileName = vo.getImage().getOriginalFilename();
 				String newName = vo.getId()+"_"+fileName;

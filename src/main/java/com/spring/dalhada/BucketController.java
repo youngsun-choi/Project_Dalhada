@@ -1,5 +1,8 @@
 package com.spring.dalhada;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,11 +15,18 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import dao.SearchBucketDAO;
 import service.BucketService;
-import vo.*;
+import vo.BucketDetailVO;
+import vo.BucketVO;
+import vo.LikeInfoVO;
+import vo.PagingVO;
+import vo.SearchBucketVO;
+import vo.SelectedBucketVO;
+import vo.StringIntVO;
 
 @Controller
 public class BucketController {
@@ -74,23 +84,40 @@ public class BucketController {
 	
 	@RequestMapping(value="/main/modaldetail")
 	@ResponseBody
-	public BucketDetailVO modaldetail(HttpSession session, int bucket_id, int selectedbucket_id) {
-		BucketDetailVO vo =  bucketservice.selectDetail(bucket_id, selectedbucket_id);
+	public BucketDetailVO modaldetail(HttpSession session, String selectedbucket_id) {
+		String member_id = (String) session.getAttribute("id");
+		StringIntVO map = new StringIntVO();
+		map.setId(Integer.parseInt(selectedbucket_id));
+		map.setName(member_id);
+		BucketDetailVO vo =  bucketservice.selectDetail(map);
 		return vo;
 	}
 
 	@RequestMapping(value="/createbucket")
 	@ResponseBody
-	public String modaldetail(HttpSession session, SelectedBucketVO vo, @RequestParam(value="g_id")String g_id,
-			@RequestParam(value="taglist[]")List<String> taglist) {
-		int result = 0;
+	public String createbucket(HttpSession session, SelectedBucketVO vo, @RequestParam(value="g_id")String g_id,
+			@RequestParam(value="taglist")List<String> taglist, @RequestParam("file") MultipartFile file) {
+		String fileName = file.getOriginalFilename(), filePath;
 		String member_id = (String) session.getAttribute("id");
 		vo.setMember_id(member_id);
 		vo.setTag_id(taglist);
 		vo.setGroup_id(Integer.parseInt(g_id));
-		System.out.println(vo.toString());
-		result = bucketservice.insertBucket(vo);
-		return result+"";
+		vo.setImage_path("_"+fileName);
+		filePath = bucketservice.insertBucket(vo);
+		byte[] image = null;
+		try {
+			image = file.getBytes();
+			File f = new File("C:/Users/student/Documents/Dalhada/src/main/webapp/resources/images/bucket/"+filePath);
+			FileOutputStream fos = new FileOutputStream(f);
+			fos.write(image);
+			fos.close();
+			File newf = new File("C:/Users/student/Documents/Dalhada/src/main/webapp/resources/images/bucket/"+filePath);
+	    	 if(f.exists())
+	    		 f.renameTo(newf);
+		}catch (IOException e) {
+	    	 e.printStackTrace();
+	     }	
+		return "success";
 	}
 	
 	@RequestMapping(value="/searchbucket")

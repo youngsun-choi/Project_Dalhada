@@ -99,7 +99,7 @@
             }
 
             $('.sub-menu-m').each(function(){
-                if($(this).css('display') == 'block') { console.log('hello');
+                if($(this).css('display') == 'block') { 
                     $(this).css('display','none');
                     $(arrowMainMenu).removeClass('turn-arrow-main-menu-m');
                 }
@@ -287,28 +287,54 @@ alret("search")
     [ Show detail modal ]*/
     $('.js-show-modal-bucket').on('click',function(e){
         e.preventDefault();
-        
         $.ajax({
 			url: "main/modaldetail",
             type: "POST",
-            data: {
-                
-            },
+            data: {"selectedbucket_id": $(this).attr('id')}
+            ,
             success: function (data) {
-            	
+            	$('#bucket_title').html(data.title);
+            	$('.modal_image').attr("src", "images/bucket/"+data.bucketImage_path);
+            	$('#modal_image_expand').attr("href", "images/bucket/"+data.bucketImage_path);
+            	$('#bucket_content').text(data.content);
+            	$('.modal_heart').attr("id", data.bucket_id).addClass(data.className).on('click', function(){
+    				var action;
+    				if($(this).hasClass('js-addedlike')){
+    					$(this).removeClass('js-addedlike');
+    					action = "delete";
+    				}else{
+    					$(this).addClass('js-addedlike');
+    					action = "insert";
+    				}
+    				$.ajax({
+    					url: "main/like",
+    	                type: "POST",
+    	                data: {
+    	                    selectedbucket_id : $(this).attr("id"),
+    	                    action : action
+    	                },
+    	                success: function (data) {
+    	                	if(data==-1)
+    	                		window.location.href = "loginmain";
+    	                }
+    				})
+    				
+    			});;
+            	$('#likecnt').text(data.like_cnt);
+            	$('#getcnt').text(data.like_cnt);
             },
             error : function(){
             	
 	        }
 		})
-        var map = L.map('mapid').setView([51.505, -0.09],  10);
+        /*var map = L.map('mapid').setView([51.505, -0.09],  10);
     	L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
     		maxZoom: 18,
     		attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
     			'<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
     			'Imagery <a href="https://www.mapbox.com/">Mapbox</a>',
     		id: 'mapbox.streets'
-    	}).addTo(map);
+    	}).addTo(map);*/
         
         $('.js-modal-bucket').addClass('show-modal-bucket');
     });
@@ -336,7 +362,7 @@ alret("search")
 	            	var tagdom = $("#create-dom");
 	            	tagdom.html('');
 	            	for(var i=0; i<tags.length; i++)
-	            		tagdom.append('<button value="'+tags[i].id+'" class="modal-tag flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">#'+tags[i].name+'</button>');	            	
+	            		tagdom.append('<button type="button" value="'+tags[i].id+'" class="modal-tag flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">#'+tags[i].name+'</button>');	            	
 	            	$('.modal-tag').each(function(){
 	    				$(this).on('click',function(){
 	    					if($(this).hasClass('modal-tag-click')){
@@ -358,35 +384,69 @@ alret("search")
 			
 			$('.js-modal-create').addClass('show-modal-create');
     });
-
+    /*[click cancel button]*/
     $('.js-hide-modal-create').on('click',function(){
-        $('.js-modal-create').removeClass('show-modal-create');
+    	clearform();
+    	$('.js-modal-create').removeClass('show-modal-create');
     }); 
-    
+    /*[click submit button]*/
     $('#create-submit').click(function(){
     	var title = $("#title").val();
-    	var list = [];
-    	$(".modal-tag-click").each(function(i){list.push($(this).val());})
+    	var file = $('input[type=file]')[0].files[0];
+    	var content =  $("#content").val();
+    	var msg = '';
     	if(title=='')
-    		$("#title").attr("placeholder","제목을 입력하시오.")
+    		msg = "제목 ";
+    	if(file == undefined)
+    		msg += "사진 ";
+    	if(content == "")
+    		msg += "내용 ";
+    			
+    	if(msg.length!=0)
+    		$(".warntest").text(msg+"이 없습니다.");
     	else{
+    		var formData = new FormData();
+
+    		var list = [];
+        	$(".modal-tag-click").each(function(i){list.push($(this).val());})
+        	formData.append("title", title);
+        	formData.append("content", content);
+        	formData.append("taglist", list);
+        	formData.append("file", file);
+        	formData.append("g_id", $("#groups-dom").val());
+        	formData.append("d_day", $("#d-day").val());
 			$.ajax({
 				url: "createbucket",
 				type:"post",
-				data:{
-					"title": title,
-					"content": $("#content").val(),
-					"g_id": $("#groups-dom").val(),
-					"d_day": $("#d-day").val(),
-					"taglist": list
-				},
+				processData: false,
+                contentType: false,
+				data: formData
+				,
 				sucess : function(){
 					$('.js-modal-create').removeClass('show-modal-create');
 				},
 				complete : function(){
+					clearform();
 					$('.js-modal-create').removeClass('show-modal-create');
 				}
 			});
     	}
 	});
 })(jQuery);
+
+var clearform = function(){
+	$('input').val('');
+	$('#content').val('');
+	$('.createimage').attr("src", "https://mdbootstrap.com/img/Photos/Others/placeholder.jpg");
+	if((navigator.appName == 'Netscape' && navigator.userAgent.search('Trident') != -1)) {
+	 	$("inputimage").replaceWith($("inputimage").clone(true));
+	} else {
+	   	$("inputimage").val("");
+	}
+	$('#groups-dom').find('option:first').attr('selected', 'selected');
+	$('.modal-tag').each(function(){
+		$(this).addClass('bor7');
+        $(this).removeClass('modal-tag-click');
+        $(this).addClass('cl6');
+		});
+}

@@ -29,8 +29,10 @@ public class BucketService {
 		return bucketdao.deleteLikeInfo(vo);
 	}
 
-	public BucketDetailVO selectDetail(int bucket_id, int selectedbucket_id) {
-		return bucketdao.selectDetail(bucket_id, selectedbucket_id);
+	public BucketDetailVO selectDetail(StringIntVO map) {
+		BucketDetailVO vo = bucketdao.selectDetail(map);
+		vo.addClass();
+		return vo;
 	}
 
 	public List<StringIntVO> selectGroups(String member_id) {
@@ -41,7 +43,7 @@ public class BucketService {
 		return bucketdao.selectTags();
 	}
 
-	public int insertBucket(SelectedBucketVO vo) {
+	public String insertBucket(SelectedBucketVO vo) {
 		return bucketdao.insertbucket(vo);
 	}
 }
