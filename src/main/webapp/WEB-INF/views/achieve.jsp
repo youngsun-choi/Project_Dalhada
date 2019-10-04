@@ -45,33 +45,46 @@
 	<header class="cd-main-header text-center flex flex-column flex-center">
 	    <h1>달하다님의 버킷리스트</h1>
   	</header>
-
+  	
+  	<div class="txt-center">
+  		<c:if test="${!empty ageList}">
+  			<c:forEach var="aList" items="${ageList}">
+  				<form action="achieve" method="POST" style="display:inline;">
+  					<input type="hidden" name="age" value="${aList}">
+		  			<button type="submit" class="cl0 bg10">${aList}0대 때</button>
+		  		</form>
+		  	</c:forEach>
+	  	</c:if>
+	</div>
 	<section class="cd-timeline js-cd-timeline">
-		<!-- cd-timeline__container 시작 -->
-	    <div class="container max-width-lg cd-timeline__container">
-	    
-	    <!-- cd-timeline__block 시작 -->
-	      <div class="cd-timeline__block">
-	      	<!-- cd-timeline__img -->
-	        <div class="cd-timeline__img cd-timeline__img--picture">
-	          <img src="images/achieve/cd-icon-picture.svg" alt="Picture">
-	        </div> 
-	
-			<!-- cd-timeline__content 시작 -->
-	        <div class="cd-timeline__content text-component js-show-modal-bucket">
-	          <img src="images/bucket/coco.jpg">
-	          <p class="color-contrast-medium">고양이 키우기</p>
-	
-	          <div class="flex justify-between items-center">
-	            <span class="cd-timeline__date">완료일 : 2019.1.1</span>
-	          </div>
-	        </div> 
-	        <!-- cd-timeline__content 끝 -->
-	      </div> 
-	      <!-- cd-timeline__block 끝 -->
-	      
-	    </div>
-	    <!-- cd-timeline__container 끝-->
+		<c:if test="${!empty achieveList}">
+			<!-- cd-timeline__container 시작 -->
+		    <div class="container max-width-lg cd-timeline__container">
+		    	<!-- cd-timeline__block -->
+		    	<c:forEach var="vo" items="${achieveList}">
+		    		<div class="cd-timeline__block">
+				      	<!-- cd-timeline__img -->
+				        <div class="cd-timeline__img cd-timeline__img--picture">
+				          <img src="images/achieve/cd-icon-picture.svg" alt="Picture">
+				        </div> 
+				
+						<!-- cd-timeline__content -->
+				        <div class="cd-timeline__content text-component js-show-modal-bucket">
+				          <img src="images/bucket/${vo.bucketImage_path}">
+				          <p class="color-contrast-medium">${vo.title}</p>
+				
+				          <div class="flex justify-between items-center">
+				            <span class="cd-timeline__date">완료일 : ${vo.complete_date}</span>
+				          </div>
+				        </div> 
+				   </div> 
+		     	</c:forEach>
+		    </div>
+		    <!-- cd-timeline__container 끝-->
+	    </c:if>
+	    <c:if test="${empty achieveList}">
+	    	<h2 class="txt-center">완료된 버킷이 없습니다.</h2>
+	    </c:if>
 	    
 	    <!-- Modal -->
 		<div class="wrap-modal-bucket js-modal-bucket p-t-60 p-b-20">

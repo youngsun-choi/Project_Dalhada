@@ -1,6 +1,5 @@
 package dao;
 
-import java.util.Date;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -14,18 +13,10 @@ public class AchieveDAO {
 	@Autowired
 	SqlSession session = null;
 	
-	//birth select
-	public List<Date> selectBirth(String id) {
-		List<Date> list = null;
-		String statement = "resource.AchieveMapper.selectBirth";
-		list = session.selectList(statement, id);
-		return list;
-	}	
-	
-	//버킷 완료일 select
-	public List<AchieveVO> selectCompleteDate(String id){
+	//완료,상세버킷 select
+	public List<AchieveVO> selectCompleteBucket(String id){
 		List<AchieveVO> list = null;
-		String statement = "resource.AchieveMapper.selectCompleteDate";
+		String statement = "resource.AchieveMapper.selectCompleteBucket";
 		list = session.selectList(statement, id);
 		return list;
 	}

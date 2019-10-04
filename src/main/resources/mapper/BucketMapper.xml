@@ -34,7 +34,23 @@
 		from bucketinfo
 		where id = #{bucket_id}
 	</select>
- 	<select id="bucketTags" resultType="list" parameterType="_int">
+	<insert id="insertBucket" parameterType="vo.SelectedBucketVO">
+	{call
+        declare
+        begin
+            insert into bucketinfo values (bucket_seq.nextval, #{image_path}, #{member_id}, '', 0);
+          	insert into selectedbucket 
+			values(selectedbucket_seq.nextval, bucket_seq.currval, #{member_id}, #{group_id}, #{title}, #{content}, 
+				to_date(#{d_day}, 'yyyy.mm.dd'), '도전중', #{address}, #{lat}, #{lng});
+			<foreach item="item" collection="tag_id" open="INSERT ALL"  close="SELECT * FROM DUAL" >
+				into selectedtag 
+				values(#{item}, selectedbucket_seq.currval)
+			</foreach>;
+        end
+    }
+    </insert>
+
+ 	<select id="bucketTags" resultType="String" parameterType="_int">
  		select T.name
  		from taginfo T, selectedtag St
  		where St.bucket_id = #{id} AND T.id = St.tag_id

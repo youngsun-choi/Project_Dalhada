@@ -324,7 +324,7 @@ alret("search")
     /*==================================================================
     [ Show group modal ]*/
     //가져오기 버튼 눌렀을 때
-    $('.getBtn').on('click',function(e){ 
+    /*$('.getBtn').on('click',function(e){ 
         e.preventDefault();
         //$(this).addClass('js-addedlike'); //가져오기 버튼 색깔 바뀌게
         var selectedbucket_id = $(this).data("id");
@@ -369,6 +369,14 @@ alret("search")
     //가져오기 닫기버튼
     $('.js-hide-modal').on('click',function(){
         $('.js-modal-bucket2').removeClass('show-modal-bucket');
+    });*/
+    
+    /*==================================================================
+    [ searchKeyDown ]*/
+    $('.searchKeyDown').keydown(function(e){
+    	if(e.keyCode == 13){
+    		$('form#searchForm').submit();
+    	}
     });
     
 })(jQuery);

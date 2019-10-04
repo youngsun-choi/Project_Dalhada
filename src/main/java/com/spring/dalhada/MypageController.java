@@ -1,8 +1,10 @@
 package com.spring.dalhada;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -10,11 +12,14 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import dao.BucketDAO;
 import dao.MypageDAO;
+import service.AchieveService;
+import vo.AchieveVO;
 import vo.BucketDetailVO;
 import vo.MemberinfoVO;
 import vo.MypageBucketVO;
@@ -25,6 +30,8 @@ public class MypageController {
 	MypageDAO dao;
 	@Autowired
 	private BucketDAO bucketDao;
+	@Autowired
+	private AchieveService achieveService;
 
 	@RequestMapping(value="/achieve/modaldetail")
 	@ResponseBody
@@ -34,8 +41,30 @@ public class MypageController {
 	}
 	
 	@RequestMapping(value = "/achieve")
-	public ModelAndView achieve() {
+	public ModelAndView achieve(HttpSession session, @RequestParam(required=false) String age) {
 		ModelAndView mav = new ModelAndView();
+		String id = "aaa";//(String) session.getAttribute("id");
+		List<AchieveVO> achieveList = achieveService.selectCompleteBucket(id);
+		List<AchieveVO> selectedAchieveList = new ArrayList<AchieveVO>();
+		List<Integer> ageList = new ArrayList<Integer>();
+		/*List<Integer> ageList = new ArrayList<Integer>();
+		for(AchieveVO vo:achieveList) {
+			ageList.add(vo.getAge());
+		}
+		ageList = ageList.stream().distinct().collect(Collectors.toList()); //중복값 제거
+		mav.addObject("ageList", ageList); // age값 유무에 따라 버튼 생성
+		mav.addObject("achieveList", achieveList);
+		int result = (age != null) ? Integer.parseInt(age) : ageList.get(0); //버튼 눌렀을 때
+		mav.addObject("age", result);*/
+		int numAge = (age != null) ? Integer.parseInt(age) : achieveList.get(0).getAge();
+		System.out.println("numAge : "+numAge);
+		for(AchieveVO vo:achieveList) {
+			ageList.add(vo.getAge());
+			if(vo.getAge()==numAge)
+				selectedAchieveList.add(vo);
+		}
+		mav.addObject("ageList", ageList.stream().distinct().collect(Collectors.toList()));
+		mav.addObject("achieveList", selectedAchieveList);
 		mav.setViewName("achieve");
 		return mav;
 	}

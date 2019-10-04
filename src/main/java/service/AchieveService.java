@@ -1,6 +1,5 @@
 package service;
 
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,14 +13,9 @@ public class AchieveService {
 	@Autowired
 	private AchieveDAO dao;
 	
-	//birth select
-	public List<Date> selectBirth(String id) {
-		return dao.selectBirth(id);
-	}	
-	
-	//버킷 완료일 select
-	public List<AchieveVO> selectCompleteDate(String id){
-		return dao.selectCompleteDate(id);
+	//완료,상세버킷 select
+	public List<AchieveVO> selectCompleteBucket(String id){
+		return dao.selectCompleteBucket(id);
 	}
 	
 	//상세버킷 선택된 태그 select

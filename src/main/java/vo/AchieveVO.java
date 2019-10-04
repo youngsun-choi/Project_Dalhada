@@ -1,6 +1,5 @@
 package vo;
 
-import java.util.Date;
 import java.util.List;
 
 public class AchieveVO {
@@ -11,8 +10,10 @@ public class AchieveVO {
 	private String address;
 	private float lat;
 	private float lng;
-	private Date complete_date;
+	private String complete_date;
 	private String di_content;
+	private int like_cnt;
+	private int age;
 	private List<String> tags;
 	
 	public String getBucketImage_path() {
@@ -57,10 +58,10 @@ public class AchieveVO {
 	public void setLng(float lng) {
 		this.lng = lng;
 	}
-	public Date getComplete_date() {
+	public String getComplete_date() {
 		return complete_date;
 	}
-	public void setComplete_date(Date complete_date) {
+	public void setComplete_date(String complete_date) {
 		this.complete_date = complete_date;
 	}
 	public String getDi_content() {
@@ -68,6 +69,18 @@ public class AchieveVO {
 	}
 	public void setDi_content(String di_content) {
 		this.di_content = di_content;
+	}
+	public int getLike_cnt() {
+		return like_cnt;
+	}
+	public void setLike_cnt(int like_cnt) {
+		this.like_cnt = like_cnt;
+	}
+	public int getAge() {
+		return age;
+	}
+	public void setAge(int age) {
+		this.age = age;
 	}
 	public List<String> getTags() {
 		return tags;
@@ -79,6 +92,7 @@ public class AchieveVO {
 	public String toString() {
 		return "AchieveVO [bucketImage_path=" + bucketImage_path + ", selectedbucket_id=" + selectedbucket_id
 				+ ", title=" + title + ", sb_content=" + sb_content + ", address=" + address + ", lat=" + lat + ", lng="
-				+ lng + ", complete_date=" + complete_date + ", di_content=" + di_content + ", tags=" + tags + "]";
+				+ lng + ", complete_date=" + complete_date + ", di_content=" + di_content + ", like_cnt=" + like_cnt
+				+ ", age=" + age + ", tags=" + tags + "]";
 	}
 }

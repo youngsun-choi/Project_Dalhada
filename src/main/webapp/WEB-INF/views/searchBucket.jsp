@@ -52,9 +52,10 @@
 
 					<!-- Icon header -->
 					<div class="wrap-icon-header flex-w flex-r-m h-full">
-						<form class="form-inline flex-c-m h-full p-r-24" action="searchbucket" method="get">
+						<form id="searchForm" class="form-inline flex-c-m h-full p-r-24" action="searchbucket" method="get">
 	    					<div class="bor17 of-hidden pos-relative">
-								<input class="stext-103 cl2 plh4 size-116 p-l-28 p-r-55" type="text" name="searchKeyword" placeholder="Search" value="${ keyword }">
+								<input class="searchKeyDown stext-103 cl2 plh4 size-116 p-l-28 p-r-55" 
+								type="text" name="searchKeyword" placeholder="Search" value="${ keyword }" autocomplete="off">
 								<button type="submit" class="flex-c-m size-122 ab-t-r fs-18 cl4 hov-cl1 trans-04" >
 									<i class="zmdi zmdi-search"></i>
 								</button>
@@ -105,9 +106,10 @@
 		<div class="menu-mobile">
 			<ul class="main-menu-m">
 				<li>
-					<form class="form-inline" action="searchbucket" method="get">
+					<form id="searchForm" class="form-inline" action="searchbucket" method="get">
 	    					<div class="bor17 of-hidden pos-relative">
-								<input class="stext-103 cl2 plh4 size-116 p-l-28 p-r-55" type="text" name="searchKeyword" placeholder="Search" value="${ keyword }">
+								<input class="searchKeyDown stext-103 cl2 plh4 size-116 p-l-28 p-r-55" type="text" 
+								name="searchKeyword" placeholder="Search" value="${ keyword }" autocomplete="off">
 								<button type="submit" class="flex-c-m size-122 ab-t-r fs-18 cl4 hov-cl1 trans-04" >
 									<i class="zmdi zmdi-search"></i>
 								</button>
@@ -154,14 +156,14 @@
 				<div class="col-md-8 col-lg-9 p-b-80">
 					<div class="p-r-45 p-r-0-lg"> 
 						<!-- 검색결과 시작 -->   
-	                  	<div class="row isotope-grid">
-		                  	<c:if test="${ !empty searchList }">
+						<c:if test="${ !empty searchList }">
+	                  		<div class="row isotope-grid">
 		                     	<c:forEach var="vo" items="${searchList}">
 		                        	<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women">
 			                           	<!-- Block2 -->
 			                           	<div class="block2">
 			                             	 <div class="block2-pic hov-img0">
-			                                 	<img class="js-show-modal-bucket" src="bucket/${ vo.image_path }" alt="IMG-PRODUCT">
+			                                 	<img class="js-show-modal-bucket" src="images/bucket/${ vo.image_path }" alt="IMG-PRODUCT">
 			                              	</div>
 			            
 			                              	<div class="block2-txt flex-w flex-t p-t-14">
@@ -182,50 +184,52 @@
 			                           </div>
 		                        	</div>
 		                     	</c:forEach>
-		                  	</c:if>
-	               		</div>
+	               			</div>
+		               		<!-- 페이징 시작 -->
+							<c:if test="${!empty listCnt }">
+								<div class="flex-c-m flex-w w-full p-t-10 m-lr--7">
+									<c:if test="${pagination.curPage ne 1 }">
+										<a href="${pageContext.request.contextPath}/searchbucket?curPage=1" class="flex-c-m how-pagination1 trans-04 m-all-7">
+											<<
+										</a>
+									</c:if>
+									<c:if test="${pagination.curPage ne 1}">
+										<a href="${pageContext.request.contextPath}/searchbucket?curPage=${pagination.prevPage}" class="flex-c-m how-pagination1 trans-04 m-all-7">
+											<
+										</a>
+									</c:if>
+									<c:forEach var="pageNum" begin="${ pagination.startPage }"
+										end="${pagination.endPage }">
+										<c:choose>
+											<c:when test="${pageNum eq  pagination.curPage}">
+												<a href="${pageContext.request.contextPath}/searchbucket?curPage=${pageNum}" class="flex-c-m how-pagination1 trans-04 m-all-7 active-pagination1">
+												${pageNum}</a>
+											</c:when>
+											<c:otherwise>
+												<a href="${pageContext.request.contextPath}/searchbucket?curPage=${pageNum}" class="flex-c-m how-pagination1 trans-04 m-all-7">
+												${pageNum}</a>
+											</c:otherwise>
+										</c:choose>
+									</c:forEach>
+									<c:if
+										test="${pagination.curPage ne pagination.pageCnt && pagination.pageCnt > 0}">
+										<a href="${pageContext.request.contextPath}/searchbucket?curPage=${pagination.nextPage}" class="flex-c-m how-pagination1 trans-04 m-all-7">
+											>
+										</a>
+									</c:if>
+									<c:if test="${pagination.curPage ne pagination.pageCnt }">
+										<a href="${pageContext.request.contextPath}/searchbucket?curPage=${pagination.pageCnt}" class="flex-c-m how-pagination1 trans-04 m-all-7">
+											>>
+										</a>
+									</c:if>
+								</div>
+							</c:if>
+							<!-- 페이징 끝 -->
+	               		</c:if>
+		                <c:if test="${ empty searchList }">
+		                  	<h2 class="txt-center">'${keyword}'에 대한 검색결과가 없습니다.</h2>
+		                </c:if>  	
                   		<!-- 검색결과 끝 -->   
-						
-						<!-- 페이징 시작 -->
-						<c:if test="${!empty listCnt }">
-							<div class="flex-c-m flex-w w-full p-t-10 m-lr--7">
-								<c:if test="${pagination.curPage ne 1 }">
-									<a href="${pageContext.request.contextPath}/searchbucket?curPage=1" class="flex-c-m how-pagination1 trans-04 m-all-7">
-										<<
-									</a>
-								</c:if>
-								<c:if test="${pagination.curPage ne 1}">
-									<a href="${pageContext.request.contextPath}/searchbucket?curPage=${pagination.prevPage}" class="flex-c-m how-pagination1 trans-04 m-all-7">
-										<
-									</a>
-								</c:if>
-								<c:forEach var="pageNum" begin="${ pagination.startPage }"
-									end="${pagination.endPage }">
-									<c:choose>
-										<c:when test="${pageNum eq  pagination.curPage}">
-											<a href="${pageContext.request.contextPath}/searchbucket?curPage=${pageNum}" class="flex-c-m how-pagination1 trans-04 m-all-7 active-pagination1">
-											${pageNum}</a>
-										</c:when>
-										<c:otherwise>
-											<a href="${pageContext.request.contextPath}/searchbucket?curPage=${pageNum}" class="flex-c-m how-pagination1 trans-04 m-all-7">
-											${pageNum}</a>
-										</c:otherwise>
-									</c:choose>
-								</c:forEach>
-								<c:if
-									test="${pagination.curPage ne pagination.pageCnt && pagination.pageCnt > 0}">
-									<a href="${pageContext.request.contextPath}/searchbucket?curPage=${pagination.nextPage}" class="flex-c-m how-pagination1 trans-04 m-all-7">
-										>
-									</a>
-								</c:if>
-								<c:if test="${pagination.curPage ne pagination.pageCnt }">
-									<a href="${pageContext.request.contextPath}/searchbucket?curPage=${pagination.pageCnt}" class="flex-c-m how-pagination1 trans-04 m-all-7">
-										>>
-									</a>
-								</c:if>
-							</div>
-						</c:if>
-						<!-- 페이징 끝 -->
 					</div>
 				</div>
 				
@@ -267,62 +271,6 @@
 									<a href="#" class="dis-block stext-115 cl6 hov-cl1 trans-04 p-tb-8 p-lr-4">
 										DIY & Crafts
 									</a>
-								</li>
-							</ul>
-						</div>
-
-						<div class="p-t-65">
-							<h4 class="mtext-112 cl2 p-b-33">
-								블로그 리뷰2
-							</h4>
-
-							<ul>
-								<li class="flex-w flex-t p-b-30">
-									<a href="#" class="wrao-pic-w size-214 hov-ovelay1 m-r-20">
-										<img src="images/product-min-01.jpg" alt="PRODUCT">
-									</a>
-
-									<div class="size-215 flex-col-t p-t-8">
-										<a href="#" class="stext-116 cl8 hov-cl1 trans-04">
-											White Shirt With Pleat Detail Back
-										</a>
-
-										<span class="stext-116 cl6 p-t-20">
-											$19.00
-										</span>
-									</div>
-								</li>
-
-								<li class="flex-w flex-t p-b-30">
-									<a href="#" class="wrao-pic-w size-214 hov-ovelay1 m-r-20">
-										<img src="images/product-min-02.jpg" alt="PRODUCT">
-									</a>
-
-									<div class="size-215 flex-col-t p-t-8">
-										<a href="#" class="stext-116 cl8 hov-cl1 trans-04">
-											Converse All Star Hi Black Canvas
-										</a>
-
-										<span class="stext-116 cl6 p-t-20">
-											$39.00
-										</span>
-									</div>
-								</li>
-
-								<li class="flex-w flex-t p-b-30">
-									<a href="#" class="wrao-pic-w size-214 hov-ovelay1 m-r-20">
-										<img src="images/product-min-03.jpg" alt="PRODUCT">
-									</a>
-
-									<div class="size-215 flex-col-t p-t-8">
-										<a href="#" class="stext-116 cl8 hov-cl1 trans-04">
-											Nixon Porter Leather Watch In Tan
-										</a>
-
-										<span class="stext-116 cl6 p-t-20">
-											$17.00
-										</span>
-									</div>
 								</li>
 							</ul>
 						</div>
