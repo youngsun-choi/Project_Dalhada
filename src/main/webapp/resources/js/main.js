@@ -106,25 +106,37 @@
             });
                 
         }
-    });
-
-
+    });   
     /*==================================================================
-    [ Show / hide modal search ]*/
-    $('.js-show-modal-search').on('click', function(){
-        $('.modal-search-header').addClass('show-modal-search');
-        $(this).css('opacity','0');
-    });
-
-    $('.js-hide-modal-search').on('click', function(){
-        $('.modal-search-header').removeClass('show-modal-search');
-        $('.js-show-modal-search').css('opacity','1');
-    });
-
-    $('.container-search-header').on('click', function(e){
-        e.stopPropagation();
-    });
-
+    [ Login ]*/   
+    var referer='';
+	$(document).ready(function(){
+		$("#submit").click(function(){
+			var id = $("#id").val();
+			var pwd = $("#password").val();
+			referer =  document.referrer;
+			if(id==""){
+				$("#loginError").text("아이디를 입력하세요.").css("color", "red");		
+				return;
+			}else if(pwd==""){
+				$("#loginError").text("비밀번호를 입력하세요.").css("color", "red");		
+				return;
+			}
+			$.ajax({
+				url : '/dalhada/login?id='+id+'&password='+pwd,
+				type : 'post',
+				success : function(data){
+					if(data == "false"){
+							$("#loginError").text("아이디와 비밀번호가 일치하지 않습니다.").css("color", "red");	
+					}else{
+						if(referer.includes('logout')||referer.includes('memberForm'))
+							referer="http://localhost:8000/dalhada/main";
+						location.href=referer;
+					}
+				}
+			});
+		});
+	});
 
     /*==================================================================
     [ Isotope ]*/
@@ -193,7 +205,7 @@ alret("search")
 
 
     /*==================================================================
-    [ Cart ]*/
+    [ Bucket ]*/
     $('.js-show-cart').on('click',function(){
         $('.js-panel-cart').addClass('show-header-cart');
     });
@@ -203,26 +215,36 @@ alret("search")
     });
 
     /*==================================================================
-    [ Cart ]*/
-    $('.js-show-sidebar').on('click',function(){
-        $('.js-sidebar').addClass('show-sidebar');
-    });
-
-    $('.js-hide-sidebar').on('click',function(){
-        $('.js-sidebar').removeClass('show-sidebar');
-    });
-
-    /*==================================================================
-    [ +/- num product ]*/
-    $('.btn-num-product-down').on('click', function(){
-        var numProduct = Number($(this).next().val());
-        if(numProduct > 0) $(this).next().val(numProduct - 1);
-    });
-
-    $('.btn-num-product-up').on('click', function(){
-        var numProduct = Number($(this).prev().val());
-        $(this).prev().val(numProduct + 1);
-    });
+    [ +/- heart ]*/
+    $('.heart').each(function(){
+			$(this).on('click', function(){
+				var action;
+				if($(this).hasClass('js-addedlike')){
+					$(this).removeClass('js-addedlike');
+					action = "delete";
+				}else{
+					$(this).addClass('js-addedlike');
+					action = "insert";
+				}
+				$.ajax({
+					url: "main/like/",
+	                type: "POST",
+	                data: {
+	                    selectedbucket_id : $(this).attr("id"),
+	                    action : action
+	                },
+	                success: function (result) {
+	                	if(result!=1){
+	                		window.location.href = "loginmain";
+	                	}
+	                },
+	                error : function(request, status, error){
+	    				console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:");
+	    			}
+				})
+				
+			});
+		});
 
     /*==================================================================
     [ Rating ]*/
@@ -260,21 +282,117 @@ alret("search")
             }
 
             for(var j=i; j<item.length; j++) {
-                $(item[j]).addClass('zmdi-star-outline');
                 $(item[j]).removeClass('zmdi-star');
             }
         });
     });
     
     /*==================================================================
-    [ Show modal1 ]*/
-    $('.js-show-modal1').on('click',function(e){
+    [ Show modal ]*/
+    $('.js-show-modal-bucket').on('click',function(e){
         e.preventDefault();
-        $('.js-modal1').addClass('show-modal1');
+        
+        $.ajax({
+			url: "main/modaldetail",
+            type: "POST",
+            data: {
+                
+            },
+            success: function (data) {
+            	
+            },
+            error : function(){
+            	
+	        }
+		})
+        var map = L.map('mapid').setView([51.505, -0.09],  10);
+    	L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+    		maxZoom: 18,
+    		attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+    			'<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+    			'Imagery <a href="https://www.mapbox.com/">Mapbox</a>',
+    		id: 'mapbox.streets'
+    	}).addTo(map);
+        
+        $('.js-modal-bucket').addClass('show-modal-bucket');
     });
 
-    $('.js-hide-modal1').on('click',function(){
-        $('.js-modal1').removeClass('show-modal1');
+    $('.js-hide-modal').on('click',function(){
+        $('.js-modal-bucket').removeClass('show-modal-bucket');
+    }); 
+    
+    /*==================================================================
+    [ Show group modal ]*/
+    //가져오기 버튼 눌렀을 때
+    $('.getBtn').on('click',function(e){ 
+        e.preventDefault();
+        //$(this).addClass('js-addedlike'); //가져오기 버튼 색깔 바뀌게
+        var selectedbucket_id = $(this).data("id");
+        var image = "bucket/"+$(this).data("image");
+        var title, content, address, lat, lng;
+        var tags = [];
+        $.ajax({
+            url: 'searchbucket/get',
+            type: "POST",
+            data: {
+            	selectedbucket_id : selectedbucket_id
+            },
+            success: function (result) {
+            	console.log(result.tags);
+            	title = result.title;
+            	content = result.content;
+            	tags = result.tags;
+            	$.each(tags, function(index,value){
+            		console.log(index+" "+value.tag_id);
+            	});
+            	address = result.address;
+            	lat = result.lat;
+            	lng = result.lng;
+            	if(result!=""){
+            		$('.js-modal-bucket2').addClass('show-modal-bucket');
+            		$('input[name=title]').attr('value',title);
+            		$('img#imagePath').attr('src',image);
+            		$('input[name=content]').attr('value',content);
+            		$('input[name=address]').attr('value',address);
+            		$('input[name=lat]').attr('value',lat);
+            		$('input[name=lng]').attr('value',lng);
+            	}else{
+            		window.location.href = "loginmain";
+            	}
+            },
+            error : function(request, status, error){
+				console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:");
+			}
+        });
     });
-
+    
+    //가져오기 닫기버튼
+    $('.js-hide-modal').on('click',function(){
+        $('.js-modal-bucket2').removeClass('show-modal-bucket');
+    });
+    
+    /*
+     //가져오기 확인버튼 눌렀을 때 
+            	    $('.getBtnOk').on('click',function(e){ 
+            	        e.preventDefault();
+            	        
+            	        $("js-modal-bucket2").removeClass("in"); 
+            		 	$(".modal-backdrop").remove();
+            	 	 	$("js-modal-bucket2").hide();
+            	 	 	$('.js-modal-bucket').modal('show');
+            	        //var group_id = $('.js-select2 option:selected').attr('id');
+            		       console.log("group_id값 : "+group_id);
+            		       $.ajax({
+            		         url: "searchBucket/get",
+            		         type: "POST",
+            		          data: {
+            		             id : group_id
+            		          },
+            		          success: function (data) {
+            		          },
+            		          error : function(){
+            		          }    
+            		      });   
+            	    });*/
+    
 })(jQuery);

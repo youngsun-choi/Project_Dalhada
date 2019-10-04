@@ -27,16 +27,13 @@ public class memberController {
 		public ModelAndView signup(MemberinfoVO vo, HttpServletRequest request) {
 			ModelAndView mav = new ModelAndView();
 			if (request.getMethod().equals("GET")) {
-				System.out.println("GET일떄");
-			     
 			     mav.setViewName("memberForm");
 				return mav;
 			}
-			System.out.println("GET 아닐때");
-			if(vo.getImage()!=null) {
+			System.out.println(vo.getImage().getContentType());
+			if(!vo.getImage().getContentType().equals("application/octet-stream")) {
 				String fileName = vo.getImage().getOriginalFilename();
 				String newName = vo.getId()+"_"+fileName;
-				System.out.println("파일이름 : "+newName);
 				vo.setImage_path(newName);
 				service.insert(vo);
 			     byte[] content = null;
@@ -64,9 +61,7 @@ public class memberController {
 		@RequestMapping(value="/validateForm")
 		@ResponseBody
 		public int idCheck(String id) {
-			System.out.println("Controller에 넘어온 id값 "+id);
 			if (service.checkId(id)) {
-				System.out.println("idcheck로 돌아와서 리턴 1함");
 				return 1;
 			}
 			else return 0;

@@ -9,6 +9,7 @@ private String[] CreGroup;
 private String[] Groupnum;
 private String[] oriGroup;
 private String member_id;
+private String action;
 
 public String[] getBox() {
 	return box;
@@ -57,6 +58,12 @@ public String getMember_id() {
 }
 public void setMember_id(String member_id) {
 	this.member_id = member_id;
+}
+public String getAction() {
+	return action;
+}
+public void setAction(String action) {
+	this.action = action;
 }
 
 

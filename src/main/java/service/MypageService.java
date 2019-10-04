@@ -10,7 +10,6 @@ import dao.MypageDAO;
 import vo.GroupVO;
 import vo.MemberinfoVO;
 import vo.MypageBucketVO;
-import vo.MypageVO;
 
 @Service
 public class MypageService {
@@ -19,7 +18,21 @@ public class MypageService {
 
 	public MemberinfoVO UserInfo(MemberinfoVO vo1) {
 		return Dao.UserInfo(vo1);
-	}	
+	}
+	
+	public String Checkpw(String id) {
+		return Dao.Checkpw(id);
+	}
+	
+	public boolean UpCheck(MemberinfoVO vo) {
+		if(Dao.UpCheck(vo)!=1) return false;
+		return true;
+	}
+	
+	public boolean UpInfo(MemberinfoVO vo) {
+		if(Dao.UpInfo(vo)!=1) return false;
+		return true;
+	}
 	
 	public List<GroupVO> groupList(String id) {
 		return Dao.groupList(id);
@@ -58,8 +71,19 @@ public class MypageService {
 		if (Dao.updateGroup(map) != 1) return false;
 		return true;
 	}
+	
 	public boolean CreateGroup(Map<String, Object> map) {
 		if (Dao.CreateGroup(map) != 1) return false;
 		return true;
+	}
+	
+	public boolean DeleteGroup(int id) {
+		Dao.DefaultGroup(id); 
+			if(Dao.DeleteGroup(id)==1) {
+				return true;
+			}
+			return false;
+		
+		
 	}
 }

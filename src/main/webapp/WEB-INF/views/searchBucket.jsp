@@ -28,10 +28,14 @@
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="vendor/perfect-scrollbar/perfect-scrollbar.css">
 <!--===============================================================================================-->
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
+   integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+   crossorigin=""/>
+<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="css/util.css">
 	<link rel="stylesheet" type="text/css" href="css/main.css">
 <!--===============================================================================================-->
-
+	<link href="https://use.fontawesome.com/releases/v5.0.4/css/all.css" rel="stylesheet">
 </head>
 <body class="animsition">
 	<!-- Header -->
@@ -48,7 +52,7 @@
 
 					<!-- Icon header -->
 					<div class="wrap-icon-header flex-w flex-r-m h-full">
-						<form class="form-inline flex-c-m h-full p-r-24" action="searchBucket" method="get">
+						<form class="form-inline flex-c-m h-full p-r-24" action="searchbucket" method="get">
 	    					<div class="bor17 of-hidden pos-relative">
 								<input class="stext-103 cl2 plh4 size-116 p-l-28 p-r-55" type="text" name="searchKeyword" placeholder="Search" value="${ keyword }">
 								<button type="submit" class="flex-c-m size-122 ab-t-r fs-18 cl4 hov-cl1 trans-04" >
@@ -57,14 +61,24 @@
 							</div>
   						</form>
 						<div class="flex-c-m h-full p-r-24">
-							<a>버킷 +</a>
+							<p class="hov-cl1">버킷 +</p>
 						</div>
-						<div class="flex-c-m h-full p-r-24">
-							<a href="memberForm">회원가입</a>
-						</div>
-						<div class="flex-c-m h-full p-r-24">
-							<a href="login">로그인</a>
-						</div>	
+						<c:if test="${empty sessionScope.id}">
+							<div class="flex-c-m h-full p-r-24">
+								<a href="memberform">회원가입</a>
+							</div>
+							<div class="flex-c-m h-full p-r-24">
+								<a href="loginmain">로그인</a>
+							</div>	
+						</c:if>
+						<c:if test="${!empty sessionScope.id}">
+							<div class="flex-c-m h-full p-r-24">
+								<a href="mypage">마이페이지</a>
+							</div>
+							<div class="flex-c-m h-full p-r-24">
+								<a href="logout">로그아웃</a>
+							</div>	
+						</c:if>
 					</div>
 				</nav>
 			</div>	
@@ -91,7 +105,7 @@
 		<div class="menu-mobile">
 			<ul class="main-menu-m">
 				<li>
-					<form class="form-inline" action="searchBucket" method="get">
+					<form class="form-inline" action="searchbucket" method="get">
 	    					<div class="bor17 of-hidden pos-relative">
 								<input class="stext-103 cl2 plh4 size-116 p-l-28 p-r-55" type="text" name="searchKeyword" placeholder="Search" value="${ keyword }">
 								<button type="submit" class="flex-c-m size-122 ab-t-r fs-18 cl4 hov-cl1 trans-04" >
@@ -103,12 +117,22 @@
 				<li>
 					<a>버킷 +</a>
 				</li>
-				<li>
-					<a href="memberForm">회원가입</a>
-				</li>
-				<li>
-					<a href="login">로그인</a>
-				</li>
+				<c:if test="${empty sessionScope.id}">
+					<li>
+						<a href="memberform">회원가입</a>
+					</li>
+					<li>
+						<a href="loginmain">로그인</a>
+					</li>
+				</c:if>
+				<c:if test="${!empty sessionScope.id}">
+					<li>
+						<a href="mypage">마이페이지</a>
+					</li>
+					<li>
+						<a href="logout">로그아웃</a>
+					</li>
+				</c:if>
 			</ul>
 		</div>
 		<!-- Menu Mobile End -->
@@ -129,94 +153,49 @@
 			<div class="row">
 				<div class="col-md-8 col-lg-9 p-b-80">
 					<div class="p-r-45 p-r-0-lg"> 
-						<!-- 검색결과 시작 -->	
-						<div class="row isotope-grid">
-						<c:if test="${ !empty searchList }">
-							<c:forEach var="vo" items="${searchList}">
-								<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women">
-									<!-- Block2 -->
-									<div class="block2">
-										<div class="block2-pic hov-img0 js-show-modal1">
-											<img src="/dalhada/img/${ vo.image }" alt="IMG-PRODUCT">
-											
-											<div class="row">
-												<!-- <a href="#" class="block2-btn flex-c-m stext-103 cl2 size-104 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
-													하트
-												</a> -->
-												<a href="#" class="block2-btn btn-addwish-b2 dis-block pos-relative js-addwish-b2">
-													<img class="icon-heart1 dis-block trans-04" src="images/icons/icon-heart-01.png" alt="ICON">
-													<img class="icon-heart2 dis-block trans-04 ab-t-l" src="images/icons/icon-heart-02.png" alt="ICON">
-												</a>
-											</div>
-											
-										</div>
-				
-										<div class="block2-txt flex-w flex-t p-t-14">
-											<div class="block2-txt-child1 flex-col-l ">
-												<a href="product-detail" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-													${ vo.title }
-												</a>
-											</div>
-				
-											<div class="block2-txt-child2 flex-r p-t-3">
-												<!-- <a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
-													<img class="icon-heart1 dis-block trans-04" src="images/icons/icon-heart-01.png" alt="ICON">
-													<img class="icon-heart2 dis-block trans-04 ab-t-l" src="images/icons/icon-heart-02.png" alt="ICON">
-												</a> -->
-												<a href="searchBucket" onClick="clickPlusButton(${ vo.id })" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-													+
-												</a>
-											</div>
-										</div>
-									</div>
-								</div>
-							</c:forEach>
-						</c:if>
-							
-							<!-- <div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women">
-								Block2
-								<div class="block2">
-									<div class="block2-pic hov-img0 js-show-modal1">
-										<img src="images/product-01.jpg" alt="IMG-PRODUCT">
-			
-										<a href="#" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
-											상세보기
-										</a>
-									</div>
-			
-									<div class="block2-txt flex-w flex-t p-t-14">
-										<div class="block2-txt-child1 flex-col-l ">
-											<a href="product-detail" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-												Esprit Ruffle Shirt
-											</a>
-			
-											<span class="stext-105 cl3">
-												$16.64
-											</span>
-										</div>
-			
-										<div class="block2-txt-child2 flex-r p-t-3">
-											<a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
-												<img class="icon-heart1 dis-block trans-04" src="images/icons/icon-heart-01.png" alt="ICON">
-												<img class="icon-heart2 dis-block trans-04 ab-t-l" src="images/icons/icon-heart-02.png" alt="ICON">
-											</a>
-										</div>
-									</div>
-								</div>
-							</div> -->
-						</div>
-						<!-- 검색결과 끝 -->	
+						<!-- 검색결과 시작 -->   
+	                  	<div class="row isotope-grid">
+		                  	<c:if test="${ !empty searchList }">
+		                     	<c:forEach var="vo" items="${searchList}">
+		                        	<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women">
+			                           	<!-- Block2 -->
+			                           	<div class="block2">
+			                             	 <div class="block2-pic hov-img0">
+			                                 	<img class="js-show-modal-bucket" src="bucket/${ vo.image_path }" alt="IMG-PRODUCT">
+			                              	</div>
+			            
+			                              	<div class="block2-txt flex-w flex-t p-t-14">
+			                                 	<div class="block2-txt-child1 flex-col-l ">
+			                                   		<a href="#" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+			                                      		${ vo.title }
+			                                    	</a>
+			                                 	</div>
+			                              	</div>
+			                              	<div class="flex-r-m"><!-- bor9 --><!-- p-r-10 m-r-11 -->
+			                                 	<button id="${vo.selectedbucket_id}" class="heart fs-23 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addlike ${vo.className } tooltip100" data-tooltip="좋아요">
+			                                    	<i class="zmdi zmdi-favorite"></i> 
+			                                 	</button>
+			                                 	<button data-id="${vo.selectedbucket_id}" data-image="${vo.image_path}" class="getBtn fs-23 cl4 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addlike ${vo.className } tooltip100" data-tooltip="가져오기">
+			                                    	<i class="fa fa-plus-square"></i> 
+			                                 	</button>   
+			                              	</div>
+			                           </div>
+		                        	</div>
+		                     	</c:forEach>
+		                  	</c:if>
+	               		</div>
+                  		<!-- 검색결과 끝 -->   
 						
 						<!-- 페이징 시작 -->
 						<c:if test="${!empty listCnt }">
 							<div class="flex-c-m flex-w w-full p-t-10 m-lr--7">
 								<c:if test="${pagination.curPage ne 1 }">
-									<a href="#" class="flex-c-m how-pagination1 trans-04 m-all-7" onClick="fn_paging(1)">
+									<a href="${pageContext.request.contextPath}/searchbucket?curPage=1" class="flex-c-m how-pagination1 trans-04 m-all-7">
 										<<
 									</a>
 								</c:if>
 								<c:if test="${pagination.curPage ne 1}">
-									<a href="#" class="flex-c-m how-pagination1 trans-04 m-all-7" onClick="fn_paging('${pagination.prevPage }')">
+									<a href="${pageContext.request.contextPath}/searchbucket?curPage=${pagination.prevPage}" class="flex-c-m how-pagination1 trans-04 m-all-7">
 										<
 									</a>
 								</c:if>
@@ -224,23 +203,23 @@
 									end="${pagination.endPage }">
 									<c:choose>
 										<c:when test="${pageNum eq  pagination.curPage}">
-											<a href="#" class="flex-c-m how-pagination1 trans-04 m-all-7 active-pagination1" 
-											onClick="fn_paging('${pageNum }')">${pageNum }</a>
+											<a href="${pageContext.request.contextPath}/searchbucket?curPage=${pageNum}" class="flex-c-m how-pagination1 trans-04 m-all-7 active-pagination1">
+											${pageNum}</a>
 										</c:when>
 										<c:otherwise>
-											<a href="#" class="flex-c-m how-pagination1 trans-04 m-all-7" 
-											onClick="fn_paging('${pageNum }')">${pageNum }</a>
+											<a href="${pageContext.request.contextPath}/searchbucket?curPage=${pageNum}" class="flex-c-m how-pagination1 trans-04 m-all-7">
+											${pageNum}</a>
 										</c:otherwise>
 									</c:choose>
 								</c:forEach>
 								<c:if
 									test="${pagination.curPage ne pagination.pageCnt && pagination.pageCnt > 0}">
-									<a href="#" class="flex-c-m how-pagination1 trans-04 m-all-7" onClick="fn_paging('${pagination.nextPage }')">
+									<a href="${pageContext.request.contextPath}/searchbucket?curPage=${pagination.nextPage}" class="flex-c-m how-pagination1 trans-04 m-all-7">
 										>
 									</a>
 								</c:if>
 								<c:if test="${pagination.curPage ne pagination.pageCnt }">
-									<a href="#" class="flex-c-m how-pagination1 trans-04 m-all-7" onClick="fn_paging('${pagination.pageCnt }')">
+									<a href="${pageContext.request.contextPath}/searchbucket?curPage=${pagination.pageCnt}" class="flex-c-m how-pagination1 trans-04 m-all-7">
 										>>
 									</a>
 								</c:if>
@@ -249,6 +228,7 @@
 						<!-- 페이징 끝 -->
 					</div>
 				</div>
+				
 	
 				<!-- 블로그 리뷰, 태그 시작 -->
 				<div class="col-md-4 col-lg-3 p-b-80">
@@ -351,31 +331,15 @@
 							<h4 class="mtext-112 cl2 p-b-27">
 								Tags
 							</h4>
-
+							<!-- 태그명 찾기 -->
 							<div class="flex-w m-r--5">
-								<a href="searchBucket?searchTag=여행" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
-									여행
-								</a>
-
-								<a href="searchBucket?searchTag=음식" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
-									음식
-								</a>
-
-								<a href="searchBucket?searchTag=공부" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
-									공부
-								</a>
-
-								<a href="searchBucket?searchTag=운동" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
-									운동
-								</a>
-
-								<a href="searchBucket?searchTag=취미" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
-									취미
-								</a>
-								
-								<a href="searchBucket?searchTagName=기타" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
-									기타
-								</a>
+								<c:if test="${ !empty tagNameList }">
+									<c:forEach var="tList" items="${tagNameList}">
+										<a href="${pageContext.request.contextPath}/searchbucket?tagName=${tList.name}" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
+											#${tList.name}
+										</a>
+									</c:forEach>
+								</c:if> 
 							</div>
 						</div>
 					</div>
@@ -399,13 +363,85 @@
 		</span>
 	</div>
 	
-	<!-- Modal1 -->
-	<div class="wrap-modal1 js-modal1 p-t-60 p-b-20">
-		<div class="overlay-modal1 js-hide-modal1"></div>
+	<!-- 그룹 Modal -->
+   	<div class="wrap-modal-group js-modal-bucket2 p-t-60 p-b-20">
+      <div class="overlay-modal js-hide-modal"></div>
+
+      <div class="container">
+			<div class="bg0 p-t-60 p-b-30 p-lr-15-lg how-pos3-parent">
+				<button class="how-pos3 hov3 trans-04 js-hide-modal">
+					<img src="images/icons/icon-close.png" alt="CLOSE">
+				</button>
+				<div class="row">
+						<div class="col-md-6 col-lg-7 p-b-30">
+							<div class="p-r-50 p-t-5 p-lr-0-lg">
+								<div class="stext-102 cl3 p-t-23">제목</div>
+								<input type="text" name="title" value="">
+				                <div class="stext-102 cl3 p-t-23">이미지</div>
+				                <div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women">
+			                    	<div class="block2">
+							    		<div class="block2-pic hov-img0">
+			                    			<img id="imagePath" src="" alt="IMG-PRODUCT">
+			                    		</div>
+			                    	</div>       	
+			                    </div>
+							    <div class="stext-102 cl3 p-t-23">내용</div>
+							    <input type="text" name="content" value="">
+							    <div class="stext-102 cl3 p-t-23">태그</div>
+							    <div class="flex-w m-r--5">
+									<c:if test="${ !empty tagNameList }">
+										<c:forEach var="tList" items="${tagNameList}">
+											<button id="${tList.tag_id}" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
+												#${tList.name}
+											</button>
+										</c:forEach>
+									</c:if> 
+								</div>
+							    <div class="stext-102 cl3 p-t-23">그룹</div>
+							    <div class="flex-w flex-r-m p-b-10">
+									<div class="size-203 flex-c-m respon6">
+											그룹선택
+									</div>
+									<div class="size-204 respon6-next">
+										<div class="rs1-select2 bor8 bg0">
+											<select class="js-select2" name="time">
+												<c:if test="${ !empty groupNameList }">
+													<c:forEach var="gList" items="${groupNameList}">
+														<option id="${gList.group_id}">${gList.name}</option>
+													</c:forEach>
+												</c:if> 
+											</select>
+											<div class="dropDownSelect2"></div>
+										</div>
+									</div>
+								</div>		
+							 </div>		
+						</div>
+						
+						<div class="col-md-6 col-lg-5 p-b-30">
+							<div class="p-r-50 p-t-5 p-lr-0-lg">
+								<div class="stext-102 cl3 p-t-23">D-Day</div>
+								<div id="tags" class="flex-w p-t-4 m-r--5"></div>
+				                <div class="stext-102 cl3 p-t-23">위치</div>
+				                                    주소 <input type="text" name="address" value="">
+				                                    위도 <input type="text" name="lat" value="">
+				                                    경도<input type="text" name="lng" value="">
+							    <div id = 'mapid'></div>
+							 </div>
+						</div>
+				</div>
+			</div>
+		</div>
+   </div>
+   <!-- 그룹 Modal 끝 -->
+
+	<!-- Modal -->
+	<div class="wrap-modal-bucket js-modal-bucket p-t-60 p-b-20">
+		<div class="overlay-modal js-hide-modal"></div>
 
 		<div class="container">
 			<div class="bg0 p-t-60 p-b-30 p-lr-15-lg how-pos3-parent">
-				<button class="how-pos3 hov3 trans-04 js-hide-modal1">
+				<button class="how-pos3 hov3 trans-04 js-hide-modal">
 					<img src="images/icons/icon-close.png" alt="CLOSE">
 				</button>
 
@@ -413,107 +449,47 @@
 					<div class="col-md-6 col-lg-7 p-b-30">
 						<div class="p-l-25 p-r-30 p-lr-0-lg">
 							<div class="wrap-slick3 flex-sb flex-w">
-								<div class="wrap-slick3-dots"></div>
-								<div class="wrap-slick3-arrows flex-sb-m flex-w"></div>
-
-								<div class="slick3 gallery-lb">
-									<div class="item-slick3" data-thumb="images/product-detail-01.jpg">
+								<h4 id="bucketTitle"class="mtext-105 cl2 js-name-detail p-b-14">
+								</h4>
+								<div class="gallery-lb">
+									<div data-thumb="images/slide-03.jpg">
 										<div class="wrap-pic-w pos-relative">
-											<img src="images/product-detail-01.jpg" alt="IMG-PRODUCT">
+											<img class="modalimage" src="images/slide-03.jpg" alt="IMG-PRODUCT">
 
-											<a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04" href="images/product-detail-01.jpg">
+											<a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04" href="images/slide-03.jpg">
 												<i class="fa fa-expand"></i>
 											</a>
 										</div>
 									</div>
 								</div>
 							</div>
-						</div>
+							<p id="bucketContent" class="stext-102 cl3 p-t-23">
+							</p>
+							<div class="flex-m bor9 p-r-10 m-r-11">
+								<a id="${vo.selectedbucket_id }" class="heart fs-23 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addlike ${vo.className } tooltip100" data-tooltip="Add to Like">
+									<i class="zmdi zmdi-favorite"></i> 
+								</a>
+								<p id="likecnt" class="cl6 stext-107" style="width: 40px"></p>
+								<a href="#" class="fs-23 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addwish-detail tooltip100" data-tooltip="Add to Wishlist">
+									<i class="fa fa-plus-square fa-lg"></i> 
+								</a>
+								<p id="getcnt" class="cl6 stext-107" style="width: 40px"></p>							
+							</div>
+						</div>			
 					</div>
 					
 					<div class="col-md-6 col-lg-5 p-b-30">
 						<div class="p-r-50 p-t-5 p-lr-0-lg">
-							<h4 class="mtext-105 cl2 js-name-detail p-b-14">
-								Lightweight Jacket
-							</h4>
-
-							<span class="mtext-106 cl2">
-								$58.79
-							</span>
-
-							<p class="stext-102 cl3 p-t-23">
-								Nulla eget sem vitae eros pharetra viverra. Nam vitae luctus ligula. Mauris consequat ornare feugiat.
-							</p>
-							
-							<!--  -->
-							<div class="p-t-33">
-								<div class="flex-w flex-r-m p-b-10">
-									<div class="size-203 flex-c-m respon6">
-										Size
-									</div>
-
-									<div class="size-204 respon6-next">
-										<div class="rs1-select2 bor8 bg0">
-											<select class="js-select2" name="time">
-												<option>Choose an option</option>
-												<option>Size S</option>
-												<option>Size M</option>
-												<option>Size L</option>
-												<option>Size XL</option>
-											</select>
-											<div class="dropDownSelect2"></div>
-										</div>
-									</div>
-								</div>
-
-								<div class="flex-w flex-r-m p-b-10">
-									<div class="size-203 flex-c-m respon6">
-										Color
-									</div>
-
-									<div class="size-204 respon6-next">
-										<div class="rs1-select2 bor8 bg0">
-											<select class="js-select2" name="time">
-												<option>Choose an option</option>
-												<option>Red</option>
-												<option>Blue</option>
-												<option>White</option>
-												<option>Grey</option>
-											</select>
-											<div class="dropDownSelect2"></div>
-										</div>
-									</div>
-								</div>
-
-								<div class="flex-w flex-r-m p-b-10">
-									<div class="size-204 flex-w flex-m respon6-next">
-										<div class="wrap-num-product flex-w m-r-20 m-tb-10">
-											<div class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
-												<i class="fs-16 zmdi zmdi-minus"></i>
-											</div>
-
-											<input class="mtext-104 cl3 txt-center num-product" type="number" name="num-product" value="1">
-
-											<div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
-												<i class="fs-16 zmdi zmdi-plus"></i>
-											</div>
-										</div>
-
-										<button class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail">
-											Add to cart
-										</button>
-									</div>
-								</div>	
+						<div class="stext-102 cl3 p-t-23">태그</div>
+							<div id="tags" class="flex-w p-t-4 m-r--5">
+			                </div>
+			                <div class="stext-102 cl3 p-t-23">위치</div>
+						    <div id = 'mapid'>
 							</div>
-
+						 </div>
 							<!--  -->
 							<div class="flex-w flex-m p-l-100 p-t-40 respon7">
-								<div class="flex-m bor9 p-r-10 m-r-11">
-									<a href="#" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addwish-detail tooltip100" data-tooltip="Add to Wishlist">
-										<i class="zmdi zmdi-favorite"></i>
-									</a>
-								</div>
-
+								
 								<a href="#" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="Facebook">
 									<i class="fa fa-facebook"></i>
 								</a>
@@ -531,7 +507,6 @@
 				</div>
 			</div>
 		</div>
-	</div>
 
 <!--===============================================================================================-->	
 	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
@@ -569,31 +544,18 @@
 			})
 		});
 	</script>
-<!--===============================================================================================-->
-	<script src="js/main.js"></script>
+
 <!--===============================================================================================-->
 	<script src="vendor/isotope/isotope.pkgd.min.js"></script>
 <!--===============================================================================================-->
-
-<script>
-function fn_paging(curPage) {
-	location.href = "searchBucket?curPage=" + curPage;
-}
-
-function clickPlusButton(id){
-	var url = "searchBucket?id="+id;
-	$.ajax({
-		url : url,
-		type : 'POST',
-		success : function(data){
-			alert("스크랩되었습니다!");
-		},
-	    error : function(request, status, error){
-			console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:");
-		}
-	});
-}
-</script>
+	<script src="vendor/sweetalert/sweetalert.min.js"></script>
+<!--===============================================================================================-->
+	<script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
+   integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
+   crossorigin=""></script>
+<!--===============================================================================================-->
+	<script src="js/main.js"></script>
+<!--===============================================================================================-->
 
 </body>
 </html>

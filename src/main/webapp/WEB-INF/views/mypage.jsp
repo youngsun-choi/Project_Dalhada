@@ -318,8 +318,7 @@ section {
 
 /* modal */
 /*assign full width inputs*/ 
-    input[type=text], 
-    input[type=password] { 
+    .groupModal { 
         width: 30%; 
         padding: 12px 20px; 
         margin: 8px 0; 
@@ -380,7 +379,8 @@ section {
         background-color: #fefefe; 
         margin: 5% auto 15% auto; 
         border: 1px solid #888; 
-        width: 80%; 
+        width: 50%; 
+        text-align: center;
     } 
     
     /*style the close button*/ 
@@ -433,7 +433,125 @@ section {
         } 
     } 
 
-/* input */
+/* 회원정보 수정 */
+
+.main{
+ 	margin-top: 70px;
+}
+
+h1.title { 
+text-align: center;
+}
+
+hr{
+	width: 10%;
+	color: #fff;
+}
+
+.form-group{
+	margin-bottom: 15px;
+}
+
+label{
+	margin-bottom: 15px;
+}
+
+.main-login{
+ 	background-color: #fff;
+    /* shadows and rounded borders */
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    border-radius: 2px;
+    -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+    -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+
+}
+
+.main-center{
+ 	margin-top: 30px;
+ 	margin: 0 auto;
+ 	max-width: 330px;
+    padding: 40px 40px;
+
+}
+
+.login-button{
+	margin-top: 5px;
+}
+
+.login-register{
+	font-size: 11px;
+	text-align: center;
+}
+
+.avatar-upload {
+  position: relative;
+  max-width: 205px;
+  margin: 50px auto;
+}
+.avatar-upload .avatar-edit {
+  position: absolute;
+  right: 12px;
+  z-index: 1;
+  top: 10px;
+}
+.avatar-upload .avatar-edit input {
+  display: none;
+}
+.avatar-upload .avatar-edit input + label {
+  display: inline-block;
+  width: 34px;
+  height: 34px;
+  margin-bottom: 0;
+  border-radius: 100%;
+  background: #ffffff;
+  border: 1px solid transparent;
+  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.12);
+  cursor: pointer;
+  font-weight: normal;
+  transition: all 0.2s ease-in-out;
+}
+.avatar-upload .avatar-edit input + label:hover {
+  background: #f1f1f1;
+  border-color: #d6d6d6;
+}
+.avatar-upload .avatar-edit input + label:after {
+  content: "\f040";
+  font-family: "FontAwesome";
+  color: #757575;
+  position: absolute;
+  top: 10px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  margin: auto;
+}
+.avatar-upload .avatar-preview {
+  width: 192px;
+  height: 192px;
+  position: relative;
+  border-radius: 100%;
+  border: 6px solid #f8f8f8;
+  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.1);
+}
+.avatar-upload .avatar-preview > div {
+  width: 100%;
+  height: 100%;
+  border-radius: 100%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.form-control{
+width: 70%; 
+padding: 12px 20px; 
+margin: 8px 0; 
+display: inline-block; 
+border: 1px solid #ccc; 
+box-sizing: border-box; 
+}
 
 </style>
     
@@ -448,7 +566,13 @@ section {
 			<legend>마이페이지</legend>
 			<table>
 				<tr>
-					<td><img class='photo3' src="http://localhost:8000/dalhada/resources/images/profile/${info.image_path}" />
+					<td>
+					<c:if test="${!empty info.image_path}">
+					<img class='photo3' src="http://localhost:8000/dalhada/resources/images/profile/${info.image_path}" />
+					</c:if>
+					<c:if test="${empty info.image_path}">
+					<img class='photo3' src="http://localhost:8000/dalhada/resources/images/profile.png" />
+					</c:if>
 					</td>
 				</tr>
 				<tr>
@@ -460,15 +584,135 @@ section {
         </td>
 				</tr>
 				<tr>
-					<td><button onclick="lacation.href='localhost:8000/dalhada/Editinfo'">회원정보 수정</button></td>
+					<td><button type="button" onclick="document.getElementById('id02').style.display='block'">회원정보 수정</button></td>
 				</tr>
+				
 				<tr>
 					<td>
-					<button onclick="location.href='localhost:8000/dalhada/achieve'">아카이브 페이지</button>
+					<button type="button" onclick="location.href='localhost:8000/dalhada/achieve'">아카이브 페이지</button>
 					</td>
 				</tr>
 			</table>
 		</fieldset>
+		
+		<div id="id02" class="modal"> 
+		<div class="modal-content animate">
+        
+        <input type="hidden" name="action" value="update">
+            <div class="imgcontainer"> 
+                <span onclick="document.getElementById('id02').style.display='none';location.reload();" class="close" title="Close Modal">×</span>  
+            </div> 
+  
+            <div class="container2"> 
+            <div class="row main">
+				<div class="panel-heading">
+	               <div class="panel-title text-center">
+	               		<h1 class="title">회원정보 수정</h1>
+	               		<hr />
+	               	</div>
+	            </div>
+	            <div id="CkUpdate" class="main-login main-center">
+	            <div class="form-group">
+							<label for="password" class="cols-sm-2 control-label">Password</label>
+							<div class="cols-sm-10">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+									<input type="password" id="upPw" class="form-control" required placeholder="Enter your Password"/>
+								</div>
+							</div>
+						</div>
+						<div id="pwError"></div>
+						<div class="form-group">
+							<button onclick="ConfirmPw();" id="submit" type="button" class="btn btn-primary btn-lg btn-block login-button">확인</button>
+						</div>
+	            </div> 
+	            <!-- 비밀번호 확인후 출력 -->
+				<div id="updateInfo" style="display: none;" class="main-login main-center">
+				<form action="/dalhada/mypage"  method="post" enctype="multipart/form-data">
+				<input type="hidden" name="action" value="UpInfo">
+						<div class="avatar-upload">
+						<div class="avatar-edit">
+							<input type='file' id="imageUpload" name="image" accept=".png, .jpg, .jpeg"/>
+							<label for="imageUpload"></label>
+						</div>
+						<div class="avatar-preview">
+							<c:if test="${!empty info.image_path}">
+							<div id="imagePreview"
+								style="background-image: url('resources/images/profile/${info.image_path}');">
+							</div>
+							</c:if>
+							<c:if test="${empty info.image_path}">
+							<div id="imagePreview"
+								style="background-image: url('resources/images/profile.png');">
+							</div>
+							</c:if>
+						</div>
+					</div>
+						<div class="form-group">
+							<label for="email" class="cols-sm-2 control-label">Your Email</label>
+							<div class="cols-sm-10">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
+									<input type="text" class="form-control" value="${info.email}" name="email" required placeholder="Enter your Email"/>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+						<label for="birth" class="cols-sm-2 control-label">Your Birth</label>
+							<div class="cols-sm-10">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
+									<input type="date" class="form-control" name="birth" value="${info.birth}" required/>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="confirm" class="cols-sm-2 control-label">your comment</label>
+							<div class="cols-sm-10">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+									<textarea style="margin: 8px;" rows="10" cols="30"  name="my_words" placeholder="코멘트를 남겨주세요!">${info.my_words}</textarea>
+								</div>
+							</div>
+						</div>
+						<div class="form-group ">
+							<input id="submit" type="submit" class="btn btn-primary btn-lg btn-block login-button">
+						</div>
+						<hr>
+	</form>
+	<form action="/dalhada/mypage"  method="post">
+	<input type="hidden" name="action" value="UpCheck">
+						<div class="form-group">
+						<h3>비밀번호 수정</h3>
+							<label for="password" class="cols-sm-2 control-label">Password</label>
+							<div class="cols-sm-10">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+									<input type="password" id="pw" class="form-control" name="password" required  placeholder="Enter your Password"/>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="confirm" class="cols-sm-2 control-label">Confirm Password</label>
+							<div class="cols-sm-10">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+									<input type="password" id="pwcheck" class="form-control" name="pwcheck" 
+										onkeyup="checkPwd()" required  placeholder="Confirm your Password"/>
+								</div>
+							</div>
+						</div>
+						<div class="form-group ">
+							<input id="submit" type="submit" class="btn btn-primary btn-lg btn-block login-button">
+						</div></form>
+						<div id="checkPwd"></div>
+				</div>
+			</div>
+            <button type="button" onclick="document.getElementById('id02').style.display='none'" class="cancelbtn">Cancel</button>
+            </div> 
+</div>
+    </div>
 		</nav>
         <section>
         <fieldset>
@@ -503,18 +747,22 @@ section {
   
             <div class="container1"> 
             <h3>그룹 관리</h3>
+            
             <c:forEach var="vo" items="${group}">
-                <input type="text"  name="Group1" value="${vo.name}"> 
+            <div style="margin: 0px;">
+                <input type="text" class="groupModal"  name="Group1" value="${vo.name}"> 
                 <input type="hidden"  name="Groupnum" value="${vo.id}"> 
                 <input type="hidden"  name="oriGroup" value="${vo.name}">
-                <button onclick="location.href='localhost:8000/dalhada/Group1'">삭제</button><br>
+                <button type="button" class="delGroup" value="${vo.id}">삭제</button>
+                </div>
                 </c:forEach>
-                <p style="margin: 0px;" id="plusGroup"></p>
+                <div style="margin: 0px;" id="plusGroup"></div>
                 <img style="widows: 20px; height:20px; " onclick="plusGroup();" src="http://localhost:8000/dalhada/resources/images/plus.png"><br>
                 <button type="submit">확인</button>
-                <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button> 
+                <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
+                 
             </div> 
-        </form> 
+ </form> 
     </div> 
 
 
@@ -587,7 +835,6 @@ section {
         </section>
     </div>
 </c:if>
-
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
 <script type="text/javascript">
 
@@ -609,6 +856,27 @@ $('#listDone').click(function() {
 	$('.Done').css('display','block');
 	$('.Done').removeAttr('style');
 })
+
+//프로필 수정 시 비밀번호 확인
+function ConfirmPw(){
+	var upPw = $('#upPw').val();
+	console.log(upPw);
+	$.ajax({
+		url : '/dalhada/Checkpw',
+		type : 'post',
+		success : function(data){
+			console.log(data);
+			if (data == upPw){ // 삭제 완료
+				$('#updateInfo').css('display','block');
+				$('#CkUpdate').css('display','none');	   
+			}else{
+				document.getElementById('pwError').style.color = "red";
+				   document.getElementById('pwError').innerHTML = "암호가 일치하지 않습니다.";
+			}
+		},					
+		error : function(){ console.log("실패"); }
+	});
+}
 
 $(function() {
 	// progress bar
@@ -640,20 +908,81 @@ function changeFunc() {
    }
    
    function plusGroup(){
-	   $("#plusGroup").append("<input type=\"text\" name=\"CreGroup\">  <button onclick=\"location.href='localhost:8000/dalhada/Group1'\">삭제</button><br>");
+	   $("#plusGroup").append("<div style=\"margin: 0px;\"><input type=\"text\" class=\"groupModal\" name=\"CreGroup\">  <button type=\"button\" class=\"deleteGroup\">삭제</button></div>");
+	   $('.deleteGroup').click(function(){
+		   this.closest("div").remove();
+	   });
    }
    
+ 
+
+   
 var modal = document.getElementById('id01'); 
+var modal2 = document.getElementById('id02'); 
 window.onclick = function(event) { 
     if (event.target == modal) { 
         modal.style.display = "none"; 
+    }
+    if (event.target == modal2) { 
+        modal.style.display = "none"; 
     } 
+    
 } 
 
 function modalCancel(){
 	document.getElementById('id01').style.display='none';
-	
+	document.getElementById('id02').style.display='none';
 }
+
+$(document).ready(function(){
+$('.delGroup').click(function(){
+	var id = $(this).val();
+	var add = this;
+	$.ajax({
+		url : '/dalhada/delGroup?id=' + id,
+		type : 'post',
+		success : function(data){
+			console.log(data);
+			if (data == "true"){ // 삭제 완료
+					   $(add).closest("div").remove();
+			}
+		},					
+		error : function(){ console.log("실패"); }
+	});
+});
+})
+		
+
+
+//회원정보 수정시 프로필 이미지
+function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            $('#imagePreview').css('background-image', 'url('+e.target.result +')');
+            $('#imagePreview').hide();
+            $('#imagePreview').fadeIn(650);
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+$("#imageUpload").change(function() {
+    readURL(this);
+});
+
+
+function checkPwd(){
+	  var pw1 =	document.getElementById('pw').value
+	  var pw2 = document.getElementById('pwcheck').value
+	  if(pw1!=pw2){
+	   document.getElementById('checkPwd').style.color = "red";
+	   document.getElementById('checkPwd').innerHTML = "동일한 암호를 입력하세요."; 
+	  }else{
+	   document.getElementById('checkPwd').style.color = "blue";
+	   document.getElementById('checkPwd').innerHTML = "암호가 확인 되었습니다."; 
+	  }
+	  
+	 }
 </script>
 
 </body>
