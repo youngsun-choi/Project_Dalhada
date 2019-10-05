@@ -27,7 +27,6 @@ public class MypageDAO {
 	
 	public List<GroupVO> groupList(String id) {
 		List<GroupVO> list = null;
-		System.out.println("grouplist 들어옴");
 		String statement = "resource.MypageMapper.group";
 		list = session.selectList(statement,id);
 		return list;
@@ -35,7 +34,6 @@ public class MypageDAO {
 	
 	public List<MypageBucketVO> GroupAllBuck(Map<String, Object> map){
 		List<MypageBucketVO> list = null;
-		System.out.println("GroupAllBuck 들어옴");
 		String statement = "resource.MypageMapper.GroupAllBuck";
 		list = session.selectList(statement,map);
 		return list;
@@ -43,7 +41,6 @@ public class MypageDAO {
 	
 	public List<MypageBucketVO> groupChos(Map<String, Object> map){
 		List<MypageBucketVO> list = null;
-		System.out.println("groupChos 들어옴");
 		String statement = "resource.MypageMapper.groupChos";
 		list = session.selectList(statement,map);
 		return list;
@@ -51,7 +48,6 @@ public class MypageDAO {
 	
 	public List<MypageBucketVO> bucketAll(String id){
 		List<MypageBucketVO> list = null;
-		System.out.println("bucketAll 들어옴");
 		String statement = "resource.MypageMapper.bucketAll";
 		list = session.selectList(statement,id);
 		return list;
@@ -60,7 +56,6 @@ public class MypageDAO {
 	
 	public List<MypageBucketVO> choose(Map<String, Object> map){
 		List<MypageBucketVO> list = null;
-		System.out.println("choose 들어옴"+map.get("stat")+" : 아이디 :"+map.get("id"));
 		String statement = "resource.MypageMapper.choose";
 		list = session.selectList(statement,map);
 		return list;
@@ -68,7 +63,6 @@ public class MypageDAO {
 	
 	public boolean delete(int id) {
 		String statement = "resource.MypageMapper.delete";
-		System.out.println("삭제 시작");
 		if (session.delete(statement, id) != 1)
 			return false;
 		return true;
@@ -76,7 +70,6 @@ public class MypageDAO {
 	
 	public boolean complete(Map<String, Object> map) {
 		String statement = "resource.MypageMapper.complete";
-		System.out.println("완료 버튼 dao");
 		if (session.delete(statement, map) != 1)
 			return false;
 		return true;

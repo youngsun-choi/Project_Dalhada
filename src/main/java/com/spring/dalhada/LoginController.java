@@ -24,8 +24,6 @@ public class LoginController {
 	@ResponseBody
 	public ModelAndView loginmain() {
 		ModelAndView mav = new ModelAndView();
-		System.out.println("loginmain 호출");
-		
 		mav.setViewName("login");
 		return mav;
 	}
@@ -35,10 +33,8 @@ public class LoginController {
 	@ResponseBody
 	public String login(String id, String password, HttpSession session,HttpServletRequest request) {
 		MemberinfoVO vo = dao.checklogin(id, password);
-		System.out.println("login 화면 호출");
 		if (vo != null) {
 			session.setAttribute("id", vo.getId());
-			System.out.println(vo.getId());
 			return "true";
 		}
 		return "false";

@@ -28,13 +28,17 @@
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="vendor/perfect-scrollbar/perfect-scrollbar.css">
 <!--===============================================================================================-->
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
+   integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+   crossorigin=""/>
+<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="css/util.css">
 	<link rel="stylesheet" type="text/css" href="css/main.css">
 <!--===============================================================================================-->
 	<link href="https://use.fontawesome.com/releases/v5.0.4/css/all.css" rel="stylesheet">
 </head>
 <body class="animsition">
-	<!-- Header -->
+<!-- Header -->
 	<header class="header-v2">
 		<!-- Header desktop -->
 		<div class="container-menu-desktop trans-03">
@@ -45,10 +49,9 @@
 					<a href="main" class="logo">
 						<img src="images/icons/logo-01.png" alt="IMG-LOGO">
 					</a>
-
 					<!-- Icon header -->
 					<div class="wrap-icon-header flex-w flex-r-m h-full">
-						<form class="form-inline flex-c-m h-full p-r-24" action="searchBucket" method="get">
+						<form class="form-inline flex-c-m h-full p-r-24" action="searchbucket" method="get">
 	    					<div class="bor17 of-hidden pos-relative">
 								<input class="stext-103 cl2 plh4 size-116 p-l-28 p-r-55" type="text" name="searchKeyword" placeholder="Search" value="${ keyword }">
 								<button type="submit" class="flex-c-m size-122 ab-t-r fs-18 cl4 hov-cl1 trans-04" >
@@ -56,15 +59,25 @@
 								</button>
 							</div>
   						</form>
-						<div class="flex-c-m h-full p-r-24">
-							<a>버킷 +</a>
-						</div>
-						<div class="flex-c-m h-full p-r-24">
-							<a href="memberForm">회원가입</a>
-						</div>
-						<div class="flex-c-m h-full p-r-24">
-							<a href="loginmain">로그인</a>
-						</div>	
+						<c:if test="${empty sessionScope.id}">
+							<div class="flex-c-m h-full p-r-24">
+								<a href="memberForm">회원가입</a>
+							</div>
+							<div class="flex-c-m h-full p-r-24">
+								<a href="loginmain">로그인</a>
+							</div>	
+						</c:if>
+						<c:if test="${!empty sessionScope.id}">
+							<div class="flex-c-m h-full p-r-24">
+								<p class="js-show-modal-create hov-cl1">버킷 +</p>
+							</div>
+							<div class="flex-c-m h-full p-r-24">
+								<a href="mypage">마이페이지</a>
+							</div>
+							<div class="flex-c-m h-full p-r-24">
+								<a href="logout">로그아웃</a>
+							</div>
+						</c:if>
 					</div>
 				</nav>
 			</div>	
@@ -91,29 +104,39 @@
 		<div class="menu-mobile">
 			<ul class="main-menu-m">
 				<li>
-					<form class="form-inline" action="searchBucket" method="get">
+					<form class="form-inline" action="searchbucket" method="get">
 	    					<div class="bor17 of-hidden pos-relative">
-								<input class="stext-103 cl2 plh4 size-116 p-l-28 p-r-55" type="text" name="searchKeyword" placeholder="Search" value="${ keyword }">
+								<input class="stext-103 cl2 plh4 size-116 p-l-28 p-r-55" type="text" name="search" placeholder="Search">
 								<button type="submit" class="flex-c-m size-122 ab-t-r fs-18 cl4 hov-cl1 trans-04" >
 									<i class="zmdi zmdi-search"></i>
 								</button>
 							</div>
   					</form>
 				</li>
-				<li>
-					<a>버킷 +</a>
-				</li>
-				<li>
-					<a href="memberForm">회원가입</a>
-				</li>
-				<li>
-					<a href="login">로그인</a>
-				</li>
+				<c:if test="${empty sessionScope.id}">
+					<li>
+						<a href="memberForm">회원가입</a>
+					</li>
+					<li>
+						<a href="loginmain">로그인</a>
+					</li>
+				</c:if>
+				<c:if test="${!empty sessionScope.id}">
+					<li>
+						<a class="js-show-modal-create hov-cl1">버킷+</a>
+					</li>
+					<li>
+						<a href="memberForm">마이페이지</a>
+					</li>
+					<li>
+						<a href="loginmain">로그아웃</a>
+					</li>
+				</c:if>
 			</ul>
 		</div>
 		<!-- Menu Mobile End -->
+	
 	</header>
-	<!-- Header End -->
 
 	<!-- Title page -->
 	<section class="bg-img1 txt-center p-lr-15 p-tb-92" style="background-image: url('images/bg-02.jpg');">
@@ -136,8 +159,8 @@
 								<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women">
 									<!-- Block2 -->
 									<div class="block2">
-										<div class="block2-pic hov-img0 js-show-modal1">
-											<img src="bucket/${ vo.image_path }" alt="IMG-PRODUCT">
+										<div class="block2-pic hov-img0">
+											<img class="js-show-modal-bucket"src="bucket/${ vo.image_path }" alt="IMG-PRODUCT">
 										</div>
 				
 										<div class="block2-txt flex-w flex-t p-t-14">
@@ -147,18 +170,18 @@
 												</a>
 											</div>
 										</div>
-										<div class="flex-r-m bor9 "><!-- p-r-10 m-r-11 -->
-											<a id="${vo.selectedbucket_id}" class="heart fs-23 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addlike ${vo.className } tooltip100" data-tooltip="좋아요">
+										<div class="flex-r-m "><!-- bor9 --><!-- p-r-10 m-r-11 -->
+											<button id="${vo.selectedbucket_id }" class="heart fs-23 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addlike ${vo.className } tooltip100" data-tooltip="좋아요">
 												<i class="zmdi zmdi-favorite"></i> 
-											</a>
+											</button>
 											<c:if test="${!empty status}"> <!-- 로그인 후 -->
 												<a href="#" class="fs-23 cl4 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 tooltip100 js-show-modal1" data-tooltip="가져오기">
-													<i class="fa fa-plus-square fs-23"></i> 
+													<i class="fa fa-plus-square"></i> 
 												</a>
 											</c:if>
 											<c:if test="${empty status}"> <!-- 로그인 전 -->
-												<a href="#" class="fs-23 cl1 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 tooltip100" data-tooltip="가져오기">
-													<i class="fa fa-plus-square fs-23"></i> 
+												<a href="#" class="fs-23 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 tooltip100" data-tooltip="가져오기">
+													<i class="fa fa-plus-square"></i> 
 												</a>
 											</c:if>
 										</div>
@@ -347,12 +370,12 @@
 	</div>
 	
 	<!-- 그룹 Modal -->
-	<div class="wrap-modal1 js-modal1 p-t-60 p-b-20">
-		<div class="overlay-modal1 js-hide-modal1"></div>
+	<div class="wrap-modal1-group js-modal-bucket p-t-60 p-b-20">
+		<div class="overlay-modal1 js-hide-modal"></div>
 
 		<div class="container">
 			<div class="bg0 p-t-60 p-b-30 p-lr-15-lg how-pos3-parent">
-				<button class="how-pos3 hov3 trans-04 js-hide-modal1">
+				<button class="how-pos3 hov3 trans-04 js-hide-modal">
 					<img src="images/icons/icon-close.png" alt="CLOSE">
 				</button>
 
@@ -403,6 +426,79 @@
 	</div>
 	<!-- 그룹 Modal 끝 -->
 
+		<!-- Modal -->
+	<div class="wrap-modal-bucket js-modal-bucket p-t-60 p-b-20">
+		<div class="overlay-modal js-hide-modal"></div>
+
+		<div class="container">
+			<div class="bg0 p-t-60 p-b-30 p-lr-15-lg how-pos3-parent">
+				<button class="how-pos3 hov3 trans-04 js-hide-modal">
+					<img src="images/icons/icon-close.png" alt="CLOSE">
+				</button>
+
+				<div class="row">
+					<div class="col-md-6 col-lg-7 p-b-30">
+						<div class="p-l-25 p-r-30 p-lr-0-lg">
+							<div class="wrap-slick3 flex-sb flex-w">
+								<h4 id="bucketTitle"class="mtext-105 cl2 js-name-detail p-b-14">
+								</h4>
+								<div class="gallery-lb">
+									<div data-thumb="images/slide-03.jpg">
+										<div class="wrap-pic-w pos-relative">
+											<img class="modalimage" src="images/slide-03.jpg" alt="IMG-PRODUCT">
+
+											<a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04" href="images/slide-03.jpg">
+												<i class="fa fa-expand"></i>
+											</a>
+										</div>
+									</div>
+								</div>
+							</div>
+							<p id="bucketContent" class="stext-102 cl3 p-t-23">
+							</p>
+							<div class="flex-m bor9 p-r-10 m-r-11">
+								<a id="${vo.selectedbucket_id }" class="heart fs-23 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addlike ${vo.className } tooltip100" data-tooltip="Add to Like">
+									<i class="zmdi zmdi-favorite"></i> 
+								</a>
+								<p id="likecnt" class="cl6 stext-107" style="width: 40px"></p>
+								<a href="#" class="fs-23 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addwish-detail tooltip100" data-tooltip="Add to Wishlist">
+									<i class="fa fa-plus-square fa-lg"></i> 
+								</a>
+								<p id="getcnt" class="cl6 stext-107" style="width: 40px"></p>							
+							</div>
+						</div>			
+					</div>
+					
+					<div class="col-md-6 col-lg-5 p-b-30">
+						<div class="p-r-50 p-t-5 p-lr-0-lg">
+						<div class="stext-102 cl3 p-t-23">태그</div>
+							<div id="tags" class="flex-w p-t-4 m-r--5">
+			                </div>
+			                <div class="stext-102 cl3 p-t-23">위치</div>
+						    <div id = 'mapid'>
+							</div>
+						 </div>
+							<!--  -->
+							<div class="flex-w flex-m p-l-100 p-t-40 respon7">
+								
+								<a href="#" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="Facebook">
+									<i class="fa fa-facebook"></i>
+								</a>
+
+								<a href="#" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="Twitter">
+									<i class="fa fa-twitter"></i>
+								</a>
+
+								<a href="#" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="Google Plus">
+									<i class="fa fa-google-plus"></i>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
 <!--===============================================================================================-->	
 	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
 <!--===============================================================================================-->
@@ -439,78 +535,17 @@
 			})
 		});
 	</script>
-<!--===============================================================================================-->
-	<script src="js/main.js"></script>
+
 <!--===============================================================================================-->
 	<script src="vendor/isotope/isotope.pkgd.min.js"></script>
 <!--===============================================================================================-->
 	<script src="vendor/sweetalert/sweetalert.min.js"></script>
-	<script>
-		$('.js-addwish-b2').on('click', function(e){
-			e.preventDefault();
-		});
-
-		$('.js-addwish-b2').each(function(){
-			var nameProduct = $(this).parent().parent().find('.js-name-b2').html();
-			$(this).on('click', function(){
-				swal(nameProduct, "is added to wishlist !", "success");
-
-				$(this).addClass('js-addedwish-b2');
-				$(this).off('click');
-			});
-		});
-
-		$('.js-addlike').each(function(){
-			var nameProduct = $(this).parent().parent().parent().find('.js-name-detail').html();
-
-			$(this).on('click', function(){
-				swal(nameProduct, "is added to wishlist !", "success");
-
-				$(this).addClass('js-addedwish-detail');
-				$(this).off('click');
-			});
-		});
-
-		/*---------------------------------------------*/
-
-		$('.js-addcart-detail').each(function(){
-			var nameProduct = $(this).parent().parent().parent().parent().find('.js-name-detail').html();
-			$(this).on('click', function(){
-				swal(nameProduct, "is added to cart !", "success");
-			});
-		});
-	</script>
-
 <!--===============================================================================================-->
-	<script>
-	//가져오기 확인
-	function clickGetBtn(){
-		$.ajax({
-			url : 'searchBucket',
-			type : 'POST',
-			data : {'bucket_id' : bucket_id,
-					'selectedbucket_id' : selectedbucket_id},
-			success : function(data){
-			},
-		    error : function(request, status, error){
-				console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:");
-			}
-		});
-	}
-	//가져오기
-	/* function clickPlusButton(bucket_id, selectedbucket_id){
-		$.ajax({
-			url : 'searchBucket',
-			type : 'POST',
-			data : {'bucket_id' : bucket_id,
-					'selectedbucket_id' : selectedbucket_id},
-			success : function(data){
-			},
-		    error : function(request, status, error){
-				console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:");
-			}
-		});
-	} */
-	</script>
+	<script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
+   integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
+   crossorigin=""></script>
+<!--===============================================================================================-->
+	<script src="js/main.js"></script>
+<!--===============================================================================================-->
 </body>
 </html>

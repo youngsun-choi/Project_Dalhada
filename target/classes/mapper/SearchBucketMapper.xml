@@ -14,7 +14,7 @@
  		select bucket_id, selectedbucket_id, image_path, title, 
  			(select count(*)
 			from likeinfo li
-			where li.member_id = #{member_id} and li.bucket_id = sb.bucket_id) islike 
+			where li.member_id = #{member_id} and li.selectedbucket_id = selectedbucket_id) islike 
  		from (select bi.id bucket_id, sb.id selectedbucket_id, bi.image_path image_path, sb.title title, rownum rnum 
  			from bucketinfo bi, selectedbucket sb 
  			where bi.id = sb.bucket_id and title like '%'||#{searchKeyword}||'%') sb
@@ -32,7 +32,7 @@
 		select bucket_id, selectedbucket_id, image_path, title, 
 				(select count(*)
 				from likeinfo li
-				where li.member_id = #{member_id} and li.bucket_id = sb.bucket_id) islike
+				where li.member_id = #{member_id} and li.selectedbucket_id = selectedbucket_id) islike
 		from(select bi.id bucket_id, sb.id selectedbucket_id, 
 				bi.image_path image_path, sb.title title, rownum rnum 
 			from bucketinfo bi, selectedbucket sb
@@ -45,12 +45,16 @@
 	<select id="selectTagName" resultType="String">
 		select name from taginfo 
 	</select>
+	<select id="selectTags" resultType="vo.StringIntVO">
+		select name, id
+		from taginfo 
+	</select>
 	
 	<!-- 그룹명 찾기 -->
-	<select id="selectGroupName" parameterType="String" resultType="String">
-		select DISTINCT name 
-		from groupinfo gi, selectedbucket sb 
-		where gi.id=sb.group_id and gi.member_id=#{member_id} order by name
+	<select id="selectGroupName" parameterType="String" resultType="vo.StringIntVO">
+		select name, id
+		from groupinfo
+		where member_id=#{member_id} order by name
 	</select>
 	
 	<!-- 블로그리뷰 -->
