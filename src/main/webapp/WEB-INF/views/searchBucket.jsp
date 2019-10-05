@@ -239,39 +239,19 @@
 					<div class="side-menu">
 						<div>
 							<h4 class="mtext-112 cl2 p-b-33">
-								블로그 리뷰1
+								Blogs
 							</h4>
 
 							<ul>
-								<li class="bor18">
-									<a href="#" class="dis-block stext-115 cl6 hov-cl1 trans-04 p-tb-8 p-lr-4">
-										Fashion
-									</a>
-								</li>
-
-								<li class="bor18">
-									<a href="#" class="dis-block stext-115 cl6 hov-cl1 trans-04 p-tb-8 p-lr-4">
-										Beauty
-									</a>
-								</li>
-
-								<li class="bor18">
-									<a href="#" class="dis-block stext-115 cl6 hov-cl1 trans-04 p-tb-8 p-lr-4">
-										Street Style
-									</a>
-								</li>
-
-								<li class="bor18">
-									<a href="#" class="dis-block stext-115 cl6 hov-cl1 trans-04 p-tb-8 p-lr-4">
-										Life Style
-									</a>
-								</li>
-
-								<li class="bor18">
-									<a href="#" class="dis-block stext-115 cl6 hov-cl1 trans-04 p-tb-8 p-lr-4">
-										DIY & Crafts
-									</a>
-								</li>
+								<c:if test="${!empty naverBlogList}">
+									<c:forEach var="vo" items="${naverBlogList}">
+										<li class="bor18">
+											<a href="${vo.link}" target="_blank" class="dis-block stext-115 cl6 hov-cl1 trans-04 p-tb-8 p-lr-4">
+												${vo.title}
+											</a>
+										</li>
+									</c:forEach>
+								</c:if>
 							</ul>
 						</div>
 

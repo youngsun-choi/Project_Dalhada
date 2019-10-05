@@ -6,9 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import vo.BucketDetailVO;
 import vo.BucketVO;
-import vo.GroupVO;
 import vo.SearchBucketVO;
 import vo.TagInfoVO;
 

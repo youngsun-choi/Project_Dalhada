@@ -19,8 +19,8 @@ import service.NaverBlogService;
 import service.SearchBucketService;
 import vo.BucketDetailVO;
 import vo.BucketVO;
-import vo.GroupVO;
 import vo.LikeInfoVO;
+import vo.NaverBlogVO;
 import vo.PagingVO;
 import vo.SearchBucketVO;
 import vo.StringIntVO;
@@ -116,6 +116,8 @@ public class BucketController {
 		String id = (String) session.getAttribute("id");
 		searchBucketVO.setMember_id(id);
 		String keyword = searchBucketVO.getSearchKeyword();
+		String naverKeyword = null;
+		List<NaverBlogVO> naverBlogList = null;
 		int listCnt;
 		PagingVO pageList;
 		List<BucketVO> searchList;
@@ -167,7 +169,13 @@ public class BucketController {
 		//mav.addObject("groupNameList", groupNameList);
 		
 		//네이버 블로그 검색결과
-		naverBlogService.selectNaverBlog(keyword);
+		if(tagName == null) {
+			naverKeyword = (keyword == null || keyword.equals("") || searchList.isEmpty()) ? "버킷리스트": keyword;
+		}else {
+			naverKeyword = (tagName.equals("기타")) ? "버킷리스트": tagName;
+		}
+		naverBlogList = naverBlogService.selectNaverBlog(naverKeyword,5,1);
+		mav.addObject("naverBlogList", naverBlogList);
 		
 		mav.setViewName("searchbucket");
 		return mav;

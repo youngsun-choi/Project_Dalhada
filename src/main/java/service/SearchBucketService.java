@@ -6,9 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import dao.SearchBucketDAO;
-import vo.BucketDetailVO;
 import vo.BucketVO;
-import vo.GroupVO;
 import vo.SearchBucketVO;
 import vo.TagInfoVO;
 

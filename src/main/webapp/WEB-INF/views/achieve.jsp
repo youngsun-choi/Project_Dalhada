@@ -143,6 +143,13 @@
 					</div>
 				</div>
 			</div>
+			
+			<!-- Back to top -->
+			<div class="btn-back-to-top" id="myBtn">
+				<span class="symbol-btn-back-to-top">
+					<i class="zmdi zmdi-chevron-up"></i>
+				</span>
+			</div>
 	</section> 
 <!--===============================================================================================-->	
 	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
@@ -193,5 +200,6 @@
 	<script src="js/util.js"></script>
 	<script src="js/swipe-content.js"></script> 
 	<script src="js/achieve.js"></script>
+	<script src="js/main.js"></script>
 </body>
 </html>

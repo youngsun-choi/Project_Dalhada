@@ -47,17 +47,7 @@ public class MypageController {
 		List<AchieveVO> achieveList = achieveService.selectCompleteBucket(id);
 		List<AchieveVO> selectedAchieveList = new ArrayList<AchieveVO>();
 		List<Integer> ageList = new ArrayList<Integer>();
-		/*List<Integer> ageList = new ArrayList<Integer>();
-		for(AchieveVO vo:achieveList) {
-			ageList.add(vo.getAge());
-		}
-		ageList = ageList.stream().distinct().collect(Collectors.toList()); //중복값 제거
-		mav.addObject("ageList", ageList); // age값 유무에 따라 버튼 생성
-		mav.addObject("achieveList", achieveList);
-		int result = (age != null) ? Integer.parseInt(age) : ageList.get(0); //버튼 눌렀을 때
-		mav.addObject("age", result);*/
 		int numAge = (age != null) ? Integer.parseInt(age) : achieveList.get(0).getAge();
-		System.out.println("numAge : "+numAge);
 		for(AchieveVO vo:achieveList) {
 			ageList.add(vo.getAge());
 			if(vo.getAge()==numAge)
