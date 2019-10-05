@@ -21,10 +21,7 @@ public class BucketDAO {
 		vo = session.selectOne(statement, map);
 		statement = "resource.BucketMapper.bucketTags";
 		List<String> tags = session.selectList(statement, selectedbucket_id);
-		if(tags == null) 
-			vo.setTags(new ArrayList<String>());
-		else 
-			vo.setTags(tags);
+		vo.setTags(tags);
 		return vo;
 	}
 	public List<BucketVO> selectTOPBucket(String id) {

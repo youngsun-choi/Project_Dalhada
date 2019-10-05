@@ -297,6 +297,11 @@ alret("search")
             	$('.modal_image').attr("src", "images/bucket/"+data.bucketImage_path);
             	$('#modal_image_expand').attr("href", "images/bucket/"+data.bucketImage_path);
             	$('#bucket_content').text(data.content);
+            	var tags = data.tags;
+            	var tagdom = $('#detail_tags');
+            	tagdom.html('');
+            	for(var i=0; i<tags.length; i++)
+            		tagdom.append('<button type="button" class="modal-tag modal-tag-detail flex-c-m stext-107 size-301 p-lr-15 trans-04 m-r-5 m-b-5">#'+tags[i]+'</button>');
             	$('.modal_heart').attr("id", data.bucket_id).addClass(data.className).on('click', function(){
     				var action;
     				if($(this).hasClass('js-addedlike')){
@@ -354,28 +359,14 @@ alret("search")
 	            	var groups = data[0];
 	            	var tags = data[1];
 	            	var groupdom = $("#groups-dom");
-	            	groupdom.html('');
 	            	groupdom.append("<option value='0'>-----------</option>")
 	            	for(var i = 0; i < groups.length; i++ ){
 	            		groupdom.append("<option value='"+groups[i].id+"'>"+groups[i].name+"</option>");
 	            	}
 	            	var tagdom = $("#create-dom");
-	            	tagdom.html('');
 	            	for(var i=0; i<tags.length; i++)
 	            		tagdom.append('<button type="button" value="'+tags[i].id+'" class="modal-tag flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">#'+tags[i].name+'</button>');	            	
-	            	$('.modal-tag').each(function(){
-	    				$(this).on('click',function(){
-	    					if($(this).hasClass('modal-tag-click')){
-	    						$(this).addClass('bor7');
-	    	            		$(this).removeClass('modal-tag-click');
-	    	            		$(this).addClass('cl6');
-	    					}else{
-	    						$(this).removeClass('cl6');
-	    	            		$(this).removeClass('bor7');
-	    	            		$(this).addClass('modal-tag-click');
-	    					}
-	    				});
-	    			})
+	            	tag_click();
 	            },
 	            error : function(){
 	            	console.log("error");
@@ -394,7 +385,13 @@ alret("search")
     	var title = $("#title").val();
     	var file = $('input[type=file]')[0].files[0];
     	var content =  $("#content").val();
+
+		var list = [];
+    	$(".modal-tag-click").each(function(i){list.push($(this).val());})
+    	
     	var msg = '';
+    	if(list.length==0)
+    		msg+="태그를 지정해주세요.\n"
     	if(title=='')
     		msg = "제목 ";
     	if(file == undefined)
@@ -406,9 +403,6 @@ alret("search")
     		$(".warntest").text(msg+"이 없습니다.");
     	else{
     		var formData = new FormData();
-
-    		var list = [];
-        	$(".modal-tag-click").each(function(i){list.push($(this).val());})
         	formData.append("title", title);
         	formData.append("content", content);
         	formData.append("taglist", list);
@@ -449,4 +443,19 @@ var clearform = function(){
         $(this).removeClass('modal-tag-click');
         $(this).addClass('cl6');
 		});
+}
+var tag_click = function(){
+	$('.modal-tag').each(function(){
+		$(this).on('click',function(){
+			if($(this).hasClass('modal-tag-click')){
+				$(this).addClass('bor7');
+        		$(this).removeClass('modal-tag-click');
+        		$(this).addClass('cl6');
+			}else{
+				$(this).removeClass('cl6');
+        		$(this).removeClass('bor7');
+        		$(this).addClass('modal-tag-click');
+			}
+		});
+	})
 }

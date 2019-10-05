@@ -1876,8 +1876,8 @@ input.num-product::-webkit-inner-spin-button {
 	width: 50%;
 	margin: 20px;
 }
-#modal_image{
-	width: 50%;
+.modal_image{
+	width: 90%;
 }
 .createimage{
 	width: 70%;
@@ -1917,6 +1917,12 @@ input.num-product::-webkit-inner-spin-button {
 .modal-tag-click{
 	color: #A4D9E9;
 	border: 1px solid #A4D9E9;
+  	border-radius: 15px;
+}
+
+.modal-tag-detail{
+	color: #071f4c;
+	border: 1px solid #071f4c;
   	border-radius: 15px;
 }
 /*//////////////////////////////////////////////////////////////////
@@ -2702,7 +2708,7 @@ input.num-product::-webkit-inner-spin-button {
 
 
 /*==================================================================
- HOW HOW HOW HOW HOW HOW HOW HOW HOW HOW HOW HOW HOW HOW HOW HOW HOW 
+  HOW HOW HOW HOW HOW HOW HOW HOW HOW HOW HOW HOW HOW HOW HOW HOW 
 ==================================================================*/
 .plh0::-webkit-input-placeholder { color: #999999;}
 .plh0:-moz-placeholder { color: #999999;}
@@ -2833,8 +2839,8 @@ input.num-product::-webkit-inner-spin-button {
 /*---------------------------------------------*/
 .how-pos1 {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 6px;
+  right: 32px;
 }
 
 /*---------------------------------------------*/
