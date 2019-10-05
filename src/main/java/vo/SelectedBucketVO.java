@@ -12,8 +12,7 @@ public class SelectedBucketVO {
 	private float lat;
 	private float lng;
 	private String image_path;
-	List<String> tag_id;
-	
+	private List<String> tag_id;
 	public String getTitle() {
 		return title;
 	}
@@ -26,35 +25,29 @@ public class SelectedBucketVO {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public String getD_day() {
-		return d_day;
-	}
-	public void setD_day(String d_day) {
-		this.d_day = d_day;
-	}
-	public String getAddress() {
-		return address;
-	}
-	public void setAddress(String address) {
-		this.address = address;
-	}
-	public String getImage_path() {
-		return image_path;
-	}
-	public void setImage_path(String image_path) {
-		this.image_path = image_path;
-	}
 	public int getGroup_id() {
 		return group_id;
 	}
 	public void setGroup_id(int group_id) {
 		this.group_id = group_id;
 	}
+	public String getD_day() {
+		return d_day;
+	}
+	public void setD_day(String d_day) {
+		this.d_day = d_day;
+	}
 	public String getMember_id() {
 		return member_id;
 	}
 	public void setMember_id(String member_id) {
 		this.member_id = member_id;
+	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
 	}
 	public float getLat() {
 		return lat;
@@ -68,11 +61,11 @@ public class SelectedBucketVO {
 	public void setLng(float lng) {
 		this.lng = lng;
 	}
-	@Override
-	public String toString() {
-		return "SelectedBucketVO [title=" + title + ", content=" + content + ", group_id=" + group_id + ", d_day="
-				+ d_day + ", member_id=" + member_id + ", address=" + address + ", lat=" + lat + ", lng=" + lng
-				+ ", image_path=" + image_path + "]";
+	public String getImage_path() {
+		return image_path;
+	}
+	public void setImage_path(String image_path) {
+		this.image_path = image_path;
 	}
 	public List<String> getTag_id() {
 		return tag_id;
@@ -80,5 +73,11 @@ public class SelectedBucketVO {
 	public void setTag_id(List<String> tag_id) {
 		this.tag_id = tag_id;
 	}
-	
+	@Override
+	public String toString() {
+		return "SelectedBucketVO [title=" + title + ", content=" + content + ", group_id=" + group_id + ", d_day="
+				+ d_day + ", member_id=" + member_id + ", address=" + address + ", lat=" + lat + ", lng=" + lng
+				+ ", image_path=" + image_path + ", tag_id=" + tag_id + "]";
+	}
+
 }

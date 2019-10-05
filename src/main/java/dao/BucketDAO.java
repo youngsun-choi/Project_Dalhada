@@ -14,17 +14,14 @@ public class BucketDAO {
 	@Autowired
 	SqlSession session = null;
 	
-	public BucketDetailVO selectDetail(int bucket_id, int selectedbucket_id) {
+	public BucketDetailVO selectDetail(StringIntVO map) {
 		BucketDetailVO vo = new BucketDetailVO();
-		String statement = "resource.BucketMapper.isADBucket";
-		String flag = session.selectOne(statement, bucket_id);
-		if(flag != "(null)") 
-			statement = "resource.BucketMapper.detailBucket";
-		else 
-			statement = "resource.BucketMapper.detailADBucket";
-		vo = session.selectOne(statement, selectedbucket_id);
+		int selectedbucket_id = map.getId();
+		String statement = "resource.BucketMapper.detailBucket";
+		vo = session.selectOne(statement, map);
 		statement = "resource.BucketMapper.bucketTags";
-		vo.setTags(session.selectList(statement, selectedbucket_id));
+		List<String> tags = session.selectList(statement, selectedbucket_id);
+		vo.setTags(tags);
 		return vo;
 	}
 	public List<BucketVO> selectTOPBucket(String id) {
@@ -51,5 +48,14 @@ public class BucketDAO {
 	public List<StringIntVO> selectTags() {
 		String statement = "resource.SearchBucketMapper.selectTags";
 		return session.selectList(statement);
+	}
+	public String insertbucket(SelectedBucketVO vo) {
+		String result = "";
+		String statement = "resource.BucketMapper.insertBucket";
+		session.insert(statement, vo);
+		statement = "resource.BucketMapper.selectImagePath";
+		String member_id = vo.getMember_id();
+		result = session.selectOne(statement, member_id);
+		return result;
 	}
 }

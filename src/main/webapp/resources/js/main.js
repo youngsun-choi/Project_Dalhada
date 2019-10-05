@@ -99,7 +99,7 @@
             }
 
             $('.sub-menu-m').each(function(){
-                if($(this).css('display') == 'block') { console.log('hello');
+                if($(this).css('display') == 'block') { 
                     $(this).css('display','none');
                     $(arrowMainMenu).removeClass('turn-arrow-main-menu-m');
                 }
@@ -227,20 +227,16 @@ alret("search")
 					action = "insert";
 				}
 				$.ajax({
-					url: "main/like/",
+					url: "main/like",
 	                type: "POST",
 	                data: {
 	                    selectedbucket_id : $(this).attr("id"),
 	                    action : action
 	                },
-	                success: function (result) {
-	                	if(result!=1){
+	                success: function (data) {
+	                	if(data==-1)
 	                		window.location.href = "loginmain";
-	                	}
-	                },
-	                error : function(request, status, error){
-	    				console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:");
-	    			}
+	                }
 				})
 				
 			});
@@ -288,89 +284,69 @@ alret("search")
     });
     
     /*==================================================================
-    [ Show modal ]*/
+    [ Show detail modal ]*/
     $('.js-show-modal-bucket').on('click',function(e){
         e.preventDefault();
-        
         $.ajax({
 			url: "main/modaldetail",
             type: "POST",
-            data: {
-                
-            },
+            data: {"selectedbucket_id": $(this).attr('id')}
+            ,
             success: function (data) {
-            	
+            	$('#bucket_title').html(data.title);
+            	$('.modal_image').attr("src", "images/bucket/"+data.bucketImage_path);
+            	$('#modal_image_expand').attr("href", "images/bucket/"+data.bucketImage_path);
+            	$('#bucket_content').text(data.content);
+            	var tags = data.tags;
+            	var tagdom = $('#detail_tags');
+            	tagdom.html('');
+            	for(var i=0; i<tags.length; i++)
+            		tagdom.append('<button type="button" class="modal-tag modal-tag-detail flex-c-m stext-107 size-301 p-lr-15 trans-04 m-r-5 m-b-5">#'+tags[i]+'</button>');
+            	$('.modal_heart').attr("id", data.bucket_id).addClass(data.className).on('click', function(){
+    				var action;
+    				if($(this).hasClass('js-addedlike')){
+    					$(this).removeClass('js-addedlike');
+    					action = "delete";
+    				}else{
+    					$(this).addClass('js-addedlike');
+    					action = "insert";
+    				}
+    				$.ajax({
+    					url: "main/like",
+    	                type: "POST",
+    	                data: {
+    	                    selectedbucket_id : $(this).attr("id"),
+    	                    action : action
+    	                },
+    	                success: function (data) {
+    	                	if(data==-1)
+    	                		window.location.href = "loginmain";
+    	                }
+    				})
+    				
+    			});;
+            	$('#likecnt').text(data.like_cnt);
+            	$('#getcnt').text(data.like_cnt);
             },
             error : function(){
             	
 	        }
 		})
-        var map = L.map('mapid').setView([51.505, -0.09],  10);
+        /*var map = L.map('mapid').setView([51.505, -0.09],  10);
     	L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
     		maxZoom: 18,
     		attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
     			'<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
     			'Imagery <a href="https://www.mapbox.com/">Mapbox</a>',
     		id: 'mapbox.streets'
-    	}).addTo(map);
+    	}).addTo(map);*/
         
         $('.js-modal-bucket').addClass('show-modal-bucket');
     });
-
-    $('.js-hide-modal').on('click',function(){
+    $('.js-hide-modal-bucket').on('click',function(){
         $('.js-modal-bucket').removeClass('show-modal-bucket');
+        
     }); 
-    
-    /*==================================================================
-    [ Show group modal ]*/
-    //가져오기 버튼 눌렀을 때
-    /*$('.getBtn').on('click',function(e){ 
-        e.preventDefault();
-        //$(this).addClass('js-addedlike'); //가져오기 버튼 색깔 바뀌게
-        var selectedbucket_id = $(this).data("id");
-        var image = "bucket/"+$(this).data("image");
-        var title, content, address, lat, lng;
-        var tags = [];
-        $.ajax({
-            url: 'searchbucket/get',
-            type: "POST",
-            data: {
-            	selectedbucket_id : selectedbucket_id
-            },
-            success: function (result) {
-            	console.log(result.tags);
-            	title = result.title;
-            	content = result.content;
-            	tags = result.tags;
-            	$.each(tags, function(index,value){
-            		console.log(index+" "+value.tag_id);
-            	});
-            	address = result.address;
-            	lat = result.lat;
-            	lng = result.lng;
-            	if(result!=""){
-            		$('.js-modal-bucket2').addClass('show-modal-bucket');
-            		$('input[name=title]').attr('value',title);
-            		$('img#imagePath').attr('src',image);
-            		$('input[name=content]').attr('value',content);
-            		$('input[name=address]').attr('value',address);
-            		$('input[name=lat]').attr('value',lat);
-            		$('input[name=lng]').attr('value',lng);
-            	}else{
-            		window.location.href = "loginmain";
-            	}
-            },
-            error : function(request, status, error){
-				console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:");
-			}
-        });
-    });
-    
-    //가져오기 닫기버튼
-    $('.js-hide-modal').on('click',function(){
-        $('.js-modal-bucket2').removeClass('show-modal-bucket');
-    });*/
-    
     /*==================================================================
     [ searchKeyDown ]*/
     $('.searchKeyDown').keydown(function(e){
@@ -378,5 +354,115 @@ alret("search")
     		$('form#searchForm').submit();
     	}
     });
+    /*==================================================================
+    [ Show create modal ]*/
     
+    $('.js-show-modal-create').on('click',function(e){ 	
+    	e.preventDefault();
+	        $.ajax({
+				url: "main/getgrouptag",
+	            type: "POST",
+	            success: function (data) {
+	            	var groups = data[0];
+	            	var tags = data[1];
+	            	var groupdom = $("#groups-dom");
+	            	groupdom.append("<option value='0'>-----------</option>")
+	            	for(var i = 0; i < groups.length; i++ ){
+	            		groupdom.append("<option value='"+groups[i].id+"'>"+groups[i].name+"</option>");
+	            	}
+	            	var tagdom = $("#create-dom");
+	            	for(var i=0; i<tags.length; i++)
+	            		tagdom.append('<button type="button" value="'+tags[i].id+'" class="modal-tag flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">#'+tags[i].name+'</button>');	            	
+	            	tag_click();
+	            },
+	            error : function(){
+	            	console.log("error");
+		        }
+			})
+			
+			$('.js-modal-create').addClass('show-modal-create');
+    });
+    /*[click cancel button]*/
+    $('.js-hide-modal-create').on('click',function(){
+    	clearform();
+    	$('.js-modal-create').removeClass('show-modal-create');
+    }); 
+    /*[click submit button]*/
+    $('#create-submit').click(function(){
+    	var title = $("#title").val();
+    	var file = $('input[type=file]')[0].files[0];
+    	var content =  $("#content").val();
+
+		var list = [];
+    	$(".modal-tag-click").each(function(i){list.push($(this).val());})
+    	
+    	var msg = '';
+    	if(list.length==0)
+    		msg+="태그를 지정해주세요.\n"
+    	if(title=='')
+    		msg = "제목 ";
+    	if(file == undefined)
+    		msg += "사진 ";
+    	if(content == "")
+    		msg += "내용 ";
+    			
+    	if(msg.length!=0)
+    		$(".warntest").text(msg+"이 없습니다.");
+    	else{
+    		var formData = new FormData();
+        	formData.append("title", title);
+        	formData.append("content", content);
+        	formData.append("taglist", list);
+        	formData.append("file", file);
+        	formData.append("g_id", $("#groups-dom").val());
+        	formData.append("d_day", $("#d-day").val());
+			$.ajax({
+				url: "createbucket",
+				type:"post",
+				processData: false,
+                contentType: false,
+				data: formData
+				,
+				sucess : function(){
+					$('.js-modal-create').removeClass('show-modal-create');
+				},
+				complete : function(){
+					clearform();
+					$('.js-modal-create').removeClass('show-modal-create');
+				}
+			});
+    	}
+	});
 })(jQuery);
+
+var clearform = function(){
+	$('input').val('');
+	$('#content').val('');
+	$('.createimage').attr("src", "https://mdbootstrap.com/img/Photos/Others/placeholder.jpg");
+	if((navigator.appName == 'Netscape' && navigator.userAgent.search('Trident') != -1)) {
+	 	$("inputimage").replaceWith($("inputimage").clone(true));
+	} else {
+	   	$("inputimage").val("");
+	}
+	$('#groups-dom').find('option:first').attr('selected', 'selected');
+	$('.modal-tag').each(function(){
+		$(this).addClass('bor7');
+        $(this).removeClass('modal-tag-click');
+        $(this).addClass('cl6');
+		});
+}
+var tag_click = function(){
+	$('.modal-tag').each(function(){
+		$(this).on('click',function(){
+			if($(this).hasClass('modal-tag-click')){
+				$(this).addClass('bor7');
+        		$(this).removeClass('modal-tag-click');
+        		$(this).addClass('cl6');
+			}else{
+				$(this).removeClass('cl6');
+        		$(this).removeClass('bor7');
+        		$(this).addClass('modal-tag-click');
+			}
+		});
+	})
+}

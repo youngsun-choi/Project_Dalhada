@@ -23,8 +23,5 @@ public class GroupVO {
 	public void setMember_id(String member_id) {
 		this.member_id = member_id;
 	}
-	@Override
-	public String toString() {
-		return "GroupVO [group_id=" + group_id + ", name=" + name + ", member_id=" + member_id + "]";
-	}
+
 }

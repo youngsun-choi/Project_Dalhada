@@ -27,10 +27,9 @@ public class memberController {
 		public ModelAndView signup(MemberinfoVO vo, HttpServletRequest request) {
 			ModelAndView mav = new ModelAndView();
 			if (request.getMethod().equals("GET")) {
-			     mav.setViewName("memberform");
+			     mav.setViewName("memberForm");
 				return mav;
 			}
-			System.out.println("GET 아닐때");
 			if(vo.getImage()!=null) {
 				String fileName = vo.getImage().getOriginalFilename();
 				String newName = vo.getId()+"_"+fileName;
@@ -40,7 +39,7 @@ public class memberController {
 			     mav.setViewName("login");
 			     try {
 			    	 content =  vo.getImage().getBytes();
-			    	 File f = new File("/images/profile/"+fileName);			   
+			    	 File f = new File("/images/profile/"+fileName);	
 			    		 FileOutputStream fos = new FileOutputStream(f);
 			    		 fos.write(content);
 			    		 fos.close();

@@ -33,13 +33,7 @@ public class MypageController {
 	@Autowired
 	private AchieveService achieveService;
 
-	@RequestMapping(value="/achieve/modaldetail")
-	@ResponseBody
-	public BucketDetailVO modaldetail(HttpSession session, int bucket_id, int selectedbucket_id) {
-		BucketDetailVO vo =  bucketDao.selectDetail(bucket_id, selectedbucket_id);
-		return vo;
-	}
-	
+
 	@RequestMapping(value = "/achieve")
 	public ModelAndView achieve(HttpSession session, @RequestParam(required=false) String age) {
 		ModelAndView mav = new ModelAndView();
@@ -58,7 +52,6 @@ public class MypageController {
 		mav.setViewName("achieve");
 		return mav;
 	}
-	
 	@RequestMapping(value = "/mypage")
 	public ModelAndView get(MemberinfoVO vo, HttpSession session, HttpServletRequest request,
 			String[] box, String comp, String group) {
@@ -79,14 +72,11 @@ public class MypageController {
 					map.put("id", Integer.parseInt(comp));
 					dao.complete(map);
 				}
-			}
-			
-			
+			}	
 
 			Map<String, Object> choose = new HashMap<String, Object>();
 			choose.put("id", id);
 			choose.put("stat",'p');	//진행률 표현위해 먼저 완료한 버킷으로 표현.
-			
 			
 			List<MypageBucketVO> listAll = null;
 			List<MypageBucketVO> listDone = null;

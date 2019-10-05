@@ -1,5 +1,8 @@
 package com.spring.dalhada;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import service.BucketService;
@@ -25,15 +29,17 @@ import vo.PagingVO;
 import vo.SearchBucketVO;
 import vo.StringIntVO;
 import vo.TagInfoVO;
+import vo.SelectedBucketVO;
 
 @Controller
 public class BucketController {
-	@Resource(name="bucketService")
-	private BucketService bucketservice;
 	@Autowired
 	private SearchBucketService searchBucketService;
 	@Autowired
 	private NaverBlogService naverBlogService;
+	@Resource(name="bucketService")
+	private BucketService bucketservice;
+
 	
 	@RequestMapping(value="/main")
 	public ModelAndView main(HttpSession session) {
@@ -78,17 +84,8 @@ public class BucketController {
 			List<StringIntVO> tags = bucketservice.selectTags();
 			list.add(groups);
 			list.add(tags);
-			
 		}
 		return list;
-	}
-	
-	@RequestMapping(value="/main/modaldetail")
-	@ResponseBody
-	public BucketDetailVO modaldetail(HttpSession session, int bucket_id, int selectedbucket_id) {
-		BucketDetailVO vo =  bucketservice.selectDetail(bucket_id, selectedbucket_id);
-		System.out.println(vo.toString());
-		return vo;
 	}
 	
 	/*@RequestMapping(value="/searchbucket/get")
@@ -108,10 +105,47 @@ public class BucketController {
 	}*/      
 	
 	//좋아요  많은 거 / 추천 버킷
+	@RequestMapping(value="/main/modaldetail")
+	@ResponseBody
+	public BucketDetailVO modaldetail(HttpSession session, String selectedbucket_id) {
+		String member_id = (String) session.getAttribute("id");
+		StringIntVO map = new StringIntVO();
+		map.setId(Integer.parseInt(selectedbucket_id));
+		map.setName(member_id);
+		BucketDetailVO vo =  bucketservice.selectDetail(map);
+		return vo;
+	}
+
+	@RequestMapping(value="/createbucket")
+	@ResponseBody
+	public String createbucket(HttpSession session, SelectedBucketVO vo, @RequestParam(value="g_id")String g_id,
+			@RequestParam(value="taglist")List<String> taglist, @RequestParam("file") MultipartFile file) {
+		String fileName = file.getOriginalFilename(), filePath;
+		String member_id = (String) session.getAttribute("id");
+		vo.setMember_id(member_id);
+		vo.setTag_id(taglist);
+		vo.setGroup_id(Integer.parseInt(g_id));
+		vo.setImage_path("_"+fileName);
+		filePath = bucketservice.insertBucket(vo);
+		byte[] image = null;
+		try {
+			image = file.getBytes();
+			File f = new File("C:/Users/student/Documents/Dalhada/src/main/webapp/resources/images/bucket/"+filePath);
+			FileOutputStream fos = new FileOutputStream(f);
+			fos.write(image);
+			fos.close();
+			File newf = new File("C:/Users/student/Documents/Dalhada/src/main/webapp/resources/images/bucket/"+filePath);
+	    	 if(f.exists())
+	    		 f.renameTo(newf);
+		}catch (IOException e) {
+	    	 e.printStackTrace();
+	     }	
+		return "success";
+	}
 	@RequestMapping(value="/searchbucket")
 	public ModelAndView searchBucket(HttpSession session, 
 			@RequestParam(defaultValue="1")int curPage, @RequestParam(required=false)String tagName, 
-			@ModelAttribute SearchBucketVO searchBucketVO, @ModelAttribute BucketVO bucketVO) {
+			@ModelAttribute SearchBucketVO searchBucketVO) {
 		ModelAndView mav = new ModelAndView();
 		String id = (String) session.getAttribute("id");
 		searchBucketVO.setMember_id(id);
@@ -121,7 +155,7 @@ public class BucketController {
 		int listCnt;
 		PagingVO pageList;
 		List<BucketVO> searchList;
-		
+
 		if(tagName != null) {
 			//태그검색 검색결과 수&페이징
 			listCnt = searchBucketService.getTotalTagCnt(tagName);
@@ -137,8 +171,8 @@ public class BucketController {
 			for(BucketVO vo: searchList) {
 				vo.addClass();
 			}
-			mav.addObject("keyword", "");
 			mav.addObject("searchList", searchList);
+			mav.addObject("keyword", "");
 		}else {
 			//제목검색 검색결과 수&페이징
 			listCnt = searchBucketService.getTotalTitleCnt(keyword);

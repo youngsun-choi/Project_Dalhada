@@ -45,6 +45,10 @@
 	<select id="selectTagName" resultType="vo.TagInfoVO">
 		select * from taginfo order by id
 	</select>
+	<select id="selectTags" resultType="vo.StringIntVO">
+		select name, id
+		from taginfo 
+	</select>
 	
 	<!-- 그룹명 찾기 -->
 	<!-- <select id="selectGroupName" parameterType="String" resultType="vo.GroupVO">

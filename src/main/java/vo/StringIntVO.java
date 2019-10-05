@@ -17,3 +17,4 @@ public class StringIntVO {
 		this.name = name;
 	}
 }
+
