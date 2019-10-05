@@ -165,8 +165,8 @@
 								<div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
 									<!-- Block2 -->
 									<div class="block2">
-										<a class="block2-pic hov-img0 flex-c-m p-lr-15 trans-04">
-											<img id="${vo.selectedbucket_id }"  class="js-show-modal-bucket" src="images/bucket/${vo.image_path }" alt="IMG-PRODUCT">
+										<a class="block2-img flex-c-m p-lr-15 trans-04">
+											<img id="${vo.selectedbucket_id }"  class="js-show-modal-bucket " src="images/bucket/${vo.image_path }" alt="IMG-PRODUCT">
 										</a>
 										<div class="block2-txt flex-w flex-t p-t-14">
 											<div class="block2-txt-child1 flex-col-l ">
@@ -271,7 +271,7 @@
 		</div>
 	
 	<!-- Create Modal -->
-	<div class="wrap-modal-create js-modal-create p-t-60 p-b-20 font-DoHyeon">
+	<div class="wrap-modal-bucket js-modal-create p-t-60 p-b-20 font-DoHyeon">
 		<div class="overlay-modal js-hide-modal-create"></div>
 
 		<div class="container">			
