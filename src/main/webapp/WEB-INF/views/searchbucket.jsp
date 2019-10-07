@@ -62,7 +62,7 @@
   						</form>
 						<c:if test="${empty sessionScope.id}">
 							<div class="flex-c-m h-full p-r-24">
-								<a href="memberForm">회원가입</a>
+								<a href="memberform">회원가입</a>
 							</div>
 							<div class="flex-c-m h-full p-r-24">
 								<a href="loginmain">로그인</a>
@@ -141,22 +141,11 @@
 	</header>
 
 	<!-- Title page -->
-	<section class="bg-img1 txt-center p-lr-15 p-tb-92" style="background-image: url('images/bg-02.jpg');">
+	<section class="bg-img1 txt-center p-lr-15 p-tb-92"> <!-- style="background-image: url('images/bg-02.jpg');" -->
 		<!-- <h2 class="ltext-105 cl0 txt-center">
 			동영상
 		</h2> -->
-		<!-- <div class="youtube">
-		  <div class="youtube-selected">
-		    <div id="youtube-player"></div>
-		    <p id="video-title" class="video-title"></p>
-		  </div>
-		  <div id="youtube-list" class="youtube-list">
-		    <ul>
-		    </ul>
-		  </div>
-		</div> -->
-		<div id="search-container">
-    	</div>
+		<ul id="results"></ul>
 	</section>	
 
 
@@ -468,5 +457,8 @@
 <!--===============================================================================================-->
 	<script src="js/main.js"></script>
 <!--===============================================================================================-->
+	<!-- Youtube api -->	
+	<script src="js/app.js"></script>
+    <script src="https://apis.google.com/js/client.js?onload=init"></script>
 </body>
 </html>

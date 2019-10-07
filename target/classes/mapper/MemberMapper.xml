@@ -5,23 +5,23 @@
 <mapper namespace="resource.MemberMapper">
  	<!-- listAll  -->
  	<select id="selectMember"  resultType="vo.MemberinfoVO">
-    	select id, password, image_path, email, my_words from memberinfo
+    	select id, password, image_path, email, my_words, TO_CHAR(birth, 'YYYY-MM-DD') from MEMBERINFO
  	</select>
  	
  	<!-- insert -->
  	 <insert id="insertMember"  parameterType="vo.MemberinfoVO">
- 	 INSERT INTO memberinfo VALUES
-       (#{id},#{password},#{image_path},#{email},NULL)			  
+ 	 INSERT INTO MEMBERINFO VALUES
+       (#{id},#{password},#{image_path},#{email},NULL, TO_DATE(#{birth}, 'YYYY-MM-DD'))			  
 	</insert>
 	
 	<!--  checkId -->
 	<select id="checkId" parameterType="string" resultType="vo.MemberinfoVO">
-		select id from memberinfo where id = #{id}
+		select id from MEMBERINFO where id = #{id}
 	</select> 
 	
 	<!--  check Login -->
 	<select id="login" parameterType="string" resultType="vo.MemberinfoVO">
-		select * from memberinfo where id=#{id} and password=#{password}
+		select id, password, image_path, email, my_words, TO_CHAR(birth, 'YYYY-MM-DD') from MEMBERINFO where id=#{id} and password=#{password}
 	</select>
 	
 </mapper>

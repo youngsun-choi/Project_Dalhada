@@ -130,11 +130,11 @@ public class BucketController {
 		byte[] image = null;
 		try {
 			image = file.getBytes();
-			File f = new File("C:/Users/student/Documents/Dalhada/src/main/webapp/resources/images/bucket/"+filePath);
+			File f = new File("C:/unico/eclipse-workspace/Dalhada/src/main/webapp/resources/images/bucket/"+filePath);
 			FileOutputStream fos = new FileOutputStream(f);
 			fos.write(image);
 			fos.close();
-			File newf = new File("C:/Users/student/Documents/Dalhada/src/main/webapp/resources/images/bucket/"+filePath);
+			File newf = new File("C:/unico/eclipse-workspace/Dalhada/src/main/webapp/resources/images/bucket/"+filePath);
 	    	 if(f.exists())
 	    		 f.renameTo(newf);
 		}catch (IOException e) {
@@ -189,8 +189,6 @@ public class BucketController {
 				vo.addClass();
 			}
 			
-			//검색어 미입력시 검색된 결과없음
-			searchList = (keyword != null && keyword.equals("")) ? null : searchList;
 			mav.addObject("searchList", searchList);
 			mav.addObject("keyword", keyword);
 		}

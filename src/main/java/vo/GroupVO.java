@@ -1,10 +1,17 @@
 package vo;
 
 public class GroupVO {
+	private String id;
 	private int group_id;
 	private String name;
 	private String member_id;
 	
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
 	public int getGroup_id() {
 		return group_id;
 	}

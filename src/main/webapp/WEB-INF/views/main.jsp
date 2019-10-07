@@ -67,7 +67,7 @@
   						</form>
 						<c:if test="${empty sessionScope.id}">
 							<div class="flex-c-m h-full p-r-24">
-								<a href="memberForm">회원가입</a>
+								<a href="memberform">회원가입</a>
 							</div>
 							<div class="flex-c-m h-full p-r-24">
 								<a href="loginmain">로그인</a>

@@ -19,8 +19,6 @@
 		<title>Admin</title>
 	</head>
 	<Style>
-	@import url(//fonts.googleapis.com/earlyaccess/hanna.css);
-*{font-family: 'Hanna', sans-serif;}
 	body, html{
      height: 100%;
  	background-image: url('resources/images/log_background.jpg');
@@ -35,7 +33,6 @@ background-repeat: no-repeat;
 
 h1.title { 
 	font-size: 50px;
-	font-family: 'Hanna', sans-serif; 
 	font-weight: 400; 
 	color: white;
 }
@@ -185,6 +182,15 @@ input::-webkit-input-placeholder {
 								<div class="input-group">
 									<span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
 									<input type="text" class="form-control" name="email" required placeholder="Enter your Email"/>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+						<label for="birth" class="cols-sm-2 control-label">Your Birth</label>
+							<div class="cols-sm-10">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
+									<input type="date" class="form-control" name="birth" required/>
 								</div>
 							</div>
 						</div>

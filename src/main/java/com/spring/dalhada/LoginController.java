@@ -11,13 +11,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import dao.MemberDAO;
+import service.MemberService;
 import vo.MemberinfoVO;
 
 @Controller
 public class LoginController {
 	@Autowired
-	MemberDAO dao;
+	MemberService service;
 
 	//로그인 입력페이지
 	@RequestMapping("/loginmain")
@@ -32,7 +32,7 @@ public class LoginController {
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	@ResponseBody
 	public String login(String id, String password, HttpSession session,HttpServletRequest request) {
-		MemberinfoVO vo = dao.checklogin(id, password);
+		MemberinfoVO vo = service.checklogin(id, password);
 		if (vo != null) {
 			session.setAttribute("id", vo.getId());
 			return "true";
@@ -45,7 +45,7 @@ public class LoginController {
 	public ModelAndView logout(HttpSession session) {
 		ModelAndView mav = new ModelAndView();
 		session.invalidate();
-		mav.setViewName("main");
+		mav.setViewName("login");
 		return mav;
 	}
 

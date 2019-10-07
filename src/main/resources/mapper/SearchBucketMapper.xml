@@ -51,11 +51,11 @@
 	</select>
 	
 	<!-- 그룹명 찾기 -->
-	<!-- <select id="selectGroupName" parameterType="String" resultType="vo.GroupVO">
-		select DISTINCT name, gi.id group_id 
+	<select id="selectGroupName" parameterType="String" resultType="vo.StringIntVO">
+		select name, gi.id group_id 
 		from groupinfo gi, selectedbucket sb 
 		where gi.member_id=#{member_id} order by name
-	</select> -->
+	</select> 
 	
 	<!-- 블로그리뷰 -->
 	

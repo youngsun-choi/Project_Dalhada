@@ -299,7 +299,7 @@ alret("search")
             	$('#bucket_content').text(data.content);
             	var tags = data.tags;
             	var tagdom = $('#detail_tags');
-            	tagdom.html('');
+            	console.log(tags);
             	for(var i=0; i<tags.length; i++)
             		tagdom.append('<button type="button" class="modal-tag modal-tag-detail flex-c-m stext-107 size-301 p-lr-15 trans-04 m-r-5 m-b-5">#'+tags[i]+'</button>');
             	$('.modal_heart').attr("id", data.bucket_id).addClass(data.className).on('click', function(){
@@ -354,26 +354,7 @@ alret("search")
     		$('form#searchForm').submit();
     	}
     });
-    /*==================================================================
-    [ youtubeApi ]*/
-    $('form#searchForm').submit(function(e){
-    	/*$.ajax({
-    		dataType: 'json',
-    		url: 
-    		    'https://www.googleapis.com/youtube/v3/search'+
-    		    '?part=snippet'+
-    		    '&maxResults=10'+
-    		    '&q=버킷리스트'+
-    		    '&type=video'+
-    		    '&key=AIzaSyC84h4GkWmaBXYp331jIjYXC4uomOgvayM',
-    		success: function(data){
-    			console.log(data);
-    		},
-    		error : function(){
-            	console.log("error");
-	        }
-    	});*/
-    });
+    
     /*==================================================================
     [ Show create modal ]*/
     
