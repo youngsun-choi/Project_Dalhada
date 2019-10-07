@@ -107,7 +107,7 @@
 				<li>
 					<form id="searchForm" class="form-inline" action="searchbucket" method="get">
 	    					<div class="bor17 of-hidden pos-relative">
-								<input class="searchKeyDown stext-103 cl2 plh4 size-116 p-l-28 p-r-55" type="text" 
+								<input id="search" class="searchKeyDown stext-103 cl2 plh4 size-116 p-l-28 p-r-55" type="text" 
 								name="searchKeyword" placeholder="Search" value="${ keyword }" autocomplete="off">
 								<button type="submit" class="flex-c-m size-122 ab-t-r fs-18 cl4 hov-cl1 trans-04" >
 									<i class="zmdi zmdi-search"></i>
@@ -141,7 +141,7 @@
 	</header>
 
 	<!-- Title page -->
-	<section class="bg-img1 txt-center p-lr-15 p-tb-92"> <!-- style="background-image: url('images/bg-02.jpg');" -->
+	<section class="bg-img1 txt-center p-lr-15 p-tb-70"> <!-- style="background-image: url('images/bg-02.jpg');" -->
 		<!-- <h2 class="ltext-105 cl0 txt-center">
 			동영상
 		</h2> -->
