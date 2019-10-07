@@ -145,9 +145,9 @@
 
 <div class="container">       
         <nav id="area1">
-        <fieldset>
+        <fieldset id="area11">
 			<legend>내 정보</legend>
-			<table>
+			<table id="table1">
 				<tr>
 					<td>
 					<c:if test="${!empty info.image_path}">
@@ -298,9 +298,9 @@
     </div>
 		</nav>
         <section id="area2">
-        <fieldset>
+        <fieldset id="area22">
         <legend>마이 버킷</legend>
-			<table>
+			<table id="table2">
 				<tr>
 					<td>
 					<h3>진행률</h3>
@@ -322,7 +322,7 @@
       </c:forEach>
     </select>
   </div>
-  <button onclick="modalOpen();" style="width:auto;">그룹 관리</button> 
+  <button onclick="modalOpen();" style="width:auto;">그룹 관리</button><br><br><br><br> 
   
     <div id="id01" class="modal"> 
   
@@ -516,12 +516,12 @@ window.onclick = function(event) {
 } 
 
 function modalOpen(){
-    $('header').css('display','none');
+    
     document.getElementById('id01').style.display='block';
 }
 
 function modalOpen2(){
-    $('header').css('display','none');
+    
     document.getElementById('id02').style.display='block';
 }
 
