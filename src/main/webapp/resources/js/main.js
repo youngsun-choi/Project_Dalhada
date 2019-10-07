@@ -349,10 +349,30 @@ alret("search")
     }); 
     /*==================================================================
     [ searchKeyDown ]*/
-    $('.searchKeyDown').keydown(function(e){
+    $('.searchKeyDown').keydown(function(e){ //엔터키 눌렀을 때
     	if(e.keyCode == 13){
     		$('form#searchForm').submit();
     	}
+    });
+    /*==================================================================
+    [ youtubeApi ]*/
+    $('form#searchForm').submit(function(e){
+    	/*$.ajax({
+    		dataType: 'json',
+    		url: 
+    		    'https://www.googleapis.com/youtube/v3/search'+
+    		    '?part=snippet'+
+    		    '&maxResults=10'+
+    		    '&q=버킷리스트'+
+    		    '&type=video'+
+    		    '&key=AIzaSyC84h4GkWmaBXYp331jIjYXC4uomOgvayM',
+    		success: function(data){
+    			console.log(data);
+    		},
+    		error : function(){
+            	console.log("error");
+	        }
+    	});*/
     });
     /*==================================================================
     [ Show create modal ]*/

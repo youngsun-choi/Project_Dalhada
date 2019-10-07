@@ -142,6 +142,7 @@ public class BucketController {
 	     }	
 		return "success";
 	}
+	
 	@RequestMapping(value="/searchbucket")
 	public ModelAndView searchBucket(HttpSession session, 
 			@RequestParam(defaultValue="1")int curPage, @RequestParam(required=false)String tagName, 
