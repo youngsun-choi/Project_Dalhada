@@ -157,7 +157,7 @@ input::-webkit-input-placeholder {
 	               	</div>
 	            </div> 
 				<div class="main-login main-center">
-					<form class="form-horizontal" method="post" enctype="multipart/form-data" action="/dalhada/memberForm">
+					<form class="form-horizontal" method="post" enctype="multipart/form-data" action="/dalhada/memberform">
 						<div class="avatar-upload">
 						<div class="avatar-edit">
 							<input type='file' id="imageUpload" name="image" accept=".png, .jpg, .jpeg"/>

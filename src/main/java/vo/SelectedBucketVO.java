@@ -3,16 +3,16 @@ package vo;
 import java.util.List;
 
 public class SelectedBucketVO {
-	private String title;
-	private String content;
-	private int group_id;
-	private String d_day;
-	private String member_id;
+	private String title;//
+	private String content;//
+	private int group_id;//
+	private String d_day;//
+	private String member_id;//
 	private String address;
 	private float lat;
 	private float lng;
 	private String image_path;
-	private List<String> tag_id;
+	private List<String> tag_id;//
 	public String getTitle() {
 		return title;
 	}
@@ -77,6 +77,7 @@ public class SelectedBucketVO {
 	public String toString() {
 		return "SelectedBucketVO [title=" + title + ", content=" + content + ", group_id=" + group_id + ", d_day="
 				+ d_day + ", member_id=" + member_id + ", address=" + address + ", lat=" + lat + ", lng=" + lng
-				+ ", image_path=" + image_path + "]";
+				+ ", image_path=" + image_path + ", tag_id=" + tag_id + "]";
 	}
+
 }

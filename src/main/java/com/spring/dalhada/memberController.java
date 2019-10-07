@@ -23,7 +23,7 @@ public class memberController {
 	MemberDAO dao;
 		
 		// 회원가입 폼 처리
-		@RequestMapping(value="/memberForm")
+		@RequestMapping(value="/memberform")
 		public ModelAndView signup(MemberinfoVO vo, HttpServletRequest request) {
 			ModelAndView mav = new ModelAndView();
 			if (request.getMethod().equals("GET")) {

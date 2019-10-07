@@ -1,8 +1,10 @@
 package com.spring.dalhada;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -10,9 +12,15 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import dao.BucketDAO;
 import dao.MypageDAO;
+import service.AchieveService;
+import vo.AchieveVO;
+import vo.BucketDetailVO;
 import vo.MemberinfoVO;
 import vo.MypageBucketVO;
 
@@ -20,7 +28,30 @@ import vo.MypageBucketVO;
 public class MypageController {
 	@Autowired
 	MypageDAO dao;
+	@Autowired
+	private BucketDAO bucketDao;
+	@Autowired
+	private AchieveService achieveService;
 
+
+	@RequestMapping(value = "/achieve")
+	public ModelAndView achieve(HttpSession session, @RequestParam(required=false) String age) {
+		ModelAndView mav = new ModelAndView();
+		String id = "aaa";//(String) session.getAttribute("id");
+		List<AchieveVO> achieveList = achieveService.selectCompleteBucket(id);
+		List<AchieveVO> selectedAchieveList = new ArrayList<AchieveVO>();
+		List<Integer> ageList = new ArrayList<Integer>();
+		int numAge = (age != null) ? Integer.parseInt(age) : achieveList.get(0).getAge();
+		for(AchieveVO vo:achieveList) {
+			ageList.add(vo.getAge());
+			if(vo.getAge()==numAge)
+				selectedAchieveList.add(vo);
+		}
+		mav.addObject("ageList", ageList.stream().distinct().collect(Collectors.toList()));
+		mav.addObject("achieveList", selectedAchieveList);
+		mav.setViewName("achieve");
+		return mav;
+	}
 	@RequestMapping(value = "/mypage")
 	public ModelAndView get(MemberinfoVO vo, HttpSession session, HttpServletRequest request,
 			String[] box, String comp, String group) {

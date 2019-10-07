@@ -4,22 +4,27 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <mapper namespace="resource.BucketMapper">
  	<select id="detailBucket"  resultType="vo.BucketDetailVO" parameterType="vo.StringIntVO">
-		select Sb.id as bucket_id, Sb.title, Sb.content, Sb.lat, Sb.lng, Bi.image_path as bucketImage_path
-				, Mi.id as by_member_id, Mi.image_path as profileImage_path, Sb.member_id as get_member_id,
+		select sb.id as bucket_id, sb.title, sb.content, sb.lat, sb.lng, bi.image_path as bucketImage_path
+				, mi.id as by_member_id, mi.image_path as profileImage_path, sb.member_id as get_member_id,
 				(select count(*)
     				from likeinfo
     				where selectedbucket_id = #{id}) as like_cnt, 
-        		(select count(*) from likeinfo Li where Li.member_id = #{name} and Sb.id = Li.selectedbucket_id) islike 
-    	from bucketinfo Bi, selectedBucket Sb, memberinfo Mi
-    	where Bi.id = Sb.bucket_id AND Sb.id =#{id} AND Mi.id = Bi.member_id
+        		(select count(*) from likeinfo Li where Li.member_id = #{name} and sb.id = Li.selectedbucket_id) islike 
+    	from bucketinfo bi, selectedBucket sb, memberinfo mi
+    	where bi.id = sb.bucket_id AND sb.id =#{id} AND mi.id = bi.member_id
  	</select>
-
+ 	<select id="editBucketInfo"  resultType="vo.EditBucketInfoVO" parameterType="vo.StringIntVO">
+		select sb.id as seletedbucket_id, sb.title, sb.content, sb.lat, sb.lng, bi.image_path,
+				sb.group_id, to_char(sb.d_day, 'yyyy-mm-dd') as d_day 
+    	from bucketinfo bi, selectedBucket sb 
+    	where bi.id = sb.bucket_id AND sb.id =#{id} AND sb.member_id = #{name}
+ 	</select>
  	<select id="selectTOPBucket" resultType="vo.BucketVO" parameterType="String">
-		select Sb.bucket_id , Sb.id as selectedbucket_id, Bi.image_path, Sb.title,
-        	(select count(*) from likeinfo Li where Sb.id = Li.selectedbucket_id) likecnt, 
-       		(select count(*) from likeinfo Li where Li.member_id = #{id} and Sb.id = Li.selectedbucket_id) islike
-		from bucketinfo Bi, selectedbucket Sb
-		where Bi.id = Sb.bucket_id 
+		select sb.bucket_id , sb.id as selectedbucket_id, bi.image_path, sb.title,
+        	(select count(*) from likeinfo Li where sb.id = Li.selectedbucket_id) likecnt, 
+       		(select count(*) from likeinfo Li where Li.member_id = #{id} and sb.id = Li.selectedbucket_id) islike
+		from bucketinfo bi, selectedbucket sb
+		where bi.id = sb.bucket_id 
         order by likecnt desc
 	</select>
 	<insert id="insertBucket" parameterType="vo.SelectedBucketVO">
@@ -33,7 +38,7 @@
 					<when test="group_id == 0"> null</when>
 					<otherwise>#{group_id}</otherwise>
 				</choose>
-				, #{title}, #{content}, to_date(#{d_day}, 'yyyy.mm.dd'), '도전중', #{address}, #{lat}, #{lng});
+				, #{title}, #{content}, to_date(#{d_day}, 'yyyy.mm.dd'), 'f', #{address}, #{lat}, #{lng});
 			<foreach item="item" collection="tag_id" open="INSERT ALL"  close="SELECT * FROM DUAL" >
 				into selectedtag 
 				values(#{item}, selectedbucket_seq.currval)
@@ -49,9 +54,14 @@
 		where rnum = 1
     </select>
  	<select id="bucketTags" resultType="String" parameterType="_int">
- 		select T.name 
- 		from taginfo T, selectedtag St
- 		where St.bucket_id = #{selectedbucket_id} AND T.id = St.tag_id
+ 		select t.name
+ 		from taginfo t, selectedtag St
+ 		where St.bucket_id = #{selectedbucket_id} AND t.id = St.tag_id
+ 	</select>
+ 	<select id="bucketTagInfo" resultType="_int" parameterType="_int">
+ 		select St.tag_id
+ 		from selectedtag St
+ 		where St.bucket_id = #{selectedbucket_id}
  	</select>
 	<insert id="insertLike" parameterType="vo.LikeInfoVO">
 		insert into likeinfo (selectedbucket_id, member_id) 
@@ -62,4 +72,7 @@
 		from likeinfo
 		where selectedbucket_id = #{selectedbucket_id} AND member_id = #{member_id}
 	</delete>
+	<update id="updateBucket" parameterType="vo.SelectedBucketVO">
+		update
+	</update>
 </mapper>

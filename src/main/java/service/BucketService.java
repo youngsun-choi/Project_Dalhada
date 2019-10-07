@@ -6,7 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import dao.BucketDAO;
-import vo.*;
+import vo.BucketDetailVO;
+import vo.BucketVO;
+import vo.EditBucketInfoVO;
+import vo.LikeInfoVO;
+import vo.SelectedBucketVO;
+import vo.StringIntVO;
 
 @Service("bucketService")
 public class BucketService {
@@ -45,5 +50,17 @@ public class BucketService {
 
 	public String insertBucket(SelectedBucketVO vo) {
 		return bucketdao.insertbucket(vo);
+	}
+
+	public EditBucketInfoVO getEditInfo(StringIntVO map) {
+		EditBucketInfoVO vo = bucketdao.getEditInfo(map);
+		vo.setGroup_list(bucketdao.selectGroups(map.getName()));
+		vo.setTag_list(bucketdao.selectTags());
+		vo.setMy_tags(bucketdao.selectTagInfo(map.getId()));
+		return vo;
+	}
+
+	public int updateBucket(SelectedBucketVO vo) {
+		return bucketdao.updateBucket(vo);
 	}
 }

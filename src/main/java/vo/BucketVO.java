@@ -52,4 +52,5 @@ public class BucketVO {
 		return "BucketVO [bucket_id=" + bucket_id + ", selectedbucket_id=" + selectedbucket_id + ", image_path="
 				+ image_path + ", title=" + title + ", islike=" + islike + ", className=" + className + "]";
 	}
+	
 }

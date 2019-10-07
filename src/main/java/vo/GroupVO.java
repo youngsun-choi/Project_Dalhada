@@ -1,15 +1,15 @@
 package vo;
 
 public class GroupVO {
-	private String id;
+	private int id;
 	private String name;
 	private String member_id;
 	
-	public String getId() {
+	public int getGroup_id() {
 		return id;
 	}
-	public void setId(String id) {
-		this.id = id;
+	public void setGroup_id(int group_id) {
+		this.id = group_id;
 	}
 	public String getName() {
 		return name;
@@ -23,4 +23,5 @@ public class GroupVO {
 	public void setMember_id(String member_id) {
 		this.member_id = member_id;
 	}
+
 }

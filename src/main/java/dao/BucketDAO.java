@@ -58,4 +58,16 @@ public class BucketDAO {
 		result = session.selectOne(statement, member_id);
 		return result;
 	}
+	public EditBucketInfoVO getEditInfo(StringIntVO map) {
+		String statement = "resource.BucketMapper.editBucketInfo";
+		return session.selectOne(statement, map);
+	}
+	public List<Integer> selectTagInfo(int selectedbucket_id) {
+		String statement = "resource.BucketMapper.bucketTagInfo";
+		return session.selectList(statement, selectedbucket_id);
+	}
+	public int updateBucket(SelectedBucketVO vo) {
+		String statement = "resource.BucketMapper.updateBucket";
+		return session.update(statement, vo);
+	}
 }

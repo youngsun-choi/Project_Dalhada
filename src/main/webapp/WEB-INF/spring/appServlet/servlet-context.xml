@@ -19,8 +19,6 @@
 	<resources mapping="/images/**" location="/resources/images/" />
 	<resources mapping="/js/**" location="/resources/js/" />
 	<resources mapping="/vendor/**" location="/resources/vendor/" />
-	<resources mapping="/bucket/**" location="/resources/images/bucket/" />
-	<!-- <resources mapping="/profile/**" location="/resources/images/profile/" /> -->
 
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -34,6 +32,7 @@
 
 
 	<context:component-scan base-package="dao"/>
+	<context:component-scan base-package="service"/>
 	<context:component-scan base-package="vo"/>
 	<context:component-scan base-package="service"/>
 	
@@ -49,7 +48,8 @@
 	<beans:bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<beans:property name="dataSource" ref="dataSource" />
 		<beans:property name="configLocation" value="classpath:mybatis-config.xml" />
-		<beans:property name="mapperLocations" value="classpath:mapper/**/*Mapper.xml" />
+      	<beans:property name="mapperLocations" value="classpath:mapper/**/*Mapper.xml" />
+
 	</beans:bean>
 
 	

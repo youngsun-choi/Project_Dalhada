@@ -6,6 +6,7 @@ public class BucketDetailVO {
 	private int bucket_id;
 	private String title;
 	private String content;
+	private String address;
 	private float lat;
 	private float lng;
 	private String bucketImage_path;
@@ -29,7 +30,6 @@ public class BucketDetailVO {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	
 	public float getLat() {
 		return lat;
 	}
@@ -101,5 +101,11 @@ public class BucketDetailVO {
 	}
 	public void addClass() {
 		this.setClassName(islike==0?"":"js-addedlike"); 
+	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
 	}
 }

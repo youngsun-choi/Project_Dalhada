@@ -4,12 +4,13 @@ import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 
 import vo.BucketVO;
 import vo.SearchBucketVO;
+import vo.TagInfoVO;
 
-@Service
+@Repository
 public class SearchBucketDAO {
 	@Autowired
 	SqlSession session = null;
@@ -43,18 +44,35 @@ public class SearchBucketDAO {
 	}
 	
 	//태그명 찾기
-	public List<String> selectTagName() {
-		List<String> list = null;
+	public List<TagInfoVO> selectTagName() {
+		List<TagInfoVO> list = null;
 		String statement = "resource.SearchBucketMapper.selectTagName";
 		list = session.selectList(statement);
 		return list;
 	}
 	
 	//그룹명 찾기
-	public List<String> selectGroupName(String id) {
-		List<String> list = null;
+	/*public List<GroupVO> selectGroupName(String id) {
+		List<GroupVO> list = null;
 		String statement = "resource.SearchBucketMapper.selectGroupName";
 		list = session.selectList(statement,id);
+		return list;
+	}
+	
+	//가져오기 select
+	public BucketDetailVO selectSelectedBucket(int id) {
+		BucketDetailVO vo = null;
+		String statement = "resource.SearchBucketMapper.selectSelectedBucket";
+		vo = session.selectOne(statement,id);
+		return vo;
+	}
+	
+	//선택된 태그 검색
+	public List<String> selectSelectedTag(int id) {
+		List<String> list = null;
+		String statement = "resource.SearchBucketMapper.selectSelectedTag";
+		list = session.selectList(statement,id);
+		System.out.println("선택된 태그 : "+list.toString());
 		return list;
 	}
 	
@@ -68,7 +86,7 @@ public class SearchBucketDAO {
 	}
 	
 	//가져온 버킷을 selectedbucket에 저장
-	/*public boolean insertSBId(LikeGetVO vo) {
+	public boolean insertSBId(LikeGetVO vo) {
 		boolean result = true;
 		String statement = "resource.SearchBucketMapper.insertSBId";
 		if(session.insert(statement, vo) != 1)

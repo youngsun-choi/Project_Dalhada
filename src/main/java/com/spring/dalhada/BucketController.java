@@ -18,22 +18,29 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import dao.SearchBucketDAO;
 import service.BucketService;
+import service.NaverBlogService;
+import service.SearchBucketService;
 import vo.BucketDetailVO;
 import vo.BucketVO;
+import vo.EditBucketInfoVO;
 import vo.LikeInfoVO;
+import vo.NaverBlogVO;
 import vo.PagingVO;
 import vo.SearchBucketVO;
-import vo.SelectedBucketVO;
 import vo.StringIntVO;
+import vo.TagInfoVO;
+import vo.SelectedBucketVO;
 
 @Controller
 public class BucketController {
 	@Autowired
-	private SearchBucketDAO searchBucketDAO;
+	private SearchBucketService searchBucketService;
+	@Autowired
+	private NaverBlogService naverBlogService;
 	@Resource(name="bucketService")
 	private BucketService bucketservice;
+
 	
 	@RequestMapping(value="/main")
 	public ModelAndView main(HttpSession session) {
@@ -69,7 +76,7 @@ public class BucketController {
 	
 	@RequestMapping(value="/main/getgrouptag")
 	@ResponseBody
-	public List<List<StringIntVO>> getgroup(HttpSession session) {
+	public List<List<StringIntVO>> getgrouptag(HttpSession session) {
 		String member_id = (String)session.getAttribute("id");
 		List<List<StringIntVO>> list = new ArrayList<List<StringIntVO>>();
 		
@@ -80,6 +87,17 @@ public class BucketController {
 			list.add(tags);
 		}
 		return list;
+	}
+  
+	@RequestMapping(value="/main/geteditinfo")
+	@ResponseBody
+	public EditBucketInfoVO modaledit(HttpSession session, String selectedbucket_id) {
+		String member_id = (String) session.getAttribute("id");
+		StringIntVO map = new StringIntVO();
+		map.setId(Integer.parseInt(selectedbucket_id));
+		map.setName(member_id);
+		EditBucketInfoVO vo =  bucketservice.getEditInfo(map);
+		return vo;
 	}
 	
 	@RequestMapping(value="/main/modaldetail")
@@ -107,11 +125,11 @@ public class BucketController {
 		byte[] image = null;
 		try {
 			image = file.getBytes();
-			File f = new File("C:/Users/student/Documents/Dalhada/src/main/webapp/resources/images/bucket/"+filePath);
+			File f = new File("C:/jjn/eclipse_workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/dalhada/resources/images/bucket/"+filePath);
 			FileOutputStream fos = new FileOutputStream(f);
 			fos.write(image);
 			fos.close();
-			File newf = new File("C:/Users/student/Documents/Dalhada/src/main/webapp/resources/images/bucket/"+filePath);
+			File newf = new File("C:/jjn/eclipse_workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/dalhada/resources/images/bucket/"+filePath);
 	    	 if(f.exists())
 	    		 f.renameTo(newf);
 		}catch (IOException e) {
@@ -119,45 +137,101 @@ public class BucketController {
 	     }	
 		return "success";
 	}
-	
+	@RequestMapping(value="/updatebucket")
+	@ResponseBody
+	public String updatebucket(HttpSession session, SelectedBucketVO vo, @RequestParam(value="g_id")String g_id,
+			@RequestParam(value="taglist")List<String> taglist) {	
+		String member_id = (String) session.getAttribute("id");
+		vo.setMember_id(member_id);
+		vo.setTag_id(taglist);
+		vo.setGroup_id(Integer.parseInt(g_id));
+		bucketservice.updateBucket(vo);
+		
+		return "success";
+	}
+	/*@RequestMapping(value="/searchbucket/get")
+	@ResponseBody
+	public BucketDetailVO groupmodal(HttpSession session, @RequestParam(required=false) String selectedbucket_id) {
+	      String id = (String) session.getAttribute("id");
+	      BucketDetailVO selectedBucketList = null;
+	      int sid= Integer.parseInt(selectedbucket_id);
+	      if(id != null) {
+	         //가져오기 select
+	         System.out.println("가져오기 버튼 눌렀을 때 selectedbucket_id값 : "+selectedbucket_id);
+	 		 selectedBucketList = searchBucketService.selectSelectedBucket(sid);
+	 		 System.out.println("selectedBucketList값 : "+selectedBucketList.toString());
+	 		 selectedBucketList.setTags(searchBucketService.selectSelectedTag(sid));
+	      }
+	    return selectedBucketList;
+	}*/    
 	@RequestMapping(value="/searchbucket")
 	public ModelAndView searchBucket(HttpSession session, 
 			@RequestParam(defaultValue="1")int curPage, @RequestParam(required=false)String tagName, 
-			@ModelAttribute SearchBucketVO searchBucketVO, @ModelAttribute BucketVO bucketVO) {
+			@ModelAttribute SearchBucketVO searchBucketVO) {
 		ModelAndView mav = new ModelAndView();
 		String id = (String) session.getAttribute("id");
 		searchBucketVO.setMember_id(id);
 		String keyword = searchBucketVO.getSearchKeyword();
+		String naverKeyword = null;
+		List<NaverBlogVO> naverBlogList = null;
 		int listCnt;
 		PagingVO pageList;
 		List<BucketVO> searchList;
 
 		if(tagName != null) {
-			listCnt = searchBucketDAO.getTotalTagCnt(tagName);
+			//태그검색 검색결과 수&페이징
+			listCnt = searchBucketService.getTotalTagCnt(tagName);
+			pageList = new PagingVO(listCnt, curPage); //(전체 게시물 수, 현재 페이지)
+			searchBucketVO.setStartRow(pageList.getStartIndex());
+			searchBucketVO.setEndRow(pageList.getEndIndex());
+			mav.addObject("listCnt", listCnt);
+			mav.addObject("pagination", pageList);
 			
+			//태그검색
+			searchBucketVO.setSearchTag(tagName);
+			searchList = searchBucketService.searchTag(searchBucketVO);
+			for(BucketVO vo: searchList) {
+				vo.addClass();
+			}
+			mav.addObject("searchList", searchList);
 			mav.addObject("keyword", "");
 		}else {
-			listCnt = searchBucketDAO.getTotalTitleCnt(keyword);
+			//제목검색 검색결과 수&페이징
+			listCnt = searchBucketService.getTotalTitleCnt(keyword);
+			pageList = new PagingVO(listCnt, curPage); //(전체 게시물 수, 현재 페이지)
+			searchBucketVO.setStartRow(pageList.getStartIndex());
+			searchBucketVO.setEndRow(pageList.getEndIndex());
+			mav.addObject("listCnt", listCnt);
+			mav.addObject("pagination", pageList);
 			
-			mav.addObject("keyword", keyword);	
+			//제목검색
+			searchList = searchBucketService.searchTitle(searchBucketVO);
+			for(BucketVO vo: searchList) {
+				vo.addClass();
+			}
+			
+			//검색어 미입력시 검색된 결과없음
+			searchList = (keyword != null && keyword.equals("")) ? null : searchList;
+			mav.addObject("searchList", searchList);
+			mav.addObject("keyword", keyword);
 		}
-		pageList = new PagingVO(listCnt, curPage);
-		searchBucketVO.setStartRow(pageList.getStartIndex());
-		searchBucketVO.setEndRow(pageList.getEndIndex());
-		mav.addObject("listCnt", listCnt);
-		mav.addObject("pagination", pageList);
 		
-		searchBucketVO.setSearchTag(tagName);
-		searchList = searchBucketDAO.searchTag(searchBucketVO);
-		for(BucketVO vo: searchList) {
-			vo.addClass();
-		}
-		mav.addObject("searchList", searchList);
-		List<String> tagNameList = searchBucketDAO.selectTagName();
+		//태그명 찾기
+		List<TagInfoVO> tagNameList = searchBucketService.selectTagName();
 		mav.addObject("tagNameList", tagNameList);
 		
-		List<String> groupNameList = searchBucketDAO.selectGroupName(id);
-		mav.addObject("groupNameList", groupNameList);
+		//그룹명 찾기
+		//List<GroupVO> groupNameList = searchBucketService.selectGroupName(id);
+		//mav.addObject("groupNameList", groupNameList);
+		
+		//네이버 블로그 검색결과
+		if(tagName == null) {
+			naverKeyword = (keyword == null || keyword.equals("") || searchList.isEmpty()) ? "버킷리스트": keyword;
+		}else {
+			naverKeyword = (tagName.equals("기타")) ? "버킷리스트": tagName;
+		}
+		naverBlogList = naverBlogService.selectNaverBlog(naverKeyword,5,1);
+		mav.addObject("naverBlogList", naverBlogList);
 		
 		mav.setViewName("searchbucket");
 		return mav;
