@@ -252,7 +252,6 @@ function registerSuccess(){
 					url : '/dalhada/validateForm?id=' + id,
 					type : 'get',
 					success : function(data){
-						console.log(data);
 						if (data == 1){ // id 중복됨
 							$('#idError').text("이미 사용중인 아이디입니다. =ㅅ=").css("color", "red");
 							$("#submit").attr("disabled", true);

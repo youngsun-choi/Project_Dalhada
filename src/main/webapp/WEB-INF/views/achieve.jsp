@@ -51,7 +51,7 @@
   			<c:forEach var="aList" items="${ageList}">
   				<form action="achieve" method="POST" style="display:inline;">
   					<input type="hidden" name="age" value="${aList}">
-		  			<button type="submit" class="cl0 bg10">${aList}0대 때</button>
+		  			<button type="submit" class="button-modal cl0 bg10">${aList}0대 때</button>
 		  		</form>
 		  	</c:forEach>
 	  	</c:if>

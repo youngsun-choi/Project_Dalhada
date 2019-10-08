@@ -90,4 +90,9 @@ public class MypageDAO {
 		String statement = "resource.MypageMapper.CreateGroup";
 		return session.insert(statement,map);
 	}
+	
+	public int CreateDiary(int id) {
+		String statement = "resource.MypageMapper.CreateDiary";
+		return session.insert(statement,id);
+	}
 }

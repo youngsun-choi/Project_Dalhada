@@ -57,7 +57,7 @@
 								name="searchKeyword" placeholder="Search" value="${ keyword }" autocomplete="off">
 								<button type="submit" class="flex-c-m size-122 ab-t-r fs-18 cl4 hov-cl1 trans-04" >
 									<i class="zmdi zmdi-search"></i>
-								</button>
+								</button> 
 							</div>
   						</form>
 						<c:if test="${empty sessionScope.id}">
@@ -107,13 +107,13 @@
 				<li>
 					<form id="searchForm" class="form-inline" action="searchbucket" method="get">
 	    					<div class="bor17 of-hidden pos-relative">
-								<input id="search" class="searchKeyDown stext-103 cl2 plh4 size-116 p-l-28 p-r-55" type="text" 
+								<input class="searchKeyDown stext-103 cl2 plh4 size-116 p-l-28 p-r-55" type="text" 
 								name="searchKeyword" placeholder="Search" value="${ keyword }" autocomplete="off">
 								<button type="submit" class="flex-c-m size-122 ab-t-r fs-18 cl4 hov-cl1 trans-04" >
 									<i class="zmdi zmdi-search"></i>
 								</button>
 							</div>
-  					</form>
+  					</form> 
 				</li>
 				<c:if test="${empty sessionScope.id}">
 					<li>
@@ -141,11 +141,11 @@
 	</header>
 
 	<!-- Title page -->
-	<section class="bg-img1 txt-center p-lr-15 p-tb-70"> <!-- style="background-image: url('images/bg-02.jpg');" -->
-		<!-- <h2 class="ltext-105 cl0 txt-center">
+	<section class="bg-img1 txt-center p-lr-15 p-tb-60" style="background-image: url('images/bg-02.jpg');"> <!-- style="background-image: url('images/bg-02.jpg');" -->
+		<h2 class="ltext-105 cl0 txt-center">
 			동영상
-		</h2> -->
-		<ul id="results"></ul>
+		</h2> 
+		<!-- <ul id="results"></ul> -->
 	</section>	
 
 
@@ -159,28 +159,28 @@
 						<c:if test="${ !empty searchList }">
 	                  		<div class="row isotope-grid">
 		                     	<c:forEach var="vo" items="${searchList}">
-		                        	<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women">
+		                        	<div class="item-slick2 p-l-5 p-r-5 p-t-5 p-b-5 isotope-item women"> <!-- col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women -->
 			                           	<!-- Block2 -->
 			                           	<div class="block2">
-			                             	 <div class="block2-img hov-img0">
+			                             	 <a class="block3-img flex-c-m p-lr-15 trans-04"> <!-- hov-img0 -->
 			                                 	<img class="js-show-modal-bucket" src="images/bucket/${ vo.image_path }" alt="IMG-PRODUCT">
-			                              	</div>
+			                              	</a>
 			            
-			                              	<div class="block2-txt flex-w flex-t p-t-14">
-			                                 	<div class="block2-txt-child1 flex-col-l ">
-			                                   		<a href="#" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-			                                      		${ vo.title }
-			                                    	</a>
-			                                 	</div>
-			                              	</div>
-			                              	<div class="flex-r-m"><!-- bor9 --><!-- p-r-10 m-r-11 -->
-			                                 	<button id="${vo.selectedbucket_id}" class="heart fs-23 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addlike ${vo.className } tooltip100" data-tooltip="좋아요">
+			            					<div class="block2-txt flex-w flex-t"> <!-- p-t-14 -->
+												<div class="block3-txt-child1 flex-col-l p-l-15">
+													<a id="${vo.selectedbucket_id }" class="js-show-modal-bucket stext-104 cl4 hov-cl1 trans-04 p-b-6">
+														${vo.title }
+													</a>
+												</div>
+											</div>
+											<div class="flex-r-m"><!-- bor9 --><!-- p-r-10 m-r-11 -->
+												<button id="${vo.selectedbucket_id}" class="heart fs-23 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addlike ${vo.className } tooltip100" data-tooltip="좋아요">
 			                                    	<i class="zmdi zmdi-favorite"></i> 
 			                                 	</button>
-			                                 	<button data-id="${vo.selectedbucket_id}" data-image="${vo.image_path}" class="getBtn fs-23 cl4 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addlike ${vo.className } tooltip100" data-tooltip="가져오기">
+												<button data-id="${vo.selectedbucket_id}" data-image="${vo.image_path}" class="fs-23 cl4 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addlike tooltip100" data-tooltip="가져오기">
 			                                    	<i class="fa fa-plus-square"></i> 
-			                                 	</button>   
-			                              	</div>
+			                                 	</button>  
+											</div>
 			                           </div>
 		                        	</div>
 		                     	</c:forEach>
@@ -458,7 +458,7 @@
 	<script src="js/main.js"></script>
 <!--===============================================================================================-->
 	<!-- Youtube api -->	
-	<script src="js/app.js"></script>
-    <script src="https://apis.google.com/js/client.js?onload=init"></script>
+	<!-- <script src="js/app.js"></script>
+    <script src="https://apis.google.com/js/client.js?onload=init"></script> -->
 </body>
 </html>

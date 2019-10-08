@@ -33,7 +33,7 @@
 					<when test="group_id == 0"> null</when>
 					<otherwise>#{group_id}</otherwise>
 				</choose>
-				, #{title}, #{content}, to_date(#{d_day}, 'yyyy.mm.dd'), '도전중', #{address}, #{lat}, #{lng});
+				, #{title}, #{content}, to_date(#{d_day}, 'yyyy.mm.dd'), 'f', #{address}, #{lat}, #{lng});
 			<foreach item="item" collection="tag_id" open="INSERT ALL"  close="SELECT * FROM DUAL" >
 				into selectedtag 
 				values(#{item}, selectedbucket_seq.currval)

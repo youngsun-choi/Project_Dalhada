@@ -137,6 +137,7 @@ public class MypageController {
 					map.put("member_id",  vo.getId());
 					map.put("id", Integer.parseInt(vo1.getComp()));
 					service.complete(map);
+					service.CreateDiary(Integer.parseInt(vo1.getComp()));
 				}
 			}
 			

@@ -300,6 +300,7 @@ alret("search")
             	var tags = data.tags;
             	var tagdom = $('#detail_tags');
             	console.log(tags);
+            	tagdom.html("");
             	for(var i=0; i<tags.length; i++)
             		tagdom.append('<button type="button" class="modal-tag modal-tag-detail flex-c-m stext-107 size-301 p-lr-15 trans-04 m-r-5 m-b-5">#'+tags[i]+'</button>');
             	$('.modal_heart').attr("id", data.bucket_id).addClass(data.className).on('click', function(){
@@ -372,6 +373,7 @@ alret("search")
 	            		groupdom.append("<option value='"+groups[i].id+"'>"+groups[i].name+"</option>");
 	            	}
 	            	var tagdom = $("#create-dom");
+	            	tagdom.html("");
 	            	for(var i=0; i<tags.length; i++)
 	            		tagdom.append('<button type="button" value="'+tags[i].id+'" class="modal-tag flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">#'+tags[i].name+'</button>');	            	
 	            	tag_click();
