@@ -350,15 +350,21 @@ alret("search")
     }); 
     /*==================================================================
     [ searchKeyDown ]*/
-    $('.searchKeyDown').keydown(function(e){ //엔터키 눌렀을 때
+    /*$('.searchKeyDown').keydown(function(e){ //엔터키 눌렀을 때
+    	console.log("엔터키 눌림");
+    	//e.preventDefault();
     	if(e.keyCode == 13){
-    		$('form#searchForm').submit();
+    		$('form#searchForm').submit(function(){
+    			var keyword= $('input[name="searchKeyword"]').val(); 
+    	       	console.log("keyword 전"+keyword);
+    	       	keyword = (keyword == "") ? "버킷리스트": keyword;
+    	       	console.log("keyword 후"+keyword);
+    		});
     	}
-    });
+    });*/
     
     /*==================================================================
     [ Show create modal ]*/
-    
     $('.js-show-modal-create').on('click',function(e){ 	
     	e.preventDefault();
 	        $.ajax({

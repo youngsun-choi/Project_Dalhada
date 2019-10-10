@@ -141,33 +141,30 @@
 	</header>
 
 	<!-- Title page -->
-	<section class="bg-img1 txt-center p-lr-15 p-tb-60" style="background-image: url('images/bg-02.jpg');"> <!-- style="background-image: url('images/bg-02.jpg');" -->
-		<h2 class="ltext-105 cl0 txt-center">
-			동영상
-		</h2> 
-		<!-- <ul id="results"></ul> -->
+	<section class="bg-img1 txt-center p-lr-15 p-t-30"> <!-- style="background-image: url('images/bg-02.jpg');" -->
+		<ul id="results"></ul>
 	</section>	
 
 
 	<!-- Content page -->
-	<section class="bg0 p-t-62 p-b-60">
+	<section class="bg0 p-t-30 p-b-60">
 		<div class="container">
 			<div class="row">
 				<div class="col-md-8 col-lg-9 p-b-80">
-					<div class="p-r-45 p-r-0-lg"> 
+					<div class="p-r-0-lg p-r-45">
 						<!-- 검색결과 시작 -->   
 						<c:if test="${ !empty searchList }">
 	                  		<div class="row isotope-grid">
 		                     	<c:forEach var="vo" items="${searchList}">
-		                        	<div class="item-slick2 p-l-5 p-r-5 p-t-5 p-b-5 isotope-item women"> <!-- col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women -->
+		                        	<div class="item-slick2 p-l-10 p-r-10 p-t-10 p-b-10 isotope-item women"> <!-- col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women -->
 			                           	<!-- Block2 -->
 			                           	<div class="block2">
-			                             	 <a class="block3-img flex-c-m p-lr-15 trans-04"> <!-- hov-img0 -->
+			                             	 <a class="block3-img flex-c-m trans-04"> <!-- hov-img0  p-lr-15 -->
 			                                 	<img class="js-show-modal-bucket" src="images/bucket/${ vo.image_path }" alt="IMG-PRODUCT">
 			                              	</a>
 			            
-			            					<div class="block2-txt flex-w flex-t"> <!-- p-t-14 -->
-												<div class="block3-txt-child1 flex-col-l p-l-15">
+			            					<div class="block2-txt flex-w flex-t p-t-14"> <!-- p-t-14 -->
+												<div class="block3-txt-child1 flex-col-l">
 													<a id="${vo.selectedbucket_id }" class="js-show-modal-bucket stext-104 cl4 hov-cl1 trans-04 p-b-6">
 														${vo.title }
 													</a>
@@ -263,7 +260,7 @@
 							<div class="flex-w m-r--5">
 								<c:if test="${ !empty tagNameList }">
 									<c:forEach var="tList" items="${tagNameList}">
-										<a href="${pageContext.request.contextPath}/searchbucket?tagName=${tList.name}" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
+										<a href="${pageContext.request.contextPath}/searchbucket?searchTag=${tList.name}" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
 											#${tList.name}
 										</a>
 									</c:forEach>
@@ -458,7 +455,7 @@
 	<script src="js/main.js"></script>
 <!--===============================================================================================-->
 	<!-- Youtube api -->	
-	<!-- <script src="js/app.js"></script>
-    <script src="https://apis.google.com/js/client.js?onload=init"></script> -->
+	<script src="js/app.js"></script>
+    <script src="https://apis.google.com/js/client.js?onload=init"></script>
 </body>
 </html>

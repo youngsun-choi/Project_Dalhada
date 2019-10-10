@@ -144,13 +144,13 @@ public class BucketController {
 	}
 	
 	@RequestMapping(value="/searchbucket")
-	public ModelAndView searchBucket(HttpSession session, 
-			@RequestParam(defaultValue="1")int curPage, @RequestParam(required=false)String tagName, 
+	public ModelAndView searchBucket(HttpSession session, @RequestParam(defaultValue="1")int curPage, 
 			@ModelAttribute SearchBucketVO searchBucketVO) {
 		ModelAndView mav = new ModelAndView();
 		String id = (String) session.getAttribute("id");
 		searchBucketVO.setMember_id(id);
 		String keyword = searchBucketVO.getSearchKeyword();
+		String tagName = searchBucketVO.getSearchTag();
 		String naverKeyword = null;
 		List<NaverBlogVO> naverBlogList = null;
 		int listCnt;

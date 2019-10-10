@@ -2019,8 +2019,8 @@ input.num-product::-webkit-inner-spin-button {
 [ Block3 ]*/
 .block3-img{
 	position: relative; 
-	width: 190px;
-	height: 190px;
+	width: 180px;
+	height: 180px;
 	overflow: hidden;
 }
  
@@ -2032,7 +2032,7 @@ input.num-product::-webkit-inner-spin-button {
 
 /*---------------------------------------------*/
 .block3-txt-child1 {
-  width: calc(100% - 40px);
+  width: calc(100% - 30px);
 }
 
 
