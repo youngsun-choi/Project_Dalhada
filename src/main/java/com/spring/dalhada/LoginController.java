@@ -33,6 +33,7 @@ public class LoginController {
 	@ResponseBody
 	public String login(String id, String password, HttpSession session,HttpServletRequest request) {
 		MemberinfoVO vo = service.checklogin(id, password);
+		
 		if (vo != null) {
 			session.setAttribute("id", vo.getId());
 			return "true";

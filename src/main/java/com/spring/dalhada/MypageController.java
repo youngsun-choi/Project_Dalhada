@@ -45,18 +45,20 @@ public class MypageController {
 		List<AchieveVO> achieveList = achieveService.selectCompleteBucket(id);
 		List<AchieveVO> selectedAchieveList = new ArrayList<AchieveVO>();
 		List<Integer> ageList = new ArrayList<Integer>();
-		int numAge = (age != null) ? Integer.parseInt(age) : achieveList.get(0).getAge();
-		for(AchieveVO vo:achieveList) {
-			ageList.add(vo.getAge());
-			if(vo.getAge()==numAge)
-				selectedAchieveList.add(vo);
+		int numAge = 0;
+		if(achieveList.size() != 0) {
+			numAge = (age != null) ? Integer.parseInt(age) : achieveList.get(0).getAge();
+			for(AchieveVO vo:achieveList) {
+				ageList.add(vo.getAge());
+				if(vo.getAge()==numAge)
+					selectedAchieveList.add(vo);
+			}
+			mav.addObject("ageList", ageList.stream().distinct().collect(Collectors.toList()));
 		}
-		mav.addObject("ageList", ageList.stream().distinct().collect(Collectors.toList()));
 		mav.addObject("achieveList", selectedAchieveList);
 		mav.setViewName("achieve");
 		return mav;
 	}
-	
 	@RequestMapping(value = "/mypage")
 	public ModelAndView get(MemberinfoVO vo, HttpSession session, HttpServletRequest request,MypageVO vo1) {
 		ModelAndView mav = new ModelAndView();

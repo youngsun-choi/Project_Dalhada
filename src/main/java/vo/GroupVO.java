@@ -5,7 +5,7 @@ public class GroupVO {
 	private int group_id;
 	private String name;
 	private String member_id;
-	
+
 	public String getId() {
 		return id;
 	}

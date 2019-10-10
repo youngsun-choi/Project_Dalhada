@@ -2,7 +2,8 @@ package vo;
 
 import java.util.List;
 
-public class SelectedBucketVO {
+public class InsertedBucketVO {
+	private int bucket_id;
 	private String title;
 	private String content;
 	private int group_id;
@@ -10,7 +11,7 @@ public class SelectedBucketVO {
 	private String member_id;
 	private String address;
 	private float lat;
-	private float lng;
+	private float lng; 
 	private String image_path;
 	private List<String> tag_id;
 	public String getTitle() {
@@ -78,6 +79,12 @@ public class SelectedBucketVO {
 		return "SelectedBucketVO [title=" + title + ", content=" + content + ", group_id=" + group_id + ", d_day="
 				+ d_day + ", member_id=" + member_id + ", address=" + address + ", lat=" + lat + ", lng=" + lng
 				+ ", image_path=" + image_path + ", tag_id=" + tag_id + "]";
+	}
+	public int getBucket_id() {
+		return bucket_id;
+	}
+	public void setBucket_id(int bucket_id) {
+		this.bucket_id = bucket_id;
 	}
 
 }

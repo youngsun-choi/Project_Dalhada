@@ -19,7 +19,7 @@ public class BucketDAO {
 		int selectedbucket_id = map.getId();
 		String statement = "resource.BucketMapper.detailBucket";
 		vo = session.selectOne(statement, map);
-		statement = "resource.BucketMapper.bucketTags";
+		statement = "resource.BucketMapper.selectedTags";
 		List<String> tags = session.selectList(statement, selectedbucket_id);
 		vo.setTags(tags);
 		return vo;
@@ -49,7 +49,7 @@ public class BucketDAO {
 		String statement = "resource.SearchBucketMapper.selectTags";
 		return session.selectList(statement);
 	}
-	public String insertbucket(SelectedBucketVO vo) {
+	public String insertbucket(InsertedBucketVO vo) {
 		String result = "";
 		String statement = "resource.BucketMapper.insertBucket";
 		session.insert(statement, vo);
@@ -57,5 +57,23 @@ public class BucketDAO {
 		String member_id = vo.getMember_id();
 		result = session.selectOne(statement, member_id);
 		return result;
+	} 
+	public int insertGetBucket(InsertedBucketVO vo) {
+		String statement = "resource.BucketMapper.insertGetBucket";
+		return session.insert(statement, vo);
+	}
+	public EditBucketInfoVO getEditInfo(StringIntVO map) {
+		String statement = "resource.BucketMapper.editBucketInfo";
+		return session.selectOne(statement, map);
+	}
+	public List<Integer> selectTagInfo(int selectedbucket_id) {
+		String statement = "resource.BucketMapper.bucketTagInfo";
+		return session.selectList(statement, selectedbucket_id);
+	}
+	public int updateBucket(UpdatedBucketVO vo) {
+		String statement =  "resource.BucketMapper.updateTags";
+		session.update(statement, vo);
+		statement = "resource.BucketMapper.updateBucket";
+		return session.update(statement, vo);
 	}
 }

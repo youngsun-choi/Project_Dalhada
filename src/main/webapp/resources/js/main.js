@@ -109,34 +109,7 @@
     });   
     /*==================================================================
     [ Login ]*/   
-    var referer='';
-	$(document).ready(function(){
-		$("#submit").click(function(){
-			var id = $("#id").val();
-			var pwd = $("#password").val();
-			referer =  document.referrer;
-			if(id==""){
-				$("#loginError").text("아이디를 입력하세요.").css("color", "red");		
-				return;
-			}else if(pwd==""){
-				$("#loginError").text("비밀번호를 입력하세요.").css("color", "red");		
-				return;
-			}
-			$.ajax({
-				url : '/dalhada/login?id='+id+'&password='+pwd,
-				type : 'post',
-				success : function(data){
-					if(data == "false"){
-							$("#loginError").text("아이디와 비밀번호가 일치하지 않습니다.").css("color", "red");	
-					}else{
-						if(referer.includes('logout')||referer.includes('memberForm'))
-							referer="http://localhost:8000/dalhada/main";
-						location.href=referer;
-					}
-				}
-			});
-		});
-	});
+  
 
     /*==================================================================
     [ Isotope ]*/
@@ -199,19 +172,6 @@ alret("search")
             $('.js-show-filter').removeClass('show-filter');
             $('.panel-filter').slideUp(400);
         }    
-    });
-
-
-
-
-    /*==================================================================
-    [ Bucket ]*/
-    $('.js-show-cart').on('click',function(){
-        $('.js-panel-cart').addClass('show-header-cart');
-    });
-
-    $('.js-hide-cart').on('click',function(){
-        $('.js-panel-cart').removeClass('show-header-cart');
     });
 
     /*==================================================================
@@ -294,12 +254,11 @@ alret("search")
             ,
             success: function (data) {
             	$('#bucket_title').html(data.title);
-            	$('.modal_image').attr("src", "images/bucket/"+data.bucketImage_path);
+            	$('#detail_image').attr("src", "images/bucket/"+data.bucketImage_path);
             	$('#modal_image_expand').attr("href", "images/bucket/"+data.bucketImage_path);
             	$('#bucket_content').text(data.content);
             	var tags = data.tags;
             	var tagdom = $('#detail_tags');
-            	console.log(tags);
             	tagdom.html("");
             	for(var i=0; i<tags.length; i++)
             		tagdom.append('<button type="button" class="modal-tag modal-tag-detail flex-c-m stext-107 size-301 p-lr-15 trans-04 m-r-5 m-b-5">#'+tags[i]+'</button>');
@@ -327,11 +286,7 @@ alret("search")
     				
     			});;
             	$('#likecnt').text(data.like_cnt);
-            	$('#getcnt').text(data.like_cnt);
-            },
-            error : function(){
-            	
-	        }
+            }
 		})
         /*var map = L.map('mapid').setView([51.505, -0.09],  10);
     	L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
@@ -348,83 +303,71 @@ alret("search")
         $('.js-modal-bucket').removeClass('show-modal-bucket');
         
     }); 
-    /*==================================================================
-    [ searchKeyDown ]*/
-    /*$('.searchKeyDown').keydown(function(e){ //엔터키 눌렀을 때
-    	console.log("엔터키 눌림");
-    	//e.preventDefault();
-    	if(e.keyCode == 13){
-    		$('form#searchForm').submit(function(){
-    			var keyword= $('input[name="searchKeyword"]').val(); 
-    	       	console.log("keyword 전"+keyword);
-    	       	keyword = (keyword == "") ? "버킷리스트": keyword;
-    	       	console.log("keyword 후"+keyword);
-    		});
-    	}
-    });*/
     
     /*==================================================================
     [ Show create modal ]*/
     $('.js-show-modal-create').on('click',function(e){ 	
     	e.preventDefault();
-	        $.ajax({
-				url: "main/getgrouptag",
-	            type: "POST",
-	            success: function (data) {
-	            	var groups = data[0];
-	            	var tags = data[1];
-	            	var groupdom = $("#groups-dom");
-	            	groupdom.append("<option value='0'>-----------</option>")
-	            	for(var i = 0; i < groups.length; i++ ){
-	            		groupdom.append("<option value='"+groups[i].id+"'>"+groups[i].name+"</option>");
-	            	}
-	            	var tagdom = $("#create-dom");
-	            	tagdom.html("");
-	            	for(var i=0; i<tags.length; i++)
-	            		tagdom.append('<button type="button" value="'+tags[i].id+'" class="modal-tag flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">#'+tags[i].name+'</button>');	            	
-	            	tag_click();
-	            },
-	            error : function(){
-	            	console.log("error");
-		        }
-			})
+	    $.ajax({
+	    	url: "main/getgrouptag",
+	        type: "POST",
+	        success: function (data) {
+	         	var groups = data[0];
+	           	var tags = data[1];
+	           	var groupdom = $("#create-groups-dom");
+	           	groupdom.append("<option value='0'>-----------</option>")
+	           	for(var i = 0; i < groups.length; i++ ){
+	           		groupdom.append("<option value='"+groups[i].id+"'>"+groups[i].name+"</option>");
+	           	}
+	           	var tagdom = $("#create-tag-dom");
+	           	for(var i=0; i<tags.length; i++)
+	           		tagdom.append('<button type="button" value="'+tags[i].id+'" class="create-modal-tag flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">#'+tags[i].name+'</button>');	            	
+	           	tag_click($('.create-modal-tag'));
+	           	$("#create-d-day").flatpickr({
+        		    dateFormat: "Y.m.d"
+        		});
+	           },
+	           error : function(){
+	           	console.log("error");
+		       }
+	    })
 			
-			$('.js-modal-create').addClass('show-modal-create');
+		$('.js-modal-create').addClass('show-modal-create');
     });
-    /*[click cancel button]*/
+    /*[click create cancel button]*/
     $('.js-hide-modal-create').on('click',function(){
-    	clearform();
+    	clear_createForm();
     	$('.js-modal-create').removeClass('show-modal-create');
     }); 
-    /*[click submit button]*/
+    /*[click create submit button]*/
     $('#create-submit').click(function(){
-    	var title = $("#title").val();
+    	var title = $("#create-title").val();
     	var file = $('input[type=file]')[0].files[0];
-    	var content =  $("#content").val();
+    	var content =  $("#create_content").val();
 
 		var list = [];
-    	$(".modal-tag-click").each(function(i){list.push($(this).val());})
+    	$("#create-tag-dom .modal-tag-click").each(function(i){list.push($(this).val());})
     	
     	var msg = '';
-    	if(list.length==0)
-    		msg+="태그를 지정해주세요.\n"
     	if(title=='')
     		msg = "제목 ";
     	if(file == undefined)
     		msg += "사진 ";
     	if(content == "")
     		msg += "내용 ";
-    			
+    	if(list.length==0)
+    		msg+="태그를 지정해주세요.\n"
+    	
     	if(msg.length!=0)
-    		$(".warntest").text(msg+"이 없습니다.");
+    		$(".create-warntest").text(msg);
     	else{
     		var formData = new FormData();
         	formData.append("title", title);
         	formData.append("content", content);
         	formData.append("taglist", list);
         	formData.append("file", file);
-        	formData.append("g_id", $("#groups-dom").val());
-        	formData.append("d_day", $("#d-day").val());
+        	formData.append("g_id", $("#create-groups-dom").val());
+        	formData.append("d_day", $("#create-d-day").val());
 			$.ajax({
 				url: "createbucket",
 				type:"post",
@@ -434,34 +377,214 @@ alret("search")
 				,
 				sucess : function(){
 					$('.js-modal-create').removeClass('show-modal-create');
+					location.reload();
 				},
 				complete : function(){
-					clearform();
+					clear_createForm();
 					$('.js-modal-create').removeClass('show-modal-create');
 				}
 			});
     	}
 	});
+   
+    /*==================================================================
+    [ Show edit modal ]*/
+    $('.js-show-modal-edit').on('click',function(e){ 	
+    	e.preventDefault();
+    	var id = $(this).attr('id')
+	        $.ajax({// 제목 이미지path 내용 태그(전부/버킷's) 그룹(전부/버킷's) 날짜 위도 경도
+				url: "main/geteditinfo",
+	            type: "POST",
+	            data: {"selectedbucket_id": id}
+	            ,
+	            success: function (data) {
+	            	var group_list = data.group_list;
+	            	var tag_list = data.tag_list;
+	            	var my_tags = data.my_tags;
+	            	
+	            	$("#editedbucket_id").val(id);
+	            	$("#edit_title").val(data.title);
+	            	$("#edit_image").attr("src", "images/bucket/"+data.image_path);
+	            	$("#edit_content").val(data.content);
+	            	var groupdom = $("#edit-groups-dom");
+	            	groupdom.append("<option value='0'>-----------</option>")
+	            	for(var i = 0; i < group_list.length; i++ )
+	            		groupdom.append("<option value='"+group_list[i].id+"'>"+group_list[i].name+"</option>");
+	            	$('#edit-groups-dom').find('option[value='+data.group_id+']').attr('selected', 'selected');
+	            	
+	            	var tagdom = $("#edit-tag-dom");
+	            	for(var i=0; i<tag_list.length; i++)
+	            		tagdom.append('<button type="button" value="'+tag_list[i].id+'" class="edit-modal-tag flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">#'+tag_list[i].name+'</button>');	            	
+	            	tag_click($('.edit-modal-tag'));
+	            	var my_tags = data.my_tags;
+	            	for(var i = 0; i<my_tags.length; i++)
+	            		$('#edit-tag-dom').find('button[value='+my_tags[i]+']').removeClass('bor7').addClass('modal-tag-click').removeClass('cl6');
+	            	$('#edit-d-day').flatpickr({
+	        		    dateFormat: "Y.m.d",
+	        		    defaultDate: [data.d_day]
+	        		});
+	            },
+	            error : function(){
+	            	console.log("error");
+		        }
+			})
+			
+			$('.js-modal-edit').addClass('show-modal-edit');
+    });
+    /*[click edit cancel button]*/
+    $('.js-hide-modal-edit').on('click',function(){
+    	clear_form('#edit');
+    	$('.js-modal-edit').removeClass('show-modal-edit');
+    }); 
+    /*[click edit submit button]*/
+    $('#edit-submit').click(function(){
+    	var title = $("#edit_title").val();
+    	var content =  $("#edit_content").val();
+		var list = [];
+    	$("#edit-tag-dom .modal-tag-click").each(function(i){list.push($(this).val());})
+    	
+    	var msg = '';
+    	if(title=='')
+    		msg = "제목 ";
+    	if(content == "")
+    		msg += "내용 ";
+    	if(list.length==0)
+    		msg+="태그를 지정해주세요.\n"
+    	
+    	if(msg.length!=0)
+    		$(".edit-warntest").text(msg);
+    	else{
+    		var formData = new FormData();
+    		formData.append("selectedbucket_id", $("#editedbucket_id").val());
+        	formData.append("title", title);
+        	formData.append("content", content);
+        	formData.append("taglist", list);
+        	formData.append("g_id", $("#edit-groups-dom").val());
+        	formData.append("d_day", $("#edit-d-day").val());
+			$.ajax({
+				url: "updatebucket",
+				type:"post",
+				processData: false,
+                contentType: false,
+				data: formData
+				,
+				complete : function(){
+					$('.js-modal-edit').removeClass('show-modal-edit');
+					clear_form('#edit');
+				}
+			});
+    	}
+	});
+    /*==================================================================
+    [ Show get modal ]*/
+    $('.js-show-modal-get').on('click',function(e){ 	
+    	e.preventDefault();
+    	var id = $(this).attr("data-id");
+	        $.ajax({// 제목 이미지path 내용 태그(전부/버킷's) 그룹(전부/버킷's) 날짜 위도 경도
+				url: "main/geteditinfo",
+	            type: "POST",
+	            data: {"selectedbucket_id": $(this).attr('id')}
+	            ,
+	            success: function (data) {
+	            	var group_list = data.group_list;
+	            	var tag_list = data.tag_list;
+	            	var my_tags = data.my_tags;
+	            	
+	            	$("#bucket_id").val(id);
+	            	$("#get_title").val(data.title);
+	            	$("#get_image").attr("src", "images/bucket/"+data.image_path);
+	            	$("#get_content").val(data.content);
+	            	var groupdom = $("#get-groups-dom");
+	            	groupdom.append("<option value='0'>-----------</option>")
+	            	for(var i = 0; i < group_list.length; i++ )
+	            		groupdom.append("<option value='"+group_list[i].id+"'>"+group_list[i].name+"</option>");
+	            	$('#get-groups-dom').find('option[value='+data.group_id+']').attr('selected', 'selected');
+	            	
+	            	var tagdom = $("#get-tag-dom");
+	            	for(var i=0; i<tag_list.length; i++)
+	            		tagdom.append('<button type="button" value="'+tag_list[i].id+'" class="get-modal-tag flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">#'+tag_list[i].name+'</button>');	            	
+	            	tag_click($('.get-modal-tag'));
+	            	var my_tags = data.my_tags;
+	            	for(var i = 0; i<my_tags.length; i++)
+	            		$('#get-tag-dom').find('button[value='+my_tags[i]+']').removeClass('bor7').addClass('modal-tag-click').removeClass('cl6');
+	            	$('#get-d-day').flatpickr({
+	        		    dateFormat: "Y.m.d",
+	        		    defaultDate: [data.d_day]
+	        		});
+	            },
+	            error : function(){
+	            	console.log("error");
+		        }
+			})
+			
+			$('.js-modal-get').addClass('show-modal-get');
+    });
+    /*[click edit cancel button]*/
+    $('.js-hide-modal-get').on('click',function(){
+    	clear_form('#get');
+    	$('.js-modal-get').removeClass('show-modal-get');
+    }); 
+    /*[click edit submit button]*/
+    $('#get-submit').click(function(){
+    	var title = $("#get_title").val();
+    	var content =  $("#get_content").val();
+		var list = [];
+    	$("#get-tag-dom .modal-tag-click").each(function(i){list.push($(this).val());})
+    	
+    	var msg = '';
+    	if(title=='')
+    		msg = "제목 ";
+    	if(content == "")
+    		msg += "내용 ";
+    	if(list.length==0)
+    		msg+="태그를 지정해주세요.\n"
+    	
+    	if(msg.length!=0)
+    		$(".get-warntest").text(msg);
+    	else{
+    		var formData = new FormData();
+    		formData.append("bucket_id", $("#bucket_id").val());
+        	formData.append("title", title);
+        	formData.append("content", content);
+        	formData.append("tag_id", list);
+        	formData.append("g_id", $("#get-groups-dom").val());
+        	formData.append("d_day", $("#get-d-day").val());
+			$.ajax({
+				url: "insertgetbucket",
+				type:"post",
+				processData: false,
+                contentType: false,
+				data: formData
+				,
+				complete : function(){
+					$('.js-modal-get').removeClass('show-modal-get');
+					clear_form('#get');
+				}
+			});
+    	}
+	});
 })(jQuery);
-
-var clearform = function(){
+var clear_createForm = function(){
 	$('input').val('');
-	$('#content').val('');
+	$('#create-content').val('');
 	$('.createimage').attr("src", "https://mdbootstrap.com/img/Photos/Others/placeholder.jpg");
 	if((navigator.appName == 'Netscape' && navigator.userAgent.search('Trident') != -1)) {
-	 	$("inputimage").replaceWith($("inputimage").clone(true));
+	 	$("#inputimage").replaceWith($("#inputimage").clone(true));
 	} else {
-	   	$("inputimage").val("");
+	   	$("#inputimage").val("");
 	}
-	$('#groups-dom').find('option:first').attr('selected', 'selected');
-	$('.modal-tag').each(function(){
-		$(this).addClass('bor7');
-        $(this).removeClass('modal-tag-click');
-        $(this).addClass('cl6');
-		});
+	$('#create-groups-dom').html('');
+	$('#create-tag-dom').html('');
+	$('#create-d-day').val('');
 }
-var tag_click = function(){
-	$('.modal-tag').each(function(){
+var clear_form = function(flag){
+	$(flag+'-groups-dom').html('');
+	$(flag+'-tag-dom').html('');
+	$(flag+'-d-day').val('');
+	$(flag+'-tag-dom').html('');
+}
+var tag_click = function(tags){
+	tags.each(function(){
 		$(this).on('click',function(){
 			if($(this).hasClass('modal-tag-click')){
 				$(this).addClass('bor7');
