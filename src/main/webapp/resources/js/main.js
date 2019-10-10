@@ -371,12 +371,12 @@ alret("search")
 			
 		$('.js-modal-create').addClass('show-modal-create');
     });
-    /*[click cancel button]*/
+    /*[click create cancel button]*/
     $('.js-hide-modal-create').on('click',function(){
     	clear_createForm();
     	$('.js-modal-create').removeClass('show-modal-create');
     }); 
-    /*[click submit button]*/
+    /*[click create submit button]*/
     $('#create-submit').click(function(){
     	var title = $("#create-title").val();
     	var file = $('input[type=file]')[0].files[0];
@@ -428,35 +428,34 @@ alret("search")
     [ Show edit modal ]*/
     $('.js-show-modal-edit').on('click',function(e){ 	
     	e.preventDefault();
+    	var id = $(this).attr('id')
 	        $.ajax({// 제목 이미지path 내용 태그(전부/버킷's) 그룹(전부/버킷's) 날짜 위도 경도
 				url: "main/geteditinfo",
 	            type: "POST",
-	            data: {"selectedbucket_id": $(this).attr('id')}
+	            data: {"selectedbucket_id": id}
 	            ,
 	            success: function (data) {
 	            	var group_list = data.group_list;
 	            	var tag_list = data.tag_list;
 	            	var my_tags = data.my_tags;
-	            	console.log(data)
 	            	
-	            	
-	            	$("#edit-title").val(data.title);
+	            	$("#editedbucket_id").val(id);
+	            	$("#edit_title").val(data.title);
 	            	$("#edit_image").attr("src", "images/bucket/"+data.image_path);
 	            	$("#edit-content").val(data.content);
 	            	var groupdom = $("#edit-groups-dom");
 	            	groupdom.append("<option value='0'>-----------</option>")
-	            	for(var i = 0; i < group_list.length; i++ ){
-	            		groupdom.append("<option id='"+group_list[i].id+"'>"+group_list[i].name+"</option>");
-	            	}
-	            	$('#edit-groups-dom').find('#'+data.group_id).attr('selected', 'selected');
+	            	for(var i = 0; i < group_list.length; i++ )
+	            		groupdom.append("<option value='"+group_list[i].id+"'>"+group_list[i].name+"</option>");
+	            	$('#edit-groups-dom').find('option[value='+data.group_id+']').attr('selected', 'selected');
 	            	
 	            	var tagdom = $("#edit-tag-dom");
 	            	for(var i=0; i<tag_list.length; i++)
-	            		tagdom.append('<button type="button" id="'+tag_list[i].id+'" class="edit-modal-tag flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">#'+tag_list[i].name+'</button>');	            	
+	            		tagdom.append('<button type="button" value="'+tag_list[i].id+'" class="edit-modal-tag flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">#'+tag_list[i].name+'</button>');	            	
 	            	tag_click($('.edit-modal-tag'));
 	            	var my_tags = data.my_tags;
 	            	for(var i = 0; i<my_tags.length; i++)
-	            		$('#edit-tag-dom').find('#'+my_tags[i]).removeClass('bor7').addClass('modal-tag-click').removeClass('cl6');
+	            		$('#edit-tag-dom').find('button[value='+my_tags[i]+']').removeClass('bor7').addClass('modal-tag-click').removeClass('cl6');
 	            	$('#edit-d-day').flatpickr({
 	        		    dateFormat: "Y.m.d",
 	        		    defaultDate: [data.d_day]
@@ -469,16 +468,14 @@ alret("search")
 			
 			$('.js-modal-edit').addClass('show-modal-edit');
     });
-    /*[click cancel button]*/
+    /*[click edit cancel button]*/
     $('.js-hide-modal-edit').on('click',function(){
-    	$('#edit-groups-dom').html('');
-    	$('#edit-tag-dom').html('');
-    	$('#edit-d-day').val('');
+    	clear_editForm();
     	$('.js-modal-edit').removeClass('show-modal-edit');
     }); 
-    /*[click submit button]*/
+    /*[click edit submit button]*/
     $('#edit-submit').click(function(){
-    	var title = $("#edit-title").val();
+    	var title = $("#edit_title").val();
     	var content =  $("#edit-content").val();
 		var list = [];
     	$("#edit-tag-dom .modal-tag-click").each(function(i){list.push($(this).val());})
@@ -495,10 +492,11 @@ alret("search")
     		$(".edit-warntest").text(msg);
     	else{
     		var formData = new FormData();
+    		formData.append("selectedbucket_id", $("#editedbucket_id").val());
         	formData.append("title", title);
         	formData.append("content", content);
         	formData.append("taglist", list);
-        	formData.append("g_id", $("#edit-groups-dom").attr('id'));
+        	formData.append("g_id", $("#edit-groups-dom").val());
         	formData.append("d_day", $("#edit-d-day").val());
 			$.ajax({
 				url: "updatebucket",
@@ -507,12 +505,9 @@ alret("search")
                 contentType: false,
 				data: formData
 				,
-				sucess : function(){
-					$('.js-modal-create').removeClass('show-modal-create');
-					location.reload();
-				},
 				complete : function(){
-					$('.js-modal-create').removeClass('show-modal-create');
+					$('.js-modal-edit').removeClass('show-modal-edit');
+					clear_editForm();
 				}
 			});
     	}
@@ -530,6 +525,12 @@ var clear_createForm = function(){
 	$('#create-groups-dom').html('');
 	$('#create-tag-dom').html('');
 	$('#create-d-day').val('');
+}
+var clear_editForm = function(){
+	$('#edit-groups-dom').html('');
+	$('#edit-tag-dom').html('');
+	$('#edit-d-day').val('');
+	$('#create-tag-dom').html('');
 }
 var tag_click = function(tags){
 	tags.each(function(){

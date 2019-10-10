@@ -30,7 +30,8 @@ import vo.PagingVO;
 import vo.SearchBucketVO;
 import vo.StringIntVO;
 import vo.TagInfoVO;
-import vo.SelectedBucketVO;
+import vo.UpdatedBucketVO;
+import vo.InsertedBucketVO;
 
 @Controller
 public class BucketController {
@@ -45,9 +46,10 @@ public class BucketController {
 	@RequestMapping(value="/main")
 	public ModelAndView main(HttpSession session) {
 		ModelAndView mav = new ModelAndView();
-		String id = (String)session.getAttribute("id");
+		String member_id = (String) session.getAttribute("id");
 	
-		List<BucketVO> TOPlist = bucketservice.selectTOPBucket(id);
+		if()
+		List<BucketVO> TOPlist = bucketservice.selectTOPBucket(member_id);
 		
 		mav.addObject("TOPlist", TOPlist);
 		mav.setViewName("main");
@@ -113,9 +115,9 @@ public class BucketController {
 
 	@RequestMapping(value="/createbucket")
 	@ResponseBody
-	public String createbucket(HttpSession session, SelectedBucketVO vo, @RequestParam(value="g_id")String g_id,
+	public String createbucket(HttpSession session, InsertedBucketVO vo, @RequestParam(value="g_id")String g_id,
 			@RequestParam(value="taglist")List<String> taglist, @RequestParam("file") MultipartFile file) {
-		String fileName = file.getOriginalFilename(), filePath;
+		String fileName = file.getOriginalFilename(), filePath, result = "success";
 		String member_id = (String) session.getAttribute("id");
 		vo.setMember_id(member_id);
 		vo.setTag_id(taglist);
@@ -134,20 +136,19 @@ public class BucketController {
 	    		 f.renameTo(newf);
 		}catch (IOException e) {
 	    	 e.printStackTrace();
+	    	 result = "error";
+	    	 
 	     }	
-		return "success";
+		return result;
 	}
 	@RequestMapping(value="/updatebucket")
 	@ResponseBody
-	public String updatebucket(HttpSession session, SelectedBucketVO vo, @RequestParam(value="g_id")String g_id,
-			@RequestParam(value="taglist")List<String> taglist) {	
-		String member_id = (String) session.getAttribute("id");
+	public String updatebucket(HttpSession session, UpdatedBucketVO vo, @RequestParam(value="g_id")String g_id) {	
+		String member_id = (String) session.getAttribute("id"), result = "success";
 		vo.setMember_id(member_id);
-		vo.setTag_id(taglist);
 		vo.setGroup_id(Integer.parseInt(g_id));
-		bucketservice.updateBucket(vo);
-		
-		return "success";
+		if(bucketservice.updateBucket(vo) < 1) result = "error";
+		return result;
 	}
 	/*@RequestMapping(value="/searchbucket/get")
 	@ResponseBody

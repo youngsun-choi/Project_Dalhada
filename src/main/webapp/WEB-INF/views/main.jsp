@@ -147,9 +147,9 @@
 	<!-- Header End -->
 
 	<!-- Bucket -->
-	<section class="sec-product bg0 p-t-60 p-b-50">
+	<section class="sec-product bg0 p-t-25 p-b-20">
 		<div class="container">
-			<div class="p-b-20">
+			<div class="p-b-5">
 				<h3 class="ltext-90 cl5 respon1">
 					인기순 버킷
 				</h3>
@@ -157,14 +157,14 @@
 			<!-- Tab01 -->
 			<div class="tab01">
 				<!-- Tab panes -->
-				<div class="tab-content p-t-10">
+				<div class="tab-content p-t-5">
 					<!-- - -->
 					<div class="tab-pane fade show active" id="best-seller" role="tabpanel">
 						<!-- Slide2 -->
 						<div class="wrap-slick2">
 							<div class="slick2">
 							<c:forEach var="vo" items="${TOPlist}">
-								<div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
+								<div class="item-slick2 p-l-15 p-r-15">
 									<!-- Block2 -->
 									<div class="block2">
 										<div class="block2-wrap">
@@ -185,7 +185,6 @@
 												</a>
 											</div>
 										</div>
-										<div id="${vo.selectedbucket_id }" class="js-show-modal-edit">수정</div>
 									</div>
 								</div>
 								</c:forEach>
@@ -204,7 +203,7 @@
 	</footer>
 
 	<!-- Detail Modal -->
-	<div class="wrap-modal-bucket js-modal-bucket p-t-60 p-b-20 font-DoHyeon">
+	<div class="wrap-modal-bucket js-modal-bucket p-t-60 p-b-20">
 		<div class="overlay-modal js-hide-modal-bucket"></div>
 
 		<div class="container">
@@ -217,7 +216,7 @@
 					<div id="left" class="col-md-6">
 						<div class="p-l-25 p-r-30 p-lr-0-lg">
 							<div class="wrap-slick3 flex-sb flex-w">
-								<h4 id="bucket_title"class="mtext-105 cl2 p-b-14"></h4>
+								<h4 id="bucket_title"class="ltext-107 cl2 p-b-14"></h4>
 								<div class="gallery-lb">
 									<div class="pos-relative txt-center">
 										<img class="modal_image" id="detail_image" alt="IMG-PRODUCT">
@@ -227,7 +226,7 @@
 									</div>
 								</div>
 							</div>
-							<div id="bucket_content" class="stext-102 cl3 p-t-23"></div>
+							<div id="bucket_content" class="mtext-110 cl3 p-t-23 p-b-23"></div>
 							<div class="flex-m p-r-10 m-r-11 cl3">
 								<a class="modal_heart fs-23 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addlike tooltip100" data-tooltip="Add to Like">
 									<i class="zmdi zmdi-favorite"></i>
@@ -326,7 +325,7 @@
 				</button>				
 					<div class="row p-all-10">
 						<div class="col-md-6">
-							<input type="text" id="edit-title" class="form-control mb-4" maxlength="30">
+							<input type="text" id="edit_title" class="form-control mb-4" maxlength="30">
 				            <div class="gallery-lb">
 								<div class="pos-relative txt-center">
 									<img class="modal_image" id="edit_image" alt="IMG-PRODUCT">
@@ -350,7 +349,8 @@
 			                <div class="mapid"></div>
 			                <div class="edit-warntest"></div>
 							<div class="txt-center">
-	       						<button id="edit-submit" class="button-modal cl0 bg10">생성</button>
+								<input type="hidden" id="editedbucket_id"/>
+	       						<button id="edit-submit" class="button-modal cl0 bg10">수정</button>
 							    <button class="js-hide-modal-edit button-modal cl13 bg0 btn-bd" data-dismiss="modal">취소</button>
 						    </div>
 			            </div>

@@ -15,19 +15,19 @@
  	</select>
  	<select id="editBucketInfo"  resultType="vo.EditBucketInfoVO" parameterType="vo.StringIntVO">
 		select sb.id as seletedbucket_id, sb.title, sb.content, sb.lat, sb.lng, bi.image_path,
-				sb.group_id, to_char(sb.d_day, 'yyyy-mm-dd') as d_day 
+				sb.group_id, to_char(sb.d_day, 'yyyy.mm.dd') as d_day 
     	from bucketinfo bi, selectedBucket sb 
     	where bi.id = sb.bucket_id AND sb.id =#{id} AND sb.member_id = #{name}
  	</select>
  	<select id="selectTOPBucket" resultType="vo.BucketVO" parameterType="String">
 		select sb.bucket_id , sb.id as selectedbucket_id, bi.image_path, sb.title,
         	(select count(*) from likeinfo Li where sb.id = Li.selectedbucket_id) likecnt, 
-       		(select count(*) from likeinfo Li where Li.member_id = #{id} and sb.id = Li.selectedbucket_id) islike
+       		(select count(*) from likeinfo Li where Li.member_id = #{member_id} and sb.id = Li.selectedbucket_id) islike
 		from bucketinfo bi, selectedbucket sb
 		where bi.id = sb.bucket_id 
         order by likecnt desc
 	</select>
-	<insert id="insertBucket" parameterType="vo.SelectedBucketVO">
+	<insert id="insertBucket" parameterType="vo.InsertedBucketVO">
 	{call
         declare
         begin
@@ -53,7 +53,7 @@
 		    where member_id = #{member_id}) 
 		where rnum = 1
     </select>
- 	<select id="bucketTags" resultType="String" parameterType="_int">
+ 	<select id="selectedTags" resultType="String" parameterType="_int">
  		select t.name
  		from taginfo t, selectedtag St
  		where St.bucket_id = #{selectedbucket_id} AND t.id = St.tag_id
@@ -72,7 +72,28 @@
 		from likeinfo
 		where selectedbucket_id = #{selectedbucket_id} AND member_id = #{member_id}
 	</delete>
-	<update id="updateBucket" parameterType="vo.SelectedBucketVO">
-		update
+	<update id="updateBucket" parameterType="vo.UpdatedBucketVO">
+		update selectedbucket
+		set title = #{title},
+            content = #{content},
+            group_id = #{group_id},
+            d_day = to_date(#{d_day}, 'yyyy.mm.dd'),
+            address = #{address},
+            lat = #{lat},
+            lng = #{lng} 
+        where id = #{selectedbucket_id} and member_id = #{member_id}
 	</update>
+	<insert id="updateTags" parameterType="vo.InsertedBucketVO">
+	{call
+        declare
+        begin
+        	delete from selectedtag 
+			where bucket_id = #{selectedbucket_id};
+			<foreach item="item" collection="taglist" open="INSERT ALL"  close="SELECT * FROM DUAL" >
+				into selectedtag 
+				values(#{item}, #{selectedbucket_id})
+			</foreach>;
+        end
+    }
+    </insert>
 </mapper>

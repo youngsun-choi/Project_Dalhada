@@ -49,7 +49,7 @@ public class BucketDAO {
 		String statement = "resource.SearchBucketMapper.selectTags";
 		return session.selectList(statement);
 	}
-	public String insertbucket(SelectedBucketVO vo) {
+	public String insertbucket(InsertedBucketVO vo) {
 		String result = "";
 		String statement = "resource.BucketMapper.insertBucket";
 		session.insert(statement, vo);
@@ -66,8 +66,10 @@ public class BucketDAO {
 		String statement = "resource.BucketMapper.bucketTagInfo";
 		return session.selectList(statement, selectedbucket_id);
 	}
-	public int updateBucket(SelectedBucketVO vo) {
-		String statement = "resource.BucketMapper.updateBucket";
+	public int updateBucket(UpdatedBucketVO vo) {
+		String statement =  "resource.BucketMapper.updateTags";
+		session.update(statement, vo);
+		statement = "resource.BucketMapper.updateBucket";
 		return session.update(statement, vo);
 	}
 }

@@ -10,16 +10,17 @@ import vo.BucketDetailVO;
 import vo.BucketVO;
 import vo.EditBucketInfoVO;
 import vo.LikeInfoVO;
-import vo.SelectedBucketVO;
+import vo.InsertedBucketVO;
 import vo.StringIntVO;
+import vo.UpdatedBucketVO;
 
 @Service("bucketService")
 public class BucketService {
 	@Autowired
 	BucketDAO bucketdao;
 
-	public List<BucketVO> selectTOPBucket(String id) {
-		List<BucketVO> list = bucketdao.selectTOPBucket(id);
+	public List<BucketVO> selectTOPBucket(String member_id) {
+		List<BucketVO> list = bucketdao.selectTOPBucket(member_id);
 		for(BucketVO vo: list) {
 			vo.addClass();
 		}
@@ -48,7 +49,7 @@ public class BucketService {
 		return bucketdao.selectTags();
 	}
 
-	public String insertBucket(SelectedBucketVO vo) {
+	public String insertBucket(InsertedBucketVO vo) {
 		return bucketdao.insertbucket(vo);
 	}
 
@@ -60,7 +61,7 @@ public class BucketService {
 		return vo;
 	}
 
-	public int updateBucket(SelectedBucketVO vo) {
+	public int updateBucket(UpdatedBucketVO vo) {
 		return bucketdao.updateBucket(vo);
 	}
 }

@@ -1827,10 +1827,13 @@ input.num-product::-webkit-inner-spin-button {
 
 /*//////////////////////////////////////////////////////////////////
 [ Block2 ]*/
+.block2{
+	text-align: center;
+}
 .block2-img{
 	position: relative; 
-	width: 270px;
-	height: 300px;
+	width: 243px;
+	height: 270px;
 	overflow: hidden;
 }
 .block2-wrap{
@@ -2045,7 +2048,7 @@ input.num-product::-webkit-inner-spin-button {
 /*//////////////////////////////////////////////////////////////////
 [ M-Text 16 - 25 ]*/
 .mtext-101 {
-  font-family: Poppins-Medium;
+  font-family: "Do Hyeon" Poppins-Medium;
   font-size: 18px;
   line-height: 1.333333;
 }
@@ -2167,7 +2170,7 @@ input.num-product::-webkit-inner-spin-button {
 }
 
 .ltext-107 {
-  font-family: Poppins-Bold;
+  font-family: "Do Hyeon" Poppins-Bold;
   font-size: 30px;
   line-height: 1.1;
 }
