@@ -7,6 +7,7 @@ import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,13 +24,17 @@ public class memberController {
 	MemberService service;
 		
 		// 회원가입 폼 처리
-		@RequestMapping(value="/memberForm")
+		@RequestMapping(value="/memberform")
 		public ModelAndView signup(MemberinfoVO vo, HttpServletRequest request) {
 			ModelAndView mav = new ModelAndView();
 			if (request.getMethod().equals("GET")) {
-			     mav.setViewName("memberForm");
+			     mav.setViewName("memberform");
 				return mav;
-			}
+			}else {
+//				Bcrypt 암호화
+				String hashPwd = BCrypt.hashpw(vo.getPassword(), BCrypt.gensalt());
+				vo.setPassword(hashPwd);
+				
 			System.out.println(vo.getImage().getContentType());
 			if(!vo.getImage().getContentType().equals("application/octet-stream")) {
 				String fileName = vo.getImage().getOriginalFilename();
@@ -56,6 +61,7 @@ public class memberController {
 				mav.setViewName("login");
 			}
 			return mav;
+		}
 		}
 			
 		@RequestMapping(value="/validateForm")

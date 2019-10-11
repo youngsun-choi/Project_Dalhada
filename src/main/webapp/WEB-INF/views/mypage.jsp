@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+    <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
     <%@ page import="vo.MemberinfoVO, java.util.ArrayList,java.util.Map,java.util.HashMap,java.util.List" %>
 <!DOCTYPE html>
 <html>
@@ -151,8 +152,12 @@
 				<tr>
 					<td>
 					<c:if test="${!empty info.image_path}">
-					<img class='photo3' src="http://localhost:8000/dalhada/resources/images/profile/${info.image_path}" />
+					<c:if test="${fn:contains(info.image_path,'https://')}">
+					<img class='photo3' src="${info.image_path}" />
 					</c:if>
+					<c:if test="${!fn:contains(info.image_path,'https://')}">
+					<img class='photo3' src="http://localhost:8000/dalhada/resources/images/profile/${info.image_path}" />
+					</c:if></c:if>
 					<c:if test="${empty info.image_path}">
 					<img class='photo3' src="http://localhost:8000/dalhada/resources/images/profile.png" />
 					</c:if>
@@ -177,7 +182,7 @@
 				</tr>
 			</table>
 		</fieldset>
-		
+	<c:if test="${!empty info.password}">
 		<div id="id02" class="modal"> 
 		<div class="modal-content animate">
         
@@ -185,7 +190,7 @@
             <div class="imgcontainer"> 
                 <span onclick="modalCancel();" class="close" title="Close Modal">×</span>  
             </div> 
-  
+ 
             <div class="container2"> 
             <div class="row main">
 				<div class="panel-heading">
@@ -294,8 +299,97 @@
 			</div>
             <button type="button" onclick="modalCancel();" class="cancelbtn">Cancel</button>
             </div> 
+
 </div>
-    </div>
+    </div>            </c:if>
+    <c:if test="${empty info.password}">
+    
+    		<div id="id02" class="modal"> 
+		<div class="modal-content animate">
+        
+        <input type="hidden" name="action" value="update">
+            <div class="imgcontainer"> 
+                <span onclick="modalCancel();" class="close" title="Close Modal">×</span>  
+            </div> 
+ 
+            <div class="container2"> 
+            <div class="row main">
+				<div class="panel-heading">
+	               <div class="panel-title text-center">
+	               		<h1 class="title">회원정보 수정</h1>
+	               		<hr />
+	               	</div>
+	            </div>
+	            <!-- 비밀번호 확인후 출력 -->
+				<div id="updateInfo" class="main-login main-center">
+				<form action="/dalhada/mypage"  method="post" enctype="multipart/form-data">
+				<input type="hidden" name="action" value="UpInfo">
+						<div class="avatar-upload">
+						<div class="avatar-edit">
+							<input type='file' id="imageUpload" name="image" accept=".png, .jpg, .jpeg"/>
+							<label for="imageUpload"></label>
+						</div>
+						<div class="avatar-preview">
+							<c:if test="${!empty info.image_path}">
+							<c:if test="${fn:contains(info.image_path,'https://')}">
+							<div id="imagePreview"
+								style="background-image: url('${info.image_path}');">
+							</div>
+							</c:if>
+							<c:if test="${!fn:contains(info.image_path,'https://')}">
+							<div id="imagePreview"
+								style="background-image: url('resources/images/profile/${info.image_path}');">
+							</div>
+							</c:if>
+							</c:if>
+							<c:if test="${empty info.image_path}">
+							<div id="imagePreview"
+								style="background-image: url('resources/images/profile.png');">
+							</div>
+							</c:if>
+						</div>
+					</div>
+						<div class="form-group">
+							<label for="email" class="cols-sm-2 control-label">Your Email</label>
+							<div class="cols-sm-10">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
+									<input type="text" class="form-control" value="${info.email}" name="email" required placeholder="Enter your Email"/>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+						<label for="birth" class="cols-sm-2 control-label">Your Birth</label>
+							<div class="cols-sm-10">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
+									<input type="date" class="form-control" name="birth" value="${info.birth}" required/>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="confirm" class="cols-sm-2 control-label">your comment</label>
+							<div class="cols-sm-10">
+								<div class="input-group">
+
+									<textarea style="margin: 8px;" rows="10" cols="30"  name="my_words" placeholder="코멘트를 남겨주세요!">${info.my_words}</textarea>
+								</div>
+							</div>
+						</div>
+						<div class="form-group ">
+							<input id="submit" type="submit" class="btn btn-primary btn-lg btn-block login-button">
+						</div>
+						<hr>
+	</form>
+				</div>
+			</div>
+            <button type="button" onclick="modalCancel();" class="cancelbtn">Cancel</button>
+            </div> 
+
+</div>
+    </div> 
+    
+    </c:if>
 		</nav>
         <section id="area2">
         <fieldset id="area22">
@@ -303,11 +397,14 @@
 			<table id="table2">
 				<tr>
 					<td>
-					<h3>진행률</h3>
-					<div class="progressbar" data-perc='<c:if test="${!empty perc}">${perc}</c:if><c:if test="${empty perc}">0</c:if>'>
-	<div class="bar"><span></span></div>
-	<div class="label"><span></span></div>
-</div></td>
+					<c:if test="${!empty perc}">
+					<div class="progress1" >
+                    <div class="progress progress-striped">
+                      <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: ${perc}%">
+                        <span>${perc}%</span>
+                      </div>
+                    </div>
+</div></c:if></td>
 				</tr>
 				
 				<tr>
@@ -322,7 +419,7 @@
       </c:forEach>
     </select>
   </div>
-  <button onclick="modalOpen();" style="width:auto;">그룹 관리</button><br><br><br><br> 
+  <button onclick="modalOpen();" style="width:auto;">그룹 관리</button><br><br> 
   
     <div id="id01" class="modal"> 
   
@@ -348,7 +445,7 @@
                 <button type="button" onclick="modalCancel();" class="cancelbtn">Cancel</button>
                  
             </div> 
- </form> 
+ </form>
     </div> 
 
 
@@ -365,20 +462,25 @@
 				<tr>
 					<td>
 					
-	<form action="/dalhada/mypage" method="post">
-		<table>
+	<table id="tableMenu">
+      <tr><th>삭제</th><th>제목</th><th>기한</th></tr>
+      </table>
+      	<form action="/dalhada/mypage" method="post">
+	  <div id="wrapper">
+    <div class="scrollbar" id="style-5">
+      <div class="force-overflow">
+      
+		<table id="bucketTable">
 		<tr>
-			<thead>
-    <tr><th>삭제</th><th>제목</th><th>기한</th></tr>
-  </thead>
 					<tbody class="All">
+					
 						<c:if test="${!empty listAll}">
 			<c:forEach var="vo1" items="${listAll}">
 			<tr>
 			<td><input type="checkbox" name="box" value="${vo1.id}"></td>
-				<td onclick="location.href='http://localhost:8000/dalhada/detail?id=${vo1.id}'">${vo1.title}</td>
+				<td class="js-show-modal-bucket" id="${vo1.id}">${vo1.title}</td>
 				<td>${vo1.d_day}</td>
-				<td><button onclick="location.href=''">수정</button></td>
+				<td><button type="button" id="${vo.selectedbucket_id}" class="js-show-modal-edit">수정</button></td>
 			</tr>	
 						</c:forEach>
 						</c:if>
@@ -388,7 +490,7 @@
 			<c:forEach var="vo1" items="${listProg}">
 			<tr>
 			<td><input type="checkbox" name="box" value="${vo1.id}"></td>
-				<td onclick="location.href='http://localhost:8000/dalhada/detail?id=${vo1.id}'">${vo1.title}</td>
+				<td id="${vo.selectedbucket_id }" class="js-show-modal-bucket">${vo1.title}</td>
 				<td>${vo1.d_day}</td>
 				<td><button onclick="location.href=''">수정</button></td>
 				<td><button value="${vo1.id}" name="comp" >완료하기</button></td>
@@ -409,177 +511,25 @@
 			</tr>	
 						</c:forEach>
 						</c:if></tbody>
-						
-			<tr>
-			<td><input type="submit" value="삭제하기"  class="btn btn-dark"></td>
-			</tr>
-						</table></form>
+						</table>
+						      </div>
+    </div>
+</div>
+<br>
+<div id="bucketdel">
+<button type="submit">삭제하기</button>
+</div>
+						</form>
 					</td>
 				</tr>
+				
 			</table>
 		</fieldset>
         </section>
     </div>
 </c:if>
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
 <script type="text/javascript">
 
-$('#listAll').click(function() {
-	$('.All').css('display','block');
-	$('.Prog').css('display','none');
-	$('.Done').css('display','none');
-	$('.All').removeAttr('style');
-})
-$('#listProg').click(function() {
-	$('.All').css('display','none');
-	$('.Prog').css('display','block');
-	$('.Done').css('display','none');
-	$('.Prog').removeAttr('style');
-})
-$('#listDone').click(function() {
-	$('.All').css('display','none');
-	$('.Prog').css('display','none');
-	$('.Done').css('display','block');
-	$('.Done').removeAttr('style');
-})
-
-//프로필 수정 시 비밀번호 확인
-function ConfirmPw(){
-	var upPw = $('#upPw').val();
-	console.log(upPw);
-	$.ajax({
-		url : '/dalhada/Checkpw',
-		type : 'post',
-		success : function(data){
-			console.log(data);
-			if (data == upPw){ // 삭제 완료
-				$('#updateInfo').css('display','block');
-				$('#CkUpdate').css('display','none');	   
-			}else{
-				document.getElementById('pwError').style.color = "red";
-				   document.getElementById('pwError').innerHTML = "암호가 일치하지 않습니다.";
-			}
-		},					
-		error : function(){ console.log("실패"); }
-	});
-}
-
-$(function() {
-	// progress bar
-	$('.progressbar').each(function(){
-		var t = $(this);
-		var dataperc = t.attr('data-perc'),
-				barperc = Math.round(dataperc*5.56);
-		t.find('.bar').animate({width:barperc}, dataperc*25);
-		t.find('.label').append('<div class="perc"></div>');
-		
-		function perc() {
-			var length = t.find('.bar').css('width'),
-				perc = Math.round(parseInt(length)/5.56),
-				labelpos = (parseInt(length)-2);
-			t.find('.label').css('left', labelpos);
-			t.find('.perc').text(perc+'%');
-		}
-		perc();
-		setInterval(perc, 0); 
-	});
-});
-
-function changeFunc() {
-    var selectBox = document.getElementById("selectBox");
-    var selectedValue = selectBox.options[selectBox.selectedIndex].value;
-    var index = selectBox.options[selectBox.selectedIndex].index;
-    location.href='http://localhost:8000/dalhada/mypage?group='+selectedValue;
-    
-   }
-   
-   function plusGroup(){
-	   $("#plusGroup").append("<div style=\"margin: 0px;\"><input type=\"text\" class=\"groupModal\" name=\"CreGroup\">  <button type=\"button\" class=\"deleteGroup\">삭제</button></div>");
-	   $('.deleteGroup').click(function(){
-		   this.closest("div").remove();
-	   });
-   }
-   
- 
-
-   
-var modal = document.getElementById('id01'); 
-var modal2 = document.getElementById('id02'); 
-window.onclick = function(event) { 
-    if (event.target == modal) { 
-        modal.style.display = "none";
-    }
-    if (event.target == modal2) { 
-        modal.style.display = "none"; 
-    } 
-    
-} 
-
-function modalOpen(){
-    
-    document.getElementById('id01').style.display='block';
-}
-
-function modalOpen2(){
-    
-    document.getElementById('id02').style.display='block';
-}
-
-function modalCancel(){
-	document.getElementById('id01').style.display='none';
-	document.getElementById('id02').style.display='none';
-	location.reload();
-}
-
-$(document).ready(function(){
-$('.delGroup').click(function(){
-	var id = $(this).val();
-	var add = this;
-	$.ajax({
-		url : '/dalhada/delGroup?id=' + id,
-		type : 'post',
-		success : function(data){
-			console.log(data);
-			if (data == "true"){ // 삭제 완료
-					   $(add).closest("div").remove();
-			}
-		},					
-		error : function(){ console.log("실패"); }
-	});
-});
-})
-		
-
-
-//회원정보 수정시 프로필 이미지
-function readURL(input) {
-    if (input.files && input.files[0]) {
-        var reader = new FileReader();
-        reader.onload = function(e) {
-            $('#imagePreview').css('background-image', 'url('+e.target.result +')');
-            $('#imagePreview').hide();
-            $('#imagePreview').fadeIn(650);
-        }
-        reader.readAsDataURL(input.files[0]);
-    }
-}
-$("#imageUpload").change(function() {
-    readURL(this);
-});
-
-
-function checkPwd(){
-	  var pw1 =	document.getElementById('pw').value
-	  var pw2 = document.getElementById('pwcheck').value
-	  if(pw1!=pw2){
-	   document.getElementById('checkPwd').style.color = "red";
-	   document.getElementById('checkPwd').innerHTML = "동일한 암호를 입력하세요."; 
-	  }else{
-	   document.getElementById('checkPwd').style.color = "blue";
-	   document.getElementById('checkPwd').innerHTML = "암호가 확인 되었습니다."; 
-	  }
-	  
-	 }
 </script>
 
 <!--===============================================================================================-->	
@@ -605,6 +555,7 @@ function checkPwd(){
    crossorigin=""></script>
 <!--===============================================================================================-->
 	<script src="js/main.js"></script>
+	<script src="js/mypage.js"></script>
 
 </body>
 </html>

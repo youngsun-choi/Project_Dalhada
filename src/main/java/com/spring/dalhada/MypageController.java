@@ -143,8 +143,7 @@ public class MypageController {
 			mav.addObject("group", service.groupList(id));
 			mav.setViewName("mypage");
 		} else {
-			mav.addObject("msg", "만료된 페이지입니다.");
-			mav.setViewName("login");
+			mav.setViewName("redirect:/loginmain");
 		}
 		return mav;
 	}
