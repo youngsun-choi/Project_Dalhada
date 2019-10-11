@@ -1723,9 +1723,14 @@ input.num-product::-webkit-inner-spin-button {
 	width: 70%;
 }
 /*map*/
-#mapid{
-	max-width: 400px;
-	
+.mapid{
+	width: 90%;
+	height: 300px;
+}
+
+.text_input{
+	width: 50%;
+	display: inline;
 }
 
 .show-modal-create, .show-modal-bucket, .show-modal-edit{
@@ -1745,6 +1750,18 @@ input.num-product::-webkit-inner-spin-button {
 
 .btn-bd {border: 1px solid #071f4c;}
 
+.button-map{
+  border: 1px solid #071f4c;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  border-radius: 18px;
+  margin: 5px;
+  width: 70px;
+  height: 40px;
+  font-size: 17px;
+  display: inline;
+}
 /*file*/
 .file-btn{
 	background-color: #fff;
@@ -1859,26 +1876,6 @@ input.num-product::-webkit-inner-spin-button {
   width: 30px;
 }
 
-.btn-addwish-b2 .icon-heart2 {
-  opacity: 0;
-}
-
-.btn-addwish-b2:hover .icon-heart2 {
-  opacity: 1;
-}
-
-.btn-addwish-b2:hover .icon-heart1 {
-  opacity: 0;
-}
-
-.js-addedwish-b2 .icon-heart2 {
-  opacity: 1;
-}
-
-.js-addedwish-b2 .icon-heart1 {
-  opacity: 0;
-}
-
 /*---------------------------------------------*/
 .label-new {
   position: relative;
@@ -1927,6 +1924,7 @@ input.num-product::-webkit-inner-spin-button {
 .cl11 {color: #f9ba48;}
 .cl12 {color: #ccc;}
 .cl13 {color: #071f4c;}
+.cl14 {color: #d10a41;}
 
 /*//////////////////////////////////////////////////////////////////
 [ S-Text 0 - 15 ]*/

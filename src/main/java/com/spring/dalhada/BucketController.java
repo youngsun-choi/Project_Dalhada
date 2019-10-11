@@ -48,7 +48,7 @@ public class BucketController {
 		ModelAndView mav = new ModelAndView();
 		String member_id = (String) session.getAttribute("id");
 	
-		if()
+
 		List<BucketVO> TOPlist = bucketservice.selectTOPBucket(member_id);
 		
 		mav.addObject("TOPlist", TOPlist);

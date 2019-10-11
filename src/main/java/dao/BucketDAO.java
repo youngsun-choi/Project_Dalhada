@@ -19,15 +19,15 @@ public class BucketDAO {
 		int selectedbucket_id = map.getId();
 		String statement = "resource.BucketMapper.detailBucket";
 		vo = session.selectOne(statement, map);
-		statement = "resource.BucketMapper.bucketTags";
+		statement = "resource.BucketMapper.selectedTags";
 		List<String> tags = session.selectList(statement, selectedbucket_id);
 		vo.setTags(tags);
 		return vo;
 	}
-	public List<BucketVO> selectTOPBucket(String id) {
+	public List<BucketVO> selectTOPBucket(String member_id) {
 		List<BucketVO> list = new ArrayList<BucketVO>();
 		String statement = "resource.BucketMapper.selectTOPBucket";
-		list = session.selectList(statement, id);
+		list = session.selectList(statement, member_id);
 		
 		return list;
 	}

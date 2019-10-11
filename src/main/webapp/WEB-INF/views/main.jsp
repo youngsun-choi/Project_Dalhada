@@ -242,39 +242,34 @@
 					<div id="right" class="col-md-6">
 						<div class="p-r-50 p-t-5 p-lr-0-lg">
 							<div class="stext-102 cl3 p-t-40">태그</div>
-							<div id="detail_tags" class="flex-w p-t-4 m-r--5">
-			                </div>
-			                <div class="stext-102 cl3 p-t-23">위치</div>
-						    <div id = 'mapid'>
-							</div>
-						 </div>
+							<div id="detail_tags" class="flex-w p-t-4 m-r--5"></div>
+			                <div class="stext-102 cl3 p-t-10">위치</div>
+						    <div id="mapid_detail" class="mapid"></div>
+						</div>
 							<!--  -->
-							<div class="flex-w flex-m p-l-100 p-t-40 respon7">
-								
-								<a href="#" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="Facebook">
+						<div class="flex-w flex-m p-t-40 respon7 ">
+							<a href="#" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="Facebook">
 									<i class="fa fa-facebook"></i>
-								</a>
-
-								<a href="#" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="Twitter">
-									<i class="fa fa-twitter"></i>
-								</a>
-
-								<a href="#" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="Google Plus">
-									<i class="fa fa-google-plus"></i>
-								</a>
-							</div>
+							</a>
+							<a href="#" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="Twitter">
+								<i class="fa fa-twitter"></i>
+							</a>
+							<a href="#" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="Google Plus">						
+								<i class="fa fa-google-plus"></i>
+							</a>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
+	</div>
 	
 	<!-- Create Modal -->
 	<div class="wrap-modal-bucket js-modal-create p-t-60 p-b-20 font-DoHyeon">
 		<div class="overlay-modal js-hide-modal-create"></div>
 
 		<div class="container">			
-			<div class="bg0 p-t-30 p-b-30 p-lr-15-lg how-pos3-parent">
+			<div class="bg0 p-t-20 p-b-20 p-lr-15-lg how-pos3-parent">
 				<button class="how-pos3 hov3 trans-04 js-hide-modal-create">
 					<img src="images/icons/icon-close.png" alt="CLOSE">
 				</button>				
@@ -298,12 +293,14 @@
 					    </div>
 					    <div class="col-md-6">
 			                <div class="stext-102 cl3 p-t-40 mb-1">그룹</div>
-					        <select id="create-groups-dom" class="browser-default custom-select mb-3"></select>
+					        <select id="create-groups-dom" class="browser-default custom-select"></select>
 			            	<div class="stext-102 cl3 p-t-10">d-Day</div>
 			                <input id="create-d-day" class="d-day" type="text" name="date" placeholder="Select Date.." data-input>
-			                <div class="stext-102 cl3 p-t-23">위치</div>
-			                <div class="mapid"></div>
-			                <div class="create-warntest"></div>
+			                <div class="stext-102 cl3 p-t-10">위치</div>
+			                <input id="create-location"type="text" class="form-control text_input" placeholder="위치">
+			                <input type="button" class="js-show-location button-map cl13 bg0 btn-bd" data-dismiss="modal" value="위치보기">
+			                <div id="mapid_create" class="mapid"></div>
+			                <div class="create-warntest cl14"></div>
 							<div class="txt-center">
 	       						<button id="create-submit" class="button-modal cl0 bg10">생성</button>
 							    <button class="js-hide-modal-create button-modal cl13 bg0 btn-bd" data-dismiss="modal">취소</button>
@@ -345,9 +342,11 @@
 					        <select id="edit-groups-dom" class="browser-default custom-select mb-3"></select>
 			            	<div class="stext-102 cl3 p-t-10">d-Day</div>
 			                <input id="edit-d-day" class="d-day" type="text" name="date" placeholder="Select Date.." data-input>
-			                <div class="stext-102 cl3 p-t-23">위치</div>
-			                <div class="mapid"></div>
-			                <div class="edit-warntest"></div>
+			                <div class="stext-102 cl3 p-t-10">위치</div>
+			                <input id="create-location"type="text" class="form-control text_input" placeholder="위치">
+			                <input type="button" class="js-show-location button-map cl13 bg0 btn-bd" data-dismiss="modal" value="위치보기">
+			                <div id="mapid_edit" class="mapid"></div>
+			                <div class="edit-warntest cl14"></div>
 							<div class="txt-center">
 								<input type="hidden" id="editedbucket_id"/>
 	       						<button id="edit-submit" class="button-modal cl0 bg10">수정</button>

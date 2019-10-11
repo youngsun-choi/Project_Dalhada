@@ -274,6 +274,7 @@ alret("search")
     [ Show detail modal ]*/
     $('.js-show-modal-bucket').on('click',function(e){
         e.preventDefault();
+        var mymap;
         $.ajax({
 			url: "main/modaldetail",
             type: "POST",
@@ -289,6 +290,16 @@ alret("search")
             	tagdom.html('');
             	for(var i=0; i<tags.length; i++)
             		tagdom.append('<button type="button" class="modal-tag modal-tag-detail flex-c-m stext-107 size-301 p-lr-15 trans-04 m-r-5 m-b-5">#'+tags[i]+'</button>');
+            	if (mymap) mymap.remove();
+            	mymap = L.map('mapid_detail').setView([37.566, 126.978], 14);
+        		L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+        			maxZoom: 18,
+        			attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+        				'<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+        				'Imagery <a href="https://www.mapbox.com/">Mapbox</a>',
+        			id: 'mapbox.streets'
+        		}).addTo(mymap);
+            	
             	$('.modal_heart').attr("id", data.bucket_id).addClass(data.className).on('click', function(){
     				var action;
     				if($(this).hasClass('js-addedlike')){
@@ -318,14 +329,6 @@ alret("search")
             	
 	        }
 		})
-        /*var map = L.map('mapid').setView([51.505, -0.09],  10);
-    	L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
-    		maxZoom: 18,
-    		attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
-    			'<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-    			'Imagery <a href="https://www.mapbox.com/">Mapbox</a>',
-    		id: 'mapbox.streets'
-    	}).addTo(map);*/
         
         $('.js-modal-bucket').addClass('show-modal-bucket');
     });
@@ -345,6 +348,15 @@ alret("search")
     
     $('.js-show-modal-create').on('click',function(e){ 	
     	e.preventDefault();
+    	var mymap;
+    	mymap = L.map('mapid_create').setView([37.566, 126.978], 14);
+		L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+			maxZoom: 18,
+			attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+				'<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+				'Imagery <a href="https://www.mapbox.com/">Mapbox</a>',
+			id: 'mapbox.streets'
+		}).addTo(mymap);
 	    $.ajax({
 	    	url: "main/getgrouptag",
 	        type: "POST",
@@ -363,6 +375,27 @@ alret("search")
 	           	$("#create-d-day").flatpickr({
         		    dateFormat: "Y.m.d"
         		});
+	           	$('.js-show-location').on('click', function(e){
+	           		var address = $('#create-location').val();
+					if (address) {
+						$.getJSON("https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyD-nx_y7aBlJgfgVZRaIwMbnShQJsxpryY&address="
+								+ encodeURIComponent(address), function(data) {
+							console.log(data);
+							lat = data.results[0].geometry.location.lat;
+							lng = data.results[0].geometry.location.lng;
+							if (mymap) mymap.remove();
+							mymap = L.map('mapid').setView([ lat, lng ], 16)
+							L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw',
+										{maxZoom : 18, attribution : 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, '
+										+ '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, '
+										+ 'Imagery <a href="https://www.mapbox.com/">Mapbox</a>', id : 'mapbox.streets'
+									}).addTo(mymap);
+							L.marker([ lat, lng ]).addTo(mymap);
+							});
+					} else {
+						
+					}
+	           	})
 	           },
 	           error : function(){
 	           	console.log("error");
