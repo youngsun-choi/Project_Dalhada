@@ -7,6 +7,7 @@ import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,6 +30,9 @@ public class MemberController {
 			if (request.getMethod().equals("GET")) {
 			     mav.setViewName("memberform");
 			}else {
+//				Bcrypt 암호화
+				String hashPwd = BCrypt.hashpw(vo.getPassword(), BCrypt.gensalt());
+				vo.setPassword(hashPwd);
 				if(!vo.getImage().getContentType().equals("application/octet-stream")) {
 					String fileName = vo.getImage().getOriginalFilename();
 					String newName = vo.getId()+"_"+fileName;
@@ -38,12 +42,12 @@ public class MemberController {
 				     mav.setViewName("login");
 				     try {
 				    	 content =  vo.getImage().getBytes();
-				    	 File f = new File("C:/unico/eclipse-workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/dalhada/resources/images/profile/"+fileName);			   
+				    	 File f = new File("C:/jjn/eclipse-workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/dalhada/resources/images/profile/"+fileName);			   
 				    		 FileOutputStream fos = new FileOutputStream(f);
 				    		 fos.write(content);
 				    		 fos.close();
 				    		 
-					    	 File newf = new File("C:/unico/eclipse-workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/dalhada/resources/images/profile/"+newName);
+					    	 File newf = new File("C:/jjn/eclipse-workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/dalhada/resources/images/profile/"+newName);
 					    	 if(f.exists())
 					    		 f.renameTo(newf);
 				     } catch (IOException e) {
@@ -53,6 +57,7 @@ public class MemberController {
 					service.insert(vo);
 					mav.setViewName("login");
 				}
+			
 			}
 			return mav;
 		}
@@ -66,6 +71,3 @@ public class MemberController {
 			else return 0;
 		}
 }
-
-
-
