@@ -57,6 +57,10 @@ public class BucketDAO {
 		String member_id = vo.getMember_id();
 		result = session.selectOne(statement, member_id);
 		return result;
+	} 
+	public int insertGetBucket(InsertedBucketVO vo) {
+		String statement = "resource.BucketMapper.insertGetBucket";
+		return session.insert(statement, vo);
 	}
 	public EditBucketInfoVO getEditInfo(StringIntVO map) {
 		String statement = "resource.BucketMapper.editBucketInfo";

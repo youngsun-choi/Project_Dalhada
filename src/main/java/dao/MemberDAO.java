@@ -13,20 +13,14 @@ public class MemberDAO {
 	@Autowired
 	SqlSession session = null;
 	
-	public boolean insert(MemberinfoVO vo) {
-		boolean result=true;
+	public int insert(MemberinfoVO vo) {
 		String statement = "resource.MemberMapper.insertMember";
-		if(session.insert(statement, vo) != 1)
-			result = false;
-		return result;
+		return session.insert(statement,vo);
 	}
 	
-	public boolean checkId(String id) {
+	public String checkId(String id) {
 		String statement = "resource.MemberMapper.checkId";
-		if (session.selectOne(statement, id) != null) {
-			return true;
-		}
-		return false;
+		return session.selectOne(statement,id);
 	}	
 	
 	public MemberinfoVO checklogin(String id, String password) {
@@ -34,9 +28,7 @@ public class MemberDAO {
 		HashMap<String, String> map = new HashMap<String,String>();
 		map.put("id", id);
 		map.put("password", password);
-		MemberinfoVO vo = session.selectOne(statement,map);
-		if(session.selectOne(statement,map) != null) return vo;
-		return null;
+		return session.selectOne(statement,map);
 	}	
 		
 }

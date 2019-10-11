@@ -6,10 +6,12 @@ public class MemberinfoVO {
 	private String id ;
 	private String password;
 	private String image_path;
+	private String birth;
 	private String email;
 	private String my_words;
 	private String pwdchk;
 	private MultipartFile image;
+	
 	public String getId() {
 		return id;
 	}
@@ -45,6 +47,12 @@ public class MemberinfoVO {
 	}
 	public void setImage_path(String image_path) {
 		this.image_path = image_path;
+	}
+	public String getBirth() {
+		return birth;
+	}
+	public void setBirth(String birth) {
+		this.birth = birth;
 	}
 	public MultipartFile getImage() {
 		return image;

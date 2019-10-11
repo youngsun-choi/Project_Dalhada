@@ -12,7 +12,7 @@
     		from likeinfo
     		where selectedbucket_id = sb.id) like_cnt, 
     		trunc((to_char(di.complete_date, 'yyyy') - 
-    		(select to_char(birth, 'yyyy') birth from memberinfo where id=#{member_id}))/10) age
+    		(select to_char(birth, 'yyyy') birth from memberinfo where id=#{member_id})+1)/10) age
 		from bucketinfo bi, selectedbucket sb, diary di
 		where bi.id = sb.bucket_id and sb.id = di.bucket_id 
 		and sb.member_id = #{member_id} order by complete_date

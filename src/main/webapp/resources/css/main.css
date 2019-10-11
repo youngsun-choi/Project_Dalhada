@@ -1723,17 +1723,20 @@ input.num-product::-webkit-inner-spin-button {
 	width: 70%;
 }
 /*map*/
-.mapid{
+.wid-90pc{
 	width: 90%;
+}
+.wid-50pc{
+	width: 50%;
+}
+.hei-300px{
 	height: 300px;
 }
-
-.text_input{
-	width: 50%;
-	display: inline;
+.hei-350px{
+	height: 350px;
 }
 
-.show-modal-create, .show-modal-bucket, .show-modal-edit{
+.show-modal-create, .show-modal-bucket, .show-modal-edit, .show-modal-get{
   visibility: visible;
   opacity: 1;
 }
@@ -1777,7 +1780,7 @@ input.num-product::-webkit-inner-spin-button {
   	border-radius: 15px;
 }
 
-.modal-tag-detail, .modal-tag-edit{
+.modal-tag-detail{
 	color: #071f4c;
 	border: 1px solid #071f4c;
   	border-radius: 15px;
@@ -3103,5 +3106,8 @@ input.num-product::-webkit-inner-spin-button {
   .respon3 {
     padding: 20px;
   }
+  
+  /*-----------------------------------------------------*/
+  [ Youtube ]
 
 }

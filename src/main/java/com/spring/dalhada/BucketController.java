@@ -30,6 +30,7 @@ import vo.PagingVO;
 import vo.SearchBucketVO;
 import vo.StringIntVO;
 import vo.TagInfoVO;
+
 import vo.UpdatedBucketVO;
 import vo.InsertedBucketVO;
 
@@ -42,7 +43,6 @@ public class BucketController {
 	@Resource(name="bucketService")
 	private BucketService bucketservice;
 
-	
 	@RequestMapping(value="/main")
 	public ModelAndView main(HttpSession session) {
 		ModelAndView mav = new ModelAndView();
@@ -100,8 +100,9 @@ public class BucketController {
 		map.setName(member_id);
 		EditBucketInfoVO vo =  bucketservice.getEditInfo(map);
 		return vo;
-	}
+	}   
 	
+	//좋아요  많은 거 / 추천 버킷
 	@RequestMapping(value="/main/modaldetail")
 	@ResponseBody
 	public BucketDetailVO modaldetail(HttpSession session, String selectedbucket_id) {
@@ -131,7 +132,12 @@ public class BucketController {
 			FileOutputStream fos = new FileOutputStream(f);
 			fos.write(image);
 			fos.close();
-			File newf = new File("C:/jjn/eclipse_workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/dalhada/resources/images/bucket/"+filePath);
+			File newf = new File("C:/jjn/eclipse-workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/dalhada/resources/images/bucket/"+filePath);
+			/*File f = new File("C:/unico/eclipse-workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/dalhada/resources/images/bucket/"+filePath);
+			FileOutputStream fos = new FileOutputStream(f);
+			fos.write(image);
+			fos.close();
+			File newf = new File("C:/unico/eclipse-workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/dalhada/resources/images/bucket/"+filePath);*/
 	    	 if(f.exists())
 	    		 f.renameTo(newf);
 		}catch (IOException e) {
@@ -150,35 +156,33 @@ public class BucketController {
 		if(bucketservice.updateBucket(vo) < 1) result = "error";
 		return result;
 	}
-	/*@RequestMapping(value="/searchbucket/get")
+	@RequestMapping(value="/insertgetbucket")
 	@ResponseBody
-	public BucketDetailVO groupmodal(HttpSession session, @RequestParam(required=false) String selectedbucket_id) {
-	      String id = (String) session.getAttribute("id");
-	      BucketDetailVO selectedBucketList = null;
-	      int sid= Integer.parseInt(selectedbucket_id);
-	      if(id != null) {
-	         //가져오기 select
-	         System.out.println("가져오기 버튼 눌렀을 때 selectedbucket_id값 : "+selectedbucket_id);
-	 		 selectedBucketList = searchBucketService.selectSelectedBucket(sid);
-	 		 System.out.println("selectedBucketList값 : "+selectedBucketList.toString());
-	 		 selectedBucketList.setTags(searchBucketService.selectSelectedTag(sid));
-	      }
-	    return selectedBucketList;
-	}*/    
+	public String insertgetbucket(HttpSession session, InsertedBucketVO vo, @RequestParam(value="g_id")String g_id) {	
+		String member_id = (String) session.getAttribute("id"), result = "success";
+		vo.setMember_id(member_id);
+		vo.setGroup_id(Integer.parseInt(g_id));
+		if(bucketservice.insertGetBucket(vo) < 1) result = "error";
+		return result;
+	}
+    
 	@RequestMapping(value="/searchbucket")
-	public ModelAndView searchBucket(HttpSession session, 
-			@RequestParam(defaultValue="1")int curPage, @RequestParam(required=false)String tagName, 
-			@ModelAttribute SearchBucketVO searchBucketVO) {
+	public ModelAndView searchBucket(HttpSession session, @RequestParam(defaultValue="1")int curPage, 
+			@ModelAttribute("searchBucketVO") SearchBucketVO searchBucketVO) {
 		ModelAndView mav = new ModelAndView();
 		String id = (String) session.getAttribute("id");
 		searchBucketVO.setMember_id(id);
 		String keyword = searchBucketVO.getSearchKeyword();
+		String tagName = searchBucketVO.getSearchTag();
 		String naverKeyword = null;
 		List<NaverBlogVO> naverBlogList = null;
 		int listCnt;
 		PagingVO pageList;
 		List<BucketVO> searchList;
 
+		System.out.println("keyword : "+keyword);
+		System.out.println("tagName : "+tagName);
+		
 		if(tagName != null) {
 			//태그검색 검색결과 수&페이징
 			listCnt = searchBucketService.getTotalTagCnt(tagName);
@@ -189,7 +193,6 @@ public class BucketController {
 			mav.addObject("pagination", pageList);
 			
 			//태그검색
-			searchBucketVO.setSearchTag(tagName);
 			searchList = searchBucketService.searchTag(searchBucketVO);
 			for(BucketVO vo: searchList) {
 				vo.addClass();
@@ -210,9 +213,6 @@ public class BucketController {
 			for(BucketVO vo: searchList) {
 				vo.addClass();
 			}
-			
-			//검색어 미입력시 검색된 결과없음
-			searchList = (keyword != null && keyword.equals("")) ? null : searchList;
 			mav.addObject("searchList", searchList);
 			mav.addObject("keyword", keyword);
 		}
@@ -220,10 +220,6 @@ public class BucketController {
 		//태그명 찾기
 		List<TagInfoVO> tagNameList = searchBucketService.selectTagName();
 		mav.addObject("tagNameList", tagNameList);
-		
-		//그룹명 찾기
-		//List<GroupVO> groupNameList = searchBucketService.selectGroupName(id);
-		//mav.addObject("groupNameList", groupNameList);
 		
 		//네이버 블로그 검색결과
 		if(tagName == null) {

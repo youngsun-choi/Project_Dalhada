@@ -109,34 +109,7 @@
     });   
     /*==================================================================
     [ Login ]*/   
-    var referer='';
-	$(document).ready(function(){
-		$("#submit").click(function(){
-			var id = $("#id").val();
-			var pwd = $("#password").val();
-			referer =  document.referrer;
-			if(id==""){
-				$("#loginError").text("아이디를 입력하세요.").css("color", "red");		
-				return;
-			}else if(pwd==""){
-				$("#loginError").text("비밀번호를 입력하세요.").css("color", "red");		
-				return;
-			}
-			$.ajax({
-				url : '/dalhada/login?id='+id+'&password='+pwd,
-				type : 'post',
-				success : function(data){
-					if(data == "false"){
-							$("#loginError").text("아이디와 비밀번호가 일치하지 않습니다.").css("color", "red");	
-					}else{
-						if(referer.includes('logout')||referer.includes('memberForm'))
-							referer="http://localhost:8000/dalhada/main";
-						location.href=referer;
-					}
-				}
-			});
-		});
-	});
+  
 
     /*==================================================================
     [ Isotope ]*/
@@ -287,7 +260,7 @@ alret("search")
             	$('#bucket_content').text(data.content);
             	var tags = data.tags;
             	var tagdom = $('#detail_tags');
-            	tagdom.html('');
+            	tagdom.html("");
             	for(var i=0; i<tags.length; i++)
             		tagdom.append('<button type="button" class="modal-tag modal-tag-detail flex-c-m stext-107 size-301 p-lr-15 trans-04 m-r-5 m-b-5">#'+tags[i]+'</button>');
             	if (mymap) mymap.remove();
@@ -324,10 +297,7 @@ alret("search")
     				
     			});;
             	$('#likecnt').text(data.like_cnt);
-            },
-            error : function(){
-            	
-	        }
+            }
 		})
         
         $('.js-modal-bucket').addClass('show-modal-bucket');
@@ -336,16 +306,9 @@ alret("search")
         $('.js-modal-bucket').removeClass('show-modal-bucket');
         
     }); 
-    /*==================================================================
-    [ searchKeyDown ]*/
-    $('.searchKeyDown').keydown(function(e){
-    	if(e.keyCode == 13){
-    		$('form#searchForm').submit();
-    	}
-    });
+    
     /*==================================================================
     [ Show create modal ]*/
-    
     $('.js-show-modal-create').on('click',function(e){ 	
     	e.preventDefault();
     	var mymap;
@@ -413,7 +376,7 @@ alret("search")
     $('#create-submit').click(function(){
     	var title = $("#create-title").val();
     	var file = $('input[type=file]')[0].files[0];
-    	var content =  $("#create-content").val();
+    	var content =  $("#create_content").val();
 
 		var list = [];
     	$("#create-tag-dom .modal-tag-click").each(function(i){list.push($(this).val());})
@@ -475,7 +438,7 @@ alret("search")
 	            	$("#editedbucket_id").val(id);
 	            	$("#edit_title").val(data.title);
 	            	$("#edit_image").attr("src", "images/bucket/"+data.image_path);
-	            	$("#edit-content").val(data.content);
+	            	$("#edit_content").val(data.content);
 	            	var groupdom = $("#edit-groups-dom");
 	            	groupdom.append("<option value='0'>-----------</option>")
 	            	for(var i = 0; i < group_list.length; i++ )
@@ -503,13 +466,13 @@ alret("search")
     });
     /*[click edit cancel button]*/
     $('.js-hide-modal-edit').on('click',function(){
-    	clear_editForm();
+    	clear_form('#edit');
     	$('.js-modal-edit').removeClass('show-modal-edit');
     }); 
     /*[click edit submit button]*/
     $('#edit-submit').click(function(){
     	var title = $("#edit_title").val();
-    	var content =  $("#edit-content").val();
+    	var content =  $("#edit_content").val();
 		var list = [];
     	$("#edit-tag-dom .modal-tag-click").each(function(i){list.push($(this).val());})
     	
@@ -540,7 +503,95 @@ alret("search")
 				,
 				complete : function(){
 					$('.js-modal-edit').removeClass('show-modal-edit');
-					clear_editForm();
+					clear_form('#edit');
+				}
+			});
+    	}
+	});
+    /*==================================================================
+    [ Show get modal ]*/
+    $('.js-show-modal-get').on('click',function(e){ 	
+    	e.preventDefault();
+    	var id = $(this).attr("data-id");
+	        $.ajax({// 제목 이미지path 내용 태그(전부/버킷's) 그룹(전부/버킷's) 날짜 위도 경도
+				url: "main/geteditinfo",
+	            type: "POST",
+	            data: {"selectedbucket_id": $(this).attr('id')}
+	            ,
+	            success: function (data) {
+	            	var group_list = data.group_list;
+	            	var tag_list = data.tag_list;
+	            	var my_tags = data.my_tags;
+	            	
+	            	$("#bucket_id").val(id);
+	            	$("#get_title").val(data.title);
+	            	$("#get_image").attr("src", "images/bucket/"+data.image_path);
+	            	$("#get_content").val(data.content);
+	            	var groupdom = $("#get-groups-dom");
+	            	groupdom.append("<option value='0'>-----------</option>")
+	            	for(var i = 0; i < group_list.length; i++ )
+	            		groupdom.append("<option value='"+group_list[i].id+"'>"+group_list[i].name+"</option>");
+	            	$('#get-groups-dom').find('option[value='+data.group_id+']').attr('selected', 'selected');
+	            	
+	            	var tagdom = $("#get-tag-dom");
+	            	for(var i=0; i<tag_list.length; i++)
+	            		tagdom.append('<button type="button" value="'+tag_list[i].id+'" class="get-modal-tag flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">#'+tag_list[i].name+'</button>');	            	
+	            	tag_click($('.get-modal-tag'));
+	            	var my_tags = data.my_tags;
+	            	for(var i = 0; i<my_tags.length; i++)
+	            		$('#get-tag-dom').find('button[value='+my_tags[i]+']').removeClass('bor7').addClass('modal-tag-click').removeClass('cl6');
+	            	$('#get-d-day').flatpickr({
+	        		    dateFormat: "Y.m.d",
+	        		    defaultDate: [data.d_day]
+	        		});
+	            },
+	            error : function(){
+	            	console.log("error");
+		        }
+			})
+			
+			$('.js-modal-get').addClass('show-modal-get');
+    });
+    /*[click edit cancel button]*/
+    $('.js-hide-modal-get').on('click',function(){
+    	clear_form('#get');
+    	$('.js-modal-get').removeClass('show-modal-get');
+    }); 
+    /*[click edit submit button]*/
+    $('#get-submit').click(function(){
+    	var title = $("#get_title").val();
+    	var content =  $("#get_content").val();
+		var list = [];
+    	$("#get-tag-dom .modal-tag-click").each(function(i){list.push($(this).val());})
+    	
+    	var msg = '';
+    	if(title=='')
+    		msg = "제목 ";
+    	if(content == "")
+    		msg += "내용 ";
+    	if(list.length==0)
+    		msg+="태그를 지정해주세요.\n"
+    	
+    	if(msg.length!=0)
+    		$(".get-warntest").text(msg);
+    	else{
+    		var formData = new FormData();
+    		formData.append("bucket_id", $("#bucket_id").val());
+        	formData.append("title", title);
+        	formData.append("content", content);
+        	formData.append("tag_id", list);
+        	formData.append("g_id", $("#get-groups-dom").val());
+        	formData.append("d_day", $("#get-d-day").val());
+			$.ajax({
+				url: "insertgetbucket",
+				type:"post",
+				processData: false,
+                contentType: false,
+				data: formData
+				,
+				complete : function(){
+					$('.js-modal-get').removeClass('show-modal-get');
+					clear_form('#get');
 				}
 			});
     	}
@@ -559,11 +610,11 @@ var clear_createForm = function(){
 	$('#create-tag-dom').html('');
 	$('#create-d-day').val('');
 }
-var clear_editForm = function(){
-	$('#edit-groups-dom').html('');
-	$('#edit-tag-dom').html('');
-	$('#edit-d-day').val('');
-	$('#create-tag-dom').html('');
+var clear_form = function(flag){
+	$(flag+'-groups-dom').html('');
+	$(flag+'-tag-dom').html('');
+	$(flag+'-d-day').val('');
+	$(flag+'-tag-dom').html('');
 }
 var tag_click = function(tags){
 	tags.each(function(){

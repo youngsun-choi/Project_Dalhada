@@ -52,6 +52,10 @@ public class BucketService {
 	public String insertBucket(InsertedBucketVO vo) {
 		return bucketdao.insertbucket(vo);
 	}
+	
+	public int insertGetBucket(InsertedBucketVO vo) {
+		return bucketdao.insertGetBucket(vo);
+	}
 
 	public EditBucketInfoVO getEditInfo(StringIntVO map) {
 		EditBucketInfoVO vo = bucketdao.getEditInfo(map);

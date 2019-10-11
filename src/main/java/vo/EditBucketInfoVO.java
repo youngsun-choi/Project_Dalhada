@@ -4,6 +4,7 @@ import java.util.List;
 
 public class EditBucketInfoVO {
 	private int seletedbucket_id;
+	private String member_id;
 	private String title;
 	private String image_path;
 	private String content;
