@@ -1,15 +1,15 @@
 @charset "UTF-8";
+@charset "UTF-8";
 
 
 #area1 {
 		font-family: Do Hyeon;
   font-size: 20px;
-	margin-left:50px;
-	margin-right:40px;
 	float: left;
 	width: 30%;
 	height: 100%;
 	text-align: center;
+	float: left;
 }
 
 #table1 tr, #table1 td {
@@ -19,7 +19,9 @@
 	text-align: center;
 }
 
-
+#table2{
+	width: 95%;
+}
 
 table{
 	margin-left:30px;
@@ -39,18 +41,18 @@ table{
 #area22{
 		font-family: Do Hyeon;
   font-size: 20px;
-	padding-top: 50px;
+	padding-top: 20px;
 	padding-bottom: 50px;
 }
 
 #area2 {
-	float: left;
+	float: right;
 	width: 60%;
 	height: 100%;
 }
 
 #tableMenu{
-	width: 70%;
+	width: 100%;
 	margin-top: 40px;
 }
 
@@ -85,6 +87,10 @@ fieldset button{
     border-radius: 50%;
 }
 
+#bucketdel{
+	text-align: left;
+}
+
 @import url(https://fonts.googleapis.com/css?family=Aldrich);
 
 /* progressbar */
@@ -92,7 +98,7 @@ fieldset button{
 .progress1{
 	width:500px;
 	display:block;
-	margin:50px auto;
+	margin:5px auto;
 }
 .progress {
 	overflow: hidden;
@@ -465,10 +471,10 @@ box-sizing: border-box;
 
 .scrollbar
 {
-	margin-left: 100px;
+	padding-left: 20px;
 	float: left;
-	height: 200px;
-	width: 95%;
+	height: 380px;
+	width: 110%;
 	background: #F5F5F5;
 	overflow-y: scroll;
 	margin-bottom: 25px;
@@ -507,5 +513,3 @@ box-sizing: border-box;
 	                   color-stop(.5, rgba(255, 255, 255, .2)),
 					   color-stop(.5, transparent), to(transparent));
 }
-
-

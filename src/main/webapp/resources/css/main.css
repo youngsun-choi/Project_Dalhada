@@ -333,6 +333,18 @@ Input, textarea : 14px/1.6 '', Arial, sans-serif;
 
 /*------------------------------------------------------------------
 [ Menu ]*/
+/*button*/
+.button-modal{
+  border: none;
+  padding: 10px 30px;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  border-radius: 20px;
+  margin: 5px;
+}
+
+.btn-bd {border: 1px solid #071f4c;}
 
 .menu-desktop {
   display: -webkit-box;

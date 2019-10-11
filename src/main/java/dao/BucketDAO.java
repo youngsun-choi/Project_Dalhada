@@ -28,7 +28,6 @@ public class BucketDAO {
 		List<BucketVO> list = new ArrayList<BucketVO>();
 		String statement = "resource.BucketMapper.selectTOPBucket";
 		list = session.selectList(statement, member_id);
-		
 		return list;
 	}
 	public int insertLikeInfo(LikeInfoVO vo) {

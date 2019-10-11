@@ -22,8 +22,6 @@
 <!--===============================================================================================-->	
 	<link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css">
 <!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="vendor/animsition/css/animsition.min.css">
-<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="vendor/slick/slick.css">
@@ -121,23 +119,13 @@
   					</form>
 				</li>
 				<c:if test="${empty sessionScope.id}">
-					<li>
-						<a href="memberform">회원가입</a>
-					</li>
-					<li>
-						<a href="loginmain">로그인</a>
-					</li>
+					<li><a href="memberform">회원가입</a></li>
+					<li><a href="loginmain">로그인</a></li>
 				</c:if>
 				<c:if test="${!empty sessionScope.id}">
-					<li>
-						<a class="js-show-modal-create hov-cl1">버킷+</a>
-					</li>
-					<li>
-						<a href="memberform">마이페이지</a>
-					</li>
-					<li>
-						<a href="loginmain">로그아웃</a>
-					</li>
+					<li><a class="js-show-modal-create hov-cl1">버킷+</a></li>
+					<li><a href="memberform">마이페이지</a>	</li>
+					<li><a href="loginmain">로그아웃</a></li>
 				</c:if>
 			</ul>
 		</div>

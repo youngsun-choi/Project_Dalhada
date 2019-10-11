@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import dao.SearchBucketDAO;
+import vo.BucketDetailVO;
 import vo.BucketVO;
+import vo.GroupVO;
 import vo.SearchBucketVO;
 import vo.TagInfoVO;
 
@@ -39,9 +41,9 @@ public class SearchBucketService {
 	public List<TagInfoVO> selectTagName() {
 		return dao.selectTagName();
 	}
-	
+	/*
 	//그룹명 찾기
-	/*public List<GroupVO> selectGroupName(String id) {
+	public List<GroupVO> selectGroupName(String id) {
 		return dao.selectGroupName(id);
 	}
 	
@@ -58,10 +60,10 @@ public class SearchBucketService {
 	//가져온 버킷을 selectedbucket에 저장
 	public boolean insertSelectedBucket(BucketVO vo) {
 		return dao.insertSelectedBucket(vo);
-	}
+	}*/
 	
 	//가져온 버킷을 selectedbucket에 저장
-	public boolean insertSBId(LikeGetVO vo) {
+	/*public boolean insertSBId(LikeGetVO vo) {
 		boolean result = true;
 		String statement = "resource.SearchBucketMapper.insertSBId";
 		if(session.insert(statement, vo) != 1)

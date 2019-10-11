@@ -199,6 +199,7 @@ public class BucketController {
 			}
 			mav.addObject("searchList", searchList);
 			mav.addObject("keyword", "");
+			mav.addObject("searchList", searchList);
 		}else {
 			//제목검색 검색결과 수&페이징
 			listCnt = searchBucketService.getTotalTitleCnt(keyword);
@@ -215,6 +216,7 @@ public class BucketController {
 			}
 			mav.addObject("searchList", searchList);
 			mav.addObject("keyword", keyword);
+			mav.addObject("searchList", searchList);
 		}
 		
 		//태그명 찾기

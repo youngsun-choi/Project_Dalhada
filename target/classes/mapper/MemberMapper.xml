@@ -15,13 +15,13 @@
 	</insert>
 	
 	<!--  checkId -->
-	<select id="checkId" parameterType="string" resultType="vo.MemberinfoVO">
+	<select id="checkId" parameterType="string" resultType="String">
 		select id from MEMBERINFO where id = #{id}
 	</select> 
 	
 	<!--  check Login -->
-	<select id="login" parameterType="string" resultType="vo.MemberinfoVO">
-		select id, password, image_path, email, my_words, TO_CHAR(birth, 'YYYY-MM-DD') from MEMBERINFO where id=#{id} and password=#{password}
+	<select id="login" parameterType="String" resultType="vo.MemberinfoVO">
+		select id, password, image_path, email, my_words, TO_CHAR(birth, 'YYYY-MM-DD') from MEMBERINFO where id=#{id}
 	</select>
 	
 </mapper>
