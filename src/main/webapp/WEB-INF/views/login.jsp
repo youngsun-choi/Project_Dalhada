@@ -108,11 +108,6 @@ margin-left: 4px;
 </style>
 <body>
 
-<c:if test="${!empty msg}">
-<script type="text/javascript">
-alert(${msg})
-</script>
-</c:if>
 
 <div class="container">
 	<div class="d-flex justify-content-center h-100">

@@ -406,8 +406,7 @@ alret("search")
 				type:"post",
 				processData: false,
                 contentType: false,
-				data: formData
-				,
+				data: formData,
 				sucess : function(){
 					$('.js-modal-create').removeClass('show-modal-create');
 					location.reload();
@@ -428,8 +427,7 @@ alret("search")
 	        $.ajax({// 제목 이미지path 내용 태그(전부/버킷's) 그룹(전부/버킷's) 날짜 위도 경도
 				url: "main/geteditinfo",
 	            type: "POST",
-	            data: {"selectedbucket_id": id}
-	            ,
+	            data: {"selectedbucket_id": id},
 	            success: function (data) {
 	            	var group_list = data.group_list;
 	            	var tag_list = data.tag_list;
