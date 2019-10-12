@@ -1,9 +1,10 @@
 function init() {
-    gapi.client.setApiKey("AIzaSyBG5O7DQlop-IbBcRZLoMSs5KTHiiVOdlY");
+    /*gapi.client.setApiKey("AIzaSyAklfnLXflxfSrdpsd1UEHs_9DCXHp1M3o");
     gapi.client.load("youtube", "v3", function() {
         // yt api is ready
     	makeRequest();
-    });
+    });*/
+	makeRequest();
 }
 
 function getParameterByName(name) {
@@ -20,8 +21,14 @@ function makeRequest(){
    		keyword = (keyword == "") ? "버킷리스트": keyword;
    	else
    		keyword = tagName;
+   	
+   	var $frag = $(document.createDocumentFragment());
+	$("#results").html("");
+	$frag.append('<h4>'+keyword+'</h4>');
+	$("#results").append($frag);
+	
    	// prepare the request
-    var request = gapi.client.youtube.search.list({
+    /*var request = gapi.client.youtube.search.list({
          part: "snippet",
          type: "video",
          q: keyword,
@@ -38,7 +45,8 @@ function makeRequest(){
 				   '<iframe class="video w100" width="440" height="260" src="//www.youtube.com/embed/'
 				   +item.id.videoId+'?&autoplay=1" frameborder="0" allow="autoplay;"></iframe>'
 				   +'<h5>'+item.snippet.title+'</h5>');
+		   $frag.append('<h4>'+keyword+'</h4>');
 	   });
 	   $("#results").append($frag);
-   });
+   });*/
 };

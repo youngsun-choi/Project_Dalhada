@@ -69,8 +69,8 @@
 				        </div> 
 				
 						<!-- cd-timeline__content -->
-				        <div class="cd-timeline__content text-component js-show-modal-bucket">
-				          <img src="images/bucket/${vo.bucketImage_path}">
+				        <div class="cd-timeline__content text-component">
+				          <img id="${vo.selectedbucket_id }" class="js-show-modal-bucket" src="images/bucket/${vo.bucketImage_path}">
 				          <p class="color-contrast-medium">${vo.title}</p>
 				
 				          <div class="flex justify-between items-center">
@@ -87,7 +87,7 @@
 	    </c:if>
 	    
 	    <!-- Modal -->
-		<div class="wrap-modal-bucket js-modal-bucket p-t-60 p-b-20">
+		<%-- <div class="wrap-modal-bucket js-modal-bucket p-t-60 p-b-20">
 			<div class="overlay-modal js-hide-modal"></div>
 	
 			<div class="container">
@@ -142,7 +142,7 @@
 						</div>
 					</div>
 				</div>
-			</div>
+			</div> --%>
 			
 			<!-- Back to top -->
 			<div class="btn-back-to-top" id="myBtn">
@@ -151,6 +151,8 @@
 				</span>
 			</div>
 	</section> 
+	
+	<%@ include file="detailmodal.jsp" %>
 <!--===============================================================================================-->	
 	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
 <!--===============================================================================================-->

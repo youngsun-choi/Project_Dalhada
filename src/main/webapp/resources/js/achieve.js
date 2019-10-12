@@ -71,7 +71,7 @@
 	
 	/*==================================================================
     [ Show modal ]*/
-    $('.js-show-modal-bucket').on('click',function(e){
+    /*$('.js-show-modal-bucket').on('click',function(e){
         e.preventDefault();
         
         $.ajax({
@@ -101,5 +101,5 @@
 
     $('.js-hide-modal').on('click',function(){
         $('.js-modal-bucket').removeClass('show-modal-bucket');
-    }); 
+    }); */
 })(jQuery);

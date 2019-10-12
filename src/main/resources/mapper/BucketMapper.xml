@@ -15,9 +15,9 @@
  	</select>
  	<select id="editBucketInfo"  resultType="vo.EditBucketInfoVO" parameterType="vo.StringIntVO">
 		select sb.id as seletedbucket_id, sb.title, sb.content, sb.lat, sb.lng, bi.image_path,
-				sb.group_id, to_char(sb.d_day, 'yyyy.mm.dd') as d_day 
+				sb.group_id, to_char(sb.d_day, 'yyyy.mm.dd') as d_day, bi.member_id 
     	from bucketinfo bi, selectedBucket sb 
-    	where bi.id = sb.bucket_id AND sb.id =#{id} AND sb.member_id = #{name}
+    	where bi.id = sb.bucket_id AND sb.id =#{id} 
  	</select>
  	<select id="selectTOPBucket" resultType="vo.BucketVO" parameterType="String">
 		select sb.bucket_id , sb.id as selectedbucket_id, bi.image_path, sb.title,

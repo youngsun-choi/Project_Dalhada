@@ -52,30 +52,28 @@
 
 					<!-- Icon header -->
 					<div class="wrap-icon-header flex-w flex-r-m h-full">
-						<form class="form-inline flex-c-m h-full p-r-24"
-							action="searchbucket" method="get">
-							<div class="bor17 of-hidden pos-relative">
-								<input class="stext-103 cl2 plh4 size-116 p-l-28 p-r-55"
-									type="text" name="searchKeyword" placeholder="Search"
-									value="${ keyword }">
-								<button type="submit"
-									class="flex-c-m size-122 ab-t-r fs-18 cl4 hov-cl1 trans-04">
+						<form id="searchForm" class="form-inline flex-c-m h-full p-r-24" action="searchbucket" method="get">
+	    					<div class="bor17 of-hidden pos-relative">
+								<input class="searchKeyDown stext-103 cl2 plh4 size-116 p-l-28 p-r-55" type="text" 
+								name="searchKeyword" placeholder="Search" value="${ keyword }" autocomplete="off">
+								<input type="hidden" name="action" value="">
+								<button type="submit" class="flex-c-m size-122 ab-t-r fs-18 cl4 hov-cl1 trans-04" >
 									<i class="zmdi zmdi-search"></i>
 								</button>
 							</div>
-						</form>
-						<div class="flex-c-m h-full p-r-24">
-							<p class="hov-cl1">버킷 +</p>
-						</div>
-						<c:if test="${empty info}">
+  						</form>
+						<c:if test="${empty sessionScope.id}">
 							<div class="flex-c-m h-full p-r-24">
 								<a href="memberform">회원가입</a>
 							</div>
 							<div class="flex-c-m h-full p-r-24">
 								<a href="loginmain">로그인</a>
-							</div>
+							</div>	
 						</c:if>
-						<c:if test="${!empty info}">
+						<c:if test="${!empty sessionScope.id}">
+							<div class="flex-c-m h-full p-r-24">
+								<p class="js-show-modal-create hov-cl1">버킷 +</p>
+							</div>
 							<div class="flex-c-m h-full p-r-24">
 								<a href="mypage">마이페이지</a>
 							</div>
@@ -109,25 +107,35 @@
 		<div class="menu-mobile">
 			<ul class="main-menu-m">
 				<li>
-					<form class="form-inline" action="searchbucket" method="get">
-						<div class="bor17 of-hidden pos-relative">
-							<input class="stext-103 cl2 plh4 size-116 p-l-28 p-r-55"
-								type="text" name="search" placeholder="Search">
-							<button type="submit"
-								class="flex-c-m size-122 ab-t-r fs-18 cl4 hov-cl1 trans-04">
-								<i class="zmdi zmdi-search"></i>
-							</button>
-						</div>
-					</form>
+					<form id="searchForm" class="form-inline" action="searchbucket" method="get">
+	    					<div class="bor17 of-hidden pos-relative">
+								<input class="searchKeyDown stext-103 cl2 plh4 size-116 p-l-28 p-r-55" type="text" 
+								name="searchKeyword" placeholder="Search" value="${ keyword }" autocomplete="off">
+								<input type="hidden" name="action" value="">
+								<button type="submit" class="flex-c-m size-122 ab-t-r fs-18 cl4 hov-cl1 trans-04" >
+									<i class="zmdi zmdi-search"></i>
+								</button>
+							</div>
+  					</form>
 				</li>
-				<li><a id="bucket+">버킷 +</a></li>
-				<c:if test="${empty info}">
-					<li><a href="memberForm">회원가입</a></li>
-					<li><a href="loginmain">로그인</a></li>
+				<c:if test="${empty sessionScope.id}">
+					<li>
+						<a href="memberForm">회원가입</a>
+					</li>
+					<li>
+						<a href="loginmain">로그인</a>
+					</li>
 				</c:if>
-				<c:if test="${!empty info}">
-					<li><a href="mypage">마이페이지</a></li>
-					<li><a href="logout">로그아웃</a></li>
+				<c:if test="${!empty sessionScope.id}">
+					<li>
+						<a class="js-show-modal-create hov-cl1">버킷+</a>
+					</li>
+					<li>
+						<a href="memberForm">마이페이지</a>
+					</li>
+					<li>
+						<a href="loginmain">로그아웃</a>
+					</li>
 				</c:if>
 			</ul>
 		</div>
@@ -167,7 +175,7 @@
 
 						<tr>
 							<td>
-								<button onclick="location.href='achieve'">아카이브 페이지</button>
+								<button type="button" onclick="window.open('http://localhost:8000/dalhada/achieve')">아카이브 페이지</button>
 							</td>
 						</tr>
 					</table>
@@ -346,10 +354,6 @@
 								</div>
 								<button onclick="modalOpen();" style="width: auto;">그룹
 									관리</button>
-								<br>
-							<br>
-							<br>
-							<br>
 
 								<div id="id01" class="modal">
 
@@ -469,6 +473,8 @@
 			</section>
 		</div>
 	</c:if>
+	
+	<%@ include file="createmodal.jsp" %>
 
 	<!--===============================================================================================-->
 	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>

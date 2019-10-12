@@ -1,6 +1,7 @@
 ﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %> 
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -13,6 +14,8 @@
 	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" 
+	integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="fonts/iconic/css/material-design-iconic-font.min.css">
 <!--===============================================================================================-->
@@ -59,6 +62,7 @@
 	    					<div class="bor17 of-hidden pos-relative">
 								<input class="searchKeyDown stext-103 cl2 plh4 size-116 p-l-28 p-r-55" type="text" 
 								name="searchKeyword" placeholder="Search" value="${ keyword }" autocomplete="off">
+								<input type="hidden" name="action" value="">
 								<button type="submit" class="flex-c-m size-122 ab-t-r fs-18 cl4 hov-cl1 trans-04" >
 									<i class="zmdi zmdi-search"></i>
 								</button> 
@@ -113,6 +117,7 @@
 	    					<div class="bor17 of-hidden pos-relative">
 								<input class="searchKeyDown stext-103 cl2 plh4 size-116 p-l-28 p-r-55" type="text" 
 								name="searchKeyword" placeholder="Search" value="${ keyword }" autocomplete="off">
+								<input type="hidden" name="action" value="">
 								<button type="submit" class="flex-c-m size-122 ab-t-r fs-18 cl4 hov-cl1 trans-04" >
 									<i class="zmdi zmdi-search"></i>
 								</button>
@@ -155,38 +160,51 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-md-8 col-lg-9 p-b-80">
-					<div class="p-r-0-lg p-r-45">
+					<div class="p-r-0-lg p-r-40">
 						<!-- 검색결과 시작 -->   
-						<c:if test="${ !empty searchList }">
-	                  		<div class="row isotope-grid">
-		                     	<c:forEach var="vo" items="${searchList}">
-		                        	<div class="item-slick2 p-l-10 p-r-10 p-t-10 p-b-10 isotope-item women"> <!-- col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women -->
-			                           	<!-- Block2 -->
-			                           	<div class="block2">
-			                             	 <a class="block3-img flex-c-m trans-04"> <!-- hov-img0  p-lr-15 -->
-			                                 	<img id="${vo.selectedbucket_id }" class="js-show-modal-bucket" src="images/bucket/${ vo.image_path }" alt="IMG-PRODUCT">
-			                              	</a>
-			            
-			            					<div class="block2-txt flex-w flex-t p-t-14"> <!-- p-t-14 -->
-												<div class="block3-txt-child1 flex-col-l">
-													<a id="${vo.selectedbucket_id }" class="js-show-modal-bucket stext-104 cl4 hov-cl1 trans-04 p-b-6">
-														${vo.title }
-													</a>
-												</div>
-											</div>
-											<div class="flex-r-m"><!-- bor9 --><!-- p-r-10 m-r-11 -->
-												<button id="${vo.selectedbucket_id}" class="heart fs-23 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addlike ${vo.className } tooltip100" data-tooltip="좋아요">
-			                                    	<i class="zmdi zmdi-favorite"></i> 
-			                                 	</button>
-												<button class="fs-23 cl4 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addlike tooltip100" data-tooltip="가져오기">
-			                                    	<i data-id="${vo.bucket_id}" id="${vo.selectedbucket_id}" class="js-show-modal-get fa fa-plus-square"></i> 
-			                                 	</button>  
-											</div>
-			                           </div>
-		                        	</div>
-		                     	</c:forEach>
+						<div class="row isotope-grid">			
+								<c:if test="${!empty searchList}">				
+			                     	<c:forEach var="vo" items="${searchList}">
+				                    	<div class="item-slick2 p-l-10 p-r-10 p-t-10 p-b-10 isotope-item women"> <!-- col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women -->
+					                    		<!-- Block2 -->
+					                           <div class="block2">
+					                             	<a class="block3-img flex-c-m trans-04"> <!-- hov-img0  p-lr-15 -->
+					                                 	<img id="${vo.selectedbucket_id }" class="js-show-modal-bucket" src="images/bucket/${ vo.image_path }" alt="IMG-PRODUCT">
+					                              	</a>
+					                              	<c:if test="${!empty vo.isAd}">
+					                              		<i class="fas fa-ad cl3 float-r"></i>
+					                              	</c:if>
+					            
+					            					<div class="block2-txt flex-w flex-t p-t-14"> <!-- p-t-14 -->
+														<div class="block3-txt-child1 flex-col-l">
+															<a id="${vo.selectedbucket_id }" class="js-show-modal-bucket stext-104 cl4 hov-cl1 trans-04 p-b-6">
+																${vo.title } ${vo.selectedbucket_id }
+															</a>
+														</div>
+													</div>
+													<div class="flex-r-m"><!-- bor9 --><!-- p-r-10 m-r-11 -->
+														<button id="${vo.selectedbucket_id}" class="heart fs-23 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addlike ${vo.className } tooltip100" data-tooltip="좋아요">
+					                                    	<i class="zmdi zmdi-favorite"></i> 
+					                                 	</button>
+														<button class="fs-23 cl4 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addlike tooltip100" data-tooltip="가져오기">
+					                                    	<i data-id="${vo.bucket_id}" id="${vo.selectedbucket_id}" class="js-show-modal-get fa fa-plus-square"></i> 
+					                                 	</button>  
+													</div>
+					                           </div>
+				                        </div> 		      
+			                     	</c:forEach>
+		                     	</c:if>	
+		                     	<c:if test="${ empty searchList }">
+				                	<c:if test="${empty tag}">
+				                		<h2 class="txt-center">'${keyword}'에 대한 검색결과가 없습니다.</h2>
+				                	</c:if>
+				                  	<c:if test="${not empty tag}">
+				                		<h2 class="txt-center">'${tag}'태그와 관련된 검색결과가 없습니다.</h2>
+				                	</c:if>
+		                		</c:if>
 	               			</div>
-		               		<!-- 페이징 시작 -->
+	               			<!-- 검색결과 끝 --> 	 
+	               			<!-- 페이징 시작 -->
 							<c:if test="${!empty listCnt }">
 								<div class="flex-c-m flex-w w-full p-t-10 m-lr--7">
 									<c:if test="${pagination.curPage ne 1 }">
@@ -223,14 +241,8 @@
 											>>
 										</a>
 									</c:if>
-								</div>
-							</c:if>
-							<!-- 페이징 끝 -->
-	               		</c:if>
-		                <c:if test="${ empty searchList }">
-		                  	<h2 class="txt-center">'${keyword}'에 대한 검색결과가 없습니다.</h2>
-		                </c:if>  	
-                  		<!-- 검색결과 끝 -->   
+								</div>	
+						</c:if>	
 					</div>
 				</div>
 				
@@ -264,7 +276,7 @@
 							<div class="flex-w m-r--5">
 								<c:if test="${ !empty tagNameList }">
 									<c:forEach var="tList" items="${tagNameList}">
-										<a href="${pageContext.request.contextPath}/searchbucket?searchTag=${tList.name}" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
+										<a href="${pageContext.request.contextPath}/searchbucket?searchTag=${tList.name}&action=tag" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
 											#${tList.name}
 										</a>
 									</c:forEach>
@@ -277,7 +289,6 @@
 			</div>
 		</div>
 	</section>	
-	
 		
 
 	<!-- Footer -->
@@ -292,8 +303,11 @@
 			<i class="zmdi zmdi-chevron-up"></i>
 		</span>
 	</div>
+
 	
-	<%@ include file="modal.jsp" %>
+	<%@ include file="createmodal.jsp" %>
+	<%@ include file="detailmodal.jsp" %>
+	<%@ include file="getmodal.jsp" %>
 <!--===============================================================================================-->	
 	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
 <!--===============================================================================================-->

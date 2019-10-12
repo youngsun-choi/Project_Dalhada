@@ -41,7 +41,7 @@ public class MypageController {
 	@RequestMapping(value = "/achieve")
 	public ModelAndView achieve(HttpSession session, @RequestParam(required=false) String age) {
 		ModelAndView mav = new ModelAndView();
-		String id = "aaa";//(String) session.getAttribute("id");
+		String id = (String) session.getAttribute("id");
 		List<AchieveVO> achieveList = achieveService.selectCompleteBucket(id);
 		List<AchieveVO> selectedAchieveList = new ArrayList<AchieveVO>();
 		List<Integer> ageList = new ArrayList<Integer>();
@@ -56,6 +56,7 @@ public class MypageController {
 			mav.addObject("ageList", ageList.stream().distinct().collect(Collectors.toList()));
 		}
 		mav.addObject("achieveList", selectedAchieveList);
+		System.out.println("achieveList"+selectedAchieveList.toString());
 		mav.setViewName("achieve");
 		return mav;
 	}

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -35,6 +36,7 @@ import vo.UpdatedBucketVO;
 import vo.InsertedBucketVO;
 
 @Controller
+@SessionAttributes(value = "searchBucketVO")
 public class BucketController {
 	@Autowired
 	private SearchBucketService searchBucketService;
@@ -165,6 +167,11 @@ public class BucketController {
 		if(bucketservice.insertGetBucket(vo) < 1) result = "error";
 		return result;
 	}
+	
+	@ModelAttribute("searchBucketVO")
+	public SearchBucketVO searchBucketVO() {
+		return new SearchBucketVO();
+	}
     
 	@RequestMapping(value="/searchbucket")
 	public ModelAndView searchBucket(HttpSession session, @RequestParam(defaultValue="1")int curPage, 
@@ -172,19 +179,16 @@ public class BucketController {
 		ModelAndView mav = new ModelAndView();
 		String id = (String) session.getAttribute("id");
 		searchBucketVO.setMember_id(id);
-		String keyword = searchBucketVO.getSearchKeyword();
 		String tagName = searchBucketVO.getSearchTag();
+		String keyword = searchBucketVO.getSearchKeyword();
+		String action = searchBucketVO.getAction();
 		String naverKeyword = null;
 		List<NaverBlogVO> naverBlogList = null;
 		int listCnt;
 		PagingVO pageList;
 		List<BucketVO> searchList;
-
-		System.out.println("keyword : "+keyword);
-		System.out.println("tagName : "+tagName);
 		
-		if(tagName != null) {
-			//태그검색 검색결과 수&페이징
+		if(tagName != null && action.equals("tag")) {
 			listCnt = searchBucketService.getTotalTagCnt(tagName);
 			pageList = new PagingVO(listCnt, curPage); //(전체 게시물 수, 현재 페이지)
 			searchBucketVO.setStartRow(pageList.getStartIndex());
@@ -200,6 +204,7 @@ public class BucketController {
 			mav.addObject("searchList", searchList);
 			mav.addObject("keyword", "");
 		}else {
+			searchBucketVO.setSearchTag(null);
 			//제목검색 검색결과 수&페이징
 			listCnt = searchBucketService.getTotalTitleCnt(keyword);
 			pageList = new PagingVO(listCnt, curPage); //(전체 게시물 수, 현재 페이지)
@@ -216,6 +221,8 @@ public class BucketController {
 			mav.addObject("searchList", searchList);
 			mav.addObject("keyword", keyword);
 		}
+		//태그에 해당하는 내용이 없을 경우
+		mav.addObject("tag", tagName);
 		
 		//태그명 찾기
 		List<TagInfoVO> tagNameList = searchBucketService.selectTagName();
