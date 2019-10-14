@@ -26,7 +26,13 @@ public class BucketService {
 		}
 		return list;
 	}
-
+	public List<BucketVO> selectTagBucket(String member_id) {
+		List<BucketVO> list = bucketdao.selectTagBucket(member_id);
+		for(BucketVO vo: list) {
+			vo.addClass();
+		}
+		return list;
+	}
 	public int insertLikeInfo(LikeInfoVO vo) {
 		return bucketdao.insertLikeInfo(vo);
 	}

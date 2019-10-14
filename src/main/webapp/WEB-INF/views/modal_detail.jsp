@@ -1,5 +1,8 @@
 ﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/MagnificPopup/magnific-popup.css">
 	<!-- Detail Modal -->
 	<div class="wrap-modal-bucket js-modal-bucket p-t-60 p-b-20">
 		<div class="overlay-modal js-hide-modal-bucket"></div>
@@ -15,6 +18,7 @@
 						<div class="p-l-25 p-r-30 p-lr-0-lg">
 							<div class="wrap-slick3 flex-sb flex-w">
 								<h4 id="bucket_title"class="ltext-107 cl2 p-b-14"></h4>
+								<div id="get_member_id" class="stext-108 cl3 m-tb-3"></div>
 								<div class="gallery-lb">
 									<div class="pos-relative txt-center">
 										<img class="modal_image" id="detail_image" alt="IMG-PRODUCT">
@@ -23,16 +27,17 @@
 										</a>
 									</div>
 								</div>
+								<div id="by_member_id" class="stext-108 cl3 m-tb-3"></div>
 							</div>
-							<div id="bucket_content" class="mtext-110 cl3 p-t-23 p-b-23"></div>
+							<div id="bucket_content" class="mtext-110 cl3 m-tb-20"></div>
 							<div class="flex-m p-r-10 m-r-11 cl3">
 								<a class="modal_heart fs-23 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addlike tooltip100" data-tooltip="Add to Like">
 									<i class="zmdi zmdi-favorite"></i>
 								</a>
 								<p id="likecnt" class="cl6 stext-107" style="width: 40px"></p>
-								<a href="#" class="fs-23 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addwish-detail tooltip100" data-tooltip="Add to Wishlist">
-									<i class="fa fa-plus-square fa-lg"></i> 
-								</a>						
+								<button class="fs-23 cl4 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addlike tooltip100" data-tooltip="가져오기">
+			                    	<i class="js-show-modal-get modal_get_btn fa fa-plus-square"></i> 
+			                    </button> 					
 							</div>
 						</div>			
 					</div>
@@ -42,6 +47,7 @@
 							<div class="stext-102 cl3 p-t-40">태그</div>
 							<div id="detail_tags" class="flex-w p-t-4 m-r--5"></div>
 			                <div class="stext-102 cl3 p-t-10">위치</div>
+			                <div id="bucket_content" class="mtext-110 cl3 p-t-23 p-b-23"></div>
 						    <div id="mapid_detail" class="hei-350px wid-90pc"></div>
 						</div>
 							<!--  -->

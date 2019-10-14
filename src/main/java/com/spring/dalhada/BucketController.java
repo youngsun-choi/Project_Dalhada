@@ -22,6 +22,7 @@ import service.BucketService;
 import service.NaverBlogService;
 import service.SearchBucketService;
 import vo.BucketDetailVO;
+import vo.BucketLists;
 import vo.BucketVO;
 import vo.EditBucketInfoVO;
 import vo.LikeInfoVO;
@@ -48,10 +49,14 @@ public class BucketController {
 		ModelAndView mav = new ModelAndView();
 		String member_id = (String) session.getAttribute("id");
 	
-
-		List<BucketVO> TOPlist = bucketservice.selectTOPBucket(member_id);
-		
-		mav.addObject("TOPlist", TOPlist);
+		List<BucketLists> list = new ArrayList<BucketLists>();
+		list.add(new BucketLists("좋아요순 버킷", bucketservice.selectTOPBucket(member_id)));
+		if(member_id!=null) {
+			list.add(new BucketLists("사람들이 많이 선택하는 태그들", bucketservice.selectTagBucket(member_id)));
+		}else {
+			
+		}
+		mav.addObject("lists", list);
 		mav.setViewName("main");
 		return mav;
 	}

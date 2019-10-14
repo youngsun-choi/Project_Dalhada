@@ -458,13 +458,13 @@ label{
   background-position: center;
 }
 
-.form-control{
-width: 70%; 
-padding: 12px 20px; 
-margin: 8px 0; 
-display: inline-block; 
-border: 1px solid #ccc; 
-box-sizing: border-box; 
+.form-control-mypage{
+	width: 70%; 
+	padding: 12px 20px; 
+	margin: 8px 0; 
+	display: inline-block; 
+	border: 1px solid #ccc; 
+	box-sizing: border-box; 
 }
 
 /* scrollbar */

@@ -30,6 +30,12 @@ public class BucketDAO {
 		list = session.selectList(statement, member_id);
 		return list;
 	}
+	public List<BucketVO> selectTagBucket(String member_id){
+		List<BucketVO> list = new ArrayList<BucketVO>();
+		String statement = "resource.BucketMapper.selectTagBucket";
+		list = session.selectList(statement, member_id);
+		return list;
+	}
 	public int insertLikeInfo(LikeInfoVO vo) {
 		String statement = "resource.BucketMapper.insertLike";
 		return session.update(statement, vo);

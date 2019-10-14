@@ -135,23 +135,24 @@
 	<!-- Header End -->
 
 	<!-- Bucket -->
-	<section class="sec-product bg0 p-t-25 p-b-20">
+	<c:forEach var="list" items="${lists}">
+	<section class="sec-product bg0 p-tb-10">
 		<div class="container">
 			<div class="p-b-5">
 				<h3 class="ltext-90 cl5 respon1">
-					인기순 버킷
+					${list.title}
 				</h3>
 			</div>
 			<!-- Tab01 -->
 			<div class="tab01">
 				<!-- Tab panes -->
-				<div class="tab-content p-t-5">
+				<div class="tab-content">
 					<!-- - -->
 					<div class="tab-pane fade show active" id="best-seller" role="tabpanel">
 						<!-- Slide2 -->
 						<div class="wrap-slick2">
 							<div class="slick2">
-							<c:forEach var="vo" items="${TOPlist}">
+							<c:forEach var="vo" items="${list.bucketList}">
 								<div class="item-slick2 p-l-15 p-r-15">
 									<!-- Block2 -->
 									<div class="block2">
@@ -187,7 +188,7 @@
 			</div>
 		</div>
 	</section>
-
+	</c:forEach>
 	<!-- Footer -->
 	<footer class="bg3 p-t-75 p-b-32">
 
@@ -196,6 +197,7 @@
 	
 	<%@ include file="modal_detail.jsp" %>
 	<%@ include file="modal_create.jsp" %>
+	<%@ include file="modal_get.jsp" %>
 <!--===============================================================================================-->	
 	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
 <!--===============================================================================================-->

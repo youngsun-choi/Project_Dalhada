@@ -14,20 +14,17 @@
 <!--===============================================================================================-->
 <link rel="icon" type="image/png" href="images/icons/favicon.png" />
 <!--===============================================================================================-->
-<link rel="stylesheet" type="text/css"
-	href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
 <!--===============================================================================================-->
-<link rel="stylesheet" type="text/css"
-	href="fonts/iconic/css/material-design-iconic-font.min.css">
+<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
 <!--===============================================================================================-->
-<link rel="stylesheet" type="text/css"
-	href="fonts/linearicons-v1.0.0/icon-font.min.css">
+<link rel="stylesheet" type="text/css" href="fonts/iconic/css/material-design-iconic-font.min.css">
 <!--===============================================================================================-->
-<link rel="stylesheet" type="text/css"
-	href="vendor/css-hamburgers/hamburgers.min.css">
+<link rel="stylesheet" type="text/css" href="fonts/linearicons-v1.0.0/icon-font.min.css">
 <!--===============================================================================================-->
-<link rel="stylesheet" type="text/css"
-	href="vendor/perfect-scrollbar/perfect-scrollbar.css">
+<link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css">
+<!--===============================================================================================-->
+<link rel="stylesheet" type="text/css" href="vendor/perfect-scrollbar/perfect-scrollbar.css">
 <!--===============================================================================================-->	
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.2.3/flatpickr.css">
 <!--===============================================================================================-->
@@ -162,8 +159,7 @@
 						<tr>
 							<td>
 								<button type="button"
-									onclick="location.href='localhost:8000/dalhada/achieve'">아카이브
-									페이지</button>
+									onclick="location.href='localhost:8000/dalhada/achieve'">아카이브 페이지</button>
 							</td>
 						</tr>
 					</table>
@@ -182,7 +178,6 @@
 									<div class="panel-heading">
 										<div class="panel-title text-center">
 											<h1 class="title">회원정보 수정</h1>
-											<hr />
 										</div>
 									</div>
 									<div id="CkUpdate" class="main-login main-center">
@@ -193,7 +188,7 @@
 													<span class="input-group-addon">
 														<i class="fa fa-lock fa-lg" aria-hidden="true"></i>
 													</span> 
-													<input type="password" id="upPw" class="form-control" required
+													<input type="password" id="upPw" class="form-control-mypage" required
 														placeholder="Enter your Password" />
 												</div>
 											</div>
@@ -235,29 +230,26 @@
 													<div class="input-group">
 														<span class="input-group-addon"><i
 															class="fa fa-envelope fa" aria-hidden="true"></i></span> <input
-															type="text" class="form-control" value="${info.email}"
+															type="text" class="form-control-mypage" value="${info.email}"
 															name="email" required placeholder="Enter your Email" />
 													</div>
 												</div>
 											</div>
 											<div class="form-group">
-												<label for="birth" class="cols-sm-2 control-label">Your
-													Birth</label>
+												<label for="birth" class="cols-sm-2 control-label">Your Birth</label>
 												<div class="cols-sm-10">
 													<div class="input-group">
 														<span class="input-group-addon"><i
 															class="fa fa-user fa" aria-hidden="true"></i></span> <input
-															type="date" class="form-control" name="birth"
+															type="date" class="form-control-mypage" name="birth"
 															value="${info.birth}" required />
 													</div>
 												</div>
 											</div>
 											<div class="form-group">
-												<label for="confirm" class="cols-sm-2 control-label">your
-													comment</label>
+												<label for="confirm" class="cols-sm-2 control-label">your comment</label>
 												<div class="cols-sm-10">
 													<div class="input-group">
-
 														<textarea style="margin: 8px;" rows="10" cols="30"
 															name="my_words" placeholder="코멘트를 남겨주세요!">${info.my_words}</textarea>
 													</div>
@@ -276,31 +268,30 @@
 												<label for="password" class="cols-sm-2 control-label">Password</label>
 												<div class="cols-sm-10">
 													<div class="input-group">
-														<span class="input-group-addon"><i
-															class="fa fa-lock fa-lg" aria-hidden="true"></i></span> <input
-															type="password" id="pw" class="form-control"
-															name="password" required
-															placeholder="Enter your Password" />
+														<span class="input-group-addon">
+															<i class="fa fa-lock fa-lg" aria-hidden="true"></i>
+														</span> 
+														<input type="password" id="pw" class="form-control-mypage"
+															name="password" required placeholder="Enter your Password" />
 													</div>
 												</div>
 											</div>
 
 											<div class="form-group">
-												<label for="confirm" class="cols-sm-2 control-label">Confirm
-													Password</label>
+												<label for="confirm" class="cols-sm-2 control-label">Confirm Password</label>
 												<div class="cols-sm-10">
 													<div class="input-group">
-														<span class="input-group-addon"><i
-															class="fa fa-lock fa-lg" aria-hidden="true"></i></span> <input
-															type="password" id="pwcheck" class="form-control"
+														<span class="input-group-addon">
+															<i class="fa fa-lock fa-lg" aria-hidden="true"></i>
+														</span> 
+														<input type="password" id="pwcheck" class="form-control-mypage"
 															name="pwcheck" onkeyup="checkPwd()" required
 															placeholder="Confirm your Password" />
 													</div>
 												</div>
 											</div>
 											<div class="form-group ">
-												<input id="submit" type="submit"
-													class="btn btn-primary btn-lg btn-block login-button">
+												<input id="submit" type="submit" class="btn btn-primary btn-lg btn-block login-button">
 											</div>
 										</form>
 										<div id="checkPwd"></div>
@@ -308,7 +299,6 @@
 								</div>
 								<button type="button" onclick="modalCancel();" class="cancelbtn">Cancel</button>
 							</div>
-
 						</div>
 					</div>
 				</c:if>
@@ -327,7 +317,7 @@
 									<div class="panel-heading">
 										<div class="panel-title text-center">
 											<h1 class="title">회원정보 수정</h1>
-											<hr />
+											<hr/>
 										</div>
 									</div>
 									<!-- 비밀번호 확인후 출력 -->
@@ -337,15 +327,13 @@
 											<input type="hidden" name="action" value="UpInfo">
 											<div class="avatar-upload">
 												<div class="avatar-edit">
-													<input type='file' id="imageUpload" name="image"
-														accept=".png, .jpg, .jpeg" /> <label for="imageUpload"></label>
+													<input type='file' id="imageUpload" name="image" accept=".png, .jpg, .jpeg"/> 
+													<label for="imageUpload"></label>
 												</div>
 												<div class="avatar-preview">
 													<c:if test="${!empty info.image_path}">
 														<c:if test="${fn:contains(info.image_path,'https://')}">
-															<div id="imagePreview"
-																style="background-image: url('${info.image_path}');">
-															</div>
+															<div id="imagePreview" style="background-image: url('${info.image_path}');"></div>
 														</c:if>
 														<c:if test="${!fn:contains(info.image_path,'https://')}">
 															<div id="imagePreview"
@@ -361,43 +349,40 @@
 												</div>
 											</div>
 											<div class="form-group">
-												<label for="email" class="cols-sm-2 control-label">Your
-													Email</label>
+												<label for="email" class="cols-sm-2 control-label">Your Email</label>
 												<div class="cols-sm-10">
 													<div class="input-group">
 														<span class="input-group-addon"><i
-															class="fa fa-envelope fa" aria-hidden="true"></i></span> <input
-															type="text" class="form-control" value="${info.email}"
+															class="fa fa-envelope fa" aria-hidden="true"></i>
+														</span> 
+														<input type="text" class="form-control-mypage" value="${info.email}"
 															name="email" required placeholder="Enter your Email" />
 													</div>
 												</div>
 											</div>
 											<div class="form-group">
-												<label for="birth" class="cols-sm-2 control-label">Your
-													Birth</label>
+												<label for="birth" class="cols-sm-2 control-label">Your Birth</label>
 												<div class="cols-sm-10">
 													<div class="input-group">
-														<span class="input-group-addon"><i
-															class="fa fa-user fa" aria-hidden="true"></i></span> <input
-															type="date" class="form-control" name="birth"
+														<span class="input-group-addon">
+															<i class="fa fa-user fa" aria-hidden="true"></i>
+														</span> 
+														<input type="date" class="form-control-mypage" name="birth"
 															value="${info.birth}" required />
 													</div>
 												</div>
 											</div>
 											<div class="form-group">
-												<label for="confirm" class="cols-sm-2 control-label">your
-													comment</label>
+												<label for="confirm" class="cols-sm-2 control-label">your comment</label>
 												<div class="cols-sm-10">
 													<div class="input-group">
-
 														<textarea style="margin: 8px;" rows="10" cols="30"
 															name="my_words" placeholder="코멘트를 남겨주세요!">${info.my_words}</textarea>
 													</div>
 												</div>
 											</div>
 											<div class="form-group ">
-												<input id="submit" type="submit"
-													class="btn btn-primary btn-lg btn-block login-button">
+												<input id="submit" type="submit" class="btn btn-primary btn-lg btn-block login-button">
 											</div>
 											<hr>
 										</form>
@@ -405,10 +390,8 @@
 								</div>
 								<button type="button" onclick="modalCancel();" class="cancelbtn">Cancel</button>
 							</div>
-
 						</div>
 					</div>
-
 				</c:if>
 			</nav>
 			<!-- 버킷 리스트 START -->
@@ -417,17 +400,19 @@
 					<legend>마이 버킷</legend>
 					<table id="table2">
 						<tr>
-							<td><c:if test="${!empty perc}">
-									<div class="progress1">
-										<div class="progress progress-striped">
-											<div class="progress-bar progress-bar-danger"
-												role="progressbar" aria-valuenow="80" aria-valuemin="0"
-												aria-valuemax="100" style="width: ${perc}%">
-												<span>${perc}%</span>
-											</div>
+							<td>
+							<c:if test="${!empty perc}">
+								<div class="progress1">
+									<div class="progress progress-striped">
+										<div class="progress-bar progress-bar-danger"
+											role="progressbar" aria-valuenow="80" aria-valuemin="0"
+											aria-valuemax="100" style="width: ${perc}%">
+										<span>${perc}%</span>
 										</div>
 									</div>
-								</c:if></td>
+								</div>
+							</c:if>
+							</td>
 						</tr>
 
 						<tr>
@@ -443,18 +428,14 @@
 										</c:forEach>
 									</select>
 								</div>
-								<button onclick="modalOpen();" style="width: auto;">그룹
-									관리</button>
-								<br>
-							<br>
+								<button onclick="modalOpen();" style="width: auto;">그룹 관리</button>
+								<br><br>
 
 								<div id="id01" class="modal">
-
 									<form class="modal-content animate" action="/dalhada/mypage"
 										method="post">
 										<div class="imgcontainer">
-											<span onclick="modalCancel();" class="close"
-												title="Close Modal">×</span>
+											<span onclick="modalCancel();" class="close" title="Close Modal">×</span>
 										</div>
 
 										<div class="container1">
@@ -462,20 +443,17 @@
 
 											<c:forEach var="vo" items="${group}">
 												<div style="margin: 0px;">
-													<input type="text" class="groupModal" name="Group1"
-														value="${vo.name}"> <input type="hidden"
-														name="Groupnum" value="${vo.id}"> <input
-														type="hidden" name="oriGroup" value="${vo.name}">
+													<input type="text" class="groupModal" name="Group1" value="${vo.name}"> 
+													<input type="hidden" name="Groupnum" value="${vo.id}"> 
+													<input type="hidden" name="oriGroup" value="${vo.name}">
 													<button type="button" class="delGroup" value="${vo.id}">삭제</button>
 												</div>
 											</c:forEach>
 											<div style="margin: 0px;" id="plusGroup"></div>
-											<img style="widows: 20px; height: 20px;"
-												onclick="plusGroup();"
+											<img style="widows: 20px; height: 20px;" onclick="plusGroup();"
 												src="http://localhost:8000/dalhada/resources/images/plus.png"><br>
 											<button type="submit">확인</button>
-											<button type="button" onclick="modalCancel();"
-												class="cancelbtn">Cancel</button>
+											<button type="button" onclick="modalCancel();" class="cancelbtn">Cancel</button>
 										</div>
 									</form>
 								</div>
@@ -490,7 +468,6 @@
 						</tr>
 						<tr>
 							<td>
-
 								<table id="tableMenu">
 									<tr>
 										<th>삭제</th>
@@ -506,16 +483,13 @@
 												<table id="bucketTable">
 													<tr>
 													<tbody class="All">
-
 														<c:if test="${!empty listAll}">
 															<c:forEach var="vo1" items="${listAll}">
 																<tr>
-																	<td><input type="checkbox" name="box"
-																		value="${vo1.id}"></td>
+																	<td><input type="checkbox" name="box" value="${vo1.id}"></td>
 																	<td class="js-show-modal-bucket" id="${vo1.id}">${vo1.title}</td>
 																	<td>${vo1.d_day}</td>
-																	<td><button type="button"
-																			id="${vo.selectedbucket_id}"
+																	<td><button type="button" id="${vo1.id}"
 																			class="js-show-modal-edit">수정</button></td>
 																</tr>
 															</c:forEach>
@@ -525,12 +499,10 @@
 														<c:if test="${!empty listProg}">
 															<c:forEach var="vo1" items="${listProg}">
 																<tr>
-																	<td><input type="checkbox" name="box"
-																		value="${vo1.id}"></td>
-																	<td id="${vo.selectedbucket_id }"
-																		class="js-show-modal-bucket">${vo1.title}</td>
+																	<td><input type="checkbox" name="box" value="${vo1.id}"></td>
+																	<td id="${vo1.id}" class="js-show-modal-bucket">${vo1.title}</td>
 																	<td>${vo1.d_day}</td>
-																	<td><button onclick="location.href=''">수정</button></td>
+																	<td><button class="js-show-modal-edit" id="${vo1.id}">수정</button></td>
 																	<td><button value="${vo1.id}" name="comp">완료하기</button></td>
 																</tr>
 															</c:forEach>
@@ -540,15 +512,11 @@
 													<tbody class="Done" style="display: none">
 														<c:if test="${!empty listDone}">
 															<c:forEach var="vo1" items="${listDone}">
-
 																<tr>
-																	<td><input type="checkbox" name="box"
-																		value="${vo1.id}"></td>
-																	<td
-																		onclick="location.href='http://localhost:8000/dalhada/detail?id=${vo1.id}'">${vo1.title}</td>
+																	<td><input type="checkbox" name="box" value="${vo1.id}"></td>
+																	<td class="js-show-modal-bucket" id="${vo1.id}">${vo1.title}</td>
 																	<td>${vo1.d_day}</td>
-																	<td><button
-																			onclick="location.href='http://localhost:8000/dalhada/loginmain'">수정</button></td>
+																	<td><button class="js-show-modal-edit" id="${vo1.id}">수정</button></td>
 																</tr>
 															</c:forEach>
 														</c:if>
@@ -600,6 +568,20 @@
 	<script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
 		integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
 		crossorigin=""></script>
+	<!--===============================================================================================-->
+	<script src="vendor/MagnificPopup/jquery.magnific-popup.min.js"></script>
+	<script>
+		$('.gallery-lb').each(function() { // the containers for all your galleries
+			$(this).magnificPopup({
+		        delegate: 'a', // the selector for gallery item
+		        type: 'image',
+		        gallery: {
+		        	enabled:true
+		        },
+		        mainClass: 'mfp-fade'
+		    });
+		});
+	</script>
 	<!--===============================================================================================-->
 	<script src="js/main.js"></script>
 	<script src="js/mypage.js"></script>
