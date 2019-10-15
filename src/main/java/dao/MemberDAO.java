@@ -1,7 +1,5 @@
 package dao;
 
-import java.util.HashMap;
-
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -23,12 +21,9 @@ public class MemberDAO {
 		return session.selectOne(statement,id);
 	}	
 	
-	public MemberinfoVO checklogin(String id, String password) {
+	public MemberinfoVO checklogin(String id) {
 		String statement= "resource.MemberMapper.login";
-		HashMap<String, String> map = new HashMap<String,String>();
-		map.put("id", id);
-		map.put("password", password);
-		return session.selectOne(statement,map);
+		return session.selectOne(statement,id);
 	}	
 		
 }

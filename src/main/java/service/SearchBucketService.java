@@ -41,7 +41,7 @@ public class SearchBucketService {
 	public List<TagInfoVO> selectTagName() {
 		return dao.selectTagName();
 	}
-	
+	/*
 	//그룹명 찾기
 	public List<GroupVO> selectGroupName(String id) {
 		return dao.selectGroupName(id);
@@ -58,7 +58,7 @@ public class SearchBucketService {
 	}	
 	
 	//가져온 버킷을 selectedbucket에 저장
-	/*public boolean insertSelectedBucket(BucketVO vo) {
+	public boolean insertSelectedBucket(BucketVO vo) {
 		return dao.insertSelectedBucket(vo);
 	}*/
 	

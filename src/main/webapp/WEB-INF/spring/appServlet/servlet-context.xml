@@ -20,7 +20,6 @@
 	<resources mapping="/js/**" location="/resources/js/" />
 	<resources mapping="/vendor/**" location="/resources/vendor/" />
 	<resources mapping="/bucket/**" location="/resources/images/bucket/" />
-	<!-- <resources mapping="/profile/**" location="/resources/images/profile/" /> -->
 
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -36,6 +35,7 @@
 	<context:component-scan base-package="dao"/>
 	<context:component-scan base-package="service"/>
 	<context:component-scan base-package="vo"/>
+	<context:component-scan base-package="service"/>
 	
 	
 	<beans:bean class="org.springframework.jdbc.datasource.DriverManagerDataSource" id="dataSource">
@@ -59,4 +59,6 @@
 		<beans:constructor-arg index="0"
 			ref="sqlSessionFactory"></beans:constructor-arg>
 	</beans:bean>
+	<beans:bean id="NaverLoginVO" class="vo.NaverLoginVO" />
+
 </beans:beans>

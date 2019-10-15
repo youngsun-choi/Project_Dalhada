@@ -6,18 +6,18 @@
 <mapper namespace="resource.SearchBucketMapper">
 	<!-- 제목검색결과 수 -->
 	<select id="totalTitleCnt" parameterType="vo.SearchBucketVO" resultType="int">
-		select count(*) from selectedbucket where title like '%'||#{searchKeyword}||'%'
+		select count(*) from selectedbucket where title like #{searchKeyword}||'%'
 	</select>
 
 	<!-- 제목검색 -->
  	<select id="searchTitle" parameterType="vo.SearchBucketVO"  resultType="vo.BucketVO">
- 		select bucket_id, selectedbucket_id, image_path, title, 
+ 		select bucket_id, sb.id selectedbucket_id, image_path, title, 
  			(select count(*)
 			from likeinfo li
-			where li.member_id = #{member_id} and li.bucket_id = selectedbucket_id) islike 
- 		from (select bi.id bucket_id, sb.id selectedbucket_id, bi.image_path image_path, sb.title title, rownum rnum 
+			where li.member_id = #{member_id} and li.selectedbucket_id = sb.id) islike 
+ 		from (select bi.id bucket_id, sb.id, bi.image_path image_path, sb.title title, rownum rnum 
  			from bucketinfo bi, selectedbucket sb 
- 			where bi.id = sb.bucket_id and title like '%'||#{searchKeyword}||'%') sb
+ 			where bi.id = sb.bucket_id and title like #{searchKeyword}||'%') sb
  		where rnum between #{startRow} and #{endRow}
  	</select>
 	
@@ -29,11 +29,11 @@
 
 	<!-- 태그검색 -->
 	<select id="searchTag" parameterType="vo.SearchBucketVO"  resultType="vo.BucketVO">
-		select bucket_id, selectedbucket_id, image_path, title, 
+		select bucket_id, sb.id selectedbucket_id, image_path, title, 
 				(select count(*)
 				from likeinfo li
-				where li.member_id = #{member_id} and li.bucket_id = selectedbucket_id) islike
-		from(select bi.id bucket_id, sb.id selectedbucket_id, 
+				where li.member_id = #{member_id} and li.selectedbucket_id = sb.id) islike
+		from (select bi.id bucket_id, sb.id, 
 				bi.image_path image_path, sb.title title, rownum rnum 
 			from bucketinfo bi, selectedbucket sb
 			where bi.id = sb.bucket_id and sb.id in (select st.bucket_id from selectedtag st, taginfo ti
@@ -45,41 +45,16 @@
 	<select id="selectTagName" resultType="vo.TagInfoVO">
 		select * from taginfo order by id
 	</select>
-	
-	<!-- 그룹명 찾기 -->
-	<select id="selectGroupName" parameterType="String" resultType="vo.GroupVO">
-		select DISTINCT name, gi.id group_id 
-		from groupinfo gi, selectedbucket sb 
-		where gi.member_id=#{member_id} order by name
+	<select id="selectTags" resultType="vo.StringIntVO">
+		select name, id
+		from taginfo 
 	</select>
 	
-	<!-- 블로그리뷰 -->
-	
-	<!-- 동영상 -->
-	
-	<!-- 가져오기 select -->
-	<select id="selectSelectedBucket" parameterType="int"  resultType="vo.BucketDetailVO">
- 		select bucket_id, title, content, address, lat, lng 
- 		from selectedbucket where id = #{selectedbucket_id} 
- 	</select>
- 	
- 	<!-- 선택된 태그 검색 -->
- 	<select id="selectSelectedTag" parameterType="int"  resultType="String">
- 		select tag_id
-		from selectedtag
-		where bucket_id = #{selectedbucket_id} order by tag_id
- 	</select>
- 	
-	<!-- 가져온 버킷을 selectedbucket에 저장 -->
-	<!-- 
-		select bucket_id, title, content, address, lat, lng 
- 		from selectedbucket where id = #{selectedbucket_id}  -->
-	<!-- <insert id="insertSelectedBucket" parameterType="vo.BucketVO">
-		<selectKey resultType="int" keyProperty="selectedbucket_seq.nextval" order="BEFORE">
-      		select selectedbucket_seq.nextval from dual     
-    	</selectKey> 
-		insert into selectedbucket(id,bucket_id,member_id,group_id,title,content,d_day,stat,address,lat,lng) 
-			select selectedbucket_seq.nextval, bucket_id,#{member_id},#{group_id},title,content,d_day,stat,address,lat,lng
-		from selectedbucket where bucket_id = #{bucket_id}
-	</insert> -->
+	<!-- 그룹명 찾기 -->
+	<select resultType="vo.StringIntVO" parameterType="String" id="selectGroupName"> 
+		select name, id 
+		from groupinfo 
+		where member_id=#{member_id}
+		order by name 
+	</select>
 </mapper>

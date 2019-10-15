@@ -4,6 +4,7 @@ import java.util.List;
 
 public class BucketDetailVO {
 	private int bucket_id;
+	private int selectedbucket_id;
 	private String title;
 	private String content;
 	private String address;
@@ -12,6 +13,8 @@ public class BucketDetailVO {
 	private String bucketImage_path;
 	private String profileImage_path;
 	private int like_cnt;
+	private int islike;
+	private String className;
 	private String get_member_id;
 	private String by_member_id;
 	private List<String> tags;
@@ -27,12 +30,6 @@ public class BucketDetailVO {
 	}
 	public void setContent(String content) {
 		this.content = content;
-	}
-	public String getAddress() {
-		return address;
-	}
-	public void setAddress(String address) {
-		this.address = address;
 	}
 	public float getLat() {
 		return lat;
@@ -91,11 +88,31 @@ public class BucketDetailVO {
 	public void setTags(List<String> tags) {
 		this.tags = tags;
 	}
-	@Override
-	public String toString() {
-		return "BucketDetailVO [bucket_id=" + bucket_id + ", title=" + title + ", content=" + content + ", address="
-				+ address + ", lat=" + lat + ", lng=" + lng + ", bucketImage_path=" + bucketImage_path
-				+ ", profileImage_path=" + profileImage_path + ", like_cnt=" + like_cnt + ", get_member_id="
-				+ get_member_id + ", by_member_id=" + by_member_id + ", tags=" + tags + "]";
+	public int getIslike() {
+		return islike;
+	}
+	public void setIsLike(int isLike) {
+		this.islike = isLike;
+	}
+	public String getClassName() {
+		return className;
+	}
+	public void setClassName(String className) {
+		this.className = className;
+	}
+	public void addClass() {
+		this.setClassName(islike==0?"":"js-addedlike"); 
+	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	public int getSelectedbucket_id() {
+		return selectedbucket_id;
+	}
+	public void setSelectedbucket_id(int selectedbucket_id) {
+		this.selectedbucket_id = selectedbucket_id;
 	}
 }

@@ -3,21 +3,27 @@ package com.spring.dalhada;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import service.AchieveService;
 import service.MypageService;
+import vo.AchieveVO;
 import vo.MemberinfoVO;
 import vo.MypageBucketVO;
 import vo.MypageVO;
@@ -28,6 +34,33 @@ public class MypageController {
 	@Autowired
 	MypageService service;
 	String id = null;
+	@Autowired
+	private AchieveService achieveService;
+
+
+	@RequestMapping(value = "/achieve")
+	public ModelAndView achieve(HttpSession session, @RequestParam(required=false) String age) {
+		ModelAndView mav = new ModelAndView();
+		String id = (String) session.getAttribute("id");
+		List<AchieveVO> achieveList = achieveService.selectCompleteBucket(id);
+		List<AchieveVO> selectedAchieveList = new ArrayList<AchieveVO>();
+		List<Integer> ageList = new ArrayList<Integer>();
+		int numAge = 0;
+		if(achieveList.size() != 0) {
+			numAge = (age != null) ? Integer.parseInt(age) : achieveList.get(0).getAge();
+			for(AchieveVO vo:achieveList) {
+				ageList.add(vo.getAge());
+				if(vo.getAge()==numAge)
+					selectedAchieveList.add(vo);
+			}
+			mav.addObject("ageList", ageList.stream().distinct().collect(Collectors.toList()));
+		}
+		mav.addObject("achieveList", selectedAchieveList);
+		mav.setViewName("achieve");
+		return mav;
+	}
+	
+	
 	@RequestMapping(value = "/mypage")
 	public ModelAndView get(MemberinfoVO vo, HttpSession session, HttpServletRequest request,MypageVO vo1) {
 		ModelAndView mav = new ModelAndView();
@@ -42,6 +75,8 @@ public class MypageController {
 				
 				if(vo1.getAction()!=null) { // 개인정보 수정
 				if(vo1.getAction().equals("UpCheck")) { // 비밀번호 수정
+					String hashPwd = BCrypt.hashpw(vo.getPassword(), BCrypt.gensalt());
+					vo.setPassword(hashPwd);
 					service.UpCheck(vo);
 					
 				}else if(vo1.getAction().equals("UpInfo")) { // 나머지 개인정보 수정
@@ -55,18 +90,18 @@ public class MypageController {
 					     mav.setViewName("login");
 					     try {
 					    	 
-					    	 File originFilepath = new File("C:/Seol/student/eclipse-workspace/dalhada/src/main/webapp/resources/images/profile/"+originFilename);
+					    	 File originFilepath = new File("C:/jjn/eclipse-workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/dalhada/resources/images/profile/"+originFilename);
 					    	 if(originFilepath.exists()) {
 					    		 originFilepath.delete();	 
 					    	 }
 					    	 
 					    	 content =  vo.getImage().getBytes();
-					    	 File f = new File("C:/Seol/student/eclipse-workspace/dalhada/src/main/webapp/resources/images/profile/"+fileName);			   
+					    	 File f = new File("C:/jjn/eclipse-workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/dalhada/resources/images/profile/"+fileName);			   
 					    		 FileOutputStream fos = new FileOutputStream(f);
 					    		 fos.write(content);
 					    		 fos.close();
 					    		 
-						    	 File newf = new File("C:/Seol/student/eclipse-workspace/dalhada/src/main/webapp/resources/images/profile/"+newName);
+						    	 File newf = new File("C:/jjn/eclipse-workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/dalhada/resources/images/profile/"+newName);
 						    	 if(f.exists())
 						    		 f.renameTo(newf);
 
@@ -104,14 +139,7 @@ public class MypageController {
 						service.delete(Integer.parseInt(vo1.getBox()[i]));
 					}
 				}
-				if(vo1.getComp()!=null) { // 버킷 완료버튼
-					map.put("member_id",  vo.getId());
-					map.put("id", Integer.parseInt(vo1.getComp()));
-					service.complete(map);
-				}
 			}
-			
-			
 
 			Map<String, Object> choose = new HashMap<String, Object>();
 			choose.put("id", id);
@@ -143,8 +171,7 @@ public class MypageController {
 			mav.addObject("group", service.groupList(id));
 			mav.setViewName("mypage");
 		} else {
-			mav.addObject("msg", "만료된 페이지입니다.");
-			mav.setViewName("login");
+			mav.setViewName("redirect:/loginmain");
 		}
 		return mav;
 	}
@@ -157,9 +184,22 @@ public class MypageController {
 		return "false";
 	}
 	
+	@RequestMapping(value = "/comp", method = RequestMethod.POST)
+	@ResponseBody
+	public String comp(String mid) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("member_id", id);
+		map.put("id", Integer.parseInt(mid));
+		if(service.complete(map)) {
+			return "true";
+		}return "false";
+	}
+	
 	@RequestMapping(value = "/Checkpw", method = RequestMethod.POST)
 	@ResponseBody
-	public String Checkpw() {
-		return service.Checkpw(id);
+	public String Checkpw(String password) {
+		if (BCrypt.checkpw(password, service.Checkpw(id))) {
+			return "true";
+		}else return "false";
 	}
 }

@@ -83,7 +83,5 @@ public class MypageService {
 				return true;
 			}
 			return false;
-		
-		
 	}
 }
