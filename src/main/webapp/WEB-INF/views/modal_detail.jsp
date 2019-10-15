@@ -2,7 +2,8 @@
     pageEncoding="UTF-8"%>
     
 <!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="vendor/MagnificPopup/magnific-popup.css">
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/0.6.10/css/perfect-scrollbar.css">
+	
 	<!-- Detail Modal -->
 	<div class="wrap-modal-bucket js-modal-bucket p-t-60 p-b-20">
 		<div class="overlay-modal js-hide-modal-bucket"></div>
@@ -15,21 +16,23 @@
 
 				<div class="row">
 					<div id="left" class="col-md-6">
-						<div class="p-l-25 p-r-30 p-lr-0-lg">
+						<div class="p-l-25 p-r-30 p-lr-0-lg ">
 							<div class="wrap-slick3 flex-sb flex-w">
-								<h4 id="bucket_title"class="ltext-107 cl2 p-b-14"></h4>
+								<h4 id="bucket_title"class="ltext-107 cl2 p-b-14 wid-80pc"></h4>
 								<div id="get_member_id" class="stext-108 cl3 m-tb-3"></div>
-								<div class="gallery-lb">
-									<div class="pos-relative txt-center">
+								<div class="gallery-lb wid_full">
+									<div class="pos-relative txt-center ">
 										<img class="modal_image" id="detail_image" alt="IMG-PRODUCT">
 										<a id="modal_image_expand" class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04" >
 											<i class="fa fa-expand"></i>
 										</a>
 									</div>
 								</div>
-								<div id="by_member_id" class="stext-108 cl3 m-tb-3"></div>
+								<div id="by_member_id" class="stext-108 cl3"></div>
 							</div>
-							<div id="bucket_content" class="mtext-110 cl3 m-tb-20"></div>
+							<div class="mtext-104 cl3 m-t-10 m-b-15 wid-95pc detail_content">
+								<span id="bucket_content"></span>
+							</div>
 							<div class="flex-m p-r-10 m-r-11 cl3">
 								<a class="modal_heart fs-23 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addlike tooltip100" data-tooltip="Add to Like">
 									<i class="zmdi zmdi-favorite"></i>
@@ -46,8 +49,8 @@
 						<div class="p-r-50 p-t-5 p-lr-0-lg">
 							<div class="stext-102 cl3 p-t-40">태그</div>
 							<div id="detail_tags" class="flex-w p-t-4 m-r--5"></div>
-			                <div class="stext-102 cl3 p-t-10">위치</div>
-			                <div id="bucket_content" class="mtext-110 cl3 p-t-23 p-b-23"></div>
+			                <div class="stext-102 cl3 p-t-15">위치</div>
+			                <div id="detail_address" class="mtext-110 cl3 p-t-10 p-b-10"></div>
 						    <div id="mapid_detail" class="hei-350px wid-90pc"></div>
 						</div>
 							<!--  -->

@@ -36,7 +36,7 @@
 			                <input id="get-location"type="text" class="form-control wid-50pc dis-inline" placeholder="위치">
 			                <button class="js-show-location-get button-map cl13 bg0 btn-bd dis-inline" >위치보기</button>
 		                	<div id="mapid_get" class="hei-300px wid-90pc"></div>
-			                <div class="get-warntest"></div>
+			                <div id="get-warntest" class="cl14"></div>
 							<div class="txt-center">
 								<input type="hidden" id="bucket_id"/>
 	       						<button id="get-submit" class="button-modal cl0 bg10">가져오기</button>

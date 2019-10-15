@@ -1728,15 +1728,25 @@ input.num-product::-webkit-inner-spin-button {
   visibility: hidden;
   opacity: 0;
 }
+
 .modal_image{
 	width: 90%;
 }
 .createimage{
 	width: 70%;
 }
-/*map*/
+/*length*/
+.wid_full{
+	width: 100%;
+}
 .wid-90pc{
 	width: 90%;
+}
+.wid-95pc{
+	width: 95%;
+}
+.wid-80pc{
+	width: 80%;
 }
 .wid-50pc{
 	width: 50%;
@@ -1764,19 +1774,6 @@ input.num-product::-webkit-inner-spin-button {
 }
 
 .btn-bd {border: 1px solid #071f4c;}
-
-.button-map{
-  border: 1px solid #071f4c;
-  text-align: center;
-  text-decoration: none;
-  cursor: pointer;
-  border-radius: 18px;
-  margin: 5px;
-  width: 70px;
-  height: 40px;
-  font-size: 17px;
-  display: inline;
-}
 /*file*/
 .file-btn{
 	background-color: #fff;
@@ -1796,6 +1793,26 @@ input.num-product::-webkit-inner-spin-button {
 	color: #071f4c;
 	border: 1px solid #071f4c;
   	border-radius: 15px;
+}
+
+.detail_content{
+	height: 80px;
+    position: relative;
+    overflow: auto;
+    display: block;
+    overflow: x-hidden;
+    margin-left: auto;
+	margin-right: auto;
+}
+.ps-theme-mytheme > .ps-scrollbar-y-rail {
+    display: none;
+    position: absolute;
+    border-radius: 4px;
+    opacity: 0;
+    -webkit-transition: background-color .2s linear, opacity .2s linear;
+    transition: background-color .2s linear, opacity .2s linear;
+    right: 1px;
+    width: 8px;
 }
 /*//////////////////////////////////////////////////////////////////
 [ Block1 ]*/

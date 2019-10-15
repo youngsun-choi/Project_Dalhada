@@ -34,9 +34,8 @@
 		                <input id="edit-d-day" class="d-day" type="text" name="date" placeholder="Select Date.." data-input>
 		                <div class="stext-102 cl3 p-t-10">위치</div>
 		                <input id="edit-location"type="text" class="form-control wid-50pc dis-inline" placeholder="위치">
-		                <button class="js-show-location-edit button-map cl13 bg0 btn-bd dis-inline" >위치보기</button>
 		                <div id="mapid_edit" class="hei-300px wid-90pc"></div>
-		                <div class="edit-warntest cl14"></div>
+		                <div id="edit-warntest" class="cl14"></div>
 						<div class="txt-center">
 							<input type="hidden" id="editedbucket_id"/>
 	      						<button id="edit-submit" class="button-modal cl0 bg10">수정</button>

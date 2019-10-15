@@ -62,7 +62,7 @@ table{
 }
 
 fieldset button{
-	font-family: Do Hyeon;
+  font-family: Do Hyeon;
   font-size: 17px;
   padding: 10px 20px;
   text-align: center;
@@ -115,9 +115,6 @@ fieldset button{
 	color: #fff;
 	text-align: center;
 	background-color: #00ccff;
-
-	
- 
 }
 .progress-striped .progress-bar {
 			background-image: -webkit-linear-gradient(45deg,rgba(255,255,255,.15) 25%,transparent 25%,transparent 50%,rgba(255,255,255,.15) 50%,rgba(255,255,255,.15) 75%,transparent 75%,transparent);

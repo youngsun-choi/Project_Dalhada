@@ -36,6 +36,12 @@ public class BucketDAO {
 		list = session.selectList(statement, member_id);
 		return list;
 	}
+	public List<BucketVO> selectSimilarBucket(String member_id){
+		List<BucketVO> list = new ArrayList<BucketVO>();
+		String statement = "resource.BucketMapper.selectSimilarBucket";
+		list = session.selectList(statement, member_id);
+		return list;
+	}
 	public int insertLikeInfo(LikeInfoVO vo) {
 		String statement = "resource.BucketMapper.insertLike";
 		return session.update(statement, vo);
@@ -45,6 +51,10 @@ public class BucketDAO {
 		String statement = "resource.BucketMapper.deleteLike";
 		result = session.delete(statement, vo);
 		return result;
+	}
+	public int countLike(int selectedbucket_id) {
+		String statement = "resource.BucketMapper.countLike";
+		return session.selectOne(statement, selectedbucket_id);
 	}
 	public List<StringIntVO> selectGroups(String member_id) {
 		String statement = "resource.SearchBucketMapper.selectGroupName";

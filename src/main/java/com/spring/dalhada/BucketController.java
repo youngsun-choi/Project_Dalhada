@@ -52,9 +52,9 @@ public class BucketController {
 		List<BucketLists> list = new ArrayList<BucketLists>();
 		list.add(new BucketLists("좋아요순 버킷", bucketservice.selectTOPBucket(member_id)));
 		if(member_id!=null) {
-			list.add(new BucketLists("사람들이 많이 선택하는 태그들", bucketservice.selectTagBucket(member_id)));
+			list.add(new BucketLists("내가 가져온 버킷을 만든 유저들의 버킷", bucketservice.selectSimilarBucket(member_id)));
 		}else {
-			
+			list.add(new BucketLists("많이 선택된 태그가 포함된 버킷", bucketservice.selectTagBucket(member_id)));
 		}
 		mav.addObject("lists", list);
 		mav.setViewName("main");
@@ -121,13 +121,13 @@ public class BucketController {
 
 	@RequestMapping(value="/createbucket")
 	@ResponseBody
-	public String createbucket(HttpSession session, InsertedBucketVO vo, @RequestParam(value="g_id")String g_id,
+	public String createbucket(HttpSession session, InsertedBucketVO vo,
 			@RequestParam(value="taglist")List<String> taglist, @RequestParam("file") MultipartFile file) {
 		String fileName = file.getOriginalFilename(), filePath, result = "success";
 		String member_id = (String) session.getAttribute("id");
+		
 		vo.setMember_id(member_id);
 		vo.setTag_id(taglist);
-		vo.setGroup_id(Integer.parseInt(g_id));
 		vo.setImage_path("_"+fileName);
 		filePath = bucketservice.insertBucket(vo);
 		byte[] image = null;
@@ -154,10 +154,9 @@ public class BucketController {
 	}
 	@RequestMapping(value="/updatebucket")
 	@ResponseBody
-	public String updatebucket(HttpSession session, UpdatedBucketVO vo, @RequestParam(value="g_id")String g_id) {	
+	public String updatebucket(HttpSession session, UpdatedBucketVO vo) {	
 		String member_id = (String) session.getAttribute("id"), result = "success";
 		vo.setMember_id(member_id);
-		vo.setGroup_id(Integer.parseInt(g_id));
 		if(bucketservice.updateBucket(vo) < 1) result = "error";
 		return result;
 	}

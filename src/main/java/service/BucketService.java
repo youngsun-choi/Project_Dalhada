@@ -33,12 +33,21 @@ public class BucketService {
 		}
 		return list;
 	}
+	public List<BucketVO> selectSimilarBucket(String member_id) {
+		List<BucketVO> list = bucketdao.selectSimilarBucket(member_id);
+		for(BucketVO vo: list) {
+			vo.addClass();
+		}
+		return list;
+	}
 	public int insertLikeInfo(LikeInfoVO vo) {
-		return bucketdao.insertLikeInfo(vo);
+		bucketdao.insertLikeInfo(vo);
+		return bucketdao.countLike(vo.getSelectedbucket_id());
 	}
 
 	public int deleteLikeInfo(LikeInfoVO vo) {
-		return bucketdao.deleteLikeInfo(vo);
+		bucketdao.deleteLikeInfo(vo);
+		return bucketdao.countLike(vo.getSelectedbucket_id());
 	}
 
 	public BucketDetailVO selectDetail(StringIntVO map) {

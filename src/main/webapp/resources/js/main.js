@@ -106,9 +106,7 @@
             });
                 
         }
-    });   
-    /*==================================================================
-    [ Login ]*/   
+    });     
 
     /*==================================================================
     [ Isotope ]*/
@@ -166,7 +164,6 @@
     $('.js-show-search').on('click',function(){
         $(this).toggleClass('show-search');
         $('.panel-search').slideToggle(400);
-alret("search")
         if($('.js-show-filter').hasClass('show-filter')) {
             $('.js-show-filter').removeClass('show-filter');
             $('.panel-filter').slideUp(400);
@@ -189,7 +186,7 @@ alret("search")
 					url: "main/like",
 	                type: "POST",
 	                data: {
-	                    selectedbucket_id : $(this).attr("id"),
+	                    selectedbucket_id : $(this).attr('data-id'),
 	                    action : action
 	                },
 	                success: function (data) {
@@ -244,14 +241,13 @@ alret("search")
     
     /*==================================================================
     [ Show detail modal ]*/
+    var map_detail;
     $('.js-show-modal-bucket').on('click',function(e){
         e.preventDefault();
-        var mymap;
         $.ajax({
 			url: "main/modaldetail",
             type: "POST",
-            data: {"selectedbucket_id": $(this).attr('id')}
-            ,
+            data: {"selectedbucket_id": $(this).attr('data-id')},
             success: function (data) {
             	$('#bucket_title').html(data.title);
             	$('#get_member_id').html("<a>"+data.get_member_id+"</a>"+"'s");
@@ -259,24 +255,31 @@ alret("search")
             	$('#detail_image').attr("src", "images/bucket/"+data.bucketImage_path);
             	$('#modal_image_expand').attr("href", "images/bucket/"+data.bucketImage_path);
             	$('#bucket_content').text(data.content);
+            	$('.detail_content').perfectScrollbar({theme: 'mytheme'});
+            	$('#detail_address').html(data.address);
             	var tags = data.tags;
             	var tagdom = $('#detail_tags');
             	tagdom.html("");
             	for(var i=0; i<tags.length; i++)
             		tagdom.append('<button type="button" class="modal-tag modal-tag-detail flex-c-m stext-107 size-301 p-lr-15 trans-04 m-r-5 m-b-5">#'+tags[i]+'</button>');
-            	if (mymap) mymap.remove();
             	$('#detail_address').html(data.address);
-            	mymap = L.map('mapid_detail').setView([data.lat, data.lng], 14);
+            	var flag = data.lat+data.lng!=0?true:false;
+            	var latlng = flag?[data.lat, data.lng]:[37.566, 126.978];
+            	map_detail = L.map('mapid_detail').setView(latlng, 13);
         		L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
         			maxZoom: 18,
         			attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
         				'<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
         				'Imagery <a href="https://www.mapbox.com/">Mapbox</a>',
         			id: 'mapbox.streets'
-        		}).addTo(mymap);
-            	$('.modal_get_btn').attr("data-id", data.bucket_id).attr("id", data.selectedbucket_id);
-            	$('.modal_heart').attr("id", data.selectedbucket_id).addClass(data.className).on('click', function(){
+        		}).addTo(map_detail);
+        		if(flag)
+        			L.marker([data.lat, data.lng], {icon: L.icon({iconUrl: 'images/flag.svg', iconSize: [35,35]})}).addTo(map_detail);
+            	
+        		$('.modal_get_btn').attr("data-id", data.bucket_id).attr("data-value", data.selectedbucket_id);
+            	$('.modal_heart').attr("data-id", data.selectedbucket_id).addClass(data.className).on('click', function(){
     				var action;
+    				var cnt = $('#likecnt').text();
     				if($(this).hasClass('js-addedlike')){
     					$(this).removeClass('js-addedlike');
     					action = "delete";
@@ -288,15 +291,15 @@ alret("search")
     					url: "main/like",
     	                type: "POST",
     	                data: {
-    	                    selectedbucket_id : $(this).attr("id"),
+    	                    selectedbucket_id : $(this).attr('data-id'),
     	                    action : action
     	                },
     	                success: function (data) {
+    	                	$('#likecnt').text(data);
     	                	if(data==-1)
     	                		window.location.href = "loginmain";
     	                }
     				})
-    				
     			});;
             	$('#likecnt').text(data.like_cnt);
             }
@@ -305,23 +308,24 @@ alret("search")
         $('.js-modal-bucket').addClass('show-modal-bucket');
     });
     $('.js-hide-modal-bucket').on('click',function(){
+    	map_detail.remove();
         $('.js-modal-bucket').removeClass('show-modal-bucket');
-        
+        if($('.modal_heart').hasClass('js-addedlike')){
+        	$('.modal_heart').removeClass('js-addedlike');
+        	$('#heart'+$('.modal_heart').attr('data-id')).addClass('js-addedlike');
+        }else{
+        	$('#heart'+$('.modal_heart').attr('data-id')).removeClass('js-addedlike');
+        }
+        $('.modal_heart').off();
     }); 
     
     /*==================================================================
     [ Show create modal ]*/
 	var map_create;
+	var lat = 0.0;
+	var lng = 0.0;
     $('.js-show-modal-create').on('click',function(e){ 	
     	e.preventDefault();
-    	map_create = L.map('mapid_create').setView([37.566, 126.978], 14);
-		L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
-			maxZoom: 18,
-			attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
-				'<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-				'Imagery <a href="https://www.mapbox.com/">Mapbox</a>',
-			id: 'mapbox.streets'
-		}).addTo(map_create);
 	    $.ajax({
 	    	url: "main/getgrouptag",
 	        type: "POST",
@@ -340,26 +344,25 @@ alret("search")
 	           	$("#create-d-day").flatpickr({
         		    dateFormat: "Y.m.d"
         		});
-	           	$('.js-show-location-create').on('click', function(e){
-	           		var address = $('#create-location').val();
-					if (address) {
-						$.getJSON("https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyD-nx_y7aBlJgfgVZRaIwMbnShQJsxpryY&address="
-								+ encodeURIComponent(address), function(data) {
-							console.log(data);
-							lat = data.results[0].geometry.location.lat;
-							lng = data.results[0].geometry.location.lng;
-							map_create = L.map('mapid').setView([ lat, lng ], 16)
-							L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw',
-										{maxZoom : 18, attribution : 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, '
-										+ '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, '
-										+ 'Imagery <a href="https://www.mapbox.com/">Mapbox</a>', id : 'mapbox.streets'
-									}).addTo(map_create);
-							L.marker([ lat, lng ]).addTo(map_create);
-							});
-					} else {
-						
-					}
-	           	})
+	           	map_create = L.map('mapid_create').setView([37.566, 126.978], 14);
+	    		L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+	    			maxZoom: 18,
+	    			attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+	    				'<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+	    				'Imagery <a href="https://www.mapbox.com/">Mapbox</a>',
+	    			id: 'mapbox.streets'
+	    		}).addTo(map_create);
+	    		var popup = L.popup().setLatLng([37.566, 126.978]).setContent("지도에서 장소를 선택해보세요.").openOn(map_create);
+	    		
+	    		var marker;
+	    		map_create.on('click', function(e){
+	    			if(popup) popup.remove();
+	    			if(marker) marker.remove();
+	    			var latlng = e.latlng;
+	    			lat = latlng.lat;
+	    			lng = latlng.lng;
+	    			marker = L.marker([lat, lng], {icon: L.icon({iconUrl: 'images/flag.svg', iconSize: [35,35]})}).addTo(map_create);  			
+	    		})
 	           },
 	           error : function(){
 	           	console.log("error");
@@ -378,33 +381,36 @@ alret("search")
     $('#create-submit').click(function(){
     	var title = $("#create-title").val();
     	var file = $('#input_image')[0].files[0];
-    	var content =  $("#create_content").val();	
-    	console.log(file);
+    	var content =  $("#create_content").val();	 
 		var list = [];
     	$("#create-tag-dom .modal-tag-click").each(function(i){list.push($(this).val());})
     	
     	var msg = '';
-    	if(list.length==0)
-    		msg +="태그를 지정해주세요.\n"
-    	if(title=='')
-    		msg += "제목 ";
     	if(file == undefined)
     		msg += "사진 ";
+    	if(title=='')
+    		msg += "제목 ";
     	if(content == "")
     		msg += "내용 ";
+    	if(msg.length!=0)
+    		msg += "이 비어있습니다."
+    	if(list.length==0)
+    		msg +="태그를 지정해주세요.\n"
     	
     	if(msg.length!=0)
-    		$(".create-warntest").text(msg+"이 비어있습니다\n");
+    		$(".create-warntest").text(msg);
     	else{
     		var formData = new FormData();
         	formData.append("title", title);
         	formData.append("content", content);
         	formData.append("taglist", list);
         	formData.append("file", file);
-        	formData.append("g_id", $("#create-groups-dom").val());
+        	formData.append("group_id", parseInt($("#create-groups-dom").val()));
         	formData.append("d_day", $("#create-d-day").val());
-        	formData.append("address", $("#create_address").val());
-			$.ajax({
+        	formData.append("address", $("#create-location").val());
+			formData.append("lat", parseFloat(lat));
+			formData.append("lng", parseFloat(lng));
+        	$.ajax({
 				url: "createbucket",
 				type:"post",
 				processData: false,
@@ -412,12 +418,12 @@ alret("search")
 				data: formData,
 				sucess : function(){
 					$('.js-modal-create').removeClass('show-modal-create');
-					location.reload();
 				},
 				complete : function(){
 					clear_createForm();
 					map_create.remove();
 					$('.js-modal-create').removeClass('show-modal-create');
+					window.location.reload(true);
 				}
 			});
     	}
@@ -427,8 +433,8 @@ alret("search")
     [ Show edit modal ]*/
     $('.js-show-modal-edit').on('click',function(e){ 	
     	e.preventDefault();
-    	var id = $(this).attr('id')
-	        $.ajax({// 제목 이미지path 내용 태그(전부/버킷's) 그룹(전부/버킷's) 날짜 위도 경도
+    	var id = $(this).attr('data-id');
+	        $.ajax({
 				url: "main/geteditinfo",
 	            type: "POST",
 	            data: {"selectedbucket_id": id},
@@ -479,30 +485,32 @@ alret("search")
     	$("#edit-tag-dom .modal-tag-click").each(function(i){list.push($(this).val());})
     	
     	var msg = '';
-    	if(list.length==0)
-    		msg +="태그를 지정해주세요.\n"
+    	
     	if(title=='')
     		msg += "제목 ";
     	if(content == "")
     		msg += "내용 ";
-    	
     	if(msg.length!=0)
-    		$(".edit-warntest").text(msg+"이 비어있습니다.");
+    		msg += "이 비어있습니다."
+    	if(list.length==0)
+    		msg +="태그를 지정해주세요.\n"
+    			
+    	if(msg.length!=0)
+    		$("#edit-warntest").text(msg);
     	else{
     		var formData = new FormData();
     		formData.append("selectedbucket_id", $("#editedbucket_id").val());
         	formData.append("title", title);
         	formData.append("content", content);
         	formData.append("taglist", list);
-        	formData.append("g_id", $("#edit-groups-dom").val());
+        	formData.append("group_id", parseInt($("#edit-groups-dom").val()));
         	formData.append("d_day", $("#edit-d-day").val());
 			$.ajax({
 				url: "updatebucket",
 				type:"post",
 				processData: false,
                 contentType: false,
-				data: formData
-				,
+				data: formData,
 				complete : function(){
 					$('.js-modal-edit').removeClass('show-modal-edit');
 					clear_form('#edit');
@@ -518,7 +526,7 @@ alret("search")
 	        $.ajax({// 제목 이미지path 내용 태그(전부/버킷's) 그룹(전부/버킷's) 날짜 위도 경도
 				url: "main/geteditinfo",
 	            type: "POST",
-	            data: {"selectedbucket_id": $(this).attr('id')}
+	            data: {"selectedbucket_id": $(this).attr('data-value')}
 	            ,
 	            success: function (data) {
 	            	var group_list = data.group_list;
@@ -567,33 +575,35 @@ alret("search")
     	$("#get-tag-dom .modal-tag-click").each(function(i){list.push($(this).val());})
     	
     	var msg = '';
-    	if(list.length==0)
-    		msg+="태그를 지정해주세요.\n"
     	if(title=='')
     		msg += "제목 ";
     	if(content == "")
     		msg += "내용 ";
-    	
     	if(msg.length!=0)
-    		$(".get-warntest").text(msg+"이 비어있습니다\n");
+    		msg += "이 비어있습니다."
+    	if(list.length==0)
+    		msg +="태그를 지정해주세요.\n"
+    			
+    	if(msg.length!=0)
+    		$("#get-warntest").text(msg);
     	else{
     		var formData = new FormData();
-    		formData.append("bucket_id", $("#bucket_id").val());
+    		formData.append("selectedbucket_id", parseInt($("#bucket_id").val()));
         	formData.append("title", title);
         	formData.append("content", content);
         	formData.append("tag_id", list);
-        	formData.append("g_id", $("#get-groups-dom").val());
+        	formData.append("group_id", parseInt($("#get-groups-dom").val()));
         	formData.append("d_day", $("#get-d-day").val());
 			$.ajax({
 				url: "insertgetbucket",
 				type:"post",
 				processData: false,
                 contentType: false,
-				data: formData
-				,
+				data: formData,
 				complete : function(){
 					$('.js-modal-get').removeClass('show-modal-get');
 					clear_form('#get');
+					window.location.reload(true);
 				}
 			});
     	}
@@ -604,13 +614,14 @@ var clear_createForm = function(){
 	$('#create-content').val('');
 	$('.createimage').attr("src", "https://mdbootstrap.com/img/Photos/Others/placeholder.jpg");
 	if((navigator.appName == 'Netscape' && navigator.userAgent.search('Trident') != -1)) {
-	 	$("#inputimage").replaceWith($("#inputimage").clone(true));
+	 	$("#input_image").replaceWith($("#input_image").clone(true));
 	} else {
-	   	$("#inputimage").val("");
+	   	$("#input_image").val("");
 	}
 	$('#create-groups-dom').html('');
 	$('#create-tag-dom').html('');
 	$('#create-d-day').val('');
+	$(".create-warntest").text("");
 }
 var clear_form = function(flag){
 	$(flag+'-groups-dom').html('');
@@ -618,6 +629,7 @@ var clear_form = function(flag){
 	$(flag+'-d-day').val('');
 	$(flag+'-tag-dom').html('');
 	$(flag+'-location').val('');
+	$(flag+"-warntest").text('');
 }
 var tag_click = function(tags){
 	tags.each(function(){

@@ -27,8 +27,6 @@
 	<link rel="stylesheet" type="text/css" href="vendor/slick/slick.css">
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="vendor/MagnificPopup/magnific-popup.css">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="vendor/perfect-scrollbar/perfect-scrollbar.css">
 <!--===============================================================================================-->	
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.2.3/flatpickr.css">
 <!--===============================================================================================-->
@@ -158,22 +156,22 @@
 									<div class="block2">
 										<div class="block2-wrap">
 											<a class="block2-img flex-c-m p-lr-15 trans-04">
-												<img id="${vo.selectedbucket_id }"  class="js-show-modal-bucket " src="images/bucket/${vo.image_path }" alt="IMG-PRODUCT">
+												<img data-id="${vo.selectedbucket_id }"  class="js-show-modal-bucket " src="images/bucket/${vo.image_path }" alt="IMG-PRODUCT">
 											</a>
 										</div>
 										<div class="block2-txt flex-w flex-t p-t-14">
 											<div class="block2-txt-child1 flex-col-l ">
-												<a id="${vo.selectedbucket_id }" class="js-show-modal-bucket stext-104 cl4 hov-cl1 trans-04 p-b-6">
+												<a data-id="${vo.selectedbucket_id }" class="js-show-modal-bucket stext-104 cl4 hov-cl1 trans-04 p-b-6">
 													${vo.title }
 												</a>
 											</div>
 											
 											<div class="block2-txt-child2 flex-r p-t-3">
-												<a id="${vo.selectedbucket_id }" class="heart fs-23 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addlike ${vo.className } tooltip100" data-tooltip="Add to Like">
+												<a data-id="${vo.selectedbucket_id }" id='heart${vo.selectedbucket_id }' class="heart fs-23 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addlike ${vo.className } tooltip100" data-tooltip="Add to Like">
 													<i class="zmdi zmdi-favorite"></i> 
 												</a>
 												<button class="fs-23 cl4 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addlike tooltip100" data-tooltip="가져오기">
-			                                    	<i data-id="${vo.bucket_id}" id="${vo.selectedbucket_id}" class="js-show-modal-get fa fa-plus-square"></i> 
+			                                    	<i data-id="${vo.bucket_id}" data-value="${vo.selectedbucket_id}" class="js-show-modal-get fa fa-plus-square"></i> 
 			                                 	</button> 
 											</div>
 										</div>
@@ -237,7 +235,7 @@
 <!--===============================================================================================-->
 	<script src="vendor/isotope/isotope.pkgd.min.js"></script>
 <!--=================================================================================-->
-	<script src="vendor/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/0.6.10/js/perfect-scrollbar.jquery.js"></script>
 <!--===============================================================================================-->
 	<script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
    integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="

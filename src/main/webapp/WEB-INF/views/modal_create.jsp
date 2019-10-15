@@ -23,7 +23,7 @@
 			                  <input type="file" id="input_image" class="file-btn" onchange="readbucketURL(this);" accept=".png, .jpg, .jpeg">
 			              </div>
 			            </div>
-			            <textarea id="create_content" class="md-textarea form-control p-t-10" rows="2" placeholder="내용"></textarea>		
+			            <textarea id="create-content" class="md-textarea form-control p-t-10" rows="2" placeholder="내용"></textarea>		
 						<div class="keep_login_container">
 		                    <div class="stext-102 cl3 p-t-23">태그</div>
 		                   	<div id="create-tag-dom" class="flex-w m-r--5"></div>
@@ -35,8 +35,7 @@
 			           	<div class="stext-102 cl3 p-t-10">d-Day</div>
 			            <input id="create-d-day" class="d-day" type="text" name="date" placeholder="Select Date.." data-input>
 			            <div class="stext-102 cl3 p-t-10">위치</div>
-			            <input id="create-location" type="text" class="form-control wid-50pc dis-inline" placeholder="위치">
-			            <button class="js-show-location-create button-map cl13 bg0 btn-bd dis-inline" >위치보기</button>
+			            <input id="create-location" type="text" class="form-control wid-90pc m-b-10" placeholder="장소를 입력해주세요.">
 			            <div id="mapid_create" class="hei-300px wid-90pc"></div>
 			            <div class="create-warntest cl14"></div>
 						<div class="txt-center">
