@@ -68,38 +68,4 @@
 		});
 		scrolling = false;
 	};
-	
-	/*==================================================================
-    [ Show modal ]*/
-    /*$('.js-show-modal-bucket').on('click',function(e){
-        e.preventDefault();
-        
-        $.ajax({
-			url: "achieve/modaldetail",
-            type: "POST",
-            data: {
-                
-            },
-            success: function (data) {
-            	
-            },
-            error : function(){
-            	
-	        }
-		})
-        var map = L.map('mapid').setView([51.505, -0.09],  10);
-    	L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
-    		maxZoom: 18,
-    		attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
-    			'<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-    			'Imagery <a href="https://www.mapbox.com/">Mapbox</a>',
-    		id: 'mapbox.streets'
-    	}).addTo(map);
-        
-        $('.js-modal-bucket').addClass('show-modal-bucket');
-    });
-
-    $('.js-hide-modal').on('click',function(){
-        $('.js-modal-bucket').removeClass('show-modal-bucket');
-    }); */
 })(jQuery);

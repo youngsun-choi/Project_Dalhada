@@ -58,12 +58,12 @@
 					</a>
 					<!-- Icon header -->
 					<div class="wrap-icon-header flex-w flex-r-m h-full">
-						<form id="searchForm" class="form-inline flex-c-m h-full p-r-24" action="searchbucket" method="get">
+						<form id="searchForm" class="form-inline flex-c-m h-full p-r-24">
 	    					<div class="bor17 of-hidden pos-relative">
 								<input class="searchKeyDown stext-103 cl2 plh4 size-116 p-l-28 p-r-55" type="text" 
-								name="searchKeyword" placeholder="Search" value="${ keyword }" autocomplete="off">
-								<input type="hidden" name="action" value="">
-								<button type="submit" class="flex-c-m size-122 ab-t-r fs-18 cl4 hov-cl1 trans-04" >
+								name="searchKeyword" placeholder="Search" value="${keyword}" autocomplete="off">
+								<input type="hidden" name="action" value="noaction">
+								<button class="flex-c-m size-122 ab-t-r fs-18 cl4 hov-cl1 trans-04">
 									<i class="zmdi zmdi-search"></i>
 								</button> 
 							</div>
@@ -113,12 +113,12 @@
 		<div class="menu-mobile">
 			<ul class="main-menu-m">
 				<li>
-					<form id="searchForm" class="form-inline" action="searchbucket" method="get">
+					<form id="mobileSearchForm" class="form-inline" action="searchbucket" method="get">
 	    					<div class="bor17 of-hidden pos-relative">
 								<input class="searchKeyDown stext-103 cl2 plh4 size-116 p-l-28 p-r-55" type="text" 
 								name="searchKeyword" placeholder="Search" value="${ keyword }" autocomplete="off">
-								<input type="hidden" name="action" value="">
-								<button type="submit" class="flex-c-m size-122 ab-t-r fs-18 cl4 hov-cl1 trans-04" >
+								<input type="hidden" name="action" value="noaction">
+								<button class="flex-c-m size-122 ab-t-r fs-18 cl4 hov-cl1 trans-04" >
 									<i class="zmdi zmdi-search"></i>
 								</button>
 							</div>
@@ -149,9 +149,16 @@
 	
 	</header>
 
-	<!-- Title page -->
-	<section class="bg-img1 txt-center p-lr-15 p-t-30"> <!-- style="background-image: url('images/bg-02.jpg');" -->
-		<ul id="results"></ul>
+	<!-- video -->
+	<section class="flex-l p-lr-30 p-t-30 result-video">
+		<div id="results" class="p-lr-15"></div>
+		<div>
+			<div id="v_content" class="p-l-15 p-r-50 dis-block"></div>
+			<div>
+				<button class="button-modal cl0 bg10" 
+				onclick="window.open('https://www.youtube.com/results?search_query=${videoKeyword}')">관련 동영상 더보기</button>
+			</div>
+		</div> 
 	</section>	
 
 
@@ -160,49 +167,52 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-md-8 col-lg-9 p-b-80">
-					<div class="p-r-0-lg p-r-40">
+					<div class="p-r-0-lg p-r-40 bucket-result-grid">
 						<!-- 검색결과 시작 -->   
-						<div class="row isotope-grid">			
-								<c:if test="${!empty searchList}">				
-			                     	<c:forEach var="vo" items="${searchList}">
-				                    	<div class="item-slick2 p-l-10 p-r-10 p-t-10 p-b-10 isotope-item women"> <!-- col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women -->
-					                    		<!-- Block2 -->
-					                           <div class="block2">
-					                             	<a class="block3-img flex-c-m trans-04"> <!-- hov-img0  p-lr-15 -->
-					                                 	<img id="${vo.selectedbucket_id }" class="js-show-modal-bucket" src="images/bucket/${ vo.image_path }" alt="IMG-PRODUCT">
-					                              	</a>
-					                              	<c:if test="${!empty vo.isAd}">
-					                              		<i class="fas fa-ad cl3 float-r"></i>
-					                              	</c:if>
+						<div class="row isotope-grid ">			
+							<c:if test="${!empty searchList}">				
+			                     <c:forEach var="vo" items="${searchList}">
+				                    <div class="item-slick2 p-l-15 p-r-15 p-t-10 p-b-10 isotope-item women">
+					                    <!-- Block2 -->
+					                    <div class="block3">
+					                    	<div class="block3-wrap">
+					                        	<a class="block3-img flex-c-m trans-04">
+					                            	<img id="${vo.selectedbucket_id }" class="js-show-modal-bucket" src="images/bucket/${ vo.image_path }" alt="IMG-PRODUCT">
+					                            </a> 
+					                            <c:if test="${!empty vo.isAd}">
+					                              	<i class="fas fa-ad cl3 float-r"></i>
+					                            </c:if>   
+					                        </div>
 					            
-					            					<div class="block2-txt flex-w flex-t p-t-14"> <!-- p-t-14 -->
-														<div class="block3-txt-child1 flex-col-l">
-															<a id="${vo.selectedbucket_id }" class="js-show-modal-bucket stext-104 cl4 hov-cl1 trans-04 p-b-6">
-																${vo.title } ${vo.selectedbucket_id }
-															</a>
-														</div>
-													</div>
-													<div class="flex-r-m"><!-- bor9 --><!-- p-r-10 m-r-11 -->
-														<button id="${vo.selectedbucket_id}" class="heart fs-23 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addlike ${vo.className } tooltip100" data-tooltip="좋아요">
-					                                    	<i class="zmdi zmdi-favorite"></i> 
-					                                 	</button>
-														<button class="fs-23 cl4 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addlike tooltip100" data-tooltip="가져오기">
-					                                    	<i data-id="${vo.bucket_id}" id="${vo.selectedbucket_id}" class="js-show-modal-get fa fa-plus-square"></i> 
-					                                 	</button>  
-													</div>
-					                           </div>
-				                        </div> 		      
-			                     	</c:forEach>
-		                     	</c:if>	
-		                     	<c:if test="${ empty searchList }">
-				                	<c:if test="${empty tag}">
-				                		<h2 class="txt-center">'${keyword}'에 대한 검색결과가 없습니다.</h2>
-				                	</c:if>
-				                  	<c:if test="${not empty tag}">
-				                		<h2 class="txt-center">'${tag}'태그와 관련된 검색결과가 없습니다.</h2>
-				                	</c:if>
-		                		</c:if>
-	               			</div>
+					            			<div class="p-t-14">
+												<div class="block3-txt-child1 flex-col-l txt-left">
+													<a id="${vo.selectedbucket_id }" class="js-show-modal-bucket stext-104 cl4 hov-cl1 trans-04 p-b-6">
+														${vo.title }
+													</a>
+												</div>
+												
+												<div class="txt-right">
+													<button id="${vo.selectedbucket_id}" class="heart fs-23 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addlike ${vo.className } tooltip100" data-tooltip="좋아요">
+					                                    <i class="zmdi zmdi-favorite"></i> 
+					                                </button>
+													<button class="fs-23 cl4 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addlike tooltip100" data-tooltip="가져오기">
+					                                    <i data-id="${vo.bucket_id}" id="${vo.selectedbucket_id}" class="js-show-modal-get fa fa-plus-square"></i> 
+					                                </button>  
+												</div>
+											</div> 
+					                   </div>
+				                    </div> 		      
+			                    </c:forEach>
+		                     </c:if>	
+		                     <c:if test="${ empty searchList }">
+				                <c:if test="${empty tag}">
+				                	<h2 class="txt-center">'${keyword}'에 대한 검색결과가 없습니다.</h2>
+				                </c:if>
+				                 <c:if test="${not empty tag}">
+				                	<h2 class="txt-center">'${tag}'태그와 관련된 검색결과가 없습니다.</h2>
+				                </c:if>
+		                	</c:if>	
+	               		</div>
 	               			<!-- 검색결과 끝 --> 	 
 	               			<!-- 페이징 시작 -->
 							<c:if test="${!empty listCnt }">
@@ -255,7 +265,7 @@
 								Blogs
 							</h4>
 
-							<ul>
+							<ul class="result-naverBlog">
 								<c:if test="${!empty naverBlogList}">
 									<c:forEach var="vo" items="${naverBlogList}">
 										<li class="bor18">
@@ -276,7 +286,7 @@
 							<div class="flex-w m-r--5">
 								<c:if test="${ !empty tagNameList }">
 									<c:forEach var="tList" items="${tagNameList}">
-										<a href="${pageContext.request.contextPath}/searchbucket?searchTag=${tList.name}&action=tag" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
+										<a href="#" onclick="searchSubmit('${tList.name}','tag',1); return false;" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
 											#${tList.name}
 										</a>
 									</c:forEach>
@@ -380,8 +390,8 @@
 	    }
 	</script>
 <!--===============================================================================================-->
-	<!-- Youtube api -->	
-	<script src="js/app.js"></script>
+	<!-- searchbucket.js Youtube api -->	
+	<script src="js/searchbucket.js"></script>
     <script src="https://apis.google.com/js/client.js?onload=init"></script>
 </body>
 </html>

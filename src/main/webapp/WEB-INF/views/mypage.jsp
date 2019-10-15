@@ -52,7 +52,7 @@
 
 					<!-- Icon header -->
 					<div class="wrap-icon-header flex-w flex-r-m h-full">
-						<form id="searchForm" class="form-inline flex-c-m h-full p-r-24" action="searchbucket" method="get">
+						<form id="SearchForm" class="form-inline flex-c-m h-full p-r-24" action="searchbucket" method="get">
 	    					<div class="bor17 of-hidden pos-relative">
 								<input class="searchKeyDown stext-103 cl2 plh4 size-116 p-l-28 p-r-55" type="text" 
 								name="searchKeyword" placeholder="Search" value="${ keyword }" autocomplete="off">
@@ -107,7 +107,7 @@
 		<div class="menu-mobile">
 			<ul class="main-menu-m">
 				<li>
-					<form id="searchForm" class="form-inline" action="searchbucket" method="get">
+					<form id="mobileSearchForm" class="form-inline" action="searchbucket" method="get">
 	    					<div class="bor17 of-hidden pos-relative">
 								<input class="searchKeyDown stext-103 cl2 plh4 size-116 p-l-28 p-r-55" type="text" 
 								name="searchKeyword" placeholder="Search" value="${ keyword }" autocomplete="off">

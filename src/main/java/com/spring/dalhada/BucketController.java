@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -172,11 +173,11 @@ public class BucketController {
 	public SearchBucketVO searchBucketVO() {
 		return new SearchBucketVO();
 	}
-    
-	@RequestMapping(value="/searchbucket")
-	public ModelAndView searchBucket(HttpSession session, @RequestParam(defaultValue="1")int curPage, 
+	
+	@RequestMapping(value="/searchbucketajax")
+	public ModelAndView searchbucketAjax(HttpSession session, @RequestParam(defaultValue="1")int curPage,
 			@ModelAttribute("searchBucketVO") SearchBucketVO searchBucketVO) {
-		ModelAndView mav = new ModelAndView();
+		ModelAndView mav = new ModelAndView("jsonView");
 		String id = (String) session.getAttribute("id");
 		searchBucketVO.setMember_id(id);
 		String tagName = searchBucketVO.getSearchTag();
@@ -184,9 +185,9 @@ public class BucketController {
 		String action = searchBucketVO.getAction();
 		String naverKeyword = null;
 		List<NaverBlogVO> naverBlogList = null;
-		int listCnt;
-		PagingVO pageList;
-		List<BucketVO> searchList;
+		int listCnt=0;
+		PagingVO pageList = null;
+		List<BucketVO> searchList = null;
 		
 		if(tagName != null && action.equals("tag")) {
 			listCnt = searchBucketService.getTotalTagCnt(tagName);
@@ -203,6 +204,10 @@ public class BucketController {
 			}
 			mav.addObject("searchList", searchList);
 			mav.addObject("keyword", "");
+			
+			naverKeyword = (tagName.equals("기타")) ? "버킷리스트": tagName;
+			naverBlogList = naverBlogService.selectNaverBlog(naverKeyword,5,1);
+			mav.addObject("naverBlogList", naverBlogList);
 		}else {
 			searchBucketVO.setSearchTag(null);
 			//제목검색 검색결과 수&페이징
@@ -220,22 +225,85 @@ public class BucketController {
 			}
 			mav.addObject("searchList", searchList);
 			mav.addObject("keyword", keyword);
+			
+			naverKeyword = (keyword == null || keyword.equals("") || searchList.isEmpty()) ? "버킷리스트": keyword;
+			naverBlogList = naverBlogService.selectNaverBlog(naverKeyword,5,1);
+			mav.addObject("naverBlogList", naverBlogList);
 		}
-		//태그에 해당하는 내용이 없을 경우
+		//태그에 해당하는 내용이 없을 경우 메세지 출력
 		mav.addObject("tag", tagName);
 		
-		//태그명 찾기
+		//관련 동영상 더보기
+		mav.addObject("videoKeyword", naverKeyword);
+				
+		return mav;
+	}
+    
+	@RequestMapping(value="/searchbucket")
+	public ModelAndView searchBucket(HttpSession session, @RequestParam(defaultValue="1")int curPage, 
+			@ModelAttribute("searchBucketVO") SearchBucketVO searchBucketVO) {
+		ModelAndView mav = new ModelAndView();
+		String id = (String) session.getAttribute("id");
+		searchBucketVO.setMember_id(id);
+		String tagName = searchBucketVO.getSearchTag();
+		String keyword = searchBucketVO.getSearchKeyword();
+		String action = searchBucketVO.getAction();
+		String naverKeyword = null;
+		List<NaverBlogVO> naverBlogList = null;
+		int listCnt = 0;
+		PagingVO pageList = null;
+		List<BucketVO> searchList = null;
+		
+		if(tagName != null && action.equals("tag")) {
+			listCnt = searchBucketService.getTotalTagCnt(tagName);
+			pageList = new PagingVO(listCnt, curPage); //(전체 게시물 수, 현재 페이지)
+			searchBucketVO.setStartRow(pageList.getStartIndex());
+			searchBucketVO.setEndRow(pageList.getEndIndex());
+			mav.addObject("listCnt", listCnt);
+			mav.addObject("pagination", pageList);
+			
+			//태그검색
+			searchList = searchBucketService.searchTag(searchBucketVO);
+			for(BucketVO vo: searchList) {
+				vo.addClass();
+			}
+			mav.addObject("searchList", searchList);
+			mav.addObject("keyword", "");
+			
+			naverKeyword = (tagName.equals("기타")) ? "버킷리스트": tagName;
+			naverBlogList = naverBlogService.selectNaverBlog(naverKeyword,5,1);
+			mav.addObject("naverBlogList", naverBlogList);
+		}else {
+			searchBucketVO.setSearchTag(null);
+			//제목검색 검색결과 수&페이징
+			listCnt = searchBucketService.getTotalTitleCnt(keyword);
+			pageList = new PagingVO(listCnt, curPage); //(전체 게시물 수, 현재 페이지)
+			searchBucketVO.setStartRow(pageList.getStartIndex());
+			searchBucketVO.setEndRow(pageList.getEndIndex());
+			mav.addObject("listCnt", listCnt);
+			mav.addObject("pagination", pageList);
+			
+			//제목검색
+			searchList = searchBucketService.searchTitle(searchBucketVO);
+			for(BucketVO vo: searchList) {
+				vo.addClass();
+			}
+			mav.addObject("searchList", searchList);
+			mav.addObject("keyword", keyword);
+			
+			naverKeyword = (keyword == null || keyword.equals("") || searchList.isEmpty()) ? "버킷리스트": keyword;
+			naverBlogList = naverBlogService.selectNaverBlog(naverKeyword,5,1);
+			mav.addObject("naverBlogList", naverBlogList);
+		}
+		//태그에 해당하는 내용이 없을 경우 메세지 출력
+		mav.addObject("tag", tagName);
+		
+		//태그명 출력
 		List<TagInfoVO> tagNameList = searchBucketService.selectTagName();
 		mav.addObject("tagNameList", tagNameList);
 		
-		//네이버 블로그 검색결과
-		if(tagName == null) {
-			naverKeyword = (keyword == null || keyword.equals("") || searchList.isEmpty()) ? "버킷리스트": keyword;
-		}else {
-			naverKeyword = (tagName.equals("기타")) ? "버킷리스트": tagName;
-		}
-		naverBlogList = naverBlogService.selectNaverBlog(naverKeyword,5,1);
-		mav.addObject("naverBlogList", naverBlogList);
+		//관련 동영상 더보기
+		mav.addObject("videoKeyword", naverKeyword);
 		
 		mav.setViewName("searchbucket");
 		return mav;

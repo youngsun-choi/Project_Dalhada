@@ -300,6 +300,7 @@ alret("search")
         $('.js-modal-bucket').addClass('show-modal-bucket');
     });
     $('.js-hide-modal-bucket').on('click',function(){
+    	$('.modal_heart').off();
         $('.js-modal-bucket').removeClass('show-modal-bucket');
         
     }); 
@@ -377,7 +378,6 @@ alret("search")
 				,
 				sucess : function(){
 					$('.js-modal-create').removeClass('show-modal-create');
-					location.reload();
 				},
 				complete : function(){
 					clear_createForm();

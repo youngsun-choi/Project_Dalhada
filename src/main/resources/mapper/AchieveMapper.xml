@@ -15,7 +15,7 @@
     		(select to_char(birth, 'yyyy') birth from memberinfo where id=#{member_id})+1)/10) age
 		from bucketinfo bi, selectedbucket sb, diary di
 		where bi.id = sb.bucket_id and sb.id = di.bucket_id 
-		and sb.member_id = #{member_id} order by complete_date
+		and sb.member_id = #{member_id} order by to_char(di.complete_date,'YYYY-MM-DD HH24:MI:SS')
  	</select>
  	
  	<!-- 상세버킷 선택된 태그 select -->
