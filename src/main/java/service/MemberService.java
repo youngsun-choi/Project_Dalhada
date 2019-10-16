@@ -23,8 +23,8 @@ public boolean checkId(String id) {
 	return false;
 }	
 
-public MemberinfoVO checklogin(String id, String password) {
-	MemberinfoVO vo = dao.checklogin(id, password);
+public MemberinfoVO checklogin(String id) {
+	MemberinfoVO vo = dao.checklogin(id);
 	if(vo != null) return vo;
 	return null;
 }	

@@ -15,104 +15,9 @@
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <!--Fontawesome CDN-->
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
-
+	<link rel="stylesheet" type="text/css" href="css/login.css">
 </head>
-<style>
-@import url(//fonts.googleapis.com/earlyaccess/hanna.css);
-@import url('https://fonts.googleapis.com/css?family=Numans');
-*{font-family: 'Hanna', sans-serif;}
-html,body{
-background-image: url('resources/images/log_background.jpg');
-background-size: cover;
-background-repeat: no-repeat;
-height: 100%;
-font-family: 'Hanna', sans-serif;
-}
-
-.container{
-height: 100%;
-align-content: center;
-}
-
-.card{
-height: 370px;
-margin-top: auto;
-margin-bottom: auto;
-width: 400px;
-background-color: rgba(0,0,0,0.5) !important;
-}
-
-.social_icon span{
-font-size: 60px;
-margin-left: 10px;
-color: #FFC312;
-}
-
-.social_icon span:hover{
-color: white;
-cursor: pointer;
-}
-
-.card-header h3{
-color: white;
-}
-
-.social_icon{
-position: absolute;
-right: 20px;
-top: -45px;
-}
-
-.input-group-prepend span{
-width: 50px;
-background-color: #FFC312;
-color: black;
-border:0 !important;
-}
-
-input:focus{
-outline: 0 0 0 0  !important;
-box-shadow: 0 0 0 0 !important;
-}
-
-.remember{
-color: white;
-}
-
-.remember input
-{
-width: 20px;
-height: 20px;
-margin-left: 15px;
-margin-right: 5px;
-}
-
-.login_btn{
-color: black;
-background-color: #FFC312;
-width: 100px;
-}
-
-.login_btn:hover{
-color: black;
-background-color: white;
-}
-
-.links{
-color: white;
-}
-
-.links a{
-margin-left: 4px;
-}
-</style>
 <body>
-
-<c:if test="${!empty msg}">
-<script type="text/javascript">
-alert(${msg})
-</script>
-</c:if>
 
 <div class="container">
 	<div class="d-flex justify-content-center h-100">
@@ -137,10 +42,17 @@ alert(${msg})
 						</div>
 						<input type="password" id="password" name="password" placeholder="비밀번호" required class="form-control" placeholder="password">
 					</div>
-					<div class="form-group">
+							<!-- 네이버 로그인 창으로 이동 -->
+							<div id="naver_id_login" style="text-align: center"><a href="${url}">
+								<img width="223"
+									src="https://developers.naver.com/doc/review_201802/CK_bEFnWMeEBjXpQ5o8N_20180202_7aot50.png" /></a>
+							</div>
+
+						<div class="form-group">
 						<button id="submit" type="button" class="btn float-right login_btn">로그인</button>
+						<div id="loginError"></div>
 					</div>
-					<div id="loginError"></div>
+						
 				</form>
 				
 			</div>
@@ -152,13 +64,17 @@ alert(${msg})
 		</div>
 	</div>
 </div>
+
 <script>
 var referer='';
 $(document).ready(function(){
+	referer =  document.referrer;
+	if(referer==''){
+		referer=window.location.href;
+	}
 	$("#submit").click(function(){
 		var id = $("#id").val();
 		var pwd = $("#password").val();
-		referer =  document.referrer;
 		if(id==""){
 			$("#loginError").text("아이디를 입력하세요.").css("color", "red");		
 			return;
@@ -171,16 +87,16 @@ $(document).ready(function(){
 			type : 'post',
 			success : function(data){
 				if(data == "false"){
-						$("#loginError").text("아이디와 비밀번호가 일치하지 않습니다.").css("color", "red");	
+						$("#loginError").text("아이디와 비밀번호가 일치하지 않습니다.").css("color", "red");
 				}else{
 					if(referer.includes('logout')||referer.includes('memberform')||referer.includes('loginmain'))
 						referer="http://localhost:8000/dalhada/main";
 					location.href=referer;
 				}
 			}
-		})
+		});
 	});
-})
+});
 </script>
 </body>
 </html>

@@ -11,7 +11,6 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,6 +23,7 @@ import service.BucketService;
 import service.NaverBlogService;
 import service.SearchBucketService;
 import vo.BucketDetailVO;
+import vo.BucketLists;
 import vo.BucketVO;
 import vo.EditBucketInfoVO;
 import vo.LikeInfoVO;
@@ -51,10 +51,14 @@ public class BucketController {
 		ModelAndView mav = new ModelAndView();
 		String member_id = (String) session.getAttribute("id");
 	
-
-		List<BucketVO> TOPlist = bucketservice.selectTOPBucket(member_id);
-		
-		mav.addObject("TOPlist", TOPlist);
+		List<BucketLists> list = new ArrayList<BucketLists>();
+		list.add(new BucketLists("좋아요순 버킷", bucketservice.selectTOPBucket(member_id)));
+		if(member_id!=null) {
+			list.add(new BucketLists("내가 가져온 버킷을 만든 유저들의 버킷", bucketservice.selectSimilarBucket(member_id)));
+		}else {
+			list.add(new BucketLists("많이 선택된 태그가 포함된 버킷", bucketservice.selectTagBucket(member_id)));
+		}
+		mav.addObject("lists", list);
 		mav.setViewName("main");
 		return mav;
 	}
@@ -78,6 +82,17 @@ public class BucketController {
 		}
 		return result+"";
 	}
+  
+	@RequestMapping(value="/main/geteditinfo")
+	@ResponseBody
+	public EditBucketInfoVO modaledit(HttpSession session, String selectedbucket_id) {
+		String member_id = (String) session.getAttribute("id");
+		StringIntVO map = new StringIntVO();
+		map.setId(Integer.parseInt(selectedbucket_id));
+		map.setName(member_id);
+		EditBucketInfoVO vo =  bucketservice.getEditInfo(map);
+		return vo;
+	}   
 	
 	@RequestMapping(value="/main/getgrouptag")
 	@ResponseBody
@@ -93,17 +108,6 @@ public class BucketController {
 		}
 		return list;
 	}
-  
-	@RequestMapping(value="/main/geteditinfo")
-	@ResponseBody
-	public EditBucketInfoVO modaledit(HttpSession session, String selectedbucket_id) {
-		String member_id = (String) session.getAttribute("id");
-		StringIntVO map = new StringIntVO();
-		map.setId(Integer.parseInt(selectedbucket_id));
-		map.setName(member_id);
-		EditBucketInfoVO vo =  bucketservice.getEditInfo(map);
-		return vo;
-	}   
 	
 	//좋아요  많은 거 / 추천 버킷
 	@RequestMapping(value="/main/modaldetail")
@@ -119,13 +123,13 @@ public class BucketController {
 
 	@RequestMapping(value="/createbucket")
 	@ResponseBody
-	public String createbucket(HttpSession session, InsertedBucketVO vo, @RequestParam(value="g_id")String g_id,
+	public String createbucket(HttpSession session, InsertedBucketVO vo,
 			@RequestParam(value="taglist")List<String> taglist, @RequestParam("file") MultipartFile file) {
 		String fileName = file.getOriginalFilename(), filePath, result = "success";
 		String member_id = (String) session.getAttribute("id");
+		
 		vo.setMember_id(member_id);
 		vo.setTag_id(taglist);
-		vo.setGroup_id(Integer.parseInt(g_id));
 		vo.setImage_path("_"+fileName);
 		filePath = bucketservice.insertBucket(vo);
 		byte[] image = null;
@@ -136,12 +140,7 @@ public class BucketController {
 			fos.write(image);
 			fos.close();
 			File newf = new File("C:/unico/eclipse-workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/dalhada/resources/images/bucket/"+filePath);
-			/*File f = new File("C:/jjn/eclipse_workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/dalhada/resources/images/bucket/"+filePath);
-			FileOutputStream fos = new FileOutputStream(f);
-			fos.write(image);
-			fos.close();
-			File newf = new File("C:/jjn/eclipse_workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/dalhada/resources/images/bucket/"+filePath);*/
-	    	 if(f.exists())
+    	 if(f.exists())
 	    		 f.renameTo(newf);
 		}catch (IOException e) {
 	    	 e.printStackTrace();
@@ -152,10 +151,9 @@ public class BucketController {
 	}
 	@RequestMapping(value="/updatebucket")
 	@ResponseBody
-	public String updatebucket(HttpSession session, UpdatedBucketVO vo, @RequestParam(value="g_id")String g_id) {	
+	public String updatebucket(HttpSession session, UpdatedBucketVO vo) {	
 		String member_id = (String) session.getAttribute("id"), result = "success";
 		vo.setMember_id(member_id);
-		vo.setGroup_id(Integer.parseInt(g_id));
 		if(bucketservice.updateBucket(vo) < 1) result = "error";
 		return result;
 	}

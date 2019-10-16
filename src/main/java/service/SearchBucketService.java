@@ -23,7 +23,7 @@ public class SearchBucketService {
 	//제목검색
 	public List<BucketVO> searchTitle(SearchBucketVO vo){
 		return dao.searchTitle(vo);
-	}	
+	}
 	
 	//태그검색 검색결과 수
 	public int getTotalTagCnt(String tagName) {

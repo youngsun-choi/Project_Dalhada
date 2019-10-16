@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!-- get Modal -->
+
+	<!-- get Modal -->
 	<div class="wrap-modal-bucket js-modal-get p-t-60 p-b-20 font-DoHyeon">
 		<div class="overlay-modal js-hide-modal-get"></div>
 
@@ -20,7 +21,7 @@
 									</a>
 								</div>
 							</div>
-				            <textarea id="get_content" class="md-textarea form-control p-t-10" rows="2"></textarea>		
+				            <textarea id="get_content" class="md-textarea form-control p-t-5 m-t-10" rows="2"></textarea>		
 							<div class="keep_login_container">
 		                    	<div class="stext-102 cl3 p-t-23">태그</div>
 		                    	<div id="get-tag-dom" class="flex-w m-r--5"></div>
@@ -32,8 +33,10 @@
 			            	<div class="stext-102 cl3 p-t-10">d-Day</div>
 			                <input id="get-d-day" class="d-day" type="text" name="date" placeholder="Select Date.." data-input>
 			                <div class="stext-102 cl3 p-t-23">위치</div>
-			                <div class="mapid"></div>
-			                <div class="get-warntest"></div>
+			                <input id="get-location"type="text" class="form-control wid-50pc dis-inline" placeholder="위치">
+			                <button class="js-show-location-get button-map cl13 bg0 btn-bd dis-inline" >위치보기</button>
+		                	<div id="mapid_get" class="hei-300px wid-90pc"></div>
+			                <div id="get-warntest" class="cl14"></div>
 							<div class="txt-center">
 								<input type="hidden" id="bucket_id"/>
 	       						<button id="get-submit" class="button-modal cl0 bg10">가져오기</button>

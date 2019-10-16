@@ -4,6 +4,7 @@ import java.util.List;
 
 public class BucketDetailVO {
 	private int bucket_id;
+	private int selectedbucket_id;
 	private String title;
 	private String content;
 	private String address;
@@ -107,5 +108,11 @@ public class BucketDetailVO {
 	}
 	public void setAddress(String address) {
 		this.address = address;
+	}
+	public int getSelectedbucket_id() {
+		return selectedbucket_id;
+	}
+	public void setSelectedbucket_id(int selectedbucket_id) {
+		this.selectedbucket_id = selectedbucket_id;
 	}
 }

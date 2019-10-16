@@ -7,6 +7,7 @@ import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +18,7 @@ import service.MemberService;
 import vo.MemberinfoVO;
 
 @Controller
-public class memberController {
+public class MemberController {
 
 	@Autowired
 	MemberService service;
@@ -28,32 +29,35 @@ public class memberController {
 			ModelAndView mav = new ModelAndView();
 			if (request.getMethod().equals("GET")) {
 			     mav.setViewName("memberform");
-				return mav;
-			}
-			System.out.println(vo.getImage().getContentType());
-			if(!vo.getImage().getContentType().equals("application/octet-stream")) {
-				String fileName = vo.getImage().getOriginalFilename();
-				String newName = vo.getId()+"_"+fileName;
-				vo.setImage_path(newName);
-				service.insert(vo);
-			     byte[] content = null;
-			     mav.setViewName("login");
-			     try {
-			    	 content =  vo.getImage().getBytes();
-			    	 File f = new File("C:/unico/eclipse-workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/dalhada/resources/images/profile/"+fileName);			   
-			    		 FileOutputStream fos = new FileOutputStream(f);
-			    		 fos.write(content);
-			    		 fos.close();
-			    		 
-				    	 File newf = new File("C:/unico/eclipse-workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/dalhada/resources/images/profile/"+newName);
-				    	 if(f.exists())
-				    		 f.renameTo(newf);
-			     } catch (IOException e) {
-			    	 e.printStackTrace();
-			     }	
 			}else {
-				service.insert(vo);
-				mav.setViewName("login");
+//				Bcrypt 암호화
+				String hashPwd = BCrypt.hashpw(vo.getPassword(), BCrypt.gensalt());
+				vo.setPassword(hashPwd);
+				if(!vo.getImage().getContentType().equals("application/octet-stream")) {
+					String fileName = vo.getImage().getOriginalFilename();
+					String newName = vo.getId()+"_"+fileName;
+					vo.setImage_path(newName);
+					service.insert(vo);
+				     byte[] content = null;
+				     mav.setViewName("login");
+				     try {
+				    	 content =  vo.getImage().getBytes();
+				    	 File f = new File("C:/jjn/eclipse-workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/dalhada/resources/images/profile/"+fileName);			   
+				    		 FileOutputStream fos = new FileOutputStream(f);
+				    		 fos.write(content);
+				    		 fos.close();
+				    		 
+					    	 File newf = new File("C:/jjn/eclipse-workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/dalhada/resources/images/profile/"+newName);
+					    	 if(f.exists())
+					    		 f.renameTo(newf);
+				     } catch (IOException e) {
+				    	 e.printStackTrace();
+				     }	
+				}else {
+					service.insert(vo);
+					mav.setViewName("login");
+				}
+			
 			}
 			return mav;
 		}
@@ -67,6 +71,3 @@ public class memberController {
 			else return 0;
 		}
 }
-
-
-

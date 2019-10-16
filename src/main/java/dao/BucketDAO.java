@@ -24,11 +24,22 @@ public class BucketDAO {
 		vo.setTags(tags);
 		return vo;
 	}
-	public List<BucketVO> selectTOPBucket(String id) {
+	public List<BucketVO> selectTOPBucket(String member_id) {
 		List<BucketVO> list = new ArrayList<BucketVO>();
 		String statement = "resource.BucketMapper.selectTOPBucket";
-		list = session.selectList(statement, id);
-		
+		list = session.selectList(statement, member_id);
+		return list;
+	}
+	public List<BucketVO> selectTagBucket(String member_id){
+		List<BucketVO> list = new ArrayList<BucketVO>();
+		String statement = "resource.BucketMapper.selectTagBucket";
+		list = session.selectList(statement, member_id);
+		return list;
+	}
+	public List<BucketVO> selectSimilarBucket(String member_id){
+		List<BucketVO> list = new ArrayList<BucketVO>();
+		String statement = "resource.BucketMapper.selectSimilarBucket";
+		list = session.selectList(statement, member_id);
 		return list;
 	}
 	public int insertLikeInfo(LikeInfoVO vo) {
@@ -40,6 +51,10 @@ public class BucketDAO {
 		String statement = "resource.BucketMapper.deleteLike";
 		result = session.delete(statement, vo);
 		return result;
+	}
+	public int countLike(int selectedbucket_id) {
+		String statement = "resource.BucketMapper.countLike";
+		return session.selectOne(statement, selectedbucket_id);
 	}
 	public List<StringIntVO> selectGroups(String member_id) {
 		String statement = "resource.SearchBucketMapper.selectGroupName";

@@ -177,7 +177,7 @@
 					                    <div class="block3">
 					                    	<div class="block3-wrap">
 					                        	<a class="block3-img flex-c-m trans-04">
-					                            	<img id="${vo.selectedbucket_id }" class="js-show-modal-bucket" src="images/bucket/${ vo.image_path }" alt="IMG-PRODUCT">
+					                            	<img data-id="${vo.selectedbucket_id }" class="js-show-modal-bucket" src="images/bucket/${ vo.image_path }" alt="IMG-PRODUCT">
 					                            </a> 
 					                            <c:if test="${!empty vo.isAd}">
 					                              	<i class="fas fa-ad cl3 float-r"></i>
@@ -192,11 +192,11 @@
 												</div>
 												
 												<div class="txt-right">
-													<button id="${vo.selectedbucket_id}" class="heart fs-23 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addlike ${vo.className } tooltip100" data-tooltip="좋아요">
+													<button data-id="${vo.selectedbucket_id }" id='heart${vo.selectedbucket_id }'  class="heart fs-23 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addlike ${vo.className } tooltip100" data-tooltip="좋아요">
 					                                    <i class="zmdi zmdi-favorite"></i> 
 					                                </button>
 													<button class="fs-23 cl4 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addlike tooltip100" data-tooltip="가져오기">
-					                                    <i data-id="${vo.bucket_id}" id="${vo.selectedbucket_id}" class="js-show-modal-get fa fa-plus-square"></i> 
+					                                    <i data-id="${vo.bucket_id}" data-value="${vo.selectedbucket_id}" class="js-show-modal-get fa fa-plus-square"></i> 
 					                                </button>  
 												</div>
 											</div> 
@@ -313,11 +313,10 @@
 			<i class="zmdi zmdi-chevron-up"></i>
 		</span>
 	</div>
-
 	
-	<%@ include file="createmodal.jsp" %>
-	<%@ include file="detailmodal.jsp" %>
-	<%@ include file="getmodal.jsp" %>
+	<%@ include file="modal_create.jsp" %>
+	<%@ include file="modal_detail.jsp" %>
+	<%@ include file="modal_get.jsp" %>
 <!--===============================================================================================-->	
 	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
 <!--===============================================================================================-->
@@ -360,7 +359,6 @@
 				scrollingThreshold: 1000,
 				wheelPropagation: false,
 			});
-
 			$(window).on('resize', function(){
 				ps.update();
 			})

@@ -86,63 +86,6 @@
 	    	<h2 class="txt-center">완료된 버킷이 없습니다.</h2>
 	    </c:if>
 	    
-	    <!-- Modal -->
-		<%-- <div class="wrap-modal-bucket js-modal-bucket p-t-60 p-b-20">
-			<div class="overlay-modal js-hide-modal"></div>
-	
-			<div class="container">
-				<div class="bg0 p-t-60 p-b-30 p-lr-15-lg how-pos3-parent">
-					<button class="how-pos3 hov3 trans-04 js-hide-modal">
-						<img src="images/icons/icon-close.png" alt="CLOSE">
-					</button>
-	
-					<div class="row">
-						<div class="col-md-6 col-lg-7 p-b-30">
-							<div class="p-l-25 p-r-30 p-lr-0-lg">
-								<div class="wrap-slick3 flex-sb flex-w">
-									<h4 id="bucketTitle"class="mtext-105 cl2 js-name-detail p-b-14">
-									</h4>
-									<div class="gallery-lb">
-										<div data-thumb="images/slide-03.jpg">
-											<div class="wrap-pic-w pos-relative">
-												<img class="modalimage" src="images/slide-03.jpg" alt="IMG-PRODUCT">
-	
-												<a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04" href="images/slide-03.jpg">
-													<i class="fa fa-expand"></i>
-												</a>
-											</div>
-										</div>
-									</div>
-								</div>
-								<p id="bucketContent" class="stext-102 cl3 p-t-23">
-								</p>
-								<div class="flex-m bor9 p-r-10 m-r-11">
-									<a id="${vo.selectedbucket_id }" class="heart fs-23 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addlike ${vo.className } tooltip100" data-tooltip="Add to Like">
-										<i class="zmdi zmdi-favorite"></i> 
-									</a>
-									<p id="likecnt" class="cl6 stext-107" style="width: 40px"></p>
-									<a href="#" class="fs-23 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addwish-detail tooltip100" data-tooltip="Add to Wishlist">
-										<i class="fa fa-plus-square fa-lg"></i> 
-									</a>
-									<p id="getcnt" class="cl6 stext-107" style="width: 40px"></p>							
-								</div>
-							</div>			
-						</div>
-						
-						<div class="col-md-6 col-lg-5 p-b-30">
-							<div class="p-r-50 p-t-5 p-lr-0-lg">
-							<div class="stext-102 cl3 p-t-23">태그</div>
-								<div id="tags" class="flex-w p-t-4 m-r--5">
-				                </div>
-				                <div class="stext-102 cl3 p-t-23">위치</div>
-							    <div id = 'mapid'>
-								</div>
-							 </div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div> --%>
 			
 			<!-- Back to top -->
 			<div class="btn-back-to-top" id="myBtn">
@@ -152,7 +95,7 @@
 			</div>
 	</section> 
 	
-	<%@ include file="detailmodal.jsp" %>
+	<%@ include file="modal_detail.jsp" %>
 <!--===============================================================================================-->	
 	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
 <!--===============================================================================================-->

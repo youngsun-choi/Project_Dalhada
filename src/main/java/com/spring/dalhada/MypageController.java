@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,7 +38,6 @@ public class MypageController {
 	@Autowired
 	private AchieveService achieveService;
 
-
 	@RequestMapping(value = "/achieve")
 	public ModelAndView achieve(HttpSession session, @RequestParam(required=false) String age) {
 		ModelAndView mav = new ModelAndView();
@@ -56,10 +56,11 @@ public class MypageController {
 			mav.addObject("ageList", ageList.stream().distinct().collect(Collectors.toList()));
 		}
 		mav.addObject("achieveList", selectedAchieveList);
-		System.out.println("achieveList"+selectedAchieveList.toString());
 		mav.setViewName("achieve");
 		return mav;
 	}
+	
+	
 	@RequestMapping(value = "/mypage")
 	public ModelAndView get(MemberinfoVO vo, HttpSession session, HttpServletRequest request,MypageVO vo1) {
 		ModelAndView mav = new ModelAndView();
@@ -74,6 +75,8 @@ public class MypageController {
 				
 				if(vo1.getAction()!=null) { // 개인정보 수정
 				if(vo1.getAction().equals("UpCheck")) { // 비밀번호 수정
+					String hashPwd = BCrypt.hashpw(vo.getPassword(), BCrypt.gensalt());
+					vo.setPassword(hashPwd);
 					service.UpCheck(vo);
 					
 				}else if(vo1.getAction().equals("UpInfo")) { // 나머지 개인정보 수정
@@ -143,8 +146,6 @@ public class MypageController {
 					service.CreateDiary(Integer.parseInt(vo1.getComp()));
 				}
 			}
-			
-			
 
 			Map<String, Object> choose = new HashMap<String, Object>();
 			choose.put("id", id);
@@ -176,8 +177,7 @@ public class MypageController {
 			mav.addObject("group", service.groupList(id));
 			mav.setViewName("mypage");
 		} else {
-			mav.addObject("msg", "만료된 페이지입니다.");
-			mav.setViewName("login");
+			mav.setViewName("redirect:/loginmain");
 		}
 		return mav;
 	}
@@ -190,9 +190,22 @@ public class MypageController {
 		return "false";
 	}
 	
+	@RequestMapping(value = "/comp", method = RequestMethod.POST)
+	@ResponseBody
+	public String comp(String mid) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("member_id", id);
+		map.put("id", Integer.parseInt(mid));
+		if(service.complete(map)) {
+			return "true";
+		}return "false";
+	}
+	
 	@RequestMapping(value = "/Checkpw", method = RequestMethod.POST)
 	@ResponseBody
-	public String Checkpw() {
-		return service.Checkpw(id);
+	public String Checkpw(String password) {
+		if (BCrypt.checkpw(password, service.Checkpw(id))) {
+			return "true";
+		}else return "false";
 	}
 }
