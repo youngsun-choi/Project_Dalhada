@@ -13,6 +13,8 @@
 	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" 
+	integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="fonts/iconic/css/material-design-iconic-font.min.css">
 <!--===============================================================================================-->
@@ -158,6 +160,9 @@
 											<a class="block2-img flex-c-m p-lr-15 trans-04">
 												<img data-id="${vo.selectedbucket_id }"  class="js-show-modal-bucket " src="images/bucket/${vo.image_path }" alt="IMG-PRODUCT">
 											</a>
+											<c:if test="${!empty vo.isAd}">
+					                              	<i class="fas fa-ad cl3 float-r"></i>
+					                            </c:if> 
 										</div>
 										<div class="block2-txt flex-w flex-t p-t-14">
 											<div class="block2-txt-child1 flex-col-l ">

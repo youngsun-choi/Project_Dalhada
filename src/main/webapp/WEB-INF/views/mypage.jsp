@@ -555,7 +555,7 @@
 	<!--===============================================================================================-->
 	<script src="vendor/isotope/isotope.pkgd.min.js"></script>
 	<!--=================================================================================-->
-	<script src="vendor/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/0.6.10/js/perfect-scrollbar.jquery.js"></script>
 	<!--===============================================================================================-->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.2.3/flatpickr.js"></script>
 	<!--===============================================================================================-->

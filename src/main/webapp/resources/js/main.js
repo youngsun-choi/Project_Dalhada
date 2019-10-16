@@ -244,6 +244,7 @@
     var map_detail;
     $('.js-show-modal-bucket').on('click',function(e){
         e.preventDefault();
+        console.log("들어옴");
         $.ajax({
 			url: "main/modaldetail",
             type: "POST",
@@ -265,7 +266,7 @@
             	$('#detail_address').html(data.address);
             	var flag = data.lat+data.lng!=0?true:false;
             	var latlng = flag?[data.lat, data.lng]:[37.566, 126.978];
-            	map_detail = L.map('mapid_detail').setView(latlng, 13);
+            	map_detail = L.map('mapid_detail').setView(latlng, 5);
         		L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
         			maxZoom: 18,
         			attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
@@ -381,7 +382,7 @@
     $('#create-submit').click(function(){
     	var title = $("#create-title").val();
     	var file = $('#input_image')[0].files[0];
-    	var content =  $("#create_content").val();	 
+    	var content =  $("#create-content").val();	 console.log(content);
 		var list = [];
     	$("#create-tag-dom .modal-tag-click").each(function(i){list.push($(this).val());})
     	

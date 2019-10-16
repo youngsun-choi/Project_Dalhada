@@ -27,8 +27,6 @@
 <!--===============================================================================================-->	
 	<link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css">
 <!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="vendor/animsition/css/animsition.min.css">
-<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
 <!--===============================================================================================-->	
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.2.3/flatpickr.css">
@@ -186,15 +184,15 @@
 					            
 					            			<div class="p-t-14">
 												<div class="block3-txt-child1 flex-col-l txt-left">
-													<a id="${vo.selectedbucket_id }" class="js-show-modal-bucket stext-104 cl4 hov-cl1 trans-04 p-b-6">
+													<a data-id="${vo.selectedbucket_id }" class="js-show-modal-bucket stext-104 cl4 hov-cl1 trans-04 p-b-6">
 														${vo.title }
 													</a>
 												</div>
 												
 												<div class="txt-right">
-													<button data-id="${vo.selectedbucket_id }" id='heart${vo.selectedbucket_id }'  class="heart fs-23 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addlike ${vo.className } tooltip100" data-tooltip="좋아요">
+													<a data-id="${vo.selectedbucket_id }" id='heart${vo.selectedbucket_id }' class="heart fs-23 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addlike  ${vo.className } tooltip100" data-tooltip="좋아요">
 					                                    <i class="zmdi zmdi-favorite"></i> 
-					                                </button>
+					                                </a>
 													<button class="fs-23 cl4 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addlike tooltip100" data-tooltip="가져오기">
 					                                    <i data-id="${vo.bucket_id}" data-value="${vo.selectedbucket_id}" class="js-show-modal-get fa fa-plus-square"></i> 
 					                                </button>  
@@ -313,9 +311,10 @@
 			<i class="zmdi zmdi-chevron-up"></i>
 		</span>
 	</div>
+
 	
-	<%@ include file="modal_create.jsp" %>
 	<%@ include file="modal_detail.jsp" %>
+	<%@ include file="modal_create.jsp" %>
 	<%@ include file="modal_get.jsp" %>
 <!--===============================================================================================-->	
 	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
@@ -349,44 +348,17 @@
 		});
 	</script>
 <!--===============================================================================================-->
-	<script src="vendor/perfect-scrollbar/perfect-scrollbar.min.js"></script>
-	<script>
-		$('.js-pscroll').each(function(){
-			$(this).css('position','relative');
-			$(this).css('overflow','hidden');
-			var ps = new PerfectScrollbar(this, {
-				wheelSpeed: 1,
-				scrollingThreshold: 1000,
-				wheelPropagation: false,
-			});
-			$(window).on('resize', function(){
-				ps.update();
-			})
-		});
-	</script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/0.6.10/js/perfect-scrollbar.jquery.js"></script>
 <!--===============================================================================================-->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.2.3/flatpickr.js"></script>
 <!--===============================================================================================-->
 	<script src="vendor/isotope/isotope.pkgd.min.js"></script>
 <!--===============================================================================================-->
-	<script src="vendor/sweetalert/sweetalert.min.js"></script>
-<!--===============================================================================================-->
 	<script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
    integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
    crossorigin=""></script>
 <!--===============================================================================================-->
-	<script src="js/main.js"></script>
-	<script>
-	    function readURL(input) {
-	        if (input.files && input.files[0]) {
-	            var reader = new FileReader();
-	            reader.onload = function (e) {
-	                $('#image').attr('src', e.target.result);
-	            };
-	            reader.readAsDataURL(input.files[0]);
-	        }
-	    }
-	</script>
+    <script src="js/main.js"></script>
 <!--===============================================================================================-->
 	<!-- searchbucket.js Youtube api -->	
 	<script src="js/searchbucket.js"></script>

@@ -42,12 +42,12 @@ public class MemberController {
 				     mav.setViewName("login");
 				     try {
 				    	 content =  vo.getImage().getBytes();
-				    	 File f = new File("C:/jjn/eclipse-workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/dalhada/resources/images/profile/"+fileName);			   
+				    	 File f = new File("C:/unico/eclipse-workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/dalhada/resources/images/profile/"+fileName);			   
 				    		 FileOutputStream fos = new FileOutputStream(f);
 				    		 fos.write(content);
 				    		 fos.close();
 				    		 
-					    	 File newf = new File("C:/jjn/eclipse-workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/dalhada/resources/images/profile/"+newName);
+					    	 File newf = new File("C:/unico/eclipse-workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/dalhada/resources/images/profile/"+newName);
 					    	 if(f.exists())
 					    		 f.renameTo(newf);
 				     } catch (IOException e) {
