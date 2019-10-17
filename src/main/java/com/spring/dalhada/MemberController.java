@@ -40,16 +40,17 @@ public class MemberController {
 					service.insert(vo);
 				     byte[] content = null;
 				     mav.setViewName("login");
+				     String imageurl = PathFinder.findImagePath("/profile/");
 				     try {
 				    	 content =  vo.getImage().getBytes();
-				    	 File f = new File("C:/jjn/eclipse-workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/dalhada/resources/images/profile/"+fileName);			   
-				    		 FileOutputStream fos = new FileOutputStream(f);
-				    		 fos.write(content);
-				    		 fos.close();
-				    		 
-					    	 File newf = new File("C:/jjn/eclipse-workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/dalhada/resources/images/profile/"+newName);
-					    	 if(f.exists())
-					    		 f.renameTo(newf);
+				    	 File f = new File(imageurl+fileName);			   
+				    	 FileOutputStream fos = new FileOutputStream(f);
+				    	 fos.write(content);
+				    	 fos.close();
+				    	 
+					     File newf = new File(imageurl+newName);
+					     if(f.exists())
+					    	 f.renameTo(newf);
 				     } catch (IOException e) {
 				    	 e.printStackTrace();
 				     }	
