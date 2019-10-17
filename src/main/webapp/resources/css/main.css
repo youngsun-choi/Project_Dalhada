@@ -1728,6 +1728,7 @@ input.num-product::-webkit-inner-spin-button {
   visibility: hidden;
   opacity: 0;
 }
+
 .modal_image{
 	width: 90%;
 }
@@ -1773,6 +1774,19 @@ input.num-product::-webkit-inner-spin-button {
 }
 
 .btn-bd {border: 1px solid #071f4c;}
+
+.button-modal-map{
+  border: none;
+  padding: 9px 20px;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  border-radius: 20px;
+  margin: 5px;
+  width: 70px;
+  height: 40px;
+}
+}
 /*file*/
 .file-btn{
 	background-color: #fff;
@@ -3154,6 +3168,13 @@ input.num-product::-webkit-inner-spin-button {
   
   /*-----------------------------------------------------*/
   [ Youtube ]
+  .video{
+  	position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+    overflow: hidden;
+    margin-bottom: 4em;
+  }
   #v_content{
   	word-break: break-all;
   }

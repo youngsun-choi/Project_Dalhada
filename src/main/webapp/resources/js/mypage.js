@@ -49,7 +49,7 @@ function changeFunc() {
    }
    
    function plusGroup(){
-	   $("#plusGroup").append("<div style=\"margin: 0px;\"><input type=\"text\" class=\"groupModal\" name=\"CreGroup\">  <button type=\"button\" class=\"deleteGroup\">삭제</button></div>");
+	   $("#plusGroup").append("<div style=\"margin: 0px;\"><input type=\"text\" class=\"groupModal\" name=\"CreGroup\" required>  <button type=\"button\" class=\"deleteGroup\">삭제</button></div>");
 	   $('.deleteGroup').click(function(){
 		   this.closest("div").remove();
 	   });

@@ -15,6 +15,7 @@ public class EditBucketInfoVO {
 	private String d_day;
 	private float lat;
 	private float lng;
+	private String address;
 	public String getTitle() {
 		return title;
 	}
@@ -87,6 +88,18 @@ public class EditBucketInfoVO {
 	}
 	public void setSeletedbucket_id(int seletedbucket_id) {
 		this.seletedbucket_id = seletedbucket_id;
+	}
+	public String getMember_id() {
+		return member_id;
+	}
+	public void setMember_id(String member_id) {
+		this.member_id = member_id;
+	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
 	}
 	
 }

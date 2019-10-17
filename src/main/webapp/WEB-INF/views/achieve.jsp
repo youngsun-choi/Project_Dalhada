@@ -42,8 +42,11 @@
 	<link href="https://use.fontawesome.com/releases/v5.0.4/css/all.css" rel="stylesheet">
 </head>
 <body>
-	<header class="cd-main-header text-center flex flex-column flex-center">
-	    <h1>달하다님의 버킷리스트</h1>
+	<header class="cd-main-header txt-center flex flex-center">
+		<a href="javascript:history.back();">
+			<i id="back" class="fas fa-sign-in-alt fa-flip-horizontal fa-2x cl0"></i>
+		</a>
+	    <h1 class="p-l-15">달하다님의 버킷리스트</h1>
   	</header>
   	
   	<div class="txt-center">
@@ -52,7 +55,7 @@
   				<form action="achieve" method="POST" style="display:inline;">
   					<input type="hidden" name="age" value="${aList}">
 		  			<button type="submit" class="button-modal cl0 bg10">${aList}0대 때</button>
-		  		</form>
+		  		</form> 
 		  	</c:forEach>
 	  	</c:if>
 	</div>
@@ -62,21 +65,21 @@
 		    <div class="container max-width-lg cd-timeline__container">
 		    	<!-- cd-timeline__block -->
 		    	<c:forEach var="vo" items="${achieveList}">
-		    		<div class="cd-timeline__block">
-				      	<!-- cd-timeline__img -->
-				        <div class="cd-timeline__img cd-timeline__img--picture">
-				          <img src="images/achieve/cd-icon-picture.svg" alt="Picture">
-				        </div> 
-				
-						<!-- cd-timeline__content -->
-				        <div class="cd-timeline__content text-component">
-				          <img id="${vo.selectedbucket_id }" class="js-show-modal-bucket" src="images/bucket/${vo.bucketImage_path}">
-				          <p class="color-contrast-medium">${vo.title}</p>
-				
-				          <div class="flex justify-between items-center">
-				            <span class="cd-timeline__date">완료일 : ${vo.complete_date}</span>
-				          </div>
-				        </div> 
+		    		<div class="cd-timeline__block"> 
+						<!-- cd-timeline__img -->
+					        <div class="cd-timeline__img cd-timeline__img--picture">
+					          <!-- <img src="images/achieve/cd-icon-picture.svg" alt="Picture"> -->
+					        </div> 
+						
+							<!-- cd-timeline__content -->
+					        <div class="cd-timeline__content text-component">
+					          <img data-id="${vo.selectedbucket_id }" class="js-show-modal-bucket p-b-5" src="images/bucket/${vo.bucketImage_path}">
+					          <p data-id="${vo.selectedbucket_id }" class="js-show-modal-bucket color-contrast-medium">${vo.title}</p>
+					
+					          <div class="flex justify-between items-center">
+					            <span class="cd-timeline__date">완료일 : ${vo.complete_date}</span>
+					          </div>
+					        </div>      	 
 				   </div> 
 		     	</c:forEach>
 		    </div>
@@ -116,23 +119,9 @@
 <!--===============================================================================================-->
 	<script src="vendor/MagnificPopup/jquery.magnific-popup.min.js"></script>
 <!--===============================================================================================-->
-	<script src="vendor/perfect-scrollbar/perfect-scrollbar.min.js"></script>
-	<script>
-		$('.js-pscroll').each(function(){
-			$(this).css('position','relative');
-			$(this).css('overflow','hidden');
-			var ps = new PerfectScrollbar(this, {
-				wheelSpeed: 1,
-				scrollingThreshold: 1000,
-				wheelPropagation: false,
-			});
-
-			$(window).on('resize', function(){
-				ps.update();
-			})
-		});
-	</script>
-
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/0.6.10/js/perfect-scrollbar.jquery.js"></script>
+<!--===============================================================================================-->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.2.3/flatpickr.js"></script>
 <!--===============================================================================================-->
 	<script src="vendor/isotope/isotope.pkgd.min.js"></script>
 <!--===============================================================================================-->

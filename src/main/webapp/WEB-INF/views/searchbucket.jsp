@@ -148,16 +148,16 @@
 	</header>
 
 	<!-- video -->
-	<section class="flex-l p-lr-30 p-t-30 result-video">
-		<div id="results" class="p-lr-15"></div>
-		<div>
-			<div id="v_content" class="p-l-15 p-r-50 dis-block"></div>
-			<div>
-				<button class="button-modal cl0 bg10" 
-				onclick="window.open('https://www.youtube.com/results?search_query=${videoKeyword}')">관련 동영상 더보기</button>
-			</div>
-		</div> 
-	</section>	
+	<div class="container p-t-20">
+		<div class="row result-video">
+			<div id="video" class="col-md p-lr-15 txt-center"></div>
+			<div class="col-md">
+				<div id="v_content" class="p-l-15"></div>
+					<button class="button-modal cl0 bg10" 
+					onclick="window.open('https://www.youtube.com/results?search_query=${videoKeyword}')">관련 동영상 더보기</button>
+			</div> 
+		</div>	
+	</div>
 
 
 	<!-- Content page -->
@@ -189,7 +189,7 @@
 													</a>
 												</div>
 												
-												<div class="txt-right">
+												<div class="txt-right heartdiv">
 													<a data-id="${vo.selectedbucket_id }" id='heart${vo.selectedbucket_id }' class="heart fs-23 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addlike  ${vo.className } tooltip100" data-tooltip="좋아요">
 					                                    <i class="zmdi zmdi-favorite"></i> 
 					                                </a>
@@ -204,10 +204,10 @@
 		                     </c:if>	
 		                     <c:if test="${ empty searchList }">
 				                <c:if test="${empty tag}">
-				                	<h2 class="txt-center">'${keyword}'에 대한 검색결과가 없습니다.</h2>
+				                	<h2 class="txt-center p-t-30">'${keyword}'에 대한 검색결과가 없습니다.</h2>
 				                </c:if>
 				                 <c:if test="${not empty tag}">
-				                	<h2 class="txt-center">'${tag}'태그와 관련된 검색결과가 없습니다.</h2>
+				                	<h2 class="txt-center p-t-30">'${tag}'태그와 관련된 검색결과가 없습니다.</h2>
 				                </c:if>
 		                	</c:if>	
 	               		</div>

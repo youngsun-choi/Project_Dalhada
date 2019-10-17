@@ -86,7 +86,8 @@ public class MypageService {
 	}
 	
 	public boolean CreateDiary(int id) {
-		if (Dao.CreateDiary(id) != 1) return false;
-		return true;
+		boolean result = true;
+		if (Dao.CreateDiary(id) != 1) result = false;
+		return result;
 	}
 }

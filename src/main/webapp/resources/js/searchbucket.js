@@ -1,5 +1,5 @@
 function init() {
-    gapi.client.setApiKey("AIzaSyAklfnLXflxfSrdpsd1UEHs_9DCXHp1M3o");
+    gapi.client.setApiKey("API키");
     gapi.client.load("youtube", "v3", function() {
     	var keyword= $('input[name="searchKeyword"]').val(); // yt api is ready
 		var action = $('input[name="action"]').val();
@@ -47,7 +47,8 @@ var searchSubmit = function(keyword, action, curPage){
 			
 			var first=''; var num=''; var next=''; var last=''; var ad=''; var code=''; var searchnull='';
 			if(data.searchList != ""){
-				if(data.listCnt != null){ //paging
+				//paging
+				if(data.listCnt != null){ 
 					first = (pagination.curPage != 1) ? '<a href="#" onclick=\'searchSubmit("'+keyword+'","'+action+'",1); return false;\' '
 							+'class="flex-c-m how-pagination1 trans-04 m-all-7"> << </a>'
 							+'<a href="#" onclick=\'searchSubmit("'+keyword+'","'+action+'",1); return false;\' '
@@ -66,29 +67,28 @@ var searchSubmit = function(keyword, action, curPage){
 					last = (pagination.curPage != pagination.pageCnt) ? '<a href="#" onclick=\'searchSubmit("'+keyword+'","'+action+'",'+pagination.pageCnt+'); return false;\' ' 
 							+'class="flex-c-m how-pagination1 trans-04 m-all-7"> >> </a>' : '';
 				}
-				
+				//searchlist
 				$.each(data.searchList, function(index, item){
 					ad = (item.isAd == 'p') ? '<i class="fas fa-ad cl3 float-r"></i>' : '';
 					code += '<div class="item-slick2 p-l-15 p-r-15 p-t-10 p-b-10 isotope-item women"> '+
-							'<div class="block3"> <div class="block3-wrap"><a class="block3-img flex-c-m trans-04"><img id="'+
+							'<div class="block3"> <div class="block3-wrap"><a class="block3-img flex-c-m trans-04"><img data-id="'+
 							   item.selectedbucket_id+'" class="js-show-modal-bucket "'+ 
 							'src="images/bucket/'+item.image_path+'" alt="IMG-PRODUCT"></a>'+ad+'</div> '
 					+'<div class="p-t-14"><div class="block3-txt-child1 flex-col-l txt-left"> '
 									+'<a data-id="'+item.selectedbucket_id+'" class="js-show-modal-bucket stext-104 cl4 hov-cl1 trans-04 p-b-6"> '
-									+item.title+'</a></div><div class="txt-right"><button data-id="'
+									+item.title+'</a></div><div class="txt-right"><a data-id="'
 									+item.selectedbucket_id+'" id="heart'+item.selectedbucket_id+'" class="heart fs-23 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addlike '
-									+item.className+' tooltip100" data-tooltip="좋아요"> <i class="zmdi zmdi-favorite"></i></button> '
+									+item.className+' tooltip100" data-tooltip="좋아요"> <i class="zmdi zmdi-favorite"></i></a> '
 									+'<button class="fs-23 cl4 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addlike tooltip100" data-tooltip="가져오기"> '
 					                +'<i data-id="'+item.bucket_id+'" data-value="'+item.selectedbucket_id+'" class="js-show-modal-get fa fa-plus-square"></i> ' 
 					                +'</button></div></div></div></div> ';
 				});
 				resultgrid.append('<div class="row isotope-grid ">'+code+'</div><div class="flex-c-m flex-w w-full p-t-10 m-lr--7">'+first+num+next+last+'</div>');
 			}else{
-				searchnull = (data.tag == "") ? '<h2 class="txt-center">"'+data.keyword+'"에 대한 검색결과가 없습니다.</h2>' : 
-					'<h2 class="txt-center">"'+data.tag+'"태그와 관련된 검색결과가 없습니다.</h2>';
+				searchnull = (data.tag == "") ? '<h2 class="txt-center p-t-60">"'+data.keyword+'"에 대한 검색결과가 없습니다.</h2>' : 
+					'<h2 class="txt-center p-t-60">"'+data.tag+'"태그와 관련된 검색결과가 없습니다.</h2>';
 				resultgrid.append(searchnull);
 			}
-			
 			//naverblog
 			if(data.naverBlogList != ""){
 				$.each(data.naverBlogList, function(index, item){
@@ -108,12 +108,12 @@ var searchSubmit = function(keyword, action, curPage){
 		   request.execute(function(response) { // execute the request
 			   var resultvideo = $('.result-video');
 			   resultvideo.html('');
-			   resultvideo.append('<div id="results" class="p-lr-15"><iframe width="500" height="295" src="//www.youtube.com/embed/'
+			   resultvideo.append('<div id="video" class="col-md p-lr-15 txt-center"><iframe width="500" height="295" src="//www.youtube.com/embed/'
 					   +response.items[0].id.videoId+'?&autoplay=1" frameborder="0" allow="autoplay;"></iframe></div>'
-					   +'<div><div id="v_content" class="p-l-15 p-r-50 dis-block"><h4 class="p-t-10">'+response.items[0].snippet.title+'</h4>'
-					   +'<h6 class="p-t-20">'+response.items[0].snippet.description+'</h6></div>'
-					   +'<div><button class="button-modal cl0 bg10" '
-					   +'onclick="window.open(\'https://www.youtube.com/results?search_query='+data.videoKeyword+'\')">관련 동영상 더보기</button></div></div>');
+					   +'<div class="col-md"><div id="v_content" class="p-l-15"><h4 class="p-t-10">'+response.items[0].snippet.title+'</h4>'
+					   +'<h6 class="p-t-20 p-b-10">'+response.items[0].snippet.description+'</h6></div>'
+					   +'<button class="button-modal cl0 bg10 " '
+					   +'onclick="window.open(\'https://www.youtube.com/results?search_query='+data.videoKeyword+'\')">관련 동영상 더보기</button></div>');
 		   });
 		},
 		error : function(request,status,error){

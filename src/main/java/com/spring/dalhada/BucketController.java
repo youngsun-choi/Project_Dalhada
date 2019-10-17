@@ -55,14 +55,19 @@ public class BucketController {
 		list.add(new BucketLists("좋아요순 버킷", bucketservice.selectTOPBucket(member_id)));
 		if(member_id!=null) {
 			list.add(new BucketLists("내가 가져온 버킷을 만든 유저들의 버킷", bucketservice.selectSimilarBucket(member_id)));
+			//list.add(new BucketLists("내가 많이 선택한 태그가 포함된 버킷", bucketservice.selectMyTagBucket(member_id)));
+			//list.add(new BucketLists("", bucketservice.selectMyTagBucket(member_id)));
 		}else {
-			list.add(new BucketLists("많이 선택된 태그가 포함된 버킷", bucketservice.selectTagBucket(member_id)));
+			int cnt = 3;
+			List<TagInfoVO> taglists = bucketservice.popularTags(cnt);
+			for(int i = 0; i<cnt; i++) {
+				list.add(new BucketLists("Top"+(i+1)+" #"+taglists.get(i).getName(), bucketservice.selectTagBucket(taglists.get(i).getTag_id())));
+			}
 		}
 		mav.addObject("lists", list);
 		mav.setViewName("main");
 		return mav;
 	}
-	
 	@RequestMapping(value="/main/like")
 	@ResponseBody
 	public String clickheart(HttpSession session, LikeInfoVO vo) {
@@ -159,10 +164,10 @@ public class BucketController {
 	}
 	@RequestMapping(value="/insertgetbucket")
 	@ResponseBody
-	public String insertgetbucket(HttpSession session, InsertedBucketVO vo, @RequestParam(value="g_id")String g_id) {	
+	public String insertgetbucket(HttpSession session,@RequestParam(value="taglist")List<String> taglist, InsertedBucketVO vo) {	
 		String member_id = (String) session.getAttribute("id"), result = "success";
 		vo.setMember_id(member_id);
-		vo.setGroup_id(Integer.parseInt(g_id));
+		vo.setTag_id(taglist);
 		if(bucketservice.insertGetBucket(vo) < 1) result = "error";
 		return result;
 	}

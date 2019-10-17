@@ -55,7 +55,8 @@ public class MypageController {
 			}
 			mav.addObject("ageList", ageList.stream().distinct().collect(Collectors.toList()));
 		}
-		mav.addObject("achieveList", selectedAchieveList);
+		//mav.addObject("achieveList", selectedAchieveList);
+		mav.addObject("achieveList", achieveList);
 		mav.setViewName("achieve");
 		return mav;
 	}
@@ -139,12 +140,6 @@ public class MypageController {
 						service.delete(Integer.parseInt(vo1.getBox()[i]));
 					}
 				}
-				if(vo1.getComp()!=null) { // 버킷 완료버튼
-					map.put("member_id",  vo.getId());
-					map.put("id", Integer.parseInt(vo1.getComp()));
-					service.complete(map);
-					service.CreateDiary(Integer.parseInt(vo1.getComp()));
-				}
 			}
 
 			Map<String, Object> choose = new HashMap<String, Object>();
@@ -196,7 +191,7 @@ public class MypageController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("member_id", id);
 		map.put("id", Integer.parseInt(mid));
-		if(service.complete(map)) {
+		if(service.complete(map) && service.CreateDiary(Integer.parseInt(mid))) {
 			return "true";
 		}return "false";
 	}

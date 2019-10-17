@@ -30,10 +30,16 @@ public class BucketDAO {
 		list = session.selectList(statement, member_id);
 		return list;
 	}
-	public List<BucketVO> selectTagBucket(String member_id){
+	public List<TagInfoVO> popularTags(int cnt){
+		List<TagInfoVO> list = new ArrayList<TagInfoVO>();
+		String statement = "resource.BucketMapper.popularTags";
+		list = session.selectList(statement, cnt);
+		return list;
+	}
+	public List<BucketVO> selectTagBucket(int tag_id){
 		List<BucketVO> list = new ArrayList<BucketVO>();
 		String statement = "resource.BucketMapper.selectTagBucket";
-		list = session.selectList(statement, member_id);
+		list = session.selectList(statement, tag_id);
 		return list;
 	}
 	public List<BucketVO> selectSimilarBucket(String member_id){

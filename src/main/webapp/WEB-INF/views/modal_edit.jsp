@@ -33,12 +33,13 @@
 		            	<div class="stext-102 cl3 p-t-10">d-Day</div>
 		                <input id="edit-d-day" class="d-day" type="text" name="date" placeholder="Select Date.." data-input>
 		                <div class="stext-102 cl3 p-t-10">위치</div>
-		                <input id="edit-location"type="text" class="form-control wid-50pc dis-inline" placeholder="위치">
+		                <input id="edit-location"type="text" class="form-control m-b-10 wid-50pc dis-inline" placeholder="장소를 입력해보세요.">
+		                <button id="edit-location-select" class="button-modal-map cl0 bg10 dis-lnline">선택</button>
 		                <div id="mapid_edit" class="hei-300px wid-90pc"></div>
 		                <div id="edit-warntest" class="cl14"></div>
 						<div class="txt-center">
-							<input type="hidden" id="editedbucket_id"/>
-	      						<button id="edit-submit" class="button-modal cl0 bg10">수정</button>
+							<input type="hidden" id="edit_bucket_id"/>
+	      					<button id="edit-submit" class="button-modal cl0 bg10">수정</button>
 						    <button class="js-hide-modal-edit button-modal cl13 bg0 btn-bd" data-dismiss="modal">취소</button>
 					    </div>
 		            </div>

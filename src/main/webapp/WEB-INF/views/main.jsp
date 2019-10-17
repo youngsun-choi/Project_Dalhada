@@ -13,8 +13,6 @@
 	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
-	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" 
-	integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="fonts/iconic/css/material-design-iconic-font.min.css">
 <!--===============================================================================================-->
@@ -54,7 +52,7 @@
 					</a>
 					<!-- Icon header -->
 					<div class="wrap-icon-header flex-w flex-r-m h-full">
-						<form id="searchForm" class="form-inline flex-c-m h-full p-r-24" action="searchbucket" method="post">
+						<form id="searchForm" class="form-inline flex-c-m h-full p-r-24" action="searchbucket" method="get">
 	    					<div class="bor17 of-hidden pos-relative">
 								<input class="searchKeyDown stext-103 cl2 plh4 size-116 p-l-28 p-r-55" type="text" 
 								name="searchKeyword" placeholder="Search" value="${ keyword }" autocomplete="off">
@@ -108,7 +106,7 @@
 		<div class="menu-mobile">
 			<ul class="main-menu-m">
 				<li>
-					<form id="searchForm" class="form-inline" action="searchbucket" method="post">
+					<form id="searchForm" class="form-inline" action="searchbucket" method="get">
 	    					<div class="bor17 of-hidden pos-relative">
 								<input class="searchKeyDown stext-103 cl2 plh4 size-116 p-l-28 p-r-55" type="text" 
 								name="searchKeyword" placeholder="Search" value="${ keyword }" autocomplete="off">
@@ -124,7 +122,7 @@
 				</c:if>
 				<c:if test="${!empty sessionScope.id}">
 					<li><a class="js-show-modal-create hov-cl1">버킷+</a></li>
-					<li><a href="mypage">마이페이지</a>	</li>
+					<li><a href="memberform">마이페이지</a>	</li>
 					<li><a href="loginmain">로그아웃</a></li>
 				</c:if>
 			</ul>
@@ -139,9 +137,9 @@
 	<section class="sec-product bg0 p-tb-10">
 		<div class="container">
 			<div class="p-b-5">
-				<h3 class="ltext-90 cl5 respon1">
+				<h4 class="ltext-90 cl5 respon1">
 					${list.title}
-				</h3>
+				</h4>
 			</div>
 			<!-- Tab01 -->
 			<div class="tab01">
@@ -160,9 +158,6 @@
 											<a class="block2-img flex-c-m p-lr-15 trans-04">
 												<img data-id="${vo.selectedbucket_id }"  class="js-show-modal-bucket " src="images/bucket/${vo.image_path }" alt="IMG-PRODUCT">
 											</a>
-											<c:if test="${!empty vo.isAd}">
-					                              	<i class="fas fa-ad cl3 float-r"></i>
-					                            </c:if> 
 										</div>
 										<div class="block2-txt flex-w flex-t p-t-14">
 											<div class="block2-txt-child1 flex-col-l ">
@@ -197,6 +192,7 @@
 
 	</footer>
 
+	
 	<%@ include file="modal_detail.jsp" %>
 	<%@ include file="modal_create.jsp" %>
 	<%@ include file="modal_get.jsp" %>

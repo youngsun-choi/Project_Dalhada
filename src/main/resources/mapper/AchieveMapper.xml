@@ -7,7 +7,7 @@
 	<!-- 완료,상세버킷 select -->
  	<select id="selectCompleteBucket" parameterType="String"  resultType="vo.AchieveVO">
  		select bi.image_path bucketImage_path, sb.id selectedbucket_id, title, sb.content sb_content, address, lat, lng, 
-		to_char(complete_date,'yyyy-MM-dd') complete_date, di.content di_content, 
+		to_char(complete_date,'yyyy.MM.dd') complete_date, di.content di_content, 
     		(select count(*)
     		from likeinfo
     		where selectedbucket_id = sb.id) like_cnt, 
