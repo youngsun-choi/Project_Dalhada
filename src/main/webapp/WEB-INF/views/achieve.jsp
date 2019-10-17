@@ -40,22 +40,63 @@
 	<link rel="stylesheet" type="text/css" href="css/main.css">
 <!--===============================================================================================-->
 	<link href="https://use.fontawesome.com/releases/v5.0.4/css/all.css" rel="stylesheet">
+<style>
+
+
+</style>
 </head>
 <body>
+<!--===============================================================================================-->	
+	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
+<script>
+	function moveTo(seq){
+        var offset = $("#move" + seq).offset();
+        $('html, body').animate({scrollTop : offset.top}, 500);
+    }
+	
+	$(function(){
+		var menupos = $("header").offset().top;
+		   $(window).scroll(function(){
+		      if($(window).scrollTop() >= menupos) {
+		         $("#header").css("position","fixed");
+		         $("#header").css("top","0");
+		         } else {
+		         $("#header").css("position","relative");
+		         $("#header").css("top","0");
+		      }
+		});		   
+	});
+	$(function(){
+		var menupos = $("#navMenu").offset().top;
+		   $(window).scroll(function(){
+		      if($(window).scrollTop() >= menupos) {
+		         $("#navMenu").css("position","fixed");
+		         $("#navMenu").css("top","50");
+		         } else {
+		         $("#navMenu").css("position","relative");
+		         $("#navMenu").css("top","0");
+		         $("#blank").show();
+		      }
+		  });
+	});	
+</script>
 	<header class="cd-main-header txt-center flex flex-center">
 		<a href="javascript:history.back();">
 			<i id="back" class="fas fa-sign-in-alt fa-flip-horizontal fa-2x cl0"></i>
 		</a>
 	    <h1 class="p-l-15">달하다님의 버킷리스트</h1>
   	</header>
-  	
-  	<div class="txt-center">
-  		<c:if test="${!empty ageList}">
-  			<c:forEach var="aList" items="${ageList}">
-  				<form action="achieve" method="POST" style="display:inline;">
-  					<input type="hidden" name="age" value="${aList}">
-		  			<button type="submit" class="button-modal cl0 bg10">${aList}0대 때</button>
-		  		</form> 
+  	<div id="blank" style="display:none;"></div>
+  	<div id="navMenu" class="txt-center">
+  		<c:if test="${!empty achieveList}">
+  			<c:set var="index" value="0"/>
+  			<c:set var="moveList" value="${moveList}"/>
+  			<c:set var="diAgeList" value="${diAgeList}"/>
+  			<c:forEach var="aList" items="${aList}" varStatus="status">
+  				<c:if test="${aList eq diAgeList[index]}">
+  					<button onclick="moveTo(${moveList[status.index]})" class="navBtn clickBtn">${diAgeList[index]}0대 때</button>
+  					<c:set var="index" value="${index+1}"/>
+  				</c:if>
 		  	</c:forEach>
 	  	</c:if>
 	</div>
@@ -64,12 +105,12 @@
 			<!-- cd-timeline__container 시작 -->
 		    <div class="container max-width-lg cd-timeline__container">
 		    	<!-- cd-timeline__block -->
-		    	<c:forEach var="vo" items="${achieveList}">
-		    		<div class="cd-timeline__block"> 
+		    	<c:forEach var="vo" items="${achieveList}" varStatus="status">
+		    		<div id="move${vo.selectedbucket_id}" class="cd-timeline__block"> 
 						<!-- cd-timeline__img -->
-					        <div class="cd-timeline__img cd-timeline__img--picture">
-					          <!-- <img src="images/achieve/cd-icon-picture.svg" alt="Picture"> -->
-					        </div> 
+					    <div class="cd-timeline__img cd-timeline__img--picture">
+					        <h6 class="bucket_count cl0 txt-center">${status.count}</h6>
+					    </div> 
 						
 							<!-- cd-timeline__content -->
 					        <div class="cd-timeline__content text-component">
@@ -79,7 +120,7 @@
 					          <div class="flex justify-between items-center">
 					            <span class="cd-timeline__date">완료일 : ${vo.complete_date}</span>
 					          </div>
-					        </div>      	 
+					        </div>          	 
 				   </div> 
 		     	</c:forEach>
 		    </div>
@@ -90,17 +131,21 @@
 	    </c:if>
 	    
 			
-			<!-- Back to top -->
-			<div class="btn-back-to-top" id="myBtn">
-				<span class="symbol-btn-back-to-top">
-					<i class="zmdi zmdi-chevron-up"></i>
-				</span>
-			</div>
+		<!-- Footer -->
+		<footer class="bg3 m-t-250 p-t-90 p-b-90">
+	
+		</footer>
+			
+		<!-- Back to top -->
+		<div class="btn-back-to-top m-b-60" id="myBtn">
+			<span class="symbol-btn-back-to-top">
+				<i class="zmdi zmdi-chevron-up"></i>
+			</span>
+		</div>
 	</section> 
 	
 	<%@ include file="modal_detail.jsp" %>
-<!--===============================================================================================-->	
-	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
+
 <!--===============================================================================================-->
 	<script src="vendor/animsition/js/animsition.min.js"></script>
 <!--===============================================================================================-->

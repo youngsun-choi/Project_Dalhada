@@ -5,9 +5,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -43,19 +43,22 @@ public class MypageController {
 		ModelAndView mav = new ModelAndView();
 		String id = (String) session.getAttribute("id");
 		List<AchieveVO> achieveList = achieveService.selectCompleteBucket(id);
-		List<AchieveVO> selectedAchieveList = new ArrayList<AchieveVO>();
-		List<Integer> ageList = new ArrayList<Integer>();
-		int numAge = 0;
+		List<Integer> diAgeList = new ArrayList<Integer>();
+		List<Integer> aList = new ArrayList<Integer>();
+		List<Integer> moveList = new ArrayList<Integer>();
+		
 		if(achieveList.size() != 0) {
-			numAge = (age != null) ? Integer.parseInt(age) : achieveList.get(0).getAge();
 			for(AchieveVO vo:achieveList) {
-				ageList.add(vo.getAge());
-				if(vo.getAge()==numAge)
-					selectedAchieveList.add(vo);
+				diAgeList.add(vo.getAge());
+				aList.add(vo.getAge());
+				moveList.add(vo.getSelectedbucket_id());
 			}
-			mav.addObject("ageList", ageList.stream().distinct().collect(Collectors.toList()));
+			HashSet<Integer> ageData = new HashSet<Integer>(diAgeList);
+			diAgeList = new ArrayList<Integer>(ageData);
+			mav.addObject("diAgeList", diAgeList); //중복제거
+			mav.addObject("aList",aList);
+			mav.addObject("moveList",moveList);
 		}
-		//mav.addObject("achieveList", selectedAchieveList);
 		mav.addObject("achieveList", achieveList);
 		mav.setViewName("achieve");
 		return mav;

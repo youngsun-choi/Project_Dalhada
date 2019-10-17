@@ -3520,8 +3520,9 @@ mark {
     background: #071f4c;
     color: #fff;
     -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale
+    -moz-osx-font-smoothing: grayscale;
 }
+
 
 .cd-main-header h1 {
     /* font-family: 'Open Sans', sans-serif;
@@ -3532,18 +3533,12 @@ mark {
 .cd-timeline {
     overflow: hidden;
     padding: 2em 0;
-    padding: var(--space-lg) 0;
+    padding: calc(3*var(--space-unit)) 0 0 0;
     color: hsl(207, 10%, 55%);
     color: var(--cd-color-3);
-    /* background-color: hsl(205, 38%, 93.45%);
-    background-color: hsl(var(--cd-color-2-h), var(--cd-color-2-s), calc(var(--cd-color-2-l)*1.05)); */ /* 배경색 */
-    /* font-family: 'Droid Serif', serif; 
-    font-family: var(--font-primary)*/
 }
 
 .cd-timeline h2 {
-    /* font-family: 'Open Sans', sans-serif;
-    font-family: var(--font-secondary); */
     font-weight: 700
 }
 
@@ -3604,7 +3599,7 @@ mark {
 
 .cd-timeline__img img {
     width: 24px;
-    height: 24px
+    height: 24px;
 }
 
 @media (min-width: 64rem) {
@@ -3612,8 +3607,9 @@ mark {
         width: 30px;
         height: 30px;
         left: 48.8%;
-        margin-top: 13px;
-        will-change: transform
+        margin-top: 55px;
+        will-change: transform;
+        
     }
 
     .cd-timeline__block:nth-child(even) .cd-timeline__img {
@@ -3621,19 +3617,14 @@ mark {
     }
 }
 
+.bucket_count{
+	left: 48.8%; 
+	margin-top: 7px;
+}
+
 .cd-timeline__img--picture {
     background-color: hsl(111, 51%, 60%);
     background-color: var(--cd-color-4)
-}
-
-.cd-timeline__img--movie {
-    background-color: hsl(356, 53%, 49%);
-    background-color: var(--cd-color-5)
-}
-
-.cd-timeline__img--location {
-    background-color: hsl(47, 85%, 61%);
-    background-color: var(--cd-color-6)
 }
 
 .cd-timeline__content { 
@@ -3705,7 +3696,7 @@ mark {
         position: absolute;
         width: 100%;
         left: 170%;
-        top: 15px
+        top: 55px
     }
 
     .cd-timeline__block:nth-child(even) .cd-timeline__date {
@@ -3850,4 +3841,33 @@ mark {
         -webkit-transform: translateX(0);
         transform: translateX(0)
     }
+}
+
+header{
+	z-index: 200;
+}
+#navMenu{
+    background: #fff;
+	margin: 0 10px; 
+	padding: 0;
+	position: fixed;
+	width: 100%;
+	z-index: 100;
+}  
+#blank {
+ height: 20px; 
+} 
+.navBtn{
+  border: none;
+  margin: 5px 10px;
+  padding: 5px 5px;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  font-size: 1.2em;
+}
+
+.clickBtn{
+	color : #071f4c;
+	background-color: #fff;
 }
