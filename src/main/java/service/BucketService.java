@@ -9,9 +9,10 @@ import dao.BucketDAO;
 import vo.BucketDetailVO;
 import vo.BucketVO;
 import vo.EditBucketInfoVO;
-import vo.LikeInfoVO;
 import vo.InsertedBucketVO;
+import vo.LikeInfoVO;
 import vo.StringIntVO;
+import vo.TagInfoVO;
 import vo.UpdatedBucketVO;
 
 @Service("bucketService")
@@ -26,8 +27,18 @@ public class BucketService {
 		}
 		return list;
 	}
-	public List<BucketVO> selectTagBucket(String member_id) {
-		List<BucketVO> list = bucketdao.selectTagBucket(member_id);
+	public List<TagInfoVO> popularTags(StringIntVO vo){
+		List<TagInfoVO> list = bucketdao.popularTags(vo);
+		return list;
+	}
+	public List<BucketVO> selectTagBucket(int tag_id) {
+		StringIntVO info = new StringIntVO(tag_id, null);
+		List<BucketVO> list = bucketdao.selectTagBucket(info);
+		return list;
+	}
+	public List<BucketVO> selectMyTagBucket(int tag_id, String member_id) {
+		StringIntVO info = new StringIntVO(tag_id, member_id);
+		List<BucketVO> list = bucketdao.selectTagBucket(info);
 		for(BucketVO vo: list) {
 			vo.addClass();
 		}

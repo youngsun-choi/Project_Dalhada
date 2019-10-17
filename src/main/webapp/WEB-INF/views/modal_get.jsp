@@ -33,12 +33,12 @@
 			            	<div class="stext-102 cl3 p-t-10">d-Day</div>
 			                <input id="get-d-day" class="d-day" type="text" name="date" placeholder="Select Date.." data-input>
 			                <div class="stext-102 cl3 p-t-23">위치</div>
-			                <input id="get-location"type="text" class="form-control wid-50pc dis-inline" placeholder="위치">
-			                <button class="js-show-location-get button-map cl13 bg0 btn-bd dis-inline" >위치보기</button>
-		                	<div id="mapid_get" class="hei-300px wid-90pc"></div>
+			                <input id="get-location" type="text" class="form-control wid-50pc m-b-10 dis-inline" placeholder="장소를 입력해보세요.">
+			            	<button id="get-location-select" class="button-modal-map cl0 bg10 dis-lnline">선택</button>
+			            	<div id="mapid_get" class="hei-300px wid-90pc"></div>
 			                <div id="get-warntest" class="cl14"></div>
 							<div class="txt-center">
-								<input type="hidden" id="bucket_id"/>
+								<input type="hidden" id="get_bucket_id"/>
 	       						<button id="get-submit" class="button-modal cl0 bg10">가져오기</button>
 							    <button class="js-hide-modal-get button-modal cl13 bg0 btn-bd" data-dismiss="modal">취소</button>
 						    </div>

@@ -2,31 +2,32 @@ $('#listAll').click(function() {
 	$('.All').css('display','block');
 	$('.Prog').css('display','none');
 	$('.Done').css('display','none');
+	$('#confirm').css('display','none');
 	$('.All').removeAttr('style');
 })
 $('#listProg').click(function() {
 	$('.All').css('display','none');
 	$('.Prog').css('display','block');
 	$('.Done').css('display','none');
+	$('#confirm').css('display','block');
 	$('.Prog').removeAttr('style');
 })
 $('#listDone').click(function() {
 	$('.All').css('display','none');
 	$('.Prog').css('display','none');
 	$('.Done').css('display','block');
+	$('#confirm').css('display','none');
 	$('.Done').removeAttr('style');
 })
 
 //프로필 수정 시 비밀번호 확인
 function ConfirmPw(){
 	var upPw = $('#upPw').val();
-	console.log(upPw);
 	$.ajax({
-		url : '/dalhada/Checkpw',
+		url : '/dalhada/Checkpw?password='+upPw,
 		type : 'post',
 		success : function(data){
-			console.log(data);
-			if (data == upPw){ // 삭제 완료
+			if (data == 'true'){ 
 				$('#updateInfo').css('display','block');
 				$('#CkUpdate').css('display','none');	   
 			}else{
@@ -48,12 +49,15 @@ function changeFunc() {
    }
    
    function plusGroup(){
-	   $("#plusGroup").append("<div style=\"margin: 0px;\"><input type=\"text\" class=\"groupModal\" name=\"CreGroup\">  <button type=\"button\" class=\"deleteGroup\">삭제</button></div>");
+	   $("#plusGroup").append("<div style=\"margin: 0px;\"><input type=\"text\" class=\"groupModal\" name=\"CreGroup\" required>  <button type=\"button\" class=\"deleteGroup\">삭제</button></div>");
 	   $('.deleteGroup').click(function(){
 		   this.closest("div").remove();
 	   });
    }
    
+   function achieve(){
+	   location.href='http://localhost:8000/dalhada/achieve';
+   }
  
 
    
@@ -82,7 +86,6 @@ function modalOpen2(){
 function modalCancel(){
 	document.getElementById('id01').style.display='none';
 	document.getElementById('id02').style.display='none';
-	location.reload();
 }
 
 /* 그룹 삭제 */
@@ -94,7 +97,6 @@ $('.delGroup').click(function(){
 		url : '/dalhada/delGroup?id=' + id,
 		type : 'post',
 		success : function(data){
-			console.log(data);
 			if (data == "true"){ // 삭제 완료
 					   $(add).closest("div").remove();
 			}
@@ -103,7 +105,19 @@ $('.delGroup').click(function(){
 	});
 });
 })
-		
+
+$('.comp').click(function(){
+	var comp_id=$(this).val();
+	$.ajax({
+		url : '/dalhada/comp?mid=' + comp_id,
+		type : 'post',
+		success : function(data){
+			if (data == "true"){ // 삭제 완료
+			}
+		},					
+		error : function(){ console.log("실패"); }
+	});
+});
 
 
 //회원정보 수정시 프로필 이미지

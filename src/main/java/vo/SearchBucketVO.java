@@ -6,6 +6,7 @@ public class SearchBucketVO {
 	private int startRow;
     private int endRow;
     private String member_id;
+    private String action;
     
 	public String getSearchKeyword() {
 		return searchKeyword;
@@ -25,6 +26,12 @@ public class SearchBucketVO {
 	public void setStartRow(int startRow) {
 		this.startRow = startRow;
 	}
+	public String getAction() {
+		return action;
+	}
+	public void setAction(String action) {
+		this.action = action;
+	}
 	public int getEndRow() {
 		return endRow;
 	}
@@ -37,6 +44,7 @@ public class SearchBucketVO {
 	public void setMember_id(String member_id) {
 		this.member_id = member_id;
 	}
+	
 	@Override
 	public String toString() {
 		return "SearchBucketVO [searchKeyword=" + searchKeyword + ", searchTag=" + searchTag + ", startRow=" + startRow

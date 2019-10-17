@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,7 +37,6 @@ public class MypageController {
 	@Autowired
 	private AchieveService achieveService;
 
-
 	@RequestMapping(value = "/achieve")
 	public ModelAndView achieve(HttpSession session, @RequestParam(required=false) String age) {
 		ModelAndView mav = new ModelAndView();
@@ -54,8 +54,8 @@ public class MypageController {
 			}
 			mav.addObject("ageList", ageList.stream().distinct().collect(Collectors.toList()));
 		}
-		mav.addObject("achieveList", selectedAchieveList);
-		System.out.println("achieveList"+selectedAchieveList.toString());
+		//mav.addObject("achieveList", selectedAchieveList);
+		mav.addObject("achieveList", achieveList);
 		mav.setViewName("achieve");
 		return mav;
 	}
@@ -75,6 +75,8 @@ public class MypageController {
 				
 				if(vo1.getAction()!=null) { // 개인정보 수정
 				if(vo1.getAction().equals("UpCheck")) { // 비밀번호 수정
+					String hashPwd = BCrypt.hashpw(vo.getPassword(), BCrypt.gensalt());
+					vo.setPassword(hashPwd);
 					service.UpCheck(vo);
 					
 				}else if(vo1.getAction().equals("UpInfo")) { // 나머지 개인정보 수정
@@ -86,20 +88,21 @@ public class MypageController {
 						service.UpInfo(vo);
 					     byte[] content = null;
 					     mav.setViewName("login");
+					     String imageurl = PathFinder.findImagePath("/profile/");
 					     try {
 					    	 
-					    	 File originFilepath = new File("C:/jjn/eclipse-workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/dalhada/resources/images/profile/"+originFilename);
+					    	 File originFilepath = new File(imageurl+originFilename);
 					    	 if(originFilepath.exists()) {
 					    		 originFilepath.delete();	 
 					    	 }
 					    	 
 					    	 content =  vo.getImage().getBytes();
-					    	 File f = new File("C:/jjn/eclipse-workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/dalhada/resources/images/profile/"+fileName);			   
+					    	 File f = new File(imageurl+fileName);			   
 					    		 FileOutputStream fos = new FileOutputStream(f);
 					    		 fos.write(content);
 					    		 fos.close();
 					    		 
-						    	 File newf = new File("C:/jjn/eclipse-workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/dalhada/resources/images/profile/"+newName);
+						    	 File newf = new File(imageurl+newName);
 						    	 if(f.exists())
 						    		 f.renameTo(newf);
 
@@ -136,11 +139,6 @@ public class MypageController {
 					for (int i = 0; i < vo1.getBox().length; i++) {
 						service.delete(Integer.parseInt(vo1.getBox()[i]));
 					}
-				}
-				if(vo1.getComp()!=null) { // 버킷 완료버튼
-					map.put("member_id",  vo.getId());
-					map.put("id", Integer.parseInt(vo1.getComp()));
-					service.complete(map);
 				}
 			}
 
@@ -187,9 +185,22 @@ public class MypageController {
 		return "false";
 	}
 	
+	@RequestMapping(value = "/comp", method = RequestMethod.POST)
+	@ResponseBody
+	public String comp(String mid) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("member_id", id);
+		map.put("id", Integer.parseInt(mid));
+		if(service.complete(map) && service.CreateDiary(Integer.parseInt(mid))) {
+			return "true";
+		}return "false";
+	}
+	
 	@RequestMapping(value = "/Checkpw", method = RequestMethod.POST)
 	@ResponseBody
-	public String Checkpw() {
-		return service.Checkpw(id);
+	public String Checkpw(String password) {
+		if (BCrypt.checkpw(password, service.Checkpw(id))) {
+			return "true";
+		}else return "false";
 	}
 }

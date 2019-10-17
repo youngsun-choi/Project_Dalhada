@@ -50,8 +50,9 @@
 							</div>
 						<div class="form-group">
 						<button id="submit" type="button" class="btn float-right login_btn">로그인</button>
+						<div id="loginError"></div>
 					</div>
-					<div id="loginError"></div>
+						
 				</form>
 				
 			</div>
@@ -63,37 +64,6 @@
 		</div>
 	</div>
 </div>
-
-<script>
-var referer='';
-$(document).ready(function(){
-	
-	$("#submit").click(function(){
-		var id = $("#id").val();
-		var pwd = $("#password").val();
-
-		if(id==""){
-			$("#loginError").text("아이디를 입력하세요.").css("color", "red");		
-			return;
-		}else if(pwd==""){
-			$("#loginError").text("비밀번호를 입력하세요.").css("color", "red");		
-			return;
-		}
-		$.ajax({
-			url : '/dalhada/login?id='+id+'&password='+pwd,
-			type : 'post',
-			success : function(data){
-				if(data == "false"){
-						$("#loginError").text("아이디와 비밀번호가 일치하지 않습니다.").css("color", "red");	
-				}else{
-					if(document.referrer.includes('logout')||document.referrer.includes('memberform')||document.referrer.includes('loginmain'))
-						referer="http://localhost:8000/dalhada/main";
-					location.href=referer;
-				}
-			}
-		});
-	});
-});
-</script>
+<script src="js/login.js"></script>
 </body>
 </html>

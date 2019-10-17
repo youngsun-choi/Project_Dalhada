@@ -137,9 +137,9 @@
 	<section class="sec-product bg0 p-tb-10">
 		<div class="container">
 			<div class="p-b-5">
-				<h3 class="ltext-90 cl5 respon1">
+				<h4 class="ltext-90 cl5 respon1">
 					${list.title}
-				</h3>
+				</h4>
 			</div>
 			<!-- Tab01 -->
 			<div class="tab01">

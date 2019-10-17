@@ -13,12 +13,6 @@
     	from bucketinfo bi, selectedBucket sb, memberinfo mi
     	where bi.id = sb.bucket_id AND sb.id =#{id} AND mi.id = bi.member_id
  	</select>
- 	<select id="editBucketInfo"  resultType="vo.EditBucketInfoVO" parameterType="vo.StringIntVO">
-		select sb.id as seletedbucket_id, sb.title, sb.content, sb.lat, sb.lng, bi.image_path,
-				sb.group_id, to_char(sb.d_day, 'yyyy.mm.dd') as d_day, bi.member_id
-    	from bucketinfo bi, selectedBucket sb 
-    	where bi.id = sb.bucket_id AND sb.id =#{id}
- 	</select>
  	<select id="selectTOPBucket" resultType="vo.BucketVO" parameterType="String">
 		select *
 		from (select t.* ,  row_number() over(order by likecnt desc) rnum
@@ -26,39 +20,43 @@
                     	    (select count(*) from likeinfo Li where sb.id = Li.selectedbucket_id) likecnt, 
                         	(select count(*) from likeinfo Li where Li.member_id = #{member_id} and sb.id = Li.selectedbucket_id) islike
                     	from bucketinfo bi, selectedbucket sb
-                    	where bi.id = sb.bucket_id ) t)
+                    	where bi.id = sb.bucket_id <if test="value!=null"> and sb.member_id != #{value} </if>) t)
 		where rnum between 0 and 30
 	</select>
-	<select id="selectTagBucket" resultType="vo.BucketVO" parameterType="String">
-		select t.* ,  rownum
-        from (select sb.bucket_id , sb.id as selectedbucket_id, bi.image_path, sb.title, bi.isAD,
+	<select id="selectTagBucket" resultType="vo.BucketVO" parameterType="vo.StringIntVO">
+		select t.*
+        from (select sb.bucket_id , sb.id as selectedbucket_id, bi.image_path, sb.title,  
                         (select count(*) from likeinfo Li where sb.id = Li.selectedbucket_id) likecnt
+                  <if test="name!=null">, (select count(*) from likeinfo Li where Li.member_id = #{name} and sb.id = Li.selectedbucket_id) islike </if>
               from bucketinfo bi, selectedbucket sb
-              where bi.id = sb.bucket_id and 
+              where bi.id = sb.bucket_id <if test="name!=null"> and sb.member_id != #{name} </if>and 
                     sb.id in (select distinct bucket_id
                               from selectedtag
-                              where tag_id in(select tag_id
-                                              from (select count(*), tag_id,row_number() over(order by count(*) desc) rnum
-                                                    from selectedtag 
-                                                    group by tag_id) st
-                                              where rnum = 1))) t
+                              where tag_id = #{id})) t
 		where rownum between 0 and 30
 	</select>
 	<select id="selectSimilarBucket" resultType="vo.BucketVO" parameterType="String">
-		select rownum, t.*
+		select t.*
         from(select sb.bucket_id , sb.id as selectedbucket_id, bi.image_path, sb.title, bi.isAD,
                         (select count(*) from likeinfo Li where sb.id = Li.selectedbucket_id) likecnt, 
                         (select count(*) from likeinfo Li where Li.member_id = #{member_id} and sb.id = Li.selectedbucket_id) islike
                 from bucketinfo bi, selectedbucket sb
                 where bi.id = sb.bucket_id and bi.member_id = sb.member_id and
                             bi.member_id in(select st.member_id
-                                            from (select count(*), bi.member_id, 
-                                                                    row_number() over(order by count(*) desc) rnum
+                                            from (select count(*), bi.member_id, row_number() over(order by count(*) desc) rnum
                                                   from selectedbucket sb, bucketinfo bi
-                                                  where sb.member_id = #{member_id} and bi.member_id != #{member_id}
+                                                  where sb.member_id = #{member_id} and bi.member_id != #{member_id} and sb.bucket_id = bi.id 
                                                   group by bi.member_id) st
                                             where rnum between 1 and 4))t 
 		where rownum between 0 and 30
+	</select>
+	<select id="popularTags" resultType="vo.TagInfoVO" parameterType="vo.StringIntVO">
+		select t.tag_id, ti.name
+		from (select count(*), tag_id, row_number() over(order by count(*) desc) rnum
+		      from selectedtag st, selectedbucket sb
+		      where st.bucket_id = sb.id <if test="name!=null"> and sb.member_id = #{name} </if>
+		      group by tag_id) t, taginfo ti
+		where t.tag_id = ti.id and rnum between 1 and #{id}
 	</select>
 	<insert id="insertBucket" parameterType="vo.InsertedBucketVO">
 	{call
@@ -128,6 +126,12 @@
 		from likeinfo
 		where selectedbucket_id = #{selectedbucket_id}
 	</select>
+	<select id="editBucketInfo"  resultType="vo.EditBucketInfoVO" parameterType="vo.StringIntVO">
+		select sb.id as seletedbucket_id, sb.title, sb.content, sb.lat, sb.lng, bi.image_path,
+				sb.group_id, to_char(sb.d_day, 'yyyy.mm.dd') as d_day, bi.member_id, sb.address
+    	from bucketinfo bi, selectedBucket sb 
+    	where bi.id = sb.bucket_id AND sb.id =#{id}
+ 	</select>
 	<update id="updateBucket" parameterType="vo.UpdatedBucketVO">
 		update selectedbucket
 		set title = #{title},

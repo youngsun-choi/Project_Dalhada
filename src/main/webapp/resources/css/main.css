@@ -1774,6 +1774,19 @@ input.num-product::-webkit-inner-spin-button {
 }
 
 .btn-bd {border: 1px solid #071f4c;}
+
+.button-modal-map{
+  border: none;
+  padding: 9px 20px;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  border-radius: 20px;
+  margin: 5px;
+  width: 70px;
+  height: 40px;
+}
+}
 /*file*/
 .file-btn{
 	background-color: #fff;
@@ -1906,6 +1919,33 @@ input.num-product::-webkit-inner-spin-button {
 
 .block2-txt-child2 {
   width: 30px;
+}
+
+/*//////////////////////////////////////////////////////////////////
+[ Block3 ]*/
+.block3{
+	text-align: center;
+}
+.block3-img{
+	position: relative; 
+	width: 185px;
+	height: 185px;
+	overflow: hidden;
+}
+.block3-wrap{
+	display: inline-block;
+}
+.block3-img img{
+	display: block;
+	max-width: 100%;
+	height: auto;
+	position: absolute;
+}
+
+/*---------------------------------------------*/
+.block3-txt-child1 {
+	width: 180px;
+	word-break:break-all;
 }
 
 /*---------------------------------------------*/
@@ -2486,16 +2526,6 @@ input.num-product::-webkit-inner-spin-button {
   background-color: #000;
   opacity: 0.5;
 }
-
-/*---------------------------------------------*/
-.bg-img1 {
-  background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
-}
-
-
-
 
 /*==================================================================
        BORDER BORDER  BORDER  BORDER  BORDER  BORDER  BORDER  BORDER
@@ -3138,5 +3168,14 @@ input.num-product::-webkit-inner-spin-button {
   
   /*-----------------------------------------------------*/
   [ Youtube ]
-
+  .video{
+  	position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+    overflow: hidden;
+    margin-bottom: 4em;
+  }
+  #v_content{
+  	word-break: break-all;
+  }
 }

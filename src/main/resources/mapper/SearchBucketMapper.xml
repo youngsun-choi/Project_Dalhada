@@ -5,20 +5,20 @@
   
 <mapper namespace="resource.SearchBucketMapper">
 	<!-- 제목검색결과 수 -->
-	<select id="totalTitleCnt" parameterType="vo.SearchBucketVO" resultType="int">
+	<select id="totalTitleCnt" parameterType="vo.SearchBucketVO" resultType     ="int">
 		select count(*) from selectedbucket where title like #{searchKeyword}||'%'
 	</select>
-
+	
 	<!-- 제목검색 -->
  	<select id="searchTitle" parameterType="vo.SearchBucketVO"  resultType="vo.BucketVO">
- 		select bucket_id, sb.id selectedbucket_id, image_path, title, 
+ 		select bucket_id, sb.id selectedbucket_id, image_path, title, isAd,
  			(select count(*)
 			from likeinfo li
 			where li.member_id = #{member_id} and li.selectedbucket_id = sb.id) islike 
- 		from (select bi.id bucket_id, sb.id, bi.image_path image_path, sb.title title, rownum rnum 
+ 		from (select bi.id bucket_id, sb.id, bi.image_path image_path, sb.title title, isAd, rownum rnum 
  			from bucketinfo bi, selectedbucket sb 
  			where bi.id = sb.bucket_id and title like #{searchKeyword}||'%') sb
- 		where rnum between #{startRow} and #{endRow}
+ 		where rnum between #{startRow} and #{endRow} ORDER BY dbms_random.value
  	</select>
 	
 	<!-- 태그검색결과 수 -->
@@ -29,16 +29,16 @@
 
 	<!-- 태그검색 -->
 	<select id="searchTag" parameterType="vo.SearchBucketVO"  resultType="vo.BucketVO">
-		select bucket_id, sb.id selectedbucket_id, image_path, title, 
+		select bucket_id, sb.id selectedbucket_id, image_path, title, isAd,
 				(select count(*)
 				from likeinfo li
 				where li.member_id = #{member_id} and li.selectedbucket_id = sb.id) islike
 		from (select bi.id bucket_id, sb.id, 
-				bi.image_path image_path, sb.title title, rownum rnum 
+				bi.image_path image_path, sb.title title, isAd, rownum rnum 
 			from bucketinfo bi, selectedbucket sb
 			where bi.id = sb.bucket_id and sb.id in (select st.bucket_id from selectedtag st, taginfo ti
 								where st.tag_id = ti.id and ti.name = #{searchTag})) sb
-		 where rnum between #{startRow} and #{endRow}
+		 where rnum between #{startRow} and #{endRow} ORDER BY dbms_random.value
 	</select>
 	
 	<!-- 태그명 찾기 -->

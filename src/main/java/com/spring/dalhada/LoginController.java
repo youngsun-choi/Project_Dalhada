@@ -37,7 +37,6 @@ public class LoginController {
 	public ModelAndView loginmain(HttpSession session) {
 		ModelAndView mav = new ModelAndView();
 		String naverAuthUrl = NaverLoginVO.getAuthorizationUrl(session);
-		System.out.println("네이버:" + naverAuthUrl);
 
 		mav.addObject("url", naverAuthUrl);
 		mav.setViewName("login");
@@ -48,15 +47,12 @@ public class LoginController {
 	@RequestMapping(value = "/NaverLogin")
 	public ModelAndView NaverLogin(@RequestParam String code, @RequestParam String state, HttpSession session,
 			HttpServletRequest request) throws IOException, ParseException {
-		System.out.println("네아로 들어옴");
 		ModelAndView mav = new ModelAndView();
 		OAuth2AccessToken oauthToken;
 		oauthToken = NaverLoginVO.getAccessToken(session, code, state);
 
 		// 1. 로그인 사용자 정보를 읽어온다.
 		apiResult = NaverLoginVO.getUserProfile(oauthToken); // String형식의 json데이터
-		System.out.println("파싱값 :");
-		System.out.println(apiResult);
 		// 2. String형식인 apiResult를 json형태로 바꿈
 		JSONParser parser = new JSONParser();
 		Object obj = parser.parse(apiResult);
@@ -106,7 +102,7 @@ public class LoginController {
 	public ModelAndView logout(HttpSession session) {
 		ModelAndView mav = new ModelAndView();
 		session.invalidate();
-		mav.setViewName("main");
+		mav.setViewName("redirect:/main");
 		return mav;
 	}
 
