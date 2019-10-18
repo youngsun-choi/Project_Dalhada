@@ -77,7 +77,7 @@ var searchSubmit = function(keyword, action, curPage){
 					+'<div class="p-t-14"><div class="block3-txt-child1 flex-col-l txt-left"> '
 									+'<a data-id="'+item.selectedbucket_id+'" class="js-show-modal-bucket stext-104 cl4 hov-cl1 trans-04 p-b-6"> '
 									+item.title+'</a></div><div class="txt-right"><a data-id="'
-									+item.selectedbucket_id+'" id="heart'+item.selectedbucket_id+'" class="heart fs-23 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addlike '
+									+item.selectedbucket_id+'" class="heart heart'+item.selectedbucket_id+' fs-23 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addlike '
 									+item.className+' tooltip100" data-tooltip="좋아요"> <i class="zmdi zmdi-favorite"></i></a> '
 									+'<button class="fs-23 cl4 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addlike tooltip100" data-tooltip="가져오기"> '
 					                +'<i data-id="'+item.bucket_id+'" data-value="'+item.selectedbucket_id+'" class="js-show-modal-get fa fa-plus-square"></i> ' 

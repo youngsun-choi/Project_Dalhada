@@ -27,12 +27,18 @@ public class BucketService {
 		}
 		return list;
 	}
-	public List<TagInfoVO> popularTags(int cnt){
-		List<TagInfoVO> list = bucketdao.popularTags(cnt);
+	public List<TagInfoVO> popularTags(StringIntVO vo){
+		List<TagInfoVO> list = bucketdao.popularTags(vo);
 		return list;
 	}
 	public List<BucketVO> selectTagBucket(int tag_id) {
-		List<BucketVO> list = bucketdao.selectTagBucket(tag_id);
+		StringIntVO info = new StringIntVO(tag_id, null);
+		List<BucketVO> list = bucketdao.selectTagBucket(info);
+		return list;
+	}
+	public List<BucketVO> selectMyTagBucket(int tag_id, String member_id) {
+		StringIntVO info = new StringIntVO(tag_id, member_id);
+		List<BucketVO> list = bucketdao.selectTagBucket(info);
 		for(BucketVO vo: list) {
 			vo.addClass();
 		}

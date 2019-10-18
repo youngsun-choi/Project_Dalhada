@@ -1,4 +1,4 @@
-﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %> 
@@ -9,7 +9,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 <!--===============================================================================================-->	
-	<link rel="icon" type="image/png" href="images/icons/favicon.png"/>
+	<link rel="icon" type="image/png" href="images/icons/peak.ico"/>
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
 <!--===============================================================================================-->
@@ -124,7 +124,7 @@
 				</li>
 				<c:if test="${empty sessionScope.id}">
 					<li>
-						<a href="memberForm">회원가입</a>
+						<a href="memberform">회원가입</a>
 					</li>
 					<li>
 						<a href="loginmain">로그인</a>
@@ -135,10 +135,10 @@
 						<a class="js-show-modal-create hov-cl1">버킷+</a>
 					</li>
 					<li>
-						<a href="memberForm">마이페이지</a>
+						<a href="mypage">마이페이지</a>
 					</li>
 					<li>
-						<a href="loginmain">로그아웃</a>
+						<a href="logout">로그아웃</a>
 					</li>
 				</c:if>
 			</ul>
@@ -148,7 +148,7 @@
 	</header>
 
 	<!-- video -->
-	<div class="container p-t-20">
+	<div class="container">
 		<div class="row result-video">
 			<div id="video" class="col-md p-lr-15 txt-center"></div>
 			<div class="col-md">
@@ -161,7 +161,7 @@
 
 
 	<!-- Content page -->
-	<section class="bg0 p-t-30 p-b-60">
+	<section class="bg0 p-t-10 p-b-60">
 		<div class="container">
 			<div class="row">
 				<div class="col-md-8 col-lg-9 p-b-80">
@@ -190,7 +190,7 @@
 												</div>
 												
 												<div class="txt-right heartdiv">
-													<a data-id="${vo.selectedbucket_id }" id='heart${vo.selectedbucket_id }' class="heart fs-23 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addlike  ${vo.className } tooltip100" data-tooltip="좋아요">
+													<a data-id="${vo.selectedbucket_id }" class="heart heart${vo.selectedbucket_id } fs-23 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addlike  ${vo.className } tooltip100" data-tooltip="좋아요">
 					                                    <i class="zmdi zmdi-favorite"></i> 
 					                                </a>
 													<button class="fs-23 cl4 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addlike tooltip100" data-tooltip="가져오기">
@@ -259,7 +259,7 @@
 				<div class="col-md-4 col-lg-3 p-b-80">
 					<div class="side-menu">
 						<div>
-							<h4 class="mtext-112 cl2 p-b-33">
+							<h4 class="mtext-112 cl2 p-b-10">
 								Blogs
 							</h4>
 
@@ -276,8 +276,8 @@
 							</ul>
 						</div>
 
-						<div class="p-t-50">
-							<h4 class="mtext-112 cl2 p-b-27">
+						<div class="p-t-30">
+							<h4 class="mtext-112 cl2 p-b-10">
 								Tags
 							</h4>
 							<!-- 태그명 찾기 -->

@@ -4,6 +4,11 @@ public class StringIntVO {
 	private int id;
 	private String name;
 	
+	public StringIntVO(int id, String name) {
+		setId(id);
+		setName(name);
+	}
+	public StringIntVO() {}
 	public int getId() {
 		return id;
 	}

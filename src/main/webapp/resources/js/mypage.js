@@ -44,7 +44,7 @@ function changeFunc() {
     var selectBox = document.getElementById("selectBox");
     var selectedValue = selectBox.options[selectBox.selectedIndex].value;
     var index = selectBox.options[selectBox.selectedIndex].index;
-    location.href='http://localhost:8000/dalhada/mypage?group='+selectedValue;
+    location.href='http://70.12.113.183:8000/dalhada/mypage?group='+selectedValue;
     
    }
    
@@ -56,7 +56,7 @@ function changeFunc() {
    }
    
    function achieve(){
-	   location.href='http://localhost:8000/dalhada/achieve';
+	   location.href='http://70.12.113.183:8000/dalhada/achieve';
    }
  
 

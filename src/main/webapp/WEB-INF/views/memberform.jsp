@@ -20,6 +20,8 @@
 		<link rel="stylesheet" type="text/css" href="css/memberform.css">
 		
 		<title>Admin</title>
+		<!--===============================================================================================-->	
+		<link rel="icon" type="image/png" href="images/icons/peak.ico"/>
 	</head>
 	<body>
 		<div class="container">
@@ -43,7 +45,7 @@
 							<div class="cols-sm-10">
 								<div class="input-group">
 									<span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
-									<input type="text" id="userId" class="form-control" name="id" required placeholder="Enter your ID" >
+									<input type="text" id="userId" class="form-control" name="id" required placeholder="ID, 영어, 숫자로 된 4-12글자" >
 								</div>
 							</div>
 						</div>
@@ -53,10 +55,11 @@
 							<div class="cols-sm-10">
 								<div class="input-group">
 									<span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
-									<input type="text" class="form-control" name="email" required placeholder="Enter your Email"/>
+									<input type="text" class="form-control" id="useremail" name="email" required placeholder="Enter your Email"/>
 								</div>
 							</div>
 						</div>
+						<div id="emailError"></div>
 						<div class="form-group">
 						<label for="birth" class="cols-sm-2 control-label">Your Birth</label>
 							<div class="cols-sm-10">
@@ -71,11 +74,11 @@
 							<div class="cols-sm-10">
 								<div class="input-group">
 									<span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
-									<input type="password" id="pw" class="form-control" name="password" required  placeholder="Enter your Password"/>
+									<input type="password" id="pw" class="form-control" name="password" required  placeholder="Password, 영어, 숫자로 된 4-12글자"/>
 								</div>
 							</div>
 						</div>
-
+						<div id="pwError"></div>
 						<div class="form-group">
 							<label for="confirm" class="cols-sm-2 control-label">Confirm Password</label>
 							<div class="cols-sm-10">
@@ -97,60 +100,6 @@
 				</div>
 			</div>
 		</div>
-		<script>
-function checkPwd(){
-  var pw1 =	document.getElementById('pw').value
-  var pw2 = document.getElementById('pwcheck').value
-  if(pw1!=pw2){
-   document.getElementById('checkPwd').style.color = "red";
-   document.getElementById('checkPwd').innerHTML = "동일한 암호를 입력하세요."; 
-  }else{
-   document.getElementById('checkPwd').style.color = "blue";
-   document.getElementById('checkPwd').innerHTML = "암호가 확인 되었습니다."; 
-  }
-  
- }
-</script>
-	
-<script>
-		$(document).ready(function(){
-			$("#userId").blur(function(){
-				var id = $("#userId").val();
-				$.ajax({
-					url : '/dalhada/validateForm?id=' + id,
-					type : 'get',
-					success : function(data){
-						if (data == 1){ // id 중복됨
-							$('#idError').text("이미 사용중인 아이디입니다. =ㅅ=").css("color", "red");
-							$("#submit").attr("disabled", true);
-						}
-						else {
-							if(id!=''){
-							$('#idError').text("사용 가능한 아이디입니다. :) ").css("color", "blue");
-							$("#submit").attr("disabled", false);
-							}else{
-								$("#idError").text('');
-							}
-						}
-					},					
-					error : function(){ console.log("실패"); }
-				});
-			});
-		})
-function readURL(input) {
-    if (input.files && input.files[0]) {
-        var reader = new FileReader();
-        reader.onload = function(e) {
-            $('#imagePreview').css('background-image', 'url('+e.target.result +')');
-            $('#imagePreview').hide();
-            $('#imagePreview').fadeIn(650);
-        }
-        reader.readAsDataURL(input.files[0]);
-    }
-}
-$("#imageUpload").change(function() {
-    readURL(this);
-});
-	</script>
+<script src="js/memberform.js"></script>
 	</body>
 </html>

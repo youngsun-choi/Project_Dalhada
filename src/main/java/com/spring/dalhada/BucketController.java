@@ -3,12 +3,15 @@ package com.spring.dalhada;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
+import org.apache.ibatis.io.Resources;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -26,15 +29,14 @@ import vo.BucketDetailVO;
 import vo.BucketLists;
 import vo.BucketVO;
 import vo.EditBucketInfoVO;
+import vo.InsertedBucketVO;
 import vo.LikeInfoVO;
 import vo.NaverBlogVO;
 import vo.PagingVO;
 import vo.SearchBucketVO;
 import vo.StringIntVO;
 import vo.TagInfoVO;
-
 import vo.UpdatedBucketVO;
-import vo.InsertedBucketVO;
 
 @Controller
 @SessionAttributes(value = "searchBucketVO")
@@ -45,22 +47,26 @@ public class BucketController {
 	private NaverBlogService naverBlogService;
 	@Resource(name="bucketService")
 	private BucketService bucketservice;
-
 	@RequestMapping(value="/main")
 	public ModelAndView main(HttpSession session) {
 		ModelAndView mav = new ModelAndView();
 		String member_id = (String) session.getAttribute("id");
-	
+		int cnt = 3;
 		List<BucketLists> list = new ArrayList<BucketLists>();
 		list.add(new BucketLists("좋아요순 버킷", bucketservice.selectTOPBucket(member_id)));
 		if(member_id!=null) {
 			list.add(new BucketLists("내가 가져온 버킷을 만든 유저들의 버킷", bucketservice.selectSimilarBucket(member_id)));
-			//list.add(new BucketLists("내가 많이 선택한 태그가 포함된 버킷", bucketservice.selectMyTagBucket(member_id)));
+			StringIntVO vo = new StringIntVO(cnt, member_id);
+			
+			List<TagInfoVO> taglists = bucketservice.popularTags(vo);
+			for(int i = 0; i<taglists.size(); i++) {
+				list.add(new BucketLists(member_id+"님이 선택한 태그 Top"+(i+1)+" #"+taglists.get(i).getName(), bucketservice.selectMyTagBucket(taglists.get(i).getTag_id(), member_id)));
+			}
 			//list.add(new BucketLists("", bucketservice.selectMyTagBucket(member_id)));
 		}else {
-			int cnt = 3;
-			List<TagInfoVO> taglists = bucketservice.popularTags(cnt);
-			for(int i = 0; i<cnt; i++) {
+			StringIntVO vo = new StringIntVO(cnt, null);
+			List<TagInfoVO> taglists = bucketservice.popularTags(vo);
+			for(int i = 0; i<taglists.size(); i++) {
 				list.add(new BucketLists("Top"+(i+1)+" #"+taglists.get(i).getName(), bucketservice.selectTagBucket(taglists.get(i).getTag_id())));
 			}
 		}
@@ -68,7 +74,7 @@ public class BucketController {
 		mav.setViewName("main");
 		return mav;
 	}
-	@RequestMapping(value="/main/like")
+	@RequestMapping(value="/bucket/like")
 	@ResponseBody
 	public String clickheart(HttpSession session, LikeInfoVO vo) {
 		int result = 0;
@@ -87,19 +93,19 @@ public class BucketController {
 		}
 		return result+"";
 	}
-  
-	@RequestMapping(value="/main/geteditinfo")
+	@RequestMapping(value="/bucket/geteditinfo")
 	@ResponseBody
 	public EditBucketInfoVO modaledit(HttpSession session, String selectedbucket_id) {
 		String member_id = (String) session.getAttribute("id");
-		StringIntVO map = new StringIntVO();
-		map.setId(Integer.parseInt(selectedbucket_id));
-		map.setName(member_id);
-		EditBucketInfoVO vo =  bucketservice.getEditInfo(map);
+		EditBucketInfoVO vo = null;
+		if(member_id != null) {
+			StringIntVO map = new StringIntVO(Integer.parseInt(selectedbucket_id), member_id);
+			vo =  bucketservice.getEditInfo(map);
+		}
 		return vo;
 	}   
 	
-	@RequestMapping(value="/main/getgrouptag")
+	@RequestMapping(value="/bucket/getgrouptag")
 	@ResponseBody
 	public List<List<StringIntVO>> getgrouptag(HttpSession session) {
 		String member_id = (String)session.getAttribute("id");
@@ -115,13 +121,11 @@ public class BucketController {
 	}
 	
 	//좋아요  많은 거 / 추천 버킷
-	@RequestMapping(value="/main/modaldetail")
+	@RequestMapping(value="/bucket/modaldetail")
 	@ResponseBody
 	public BucketDetailVO modaldetail(HttpSession session, String selectedbucket_id) {
 		String member_id = (String) session.getAttribute("id");
-		StringIntVO map = new StringIntVO();
-		map.setId(Integer.parseInt(selectedbucket_id));
-		map.setName(member_id);
+		StringIntVO map = new StringIntVO(Integer.parseInt(selectedbucket_id), member_id);
 		BucketDetailVO vo =  bucketservice.selectDetail(map);
 		return vo;
 	}
@@ -138,15 +142,13 @@ public class BucketController {
 		vo.setImage_path("_"+fileName);
 		filePath = bucketservice.insertBucket(vo);
 		byte[] image = null;
+		String imageurl = PathFinder.findImagePath("/bucket/");
 		try {
 			image = file.getBytes();
-			File f = new File("C:/unico/eclipse-workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/dalhada/resources/images/bucket/"+filePath);
+			File f = new File(imageurl+filePath);
 			FileOutputStream fos = new FileOutputStream(f);
 			fos.write(image);
 			fos.close();
-			File newf = new File("C:/unico/eclipse-workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/dalhada/resources/images/bucket/"+filePath);
-    	 if(f.exists())
-	    		 f.renameTo(newf);
 		}catch (IOException e) {
 	    	 e.printStackTrace();
 	    	 result = "error";
@@ -208,7 +210,8 @@ public class BucketController {
 			mav.addObject("searchList", searchList);
 			mav.addObject("keyword", "");
 			
-			naverKeyword = (tagName.equals("기타")) ? "버킷리스트": tagName;
+			naverKeyword = (tagName.equals("기타")) ? "버킷리스트": (tagName.equals("음식")) ? 
+					"음식 여행": (tagName.equals("공부")) ? "인생공부": (tagName.equals("여행")) ? "유럽여행": tagName;
 			naverBlogList = naverBlogService.selectNaverBlog(naverKeyword,5,1);
 			mav.addObject("naverBlogList", naverBlogList);
 		}else {

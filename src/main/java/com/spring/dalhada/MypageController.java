@@ -34,7 +34,6 @@ public class MypageController {
 	@Autowired
 	MypageService service;
 	String id = null;
-	
 	@Autowired
 	private AchieveService achieveService;
 
@@ -92,20 +91,21 @@ public class MypageController {
 						service.UpInfo(vo);
 					     byte[] content = null;
 					     mav.setViewName("login");
+					     String imageurl = PathFinder.findImagePath("/profile/");
 					     try {
 					    	 
-					    	 File originFilepath = new File("C:/unico/eclipse-workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/dalhada/resources/images/profile/"+originFilename);
+					    	 File originFilepath = new File(imageurl+originFilename);
 					    	 if(originFilepath.exists()) {
 					    		 originFilepath.delete();	 
 					    	 }
 					    	 
 					    	 content =  vo.getImage().getBytes();
-					    	 File f = new File("C:/unico/eclipse-workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/dalhada/resources/images/profile/"+fileName);			   
+					    	 File f = new File(imageurl+fileName);			   
 					    		 FileOutputStream fos = new FileOutputStream(f);
 					    		 fos.write(content);
 					    		 fos.close();
 					    		 
-						    	 File newf = new File("C:/unico/eclipse-workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/dalhada/resources/images/profile/"+newName);
+						    	 File newf = new File(imageurl+newName);
 						    	 if(f.exists())
 						    		 f.renameTo(newf);
 
@@ -120,7 +120,6 @@ public class MypageController {
 				}
 				
 				if(vo1.getGroup1()!=null && vo1.getGroupnum()!=null) { // 그룹 업데이트
-
 					for(int i=0; i<vo1.getGroup1().length;i++) {
 						if(!vo1.getGroup1()[i].equals(vo1.getOriGroup()[i])) {
 							map.put("id",Integer.parseInt(vo1.getGroupnum()[i]));

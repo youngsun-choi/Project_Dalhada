@@ -11,8 +11,8 @@
 
 <title>Dalhada - mypage</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<!--===============================================================================================-->
-<link rel="icon" type="image/png" href="images/icons/favicon.png" />
+<!--===============================================================================================-->	
+	<link rel="icon" type="image/png" href="images/icons/peak.ico"/>
 <!--===============================================================================================-->
 <link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
 <!--===============================================================================================-->
@@ -137,11 +137,11 @@
                            </c:if>
                            <c:if test="${!fn:contains(info.image_path,'https://')}">
                               <img class='photo3'
-                                 src="http://localhost:8000/dalhada/resources/images/profile/${info.image_path}" />
+                                 src="images/profile/${info.image_path}" />
                            </c:if>
                         </c:if> <c:if test="${empty info.image_path}">
                            <img class='photo3'
-                              src="http://localhost:8000/dalhada/resources/images/profile.png" />
+                              src="images/profile.png" />
                         </c:if></td>
                   </tr>
                   <tr>
@@ -153,8 +153,7 @@
                      </td>
                   </tr>
                   <tr>
-                     <td><button type="button" onclick="modalOpen2();">회원정보
-                           수정</button></td>
+                     <td><button type="button" onclick="modalOpen2();">회원정보  수정</button></td>
                   </tr>
                   <tr>
                      <td>
@@ -223,13 +222,12 @@
                                     </div>
                                  </div>
                                  <div class="form-group">
-                                    <label for="email" class="cols-sm-2 control-label">Your
-                                       Email</label>
+                                    <label for="email" class="cols-sm-2 control-label">Your Email</label>
                                     <div class="cols-sm-10">
                                        <div class="input-group">
                                           <span class="input-group-addon"><i
-                                             class="fa fa-envelope fa" aria-hidden="true"></i></span> <input
-                                             type="text" class="form-control-mypage" value="${info.email}"
+                                             class="fa fa-envelope fa" aria-hidden="true"></i></span> 
+                                          <input type="text" class="form-control-mypage" value="${info.email}"
                                              name="email" required placeholder="Enter your Email" />
                                        </div>
                                     </div>
@@ -239,8 +237,8 @@
                                     <div class="cols-sm-10">
                                        <div class="input-group">
                                           <span class="input-group-addon"><i
-                                             class="fa fa-user fa" aria-hidden="true"></i></span> <input
-                                             type="date" class="form-control-mypage" name="birth"
+                                             class="fa fa-user fa" aria-hidden="true"></i></span> 
+                                       	  <input type="date" class="form-control-mypage" name="birth"
                                              value="${info.birth}" required />
                                        </div>
                                     </div>
@@ -450,7 +448,7 @@
                                  </c:forEach>
                                  <div style="margin: 0px;" id="plusGroup"></div>
                                  <img style="widows: 20px; height: 20px;" onclick="plusGroup();"
-                                    src="http://localhost:8000/dalhada/resources/images/plus.png"><br>
+                                    src="images/plus.png"><br>
                                  <button type="submit">확인</button>
                                  <button type="button" onclick="modalCancel();" class="cancelbtn">Cancel</button>
                               </div>

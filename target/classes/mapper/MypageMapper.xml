@@ -54,22 +54,22 @@
  	<!-- 리스트 출력 -->
  	<!-- 버킷리스트 전부 -->
  	<select id="bucketAll" parameterType="String" resultType="vo.MypageBucketVO">
- 		SELECT title, TRUNC(sysdate-d_day) d_day, id FROM selectedbucket where member_id = #{id}
+ 		SELECT title, TRUNC(sysdate-d_day) d_day, id FROM selectedbucket where member_id = #{id} order by d_day DESC
  	</select>
  	
  	<!-- 전체 그룹의 도전 / 완료 버킷 -->
  	<select id="choose" parameterType="map" resultType="vo.MypageBucketVO">
- 		SELECT title, TRUNC(sysdate-d_day) d_day, id FROM selectedbucket where member_id = #{id} and stat = #{stat}
+ 		SELECT title, TRUNC(sysdate-d_day) d_day, id FROM selectedbucket where member_id = #{id} and stat = #{stat} order by d_day DESC
  	</select>
  	
  	<!-- 그룹에 따라 전체 버킷 출력 -->
  	<select id="GroupAllBuck" parameterType="map" resultType="vo.MypageBucketVO">
- 		SELECT title, TRUNC(sysdate-d_day) d_day, id FROM selectedbucket where member_id = #{id} and group_id =#{group_id}
+ 		SELECT title, TRUNC(sysdate-d_day) d_day, id FROM selectedbucket where member_id = #{id} and group_id =#{group_id} order by d_day DESC
  	</select>
  	
  	<!-- 그룹에 따라 버킷 출력(완료 / 미완료) -->
  	<select id="groupChos" parameterType="map" resultType="vo.MypageBucketVO">
- 		SELECT title, TRUNC(sysdate-d_day) d_day, id FROM selectedbucket where member_id = #{id} and group_id =#{group_id} and stat=#{stat}
+ 		SELECT title, TRUNC(sysdate-d_day) d_day, id FROM selectedbucket where member_id = #{id} and group_id =#{group_id} and stat=#{stat} order by d_day DESC
  	</select>
  	
  	<!-- 버킷 관련 -->

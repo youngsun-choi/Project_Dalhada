@@ -6,7 +6,7 @@
 <mapper namespace="resource.SearchBucketMapper">
 	<!-- 제목검색결과 수 -->
 	<select id="totalTitleCnt" parameterType="vo.SearchBucketVO" resultType     ="int">
-		select count(*) from selectedbucket where title like #{searchKeyword}||'%'
+		select count(*) from selectedbucket where title like '%'||#{searchKeyword}||'%'
 	</select>
 	
 	<!-- 제목검색 -->
@@ -17,8 +17,8 @@
 			where li.member_id = #{member_id} and li.selectedbucket_id = sb.id) islike 
  		from (select bi.id bucket_id, sb.id, bi.image_path image_path, sb.title title, isAd, rownum rnum 
  			from bucketinfo bi, selectedbucket sb 
- 			where bi.id = sb.bucket_id and title like #{searchKeyword}||'%') sb
- 		where rnum between #{startRow} and #{endRow} ORDER BY dbms_random.value
+ 			where bi.id = sb.bucket_id and title like '%'||#{searchKeyword}||'%') sb
+ 		where rnum between #{startRow} and #{endRow} 
  	</select>
 	
 	<!-- 태그검색결과 수 -->
@@ -38,7 +38,7 @@
 			from bucketinfo bi, selectedbucket sb
 			where bi.id = sb.bucket_id and sb.id in (select st.bucket_id from selectedtag st, taginfo ti
 								where st.tag_id = ti.id and ti.name = #{searchTag})) sb
-		 where rnum between #{startRow} and #{endRow} ORDER BY dbms_random.value
+		 where rnum between #{startRow} and #{endRow} 
 	</select>
 	
 	<!-- 태그명 찾기 -->

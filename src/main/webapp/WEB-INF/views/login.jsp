@@ -10,6 +10,8 @@
 <html>
 <head>
 	<title>Login Page</title>
+	<!--===============================================================================================-->	
+	<link rel="icon" type="image/png" href="images/icons/peak.ico"/>
    <!--Made with love by Mutiullah Samim -->
 	<!--Bootsrap 4 CDN-->
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
@@ -48,10 +50,9 @@
 								<img width="223"
 									src="https://developers.naver.com/doc/review_201802/CK_bEFnWMeEBjXpQ5o8N_20180202_7aot50.png" /></a>
 							</div>
-
 						<div class="form-group">
 						<button id="submit" type="button" class="btn float-right login_btn">로그인</button>
-						<div id="loginError"></div>
+						<div id="loginError" class="loginerror"></div>
 					</div>
 						
 				</form>
@@ -65,39 +66,6 @@
 		</div>
 	</div>
 </div>
-
-<script>
-var referer='';
-$(document).ready(function(){
-	referer =  document.referrer;
-	if(referer==''){
-		referer=window.location.href;
-	}
-	$("#submit").click(function(){
-		var id = $("#id").val();
-		var pwd = $("#password").val();
-		if(id==""){
-			$("#loginError").text("아이디를 입력하세요.").css("color", "red");		
-			return;
-		}else if(pwd==""){
-			$("#loginError").text("비밀번호를 입력하세요.").css("color", "red");		
-			return;
-		}
-		$.ajax({
-			url : '/dalhada/login?id='+id+'&password='+pwd,
-			type : 'post',
-			success : function(data){
-				if(data == "false"){
-						$("#loginError").text("아이디와 비밀번호가 일치하지 않습니다.").css("color", "red");
-				}else{
-					if(referer.includes('logout')||referer.includes('memberform')||referer.includes('loginmain'))
-						referer="http://localhost:8000/dalhada/main";
-					location.href=referer;
-				}
-			}
-		});
-	});
-});
-</script>
+<script src="js/login.js"></script>
 </body>
 </html>

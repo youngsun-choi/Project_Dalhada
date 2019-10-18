@@ -12,7 +12,7 @@
 <!--===============================================================================================-->	
 	<link rel="stylesheet" href="css/style.css">
 <!--===============================================================================================-->	
-	<link rel="icon" type="image/png" href="images/icons/favicon.png"/>
+	<link rel="icon" type="image/png" href="images/icons/peak.ico"/>
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
 <!--===============================================================================================-->
@@ -40,10 +40,6 @@
 	<link rel="stylesheet" type="text/css" href="css/main.css">
 <!--===============================================================================================-->
 	<link href="https://use.fontawesome.com/releases/v5.0.4/css/all.css" rel="stylesheet">
-<style>
-
-
-</style>
 </head>
 <body>
 <!--===============================================================================================-->	
@@ -51,7 +47,7 @@
 <script>
 	function moveTo(seq){
         var offset = $("#move" + seq).offset();
-        $('html, body').animate({scrollTop : offset.top}, 500);
+        $('html, body').animate({scrollTop : offset.top}, 800);
     }
 	
 	$(function(){
@@ -84,7 +80,7 @@
 		<a href="javascript:history.back();">
 			<i id="back" class="fas fa-sign-in-alt fa-flip-horizontal fa-2x cl0"></i>
 		</a>
-	    <h1 class="p-l-15">달하다님의 버킷리스트</h1>
+	    <h1 class="p-l-15">${sessionScope.id}의 버킷리스트</h1>
   	</header>
   	<div id="blank" style="display:none;"></div>
   	<div id="navMenu" class="txt-center">

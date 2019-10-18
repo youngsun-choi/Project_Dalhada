@@ -89,3 +89,8 @@ margin-left: 4px;
 #naver_id_login{
 margin-bottom: 1rem;
 }
+
+.loginerror{
+	font-size: 14px;
+	color : red;
+}

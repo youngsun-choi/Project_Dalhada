@@ -150,41 +150,21 @@
     });
 
     /*==================================================================
-    [ Filter / Search product ]*/
-    $('.js-show-filter').on('click',function(){
-        $(this).toggleClass('show-filter');
-        $('.panel-filter').slideToggle(400);
-
-        if($('.js-show-search').hasClass('show-search')) {
-            $('.js-show-search').removeClass('show-search');
-            $('.panel-search').slideUp(400);
-        }    
-    });
-
-    $('.js-show-search').on('click',function(){
-        $(this).toggleClass('show-search');
-        $('.panel-search').slideToggle(400);
-        if($('.js-show-filter').hasClass('show-filter')) {
-            $('.js-show-filter').removeClass('show-filter');
-            $('.panel-filter').slideUp(400);
-        }    
-    });
-
-    /*==================================================================
     [ +/- heart ]*/
     $('body').each(function(){
 		$('body').on('click','.heart',function(e){
 			e.preventDefault();
 			var action;
+			var id = $(this).attr("data-id");
 			if($(this).hasClass('js-addedlike')){
-				$(this).removeClass('js-addedlike');
+				$('.heart'+id).each(function(){$(this).removeClass('js-addedlike')});
 				action = "delete";
 			}else{
-				$(this).addClass('js-addedlike');
+				$('.heart'+id).each(function(){$(this).addClass('js-addedlike')});
 				action = "insert";
 			}
 			$.ajax({
-				url: "main/like",
+				url: "bucket/like",
                 type: "POST",
                 data: {
                     selectedbucket_id : $(this).attr('data-id'),
@@ -197,46 +177,6 @@
 			})
 		});
 	}); 
-    /*==================================================================
-    [ Rating ]*/
-    $('.wrap-rating').each(function(){
-        var item = $(this).find('.item-rating');
-        var rated = -1;
-        var input = $(this).find('input');
-        $(input).val(0);
-
-        $(item).on('mouseenter', function(){
-            var index = item.index(this);
-            var i = 0;
-            for(i=0; i<=index; i++) {
-                $(item[i]).removeClass('zmdi-star-outline');
-                $(item[i]).addClass('zmdi-star');
-            }
-
-            for(var j=i; j<item.length; j++) {
-                $(item[j]).addClass('zmdi-star-outline');
-                $(item[j]).removeClass('zmdi-star');
-            }
-        });
-
-        $(item).on('click', function(){
-            var index = item.index(this);
-            rated = index;
-            $(input).val(index+1);
-        });
-
-        $(this).on('mouseleave', function(){
-            var i = 0;
-            for(i=0; i<=rated; i++) {
-                $(item[i]).removeClass('zmdi-star-outline');
-                $(item[i]).addClass('zmdi-star');
-            }
-
-            for(var j=i; j<item.length; j++) {
-                $(item[j]).removeClass('zmdi-star');
-            }
-        });
-    });
     
     /*==================================================================
     [ Show detail modal ]*/
@@ -244,7 +184,7 @@
    $('body').on('click','.js-show-modal-bucket',function(e){
         e.preventDefault();
         $.ajax({
-			url: "main/modaldetail",
+			url: "bucket/modaldetail",
             type: "POST",
             data: {"selectedbucket_id": $(this).attr('data-id')},
             success: function (data) {
@@ -285,7 +225,7 @@
     					action = "insert";
     				}
     				$.ajax({
-    					url: "main/like",
+    					url: "bucket/like",
     	                type: "POST",
     	                data: {
     	                    selectedbucket_id : $(this).attr('data-id'),
@@ -309,9 +249,9 @@
         $('.js-modal-bucket').removeClass('show-modal-bucket');
         if($('.modal_heart').hasClass('js-addedlike')){
         	$('.modal_heart').removeClass('js-addedlike');
-        	$('#heart'+$('.modal_heart').attr('data-id')).addClass('js-addedlike');
+        	$('.heart'+$('.modal_heart').attr('data-id')).each(function(){$(this).addClass('js-addedlike')});
         }else{
-        	$('#heart'+$('.modal_heart').attr('data-id')).removeClass('js-addedlike');
+        	$('.heart'+$('.modal_heart').attr('data-id')).each(function(){$(this).removeClass('js-addedlike')});
         }
         $('.modal_heart').off();
     }); 
@@ -322,13 +262,12 @@
     $('body').on('click','.js-show-modal-create',function(e){ 	
     	e.preventDefault();
 	    $.ajax({
-	    	url: "main/getgrouptag",
+	    	url: "bucket/getgrouptag",
 	        type: "POST",
 	        success: function (data) {
 	         	var groups = data[0];
 	           	var tags = data[1];
 	           	var groupdom = $("#create-groups-dom");
-	           	groupdom.append("<option value='0'>-----------</option>")
 	           	for(var i = 0; i < groups.length; i++ ){
 	           		groupdom.append("<option value='"+groups[i].id+"'>"+groups[i].name+"</option>");
 	           	}
@@ -349,7 +288,7 @@
 	    			id: 'mapbox.streets'
 	    		}).addTo(map_create);
 	    		var popup = L.popup().setLatLng([37.566, 126.978]).setContent("장소를 입력하고 선택을 눌러보세요.").openOn(map_create);
-	    		
+	    		$('#latlng').attr('data-lat', 37.566).attr('data-lng', 126.978);
 	    		var marker, popup;
 	    		$('#create-location-select').on('click', function(){
 	    			var address = $('#create-location').val();
@@ -372,6 +311,7 @@
 		    					
 		    					L.marker([lat, lng], {icon: L.icon({iconUrl: 'images/flag.svg', iconSize: [35,35]})}).addTo(map_create);
 		    					$('#latlng').attr('data-lat', lat).attr('data-lng', lng);
+		    					$('#create-location').val(data.results[0].formatted_address);
 		    				}else{
 		    					popup = L.popup().setLatLng([37.566, 126.978]).setContent("잘못된 장소가 입력되었습니다.").openOn(map_create);
 		    				}
@@ -389,6 +329,7 @@
     /*[click create cancel button]*/
     $('body').on('click','.js-hide-modal-create',function(e){
     	clear_createForm();
+    	map_create.remove();
     	$('.js-modal-create').removeClass('show-modal-create');
     }); 
     /*[click create submit button]*/
@@ -436,6 +377,7 @@
 				},
 				complete : function(){
 					clear_createForm();
+					map_create.remove();
 					$('.js-modal-create').removeClass('show-modal-create');
 					window.location.reload(true);
 				}
@@ -450,9 +392,10 @@
     	e.preventDefault();
     	var id = $(this).attr('data-id');
 	        $.ajax({
-				url: "main/geteditinfo",
+				url: "bucket/geteditinfo",
 	            type: "POST",
-	            data: {"selectedbucket_id": id},
+	            data: {"selectedbucket_id": id, 
+	            		"action": "edit"},
 	            success: function (data) {
 	            	var group_list = data.group_list;
 	            	var tag_list = data.tag_list;
@@ -463,7 +406,6 @@
 	            	$("#edit_image").attr("src", "images/bucket/"+data.image_path);
 	            	$("#edit_content").val(data.content);
 	            	var groupdom = $("#edit-groups-dom");
-	            	groupdom.append("<option value='0'>-----------</option>")
 	            	for(var i = 0; i < group_list.length; i++ )
 	            		groupdom.append("<option value='"+group_list[i].id+"'>"+group_list[i].name+"</option>");
 	            	$('#edit-groups-dom').find('option[value='+data.group_id+']').attr('selected', 'selected');
@@ -480,6 +422,7 @@
 	        		    defaultDate: [data.d_day]
 	        		});
 	            	$('#edit-location').val(data.address);
+	            	$('#edit_bucket_id').attr('data-lat', data.lat).attr('data-lng', data.lng);
 	            	if(map_edit) map_edit.remove();
 	            	map_edit = L.map('mapid_edit').setView([data.lat, data.lng], 5);
 	        		L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
@@ -500,7 +443,7 @@
 		    					if(data.status=='OK'){
 			    					map_edit.remove();
 			    					if(popup) popup.remove();
-			    					if(marker) marker.remove();  
+			    					if(marker) marker.remove();
 			    					let lat = data.results[0].geometry.location.lat;
 			    					let lng = data.results[0].geometry.location.lng;
 			    					map_edit = L.map('mapid_edit').setView([lat, lng], 7);
@@ -586,83 +529,88 @@
     	e.preventDefault();
     	var id = $(this).attr("data-id");
 	        $.ajax({// 제목 이미지path 내용 태그(전부/버킷's) 그룹(전부/버킷's) 날짜 위도 경도
-				url: "main/geteditinfo",
+				url: "bucket/geteditinfo",
 	            type: "POST",
-	            data: {"selectedbucket_id": $(this).attr('data-value')}
-	            ,
+	            data: {"selectedbucket_id": $(this).attr('data-value'), 
+            		"action": "get"},
 	            success: function (data) {
-	            	var group_list = data.group_list;
-	            	var tag_list = data.tag_list;
-	            	var my_tags = data.my_tags;
-	            	
-	            	$("#get_bucket_id").val(id);
-	            	$("#get_title").val(data.title);
-	            	$("#get_image").attr("src", "images/bucket/"+data.image_path);
-	            	$("#get_content").val(data.content);
-	            	var groupdom = $("#get-groups-dom");
-	            	groupdom.append("<option value='0'>-----------</option>")
-	            	for(var i = 0; i < group_list.length; i++ )
-	            		groupdom.append("<option value='"+group_list[i].id+"'>"+group_list[i].name+"</option>");
-	            	$('#get-groups-dom').find('option[value='+data.group_id+']').attr('selected', 'selected');
-	            	
-	            	var tagdom = $("#get-tag-dom");
-	            	for(var i=0; i<tag_list.length; i++)
-	            		tagdom.append('<button type="button" value="'+tag_list[i].id+'" class="get-modal-tag flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">#'+tag_list[i].name+'</button>');	            	
-	            	tag_click($('.get-modal-tag'));
-	            	var my_tags = data.my_tags;
-	            	for(var i = 0; i<my_tags.length; i++)
-	            		$('#get-tag-dom').find('button[value='+my_tags[i]+']').removeClass('bor7').addClass('modal-tag-click').removeClass('cl6');
-	            	$('#get-d-day').flatpickr({
-	        		    dateFormat: "Y.m.d",
-	        		    defaultDate: [data.d_day]
-	        		});
-	            	$('#get-location').val(data.address);
-	            	if(map_get) map_get.remove();
-	            	map_get = L.map('mapid_get').setView([data.lat, data.lng], 5);
-	        		L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
-	        			maxZoom: 18,
-	        			attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
-	        				'<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-	        				'Imagery <a href="https://www.mapbox.com/">Mapbox</a>',
-	        			id: 'mapbox.streets'
-	        		}).addTo(map_get);
-	        		if(data.address)
-	        			L.marker([data.lat, data.lng], {icon: L.icon({iconUrl: 'images/flag.svg', iconSize: [35,35]})}).addTo(map_get);
-	        		
-	        		var marker, popup;
-		    		$('#get-location-select').on('click', function(){
-		    			var address = $('#get-location').val();
-		    			if(address){
-		    				$.getJSON("https://maps.googleapis.com/maps/api/geocode/json?key=API키&address="+encodeURIComponent(address), function(data) {
-		    					if(data.status=='OK'){
-		    						map_get.remove();
-			    					if(popup) popup.remove();
-			    					if(marker) marker.remove();  
-			    					let lat = data.results[0].geometry.location.lat;
-			    					let lng = data.results[0].geometry.location.lng;
-			    					map_get = L.map('mapid_get').setView([lat, lng], 7);
-			    					L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
-			    		    			maxZoom: 18,
-			    		    			attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
-			    		    				'<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-			    		    				'Imagery <a href="https://www.mapbox.com/">Mapbox</a>',
-			    		    			id: 'mapbox.streets'
-			    		    		}).addTo(map_get);
-			    					
-			    					L.marker([lat, lng], {icon: L.icon({iconUrl: 'images/flag.svg', iconSize: [35,35]})}).addTo(map_get);
-			    					$('#get_bucket_id').attr('data-lat', lat).attr('data-lng', lng);
-			    				}else{
-			    					popup = L.popup().setLatLng([37.566, 126.978]).setContent("잘못된 장소가 입력되었습니다.").openOn(map_get);
-			    				}
-		    				})
-		    			}
-		    		})
+	            	if(data != ''){
+		            	var group_list = data.group_list;
+		            	var tag_list = data.tag_list;
+		            	var my_tags = data.my_tags;
+		            	
+		            	$("#get_bucket_id").val(id);
+		            	$("#get_title").val(data.title);
+		            	$("#get_image").attr("src", "images/bucket/"+data.image_path);
+		            	$("#get_content").val(data.content);
+		            	var groupdom = $("#get-groups-dom");
+		            	for(var i = 0; i < group_list.length; i++ )
+		            		groupdom.append("<option value='"+group_list[i].id+"'>"+group_list[i].name+"</option>");
+		            	$('#get-groups-dom').find('option[value='+data.group_id+']').attr('selected', 'selected');
+		            	
+		            	var tagdom = $("#get-tag-dom");
+		            	for(var i=0; i<tag_list.length; i++)
+		            		tagdom.append('<button type="button" value="'+tag_list[i].id+'" class="get-modal-tag flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">#'+tag_list[i].name+'</button>');	            	
+		            	tag_click($('.get-modal-tag'));
+		            	var my_tags = data.my_tags;
+		            	for(var i = 0; i<my_tags.length; i++)
+		            		$('#get-tag-dom').find('button[value='+my_tags[i]+']').removeClass('bor7').addClass('modal-tag-click').removeClass('cl6');
+		            	$('#get-d-day').flatpickr({
+		        		    dateFormat: "Y.m.d",
+		        		    defaultDate: [data.d_day]
+		        		});
+		            	$('#get-location').val(data.address);
+		            	$('#get_bucket_id').attr('data-lat', data.lat).attr('data-lng', data.lng);
+		            	if(map_get) map_get.remove();
+		            	map_get = L.map('mapid_get').setView([data.lat, data.lng], 5);
+		        		L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+		        			maxZoom: 18,
+		        			attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+		        				'<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+		        				'Imagery <a href="https://www.mapbox.com/">Mapbox</a>',
+		        			id: 'mapbox.streets'
+		        		}).addTo(map_get);
+		        		if(data.address)
+		        			L.marker([data.lat, data.lng], {icon: L.icon({iconUrl: 'images/flag.svg', iconSize: [35,35]})}).addTo(map_get);
+		        		
+		        		var marker, popup;
+			    		$('#get-location-select').on('click', function(){
+			    			var address = $('#get-location').val();
+			    			if(address){
+			    				$.getJSON("https://maps.googleapis.com/maps/api/geocode/json?key=API키&address="+encodeURIComponent(address), function(data) {
+			    					if(data.status=='OK'){
+			    						map_get.remove();
+				    					if(popup) popup.remove();
+				    					if(marker) marker.remove();  
+				    					let lat = data.results[0].geometry.location.lat;
+				    					let lng = data.results[0].geometry.location.lng;
+				    					map_get = L.map('mapid_get').setView([lat, lng], 7);
+				    					L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+				    		    			maxZoom: 18,
+				    		    			attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+				    		    				'<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+				    		    				'Imagery <a href="https://www.mapbox.com/">Mapbox</a>',
+				    		    			id: 'mapbox.streets'
+				    		    		}).addTo(map_get);
+				    					
+				    					L.marker([lat, lng], {icon: L.icon({iconUrl: 'images/flag.svg', iconSize: [35,35]})}).addTo(map_get);
+				    					$('#get_bucket_id').attr('data-lat', lat).attr('data-lng', lng);
+				    				}else{
+				    					popup = L.popup().setLatLng([37.566, 126.978]).setContent("잘못된 장소가 입력되었습니다.").openOn(map_get);
+				    				}
+			    				})
+			    			}
+			    		})
+			    		$('.js-modal-get').addClass('show-modal-get');
+	            	}else{
+	            		window.location.href = "loginmain";
+	            	}
 	            },
 	            error : function(){
-	            	console.log("error");
+	            	window.location.href = "loginmain";
 		        }
 			})
-			$('.js-modal-get').addClass('show-modal-get');
+			
     });
     /*[click get cancel button]*/
     $('body').on('click','.js-hide-modal-get',function(e){
@@ -752,4 +700,3 @@ var tag_click = function(tags){
 		});
 	})
 }
-   
